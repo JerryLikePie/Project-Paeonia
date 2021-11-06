@@ -245,7 +245,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853283026455007729}
   serializedVersion: 2
-  m_Mass: 4
+  m_Mass: 50
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -315,7 +315,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018266318804054695}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -16.58}
+  m_LocalPosition: {x: 0, y: 0, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2002585616904024465}
@@ -323,7 +323,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -283, y: -623}
+  m_AnchoredPosition: {x: -341, y: -444}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &7623927361892986020
@@ -5587,7 +5587,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949918736655408689}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.4}
+  m_LocalPosition: {x: 0, y: 0, z: 3.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2002585616904024465}
@@ -5595,7 +5595,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -273, y: -175}
+  m_AnchoredPosition: {x: -17, y: -141}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1625754037432261218
@@ -16844,9 +16844,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5925278499864462148}
   - component: {fileID: 5925278499864462149}
-  - component: {fileID: 4137196982756760085}
   - component: {fileID: 8431638445253240842}
   - component: {fileID: 5026691034151611180}
+  - component: {fileID: 4137196982756760085}
   m_Layer: 5
   m_Name: Unit17
   m_TagString: Untagged
@@ -16897,6 +16897,7 @@ MonoBehaviour:
   nextTileMovecost: 0
   timeStart: 0
   canBeSelected: 0
+  canMove: 0
   unitSelection: 0
   isMoving: 0
   ActionCDBar: {fileID: 5925278499597458883}
@@ -16905,51 +16906,6 @@ MonoBehaviour:
   skillBox: {fileID: 5925278499597458893}
   unitInMoveCooldown: 0
   EngineSound: {fileID: 7120531537978607804}
-  canMove: 0
---- !u!114 &4137196982756760085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5925278499864462151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81fd21d533f0aa74ab2ce281ae5fb90f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dolls_name: "\u201C\u590D\u5174\u201D\u7532"
-  dolls_ammount: 5
-  dolls_star: 1
-  dolls_id: 17
-  dolls_type: 3
-  dolls_range: 1
-  dolls_view_range: 3
-  dolls_unlocked: 1
-  dolls_max_hp: 500
-  dolls_sts_attack: 0
-  dolls_ata_attack: 240
-  dolls_sta_attack: 0
-  dolls_ats_attack: 180
-  dolls_penetration: 99
-  dolls_accuracy: 300
-  dolls_dodge: 0
-  dolls_reload: 35
-  dolls_firerate: 0.5
-  dolls_armor_front: 0
-  dolls_armor_side: 0
-  dolls_armor_back: 0
-  dolls_damage_multiplier: 1
-  dolls_ammo_type: 4
-  dolls_airstrike: 1
-  dolls_recon: 1
-  dolls_air_sup: 1
-  dolls_artillery: 0
-  dolls_skill_point: 0
-  dolls_skill_fullcharge: 1
-  dolls_withdrew: 0
-  dolls_mag: 2
-  dolls_shell_speed: 1
 --- !u!114 &8431638445253240842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16965,6 +16921,9 @@ MonoBehaviour:
   combatBehaviour: {fileID: 5026691034151611180}
   dolls: {fileID: 0}
   health: 0
+  accurancyBuff: 0
+  rangeBuff: 0
+  dodgeBuff: 0
   healthBar: {fileID: 5925278498398130847}
   FullHealthNoHealth:
     serializedVersion: 2
@@ -16995,315 +16954,12 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  HealthTextWhite: {fileID: 8195934600989266424}
-  HealthTextBlack: {fileID: 4096783946785327781}
   enemiesList: {fileID: 0}
   dollsList: {fileID: 0}
   setEnemy: {fileID: 0}
   map: {fileID: 0}
   beingSpotted: 0
   supportTargetCord: {fileID: 0}
-  ToCancelFog:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   enemy:
   - {fileID: 0}
   dollsEntities:
@@ -17313,7 +16969,6 @@ MonoBehaviour:
   - {fileID: 2875721523503835466}
   - {fileID: 8400399958668736373}
   crewNum: 0
-  height: 1
   bullet: {fileID: 853283026455007729}
   Fire: {fileID: 1281100019908995072}
   Fire2: {fileID: 1281100019908995072}
@@ -17322,9 +16977,8 @@ MonoBehaviour:
   ReloadEnd: {fileID: 8136678821449549798}
   SkillSound: {fileID: 0}
   shotsInMag: 0
-  ReloadStartTime: 0
   LineofSight: {fileID: 0}
-  Skill: {fileID: 0}
+  planeVelocity: {x: 0, y: 0, z: 0}
   healthRestrictLine:
   - 0
   - 0
@@ -17332,13 +16986,13 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  thisUnit: {fileID: 0}
   canFire: 1
   counter: 0
   healthLevel: 0
-  resetTime: 5
-  accurancyBuff: 0
-  rangeBuff: 0
-  dodgeBuff: 0
+  height: 1
+  ReloadStartTime: 0
+  resetTime: 15
 --- !u!114 &5026691034151611180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17351,7 +17005,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 711306b771939e6439834d86a50ab806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstTime: 1
   flyEndCord: {x: 0, y: 0, z: 0}
+--- !u!114 &4137196982756760085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5925278499864462151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81fd21d533f0aa74ab2ce281ae5fb90f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dolls_name: "\u201C\u590D\u5174\u201D\u7532"
+  dolls_ammount: 5
+  dolls_star: 1
+  dolls_id: 17
+  dolls_type: 3
+  dolls_range: 1
+  dolls_view_range: 3
+  dolls_unlocked: 1
+  dolls_max_hp: 500
+  dolls_sts_attack: 0
+  dolls_ata_attack: 240
+  dolls_sta_attack: 0
+  dolls_ats_attack: 180
+  dolls_penetration: 99
+  dolls_accuracy: 300
+  dolls_dodge: 0
+  dolls_reload: 35
+  dolls_firerate: 0.21
+  dolls_armor_front: 0
+  dolls_armor_side: 0
+  dolls_armor_back: 0
+  dolls_damage_multiplier: 1
+  dolls_ammo_type: 4
+  dolls_airstrike: 1
+  dolls_recon: 1
+  dolls_air_sup: 1
+  dolls_artillery: 0
+  dolls_skill_point: 0
+  dolls_skill_fullcharge: 1
+  dolls_withdrew: 0
+  dolls_mag: 2
+  dolls_shell_speed: 1
 --- !u!1 &5925278500005358202
 GameObject:
   m_ObjectHideFlags: 0
@@ -17964,7 +17663,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6732906844967226154}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -8.4}
+  m_LocalPosition: {x: 0, y: 0, z: -3.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2002585616904024465}
@@ -17972,7 +17671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -54, y: -430}
+  m_AnchoredPosition: {x: 94, y: -322}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2472185597514014769
@@ -18222,7 +17921,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7645422756015469761}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 4.74}
+  m_LocalPosition: {x: 0, y: 0, z: 4.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2002585616904024465}
@@ -18230,7 +17929,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -866, y: -122}
+  m_AnchoredPosition: {x: -438, y: -136}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &6227238780090639655

@@ -36,7 +36,9 @@ public class BulletManager : MonoBehaviour
         Rigidbody obj = gameObject.GetComponent<Rigidbody>();
         randomDisplacement = new Vector3(Random.Range(-randomRange, randomRange), Random.Range(-randomRange, randomRange), Random.Range(-randomRange, randomRange));
         WhereTheShotWillGo += randomDisplacement;
-        obj.velocity = CalculateVelocity(WhereTheShotWillGo, sender, speed);
+        if (speed != 0) {
+            obj.velocity = CalculateVelocity(WhereTheShotWillGo, sender, speed);
+        }
         Destroy(gameObject,9f);
     }
 
@@ -129,62 +131,31 @@ public class BulletManager : MonoBehaviour
 
     Vector3 CalculateVelocity(Vector3 target, GameObject sender, float speed)
     {
-        if (speed == 0)
-        {
-            Vector3 origin = sender.transform.position;
-            Vector3 distance = target - origin;
-            //float time = distance.sqrMagnitude / speed;
-            //trail.time = time;
-            Vector3 distance_x_z = distance;
-            distance_x_z.Normalize();
-            distance_x_z.y = 0;
+        //define the distance x and y first
+        Vector3 origin = sender.transform.position;
+        Vector3 distance = target - origin;
+        float time = distance.sqrMagnitude / speed;
+        //trail.time = time;
+        Vector3 distance_x_z = distance;
+        distance_x_z.Normalize();
+        distance_x_z.y = 0;
 
-            //creating a float that represents our distance 
-            float sy = distance.y;
-            float sxz = distance.magnitude;
-
-
-            //calculating initial x velocity
-            //Vx = x / t
-            float Vxz = 20f;
-
-            ////calculating initial y velocity
-            //Vy0 = y/t + 1/2 * g * t
-            float Vy = -10f;
-
-            Vector3 result = parentVelocity * Vxz;
-            result.y = Vy;
-
-            return result;
-        }
-        else
-        {
-            //define the distance x and y first
-            Vector3 origin = sender.transform.position;
-            Vector3 distance = target - origin;
-            float time = distance.sqrMagnitude / speed;
-            //trail.time = time;
-            Vector3 distance_x_z = distance;
-            distance_x_z.Normalize();
-            distance_x_z.y = 0;
-
-            //creating a float that represents our distance 
-            float sy = distance.y;
-            float sxz = distance.magnitude;
+        //creating a float that represents our distance 
+        float sy = distance.y;
+        float sxz = distance.magnitude;
 
 
-            //calculating initial x velocity
-            //Vx = x / t
-            float Vxz = (sxz / time) + parentVelocity.magnitude;
+        //calculating initial x velocity
+        //Vx = x / t
+        float Vxz = (sxz / time) + parentVelocity.magnitude;
 
-            ////calculating initial y velocity
-            //Vy0 = y/t + 1/2 * g * t
-            float Vy = sy / time + 0.5f * Mathf.Abs(Physics.gravity.y) * time;
+        ////calculating initial y velocity
+        //Vy0 = y/t + 1/2 * g * t
+        float Vy = sy / time + 0.5f * Mathf.Abs(Physics.gravity.y) * time;
 
-            Vector3 result = distance_x_z * Vxz;
-            result.y = Vy;
+        Vector3 result = distance_x_z * Vxz;
+        result.y = Vy;
 
-            return result;
-        }
+        return result;
     }
 }

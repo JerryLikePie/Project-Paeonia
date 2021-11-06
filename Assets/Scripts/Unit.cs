@@ -5,13 +5,18 @@ using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
+    [HideInInspector]
     public Vector3 destination;
+    [HideInInspector]
     public int hang,lie,tempHang,tempLie;
-    public float movementCooldown;
-    public float moveTime;
-    public float nextTileMovecost;
+    [HideInInspector]
+    public float movementCooldown, moveTime, nextTileMovecost;
+    [HideInInspector]
     public long timeStart; // 进入cd的时刻
+    [HideInInspector]
     public bool canBeSelected;
+    [HideInInspector]
+    public bool canMove;
 
     float percentageCDtime;
     GameObject doll;
@@ -23,7 +28,6 @@ public class Unit : MonoBehaviour
     public bool unitInMoveCooldown = false;
     public AudioSource EngineSound;
     Timer moveTimer = new Timer();
-    public bool canMove;
     bool firstTime;
     DollsProperty dolls;
 
@@ -58,10 +62,6 @@ public class Unit : MonoBehaviour
                 EngineSound.volume = 0f;
             }
         }
-        else
-        {
-            //EngineSound.volume = 0.7f;
-        }
     }
     public void MoveToDestination()
     {
@@ -71,7 +71,6 @@ public class Unit : MonoBehaviour
     }
     public void MoveToDestinationWithSpeed()
     {
-        //transform.GetComponent<DollsCombat>().DeFogOfWar();
         Vector3 direction = destination - transform.position;
         Vector3 velocity = direction.normalized * 2;
         velocity = Vector3.ClampMagnitude(velocity, direction.magnitude);

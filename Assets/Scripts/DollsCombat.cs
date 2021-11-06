@@ -11,48 +11,54 @@ public class DollsCombat : MonoBehaviour
 
     [HideInInspector]
     public DollsProperty dolls;
-    public float health;
+    [HideInInspector]
+    public float health, accurancyBuff, rangeBuff, dodgeBuff;
+
     public Slider healthBar;
     float percentageHealth;
     public Gradient FullHealthNoHealth;
-    public Text HealthTextWhite;
-    public Text HealthTextBlack;
-    public GameObject enemiesList;
-    public GameObject dollsList;
+
+    [HideInInspector]
+    public GameObject enemiesList, dollsList;
     [HideInInspector]
     public EnemyCombat setEnemy;
+    [HideInInspector]
     public GameObject map;
+    [HideInInspector]
     public bool beingSpotted = false;
 
+    [HideInInspector]
     public Transform supportTargetCord;
-    public Hex[] ToCancelFog;
+    [HideInInspector]
+    public Queue<Hex> ToCancelFog = new Queue<Hex>();
+    [HideInInspector]
     public List<EnemyCombat> enemy;
+    [HideInInspector]
     public UnitEntity[] dollsEntities;
-    public int crewNum;
 
+    public int crewNum;
     Hex NextTile;
-    [HideInInspector]
-    public int height;
     public GameObject bullet;
-    BulletManager shot = new BulletManager();
-    public AudioSource Fire, Fire2,FireBase, ReloadStart, ReloadEnd, SkillSound;
+    public AudioSource Fire, Fire2, FireBase, ReloadStart, ReloadEnd, SkillSound;
     public int shotsInMag;
-    [HideInInspector]
-    public int ReloadStartTime;
+    BulletManager shot = new BulletManager();
     public GameObject LineofSight;
-    public GameObject Skill;
+
+    [HideInInspector]
+    public Vector3 planeVelocity;
+    [HideInInspector]
     public float[] healthRestrictLine = {0,0,0,0,0,0};
-    Unit thisUnit;
+    [HideInInspector]
+    public Unit thisUnit;
+
     [HideInInspector]
     public bool canFire = true;
-    bool firstTime;
     [HideInInspector]
-    public int counter;
-    public int healthLevel;
+    bool firstTime;
+
+    [HideInInspector]
+    public int counter, healthLevel, height, ReloadStartTime;
     public float resetTime;
-    Vector3 planeVelocity;
-    int j = 0, k = 0;
-    public float accurancyBuff, rangeBuff,dodgeBuff;
 
     void Start()
     {
@@ -137,7 +143,6 @@ public class DollsCombat : MonoBehaviour
         GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
         bulletThatWasShot.SetActive(true);
         shot = bulletThatWasShot.GetComponent<BulletManager>();
-        shot.parentVelocity = planeVelocity;
         shot.speed = 0;
         shot.WhereTheShotWillGo = transform.position;
         shot.shotType = dolls.dolls_ammo_type;
@@ -150,6 +155,7 @@ public class DollsCombat : MonoBehaviour
         shot.dollsList = dollsList;
         shot.whoShotMe = "hitAll";
         shot.firstImpact = true;
+        shot.GetComponent<Rigidbody>().velocity = planeVelocity * 70f;
     }
 
     public void Attack()
@@ -167,11 +173,11 @@ public class DollsCombat : MonoBehaviour
             }
             else if (dolls.dolls_type == 3)
             {
-                Invoke("ThrowBomb", Random.Range(0f,0.4f));
+                Invoke("ThrowBomb", Random.Range(0f,0.1f));
             }
         }
     }
-    void ResetCord()
+    void resetCord()
     {
         supportTargetCord = null;
     }
@@ -287,7 +293,7 @@ public class DollsCombat : MonoBehaviour
                     if (!Check_Blocked(gameObject, NextTile.gameObject))
                     {
                         NextTile.isInFog += 1;
-                        ToCancelFog[j] = NextTile;
+                        ToCancelFog.Enqueue(NextTile);
                         j += 1;
                     }
                 }
@@ -301,18 +307,11 @@ public class DollsCombat : MonoBehaviour
     }
     public void DeFogOfWar()
     {
-        for (int i = 0; i <= ToCancelFog.Length; i++)
+        while (ToCancelFog.Count != 0)
         {
-            try
-            {
-                ToCancelFog[i].isInFog -= 1;
-                ToCancelFog[i].ChangeTheFog();
-            }
-            catch
-            {
-                continue;
-            }
-
+            Hex hex = ToCancelFog.Dequeue();
+            hex.isInFog -= 1;
+            hex.ChangeTheFog();
         }
     }
     IEnumerator SetInactiveAfterFire()

@@ -23,20 +23,22 @@ public class TankCombatBehavior : IDollsCombatBehaviour
                 j = 0;
             }
         }
-        for (int i = 0; i < context.enemy.Count; i++)
+        if (context.canFire)
         {
-            if (context.enemy[i].gameObject != null && Find_Distance(transform.gameObject, context.enemy[i].gameObject) <= 17.32 * (context.dolls.dolls_range + context.rangeBuff))
+            for (int i = 0; i < context.enemy.Count; i++)
             {
-                Debug.Log(Find_Distance(transform.gameObject, context.enemy[i].gameObject));
-                if (context.enemy[i].enemy.enemy_visible == true && context.enemy[i].gameObject.activeSelf)
+                if (context.enemy[i] != null)
                 {
-                    if (context.canFire)
+                    if (context.enemy[i].enemy.enemy_visible == true && context.enemy[i].gameObject.activeSelf)
                     {
-                        context.setEnemy = context.enemy[i];
-                        context.counter = 0;
-                        Debug.Log("ÓÐÚÀ£¡");
-                        context.Attack();
-                        StartCoroutine(context.FireRate());
+                        if (Find_Distance(transform.gameObject, context.enemy[i].gameObject) <= 17.32 * (context.dolls.dolls_range + context.rangeBuff))
+                        {
+                            context.setEnemy = context.enemy[i];
+                            context.counter = 0;
+                            Debug.Log("ÓÐÚÀ£¡");
+                            context.Attack();
+                            StartCoroutine(context.FireRate());
+                        }
                     }
                 }
             }

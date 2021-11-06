@@ -1688,9 +1688,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5195854790106076289}
   - component: {fileID: 5195854790106076288}
-  - component: {fileID: 2543396608900222416}
   - component: {fileID: 6815548471661580418}
   - component: {fileID: 4316943497344552239}
+  - component: {fileID: 2543396608900222416}
   m_Layer: 9
   m_Name: Unit1
   m_TagString: Untagged
@@ -1742,6 +1742,7 @@ MonoBehaviour:
   nextTileMovecost: 0
   timeStart: 0
   canBeSelected: 1
+  canMove: 0
   unitSelection: 0
   isMoving: 0
   ActionCDBar: {fileID: 5195854789835131398}
@@ -1750,51 +1751,6 @@ MonoBehaviour:
   skillBox: {fileID: 6509036996494525624}
   unitInMoveCooldown: 0
   EngineSound: {fileID: 8714613390007918457}
-  canMove: 0
---- !u!114 &2543396608900222416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5195854790106076290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81fd21d533f0aa74ab2ce281ae5fb90f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dolls_name: "\u6CAA\u9020\u4E09\u516D\u5F0F\u5341\u8F6E\u88C5\u7532\u8F66"
-  dolls_ammount: 5
-  dolls_star: 1
-  dolls_id: 1
-  dolls_type: 1
-  dolls_range: 3
-  dolls_view_range: 3
-  dolls_unlocked: 1
-  dolls_max_hp: 1400
-  dolls_sts_attack: 120
-  dolls_ata_attack: 0
-  dolls_sta_attack: 0
-  dolls_ats_attack: 0
-  dolls_penetration: 48
-  dolls_accuracy: 98
-  dolls_dodge: 79
-  dolls_reload: 4.7
-  dolls_firerate: 4.7
-  dolls_armor_front: 150
-  dolls_armor_side: 15
-  dolls_armor_back: 5
-  dolls_damage_multiplier: 1
-  dolls_ammo_type: 0
-  dolls_airstrike: 0
-  dolls_recon: 0
-  dolls_air_sup: 0
-  dolls_artillery: 0
-  dolls_skill_point: 0
-  dolls_skill_fullcharge: 4
-  dolls_withdrew: 0
-  dolls_mag: 1
-  dolls_shell_speed: 6500
 --- !u!114 &6815548471661580418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1840,8 +1796,6 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  HealthTextWhite: {fileID: 7754209107676677693}
-  HealthTextBlack: {fileID: 2520608737808293216}
   enemiesList: {fileID: 0}
   dollsList: {fileID: 0}
   setEnemy: {fileID: 0}
@@ -1858,7 +1812,6 @@ MonoBehaviour:
   - {fileID: 4452140819528466063}
   - {fileID: 7977427728536264880}
   crewNum: 5
-  height: 0
   bullet: {fileID: 7899560838223106138}
   Fire: {fileID: 857604431729754053}
   Fire2: {fileID: 857604431729754053}
@@ -1867,9 +1820,7 @@ MonoBehaviour:
   ReloadEnd: {fileID: 7695236996059844643}
   SkillSound: {fileID: 7648644005236092867}
   shotsInMag: 0
-  ReloadStartTime: 0
   LineofSight: {fileID: 0}
-  Skill: {fileID: 0}
   healthRestrictLine:
   - 0
   - 0
@@ -1877,9 +1828,12 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  thisUnit: {fileID: 0}
   canFire: 1
   counter: 0
   healthLevel: 0
+  height: 0
+  ReloadStartTime: 0
   resetTime: 0
   accurancyBuff: 0
   rangeBuff: 0
@@ -1896,6 +1850,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17600b1ca3c13b94f94f6dba7b840078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2543396608900222416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195854790106076290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81fd21d533f0aa74ab2ce281ae5fb90f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dolls_name: "\u6CAA\u9020\u4E09\u516D\u5F0F\u5341\u8F6E\u88C5\u7532\u8F66"
+  dolls_ammount: 5
+  dolls_star: 1
+  dolls_id: 1
+  dolls_type: 1
+  dolls_range: 3
+  dolls_view_range: 3
+  dolls_unlocked: 1
+  dolls_max_hp: 1400
+  dolls_sts_attack: 120
+  dolls_ata_attack: 0
+  dolls_sta_attack: 0
+  dolls_ats_attack: 0
+  dolls_penetration: 48
+  dolls_accuracy: 98
+  dolls_dodge: 79
+  dolls_reload: 4.7
+  dolls_firerate: 4.7
+  dolls_armor_front: 150
+  dolls_armor_side: 15
+  dolls_armor_back: 5
+  dolls_damage_multiplier: 1
+  dolls_ammo_type: 0
+  dolls_airstrike: 0
+  dolls_recon: 0
+  dolls_air_sup: 0
+  dolls_artillery: 0
+  dolls_skill_point: 0
+  dolls_skill_fullcharge: 4
+  dolls_withdrew: 0
+  dolls_mag: 1
+  dolls_shell_speed: 6500
 --- !u!1 &5195854790762086271
 GameObject:
   m_ObjectHideFlags: 0

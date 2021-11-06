@@ -14,21 +14,23 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
     void Start()
     {
         toCancelFog = new Queue<Hex>();
+        transform.position = airBase;
     }
 
     public override void CheckEnemy(DollsCombat context)
     {
         if (context.supportTargetCord != null)
         {
-            if (Vector3.Distance(transform.position, flyEndCord) < 30)
+            if (firstTime)
             {
-                Invoke("ResetCord", context.resetTime);
+                context.Invoke("ResetCord", context.resetTime);
+                Invoke("backToBase", 30f);
+                firstTime = false;
             }
             AirRecon(context);
             Vector3 direction = flyEndCord - transform.position;
-            Vector3 velocity = direction.normalized * 1.5f;
-            //planeVelocity = velocity;
-            velocity = Vector3.ClampMagnitude(velocity, direction.magnitude);
+            Vector3 velocity = direction.normalized;
+            velocity = Vector3.ClampMagnitude(velocity, 0.5f);
             transform.Translate(velocity);
             if (transform.position.x > context.supportTargetCord.position.x - 20)
             {
@@ -42,6 +44,7 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
                             {
                                 if (context.canFire)
                                 {
+                                    context.planeVelocity = velocity;
                                     context.setEnemy = context.enemy[i];
                                     context.counter = 0;
                                     context.Attack();
@@ -56,13 +59,14 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
                 }
             }
         }
-        else
-        {
-            transform.position = airBase;
-        }
     }
-
-    private void AirRecon(DollsCombat context)
+    void backToBase()
+    {
+        transform.position = airBase;
+        Vector3 velocity = new Vector3(0f,0f,0f);
+        transform.Translate(velocity);
+    }
+    public void AirRecon(DollsCombat context)
     {
         Hex NextTile;
         for (int i = 0; i <= context.map.transform.childCount - 1; i++)

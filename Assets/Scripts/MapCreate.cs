@@ -230,8 +230,9 @@ public class MapCreate : MonoBehaviour
                 spawnedUnit.transform.parent = unitList.transform;
                 spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
                 Skills[slot.spawnID].SetActive(true);
-                Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<Unit1Skill>().unit = spawnedUnit.GetComponent<DollsCombat>();
-                Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<Unit1Skill>().unitID = spawnedUnit.GetComponent<DollsProperty>().dolls_id;
+                Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().unit = spawnedUnit.GetComponent<DollsCombat>();
+                Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().mapList = this.gameObject;
+                Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().loadMap();
             }
         }
         gameInitial.gameObject.SetActive(false);

@@ -8,6 +8,6 @@ public class SquadSlot : MonoBehaviour
     public int slotType;
     public int slotNum;
     public GameObject SkillSlot;
-    [SerializeField] public int spawnID;
+    public int spawnID;
 }
 

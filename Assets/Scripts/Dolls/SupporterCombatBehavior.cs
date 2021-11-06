@@ -6,6 +6,7 @@ public class SupporterCombatBehavior : IDollsCombatBehaviour
 {
     private DollsCombat context;
     private Queue<Hex> toCancelFog;
+    
 
     void Start()
     {
@@ -17,7 +18,11 @@ public class SupporterCombatBehavior : IDollsCombatBehaviour
         if (context.supportTargetCord != null && context.canFire)
         {
             context.Attack();
-            Invoke("ResetCord", context.resetTime);
+            if (firstTime)
+            {
+                context.Invoke("resetCord", context.resetTime);
+                firstTime = false;
+            }
             StartCoroutine(context.FireRate());
             context.counter = 0;
         }
