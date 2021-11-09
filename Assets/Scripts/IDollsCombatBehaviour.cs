@@ -3,8 +3,7 @@ using System.Collections;
 
 public class IDollsCombatBehaviour : MonoBehaviour
 {
-    [HideInInspector]
-    public bool firstTime = true;
+    [HideInInspector] public bool firstTime = true;
     public virtual void CheckEnemy(DollsCombat context)
     {
         // no-op

@@ -16887,7 +16887,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78ef32e6dc602714e825a4727c308ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 0, y: 0, z: 0}
   hang: 1
   lie: 1
   tempHang: 0
@@ -16898,6 +16897,7 @@ MonoBehaviour:
   timeStart: 0
   canBeSelected: 0
   canMove: 0
+  tileSelectedGoldenHex: {fileID: 0}
   unitSelection: 0
   isMoving: 0
   ActionCDBar: {fileID: 5925278499597458883}
@@ -16992,7 +16992,7 @@ MonoBehaviour:
   healthLevel: 0
   height: 1
   ReloadStartTime: 0
-  resetTime: 15
+  resetTime: 20
 --- !u!114 &5026691034151611180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17007,6 +17007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstTime: 1
   flyEndCord: {x: 0, y: 0, z: 0}
+  airSpeed: 50
 --- !u!114 &4137196982756760085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17031,11 +17032,11 @@ MonoBehaviour:
   dolls_sts_attack: 0
   dolls_ata_attack: 240
   dolls_sta_attack: 0
-  dolls_ats_attack: 180
+  dolls_ats_attack: 220
   dolls_penetration: 99
   dolls_accuracy: 300
   dolls_dodge: 0
-  dolls_reload: 35
+  dolls_reload: 15
   dolls_firerate: 0.21
   dolls_armor_front: 0
   dolls_armor_side: 0
@@ -17168,8 +17169,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 280a89b7944bbbe4cb15de9aa3ef8f8c, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
+  m_PlayOnAwake: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0

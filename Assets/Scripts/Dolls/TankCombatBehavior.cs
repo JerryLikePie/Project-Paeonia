@@ -35,7 +35,6 @@ public class TankCombatBehavior : IDollsCombatBehaviour
                         {
                             context.setEnemy = context.enemy[i];
                             context.counter = 0;
-                            Debug.Log("ÓÐÚÀ£¡");
                             context.Attack();
                             StartCoroutine(context.FireRate());
                         }

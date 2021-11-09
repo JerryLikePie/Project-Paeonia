@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
-    [HideInInspector]
-    public Vector3 destination;
+    Vector3 destination;
+    Hex next;
     [HideInInspector]
     public int hang,lie,tempHang,tempLie;
+    public float movementCooldown;
     [HideInInspector]
-    public float movementCooldown, moveTime, nextTileMovecost;
+    public float moveTime, nextTileMovecost;
     [HideInInspector]
     public long timeStart; // 进入cd的时刻
     [HideInInspector]
@@ -20,6 +21,7 @@ public class Unit : MonoBehaviour
 
     float percentageCDtime;
     GameObject doll;
+    public GameObject tileSelectedGoldenHex;
     public bool unitSelection, isMoving = false;
     public Slider ActionCDBar;
     public GameObject CDBarCanvas;
@@ -28,14 +30,15 @@ public class Unit : MonoBehaviour
     public bool unitInMoveCooldown = false;
     public AudioSource EngineSound;
     Timer moveTimer = new Timer();
-    bool firstTime;
+    bool firstTime = true, firstTime2 = false;
     DollsProperty dolls;
+    public Queue<Hex> path = new Queue<Hex>();
 
     // Start is called before the first frame update
     void Start()
     {
         dolls = this.GetComponent<DollsProperty>();
-        canMove = true;
+        canMove = false;
         selectionBox.SetActive(false);
         destination = transform.position;
         unitSelection = false;
@@ -47,7 +50,30 @@ public class Unit : MonoBehaviour
     {
         if (dolls.dolls_type != 3)
         {
-            MoveToDestinationWithSpeed();
+            if (path.Count != 0 && !Input.GetMouseButton(0) && !path.Peek().haveEnemy)
+            {
+                if (firstTime)
+                {
+                    next = path.Peek();
+                    GameObject obj = Instantiate(tileSelectedGoldenHex, next.transform.position, Quaternion.identity);//在此处生成一个金框框
+                    moveTime = movementCooldown * next.movecost;
+                    Destroy(obj, moveTime);
+                    firstTime = false;
+                    Move();
+                }
+                if (canMove)
+                {
+                    GameObject.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveUnit = false;
+                    destination = next.transform.position;
+                    path.Dequeue();
+                    canMove = false;
+                    firstTime2 = true;
+                }
+            }
+            if (destination != transform.position)
+            {
+                MoveThroughPath();
+            }
             moveTimer.TimerUpdate();
             if (ActionCDBar.value >= 1f)
                 CDBarCanvas.SetActive(false);
@@ -63,30 +89,31 @@ public class Unit : MonoBehaviour
             }
         }
     }
-    public void MoveToDestination()
-    {
-        //transform.GetComponent<DollsCombat>().DeFogOfWar();
-        //transform.position = destination;
-        //transform.GetComponent<DollsCombat>().FogOfWar();
-    }
-    public void MoveToDestinationWithSpeed()
+    public void MoveThroughPath()
     {
         Vector3 direction = destination - transform.position;
-        Vector3 velocity = direction.normalized * 2;
-        velocity = Vector3.ClampMagnitude(velocity, direction.magnitude);
+        Vector3 velocity = direction.normalized * (direction.magnitude / moveTime);
+        //velocity = Vector3.ClampMagnitude(velocity, direction.magnitude);
+        
         transform.Translate(velocity);
-        if (firstTime && direction.magnitude < 1)
+        if (firstTime2 && (destination - transform.position).magnitude < 2)
         {
+            hang = next.hang;
+            lie = next.lie;
+            GetComponent<DollsCombat>().height = next.height;
+            GetComponent<DollsCombat>().dodgeBuff = next.dodgeBuff;
+            GetComponent<DollsCombat>().rangeBuff = next.rangeBuff;
+            next.haveUnit = true;
+            GetComponent<DollsCombat>().CheckStatus();
             transform.GetComponent<DollsCombat>().DeFogOfWar();
-            firstTime = false;
+            firstTime2 = false;
+            firstTime = true;
             transform.GetComponent<DollsCombat>().FogOfWar();
         }
-
     }
     public void Move()
     {
         canMove = false;
-        firstTime = true;
         moveTimer.IsCounting = true;
         moveTimer.timeStart = System.DateTime.Now.Ticks;
         moveTimer.TimeToWait = moveTime;

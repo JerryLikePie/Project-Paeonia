@@ -13,13 +13,11 @@ public class U1S1_Type36 : IDollsSkillBehavior
     public override void activateSkill(Transform location)
     {
         this.location = location;
-        Debug.Log(location);
         inCoolDown = true;
         timeStart = System.DateTime.Now.Ticks;
         skillSound.Play();
         StartCoroutine(flareLaunch());
     }
-
 
     IEnumerator flareLaunch()
     {

@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8281518847195336832
 Transform:
@@ -55,4 +55,7 @@ MonoBehaviour:
   height: 0
   blockVision: 0
   isInFog: 0
+  isSpotted: 0
+  dodgeBuff: 0
+  rangeBuff: 0
   FogOfWarDarken: {fileID: 0}

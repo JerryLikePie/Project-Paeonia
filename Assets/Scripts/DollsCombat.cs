@@ -8,33 +8,22 @@ public class DollsCombat : MonoBehaviour
 
     // Dolls不同的战斗行为
     public IDollsCombatBehaviour combatBehaviour;
-
-    [HideInInspector]
-    public DollsProperty dolls;
-    [HideInInspector]
-    public float health, accurancyBuff, rangeBuff, dodgeBuff;
+    [HideInInspector] public DollsProperty dolls;
+    [HideInInspector] public float health, accurancyBuff, rangeBuff, dodgeBuff;
 
     public Slider healthBar;
     float percentageHealth;
     public Gradient FullHealthNoHealth;
 
-    [HideInInspector]
-    public GameObject enemiesList, dollsList;
-    [HideInInspector]
-    public EnemyCombat setEnemy;
-    [HideInInspector]
-    public GameObject map;
-    [HideInInspector]
-    public bool beingSpotted = false;
+    [HideInInspector] public GameObject enemiesList, dollsList;
+    [HideInInspector] public EnemyCombat setEnemy;
+    [HideInInspector] public GameObject map;
+    [HideInInspector] public bool beingSpotted = false;
 
-    [HideInInspector]
-    public Transform supportTargetCord;
-    [HideInInspector]
-    public Queue<Hex> ToCancelFog = new Queue<Hex>();
-    [HideInInspector]
+    [HideInInspector] public Transform supportTargetCord;
+    [HideInInspector] public Queue<Hex> ToCancelFog = new Queue<Hex>();
     public List<EnemyCombat> enemy;
-    [HideInInspector]
-    public UnitEntity[] dollsEntities;
+    [HideInInspector] public UnitEntity[] dollsEntities;
 
     public int crewNum;
     Hex NextTile;
@@ -44,25 +33,19 @@ public class DollsCombat : MonoBehaviour
     BulletManager shot = new BulletManager();
     public GameObject LineofSight;
 
-    [HideInInspector]
-    public Vector3 planeVelocity;
-    [HideInInspector]
-    public float[] healthRestrictLine = {0,0,0,0,0,0};
-    [HideInInspector]
-    public Unit thisUnit;
-
-    [HideInInspector]
-    public bool canFire = true;
-    [HideInInspector]
+    [HideInInspector] public Vector3 planeVelocity;
+    [HideInInspector] public float[] healthRestrictLine = {0,0,0,0,0,0};
+    [HideInInspector] public Unit thisUnit;
+    
+    [HideInInspector] public bool canFire = true;
     bool firstTime;
-
-    [HideInInspector]
-    public int counter, healthLevel, height, ReloadStartTime;
+    
+    [HideInInspector] public int counter, healthLevel, height, ReloadStartTime;
     public float resetTime;
 
     void Start()
     {
-        for (int i = 0; i <= enemiesList.transform.childCount - 1; i++)
+        for (int i = 0; i < enemiesList.transform.childCount; i++)
         {
             enemy.Add(enemiesList.transform.GetChild(i).GetComponent<EnemyCombat>());
         }
@@ -89,7 +72,6 @@ public class DollsCombat : MonoBehaviour
     }
     void FireBullet()
     {
-        //Debug.Log(counter + "," + crewNum);
         if (setEnemy != null && setEnemy.gameObject.activeSelf == true)
         {
             GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);

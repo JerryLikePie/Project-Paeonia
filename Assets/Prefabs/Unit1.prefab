@@ -1732,7 +1732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78ef32e6dc602714e825a4727c308ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 0, y: 0, z: 0}
   hang: 1
   lie: 1
   tempHang: 0
@@ -1743,6 +1742,8 @@ MonoBehaviour:
   timeStart: 0
   canBeSelected: 1
   canMove: 0
+  tileSelectedGoldenHex: {fileID: 3052251377189052946, guid: 786bf4ec257dd4f4982dd43fc7a2d7b4,
+    type: 3}
   unitSelection: 0
   isMoving: 0
   ActionCDBar: {fileID: 5195854789835131398}
@@ -1766,6 +1767,9 @@ MonoBehaviour:
   combatBehaviour: {fileID: 4316943497344552239}
   dolls: {fileID: 0}
   health: 0
+  accurancyBuff: 0
+  rangeBuff: 0
+  dodgeBuff: 0
   healthBar: {fileID: 5195854791554712922}
   FullHealthNoHealth:
     serializedVersion: 2
@@ -1802,7 +1806,6 @@ MonoBehaviour:
   map: {fileID: 0}
   beingSpotted: 0
   supportTargetCord: {fileID: 0}
-  ToCancelFog: []
   enemy:
   - {fileID: 0}
   dollsEntities:
@@ -1821,6 +1824,7 @@ MonoBehaviour:
   SkillSound: {fileID: 7648644005236092867}
   shotsInMag: 0
   LineofSight: {fileID: 0}
+  planeVelocity: {x: 0, y: 0, z: 0}
   healthRestrictLine:
   - 0
   - 0
@@ -1835,9 +1839,6 @@ MonoBehaviour:
   height: 0
   ReloadStartTime: 0
   resetTime: 0
-  accurancyBuff: 0
-  rangeBuff: 0
-  dodgeBuff: 0
 --- !u!114 &4316943497344552239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1850,6 +1851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17600b1ca3c13b94f94f6dba7b840078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstTime: 1
 --- !u!114 &2543396608900222416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8577,7 +8579,7 @@ MonoBehaviour:
   WhereTheShotWillGo: {x: 0, y: 0, z: 0}
   bullet: {fileID: 8747645774389838432}
   whoShotMe: 
-  speed: 300
+  speed: 0
   firstImpact: 0
   penetration: 0
   DamageIndicator: {fileID: 4792125303221953736, guid: 6fc335a3177cbf34a8ae442720f59e80,

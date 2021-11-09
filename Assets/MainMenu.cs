@@ -28,34 +28,42 @@ public class MainMenu : MonoBehaviour
     }
     public void LoadSavedProgress()
     {
-        int howManyStars = PlayerPrefs.GetInt("Stars_2_1", 0);
-        switch (howManyStars)
+        try
         {
-            case 1:
-                rating[0].SetActive(true);
-                break;
-            case 2:
-                rating[0].SetActive(true);
-                rating[1].SetActive(true);
-                break;
-            case 3:
-                rating[0].SetActive(true);
-                rating[1].SetActive(true);
-                rating[2].SetActive(true);
-                break;
-            case 4:
-                rating[0].SetActive(true);
-                rating[1].SetActive(true);
-                rating[2].SetActive(true);
-                rating[3].SetActive(true);
-                break;
-            default:
-                rating[0].SetActive(false);
-                rating[1].SetActive(false);
-                rating[2].SetActive(false);
-                rating[3].SetActive(false);
-                break;
+            int howManyStars = PlayerPrefs.GetInt("Stars_2_1", 0);
+            switch (howManyStars)
+            {
+                case 1:
+                    rating[0].SetActive(true);
+                    break;
+                case 2:
+                    rating[0].SetActive(true);
+                    rating[1].SetActive(true);
+                    break;
+                case 3:
+                    rating[0].SetActive(true);
+                    rating[1].SetActive(true);
+                    rating[2].SetActive(true);
+                    break;
+                case 4:
+                    rating[0].SetActive(true);
+                    rating[1].SetActive(true);
+                    rating[2].SetActive(true);
+                    rating[3].SetActive(true);
+                    break;
+                default:
+                    rating[0].SetActive(false);
+                    rating[1].SetActive(false);
+                    rating[2].SetActive(false);
+                    rating[3].SetActive(false);
+                    break;
+            }
         }
+        catch
+        {
+
+        }
+        
     }
 
 }

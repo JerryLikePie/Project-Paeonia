@@ -34,7 +34,7 @@ public class DragSkillManager: MonoBehaviour,IDragHandler,IEndDragHandler,IBegin
         transform.SetParent(parent);
         isDragging = false;
         mouseManager.isDraggingUI = false;
-        try { skill.unit.thisUnit.skillBox.SetActive(true); } catch { }//有些dolls是没有技能范围的
+        try { skill.unit.thisUnit.skillBox.SetActive(false); } catch { }//有些dolls是没有技能范围的
         transform.localPosition = Vector3.zero;
         if (!(Input.mousePosition.x < (Screen.width * 0.25f) && Input.mousePosition.y < 170))
         {

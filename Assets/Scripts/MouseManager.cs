@@ -5,14 +5,21 @@ using UnityEngine.EventSystems;
 
 public class MouseManager : MonoBehaviour
 {
+    
     [SerializeField] public Vector3 targetLocation;
     Unit selectedUnit;
     Unit lastSelectedUnit;
+    Unit draggingUnit;
+    public GameObject trail;
+    GameObject tempTrail;
+    bool firstTime = true;
     Hex selectedTile;
+    Vector3 previousTile;
     [SerializeField] public GameObject tileSelectedGoldenHex;
     int[] change_hang = { 0, 0, 1, 1, -1, -1};
     int[] change_lie = { -1, 1, 0, 1 , 0, 1,
                        -1, 1, -1, 0, - 1, 0 };//分奇偶层，当前坐标的“六个可能的下个坐标”
+    
 
     //然后是关于移动相机的
     public bool isDragging;
@@ -25,6 +32,9 @@ public class MouseManager : MonoBehaviour
     private Vector3 Difference;
     private bool Drag = false;
     public bool isDraggingUI = false;
+    bool isOnSelectedUnit = false;
+    Ray ray;
+    RaycastHit[] f;
 
     public Camera cam,cam2,cam3;
     Timer moveTimer = new Timer();
@@ -42,14 +52,27 @@ public class MouseManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //UnitStatUpdate();
         if (Input.GetMouseButtonDown(0))
         {
             isDragging = false;
             mouseDownPos1 = Input.mousePosition;
+            isOnSelectedUnit = SeeIfUnitDrag();
+        }
+        if (Input.GetMouseButton(0))
+        {
+            if (Vector3.Distance(mouseDownPos1, Input.mousePosition) > 10f)
+            {
+                isDragging = true;
+            }
         }
         if (Input.GetMouseButtonUp(0))
         {
+            if (tempTrail != null && tempTrail.activeSelf)
+            {
+                Destroy(tempTrail);
+            }
+            firstTime = true;
+            isOnSelectedUnit = false;
             mouseDownPos2 = Input.mousePosition;
             if (Vector3.Distance(mouseDownPos1, mouseDownPos2) > 10f)
             {
@@ -62,9 +85,34 @@ public class MouseManager : MonoBehaviour
         }
         CameraDrag();
     }
+    bool SeeIfUnitDrag()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        f = Physics.RaycastAll(ray);
+        for (int i = 0; i < f.Length; i++)
+        {
+            try
+            {
+                GameObject targetObject = f[i].transform.parent.gameObject;
+                if (targetObject.GetComponent<Unit>() != null)//如果目前鼠标在单位上面
+                {
+                    if (targetObject.GetComponent<Unit>().unitSelection)
+                    {
+                        draggingUnit = targetObject.GetComponent<Unit>();
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                
+            }
+        }
+        return false;
+    }
     void CameraDrag()
     {
-        if (!isDraggingUI && !EventSystem.current.IsPointerOverGameObject())//如果不在UI上
+        if (!isDraggingUI && !EventSystem.current.IsPointerOverGameObject() && !isOnSelectedUnit)//如果不在UI上
         {
             if (Input.touchSupported)//如果是触屏
             {
@@ -137,9 +185,9 @@ public class MouseManager : MonoBehaviour
                 Zoom(scroll, MouseZoomSpeed);
             }
         }
-        else
+        else if (isOnSelectedUnit && isDragging)//如果在一个已选中的角色上面
         {
-            //Debug.Log("在UI上面");
+            dragUnit();
         }
         if (cam.orthographicSize < ZoomMinBound)
         {
@@ -155,6 +203,44 @@ public class MouseManager : MonoBehaviour
             cam3.orthographicSize = 90f;
         }
     }
+    void dragUnit()
+    {
+        if (SeeIfUnitDrag() && selectedUnit.path.Count != 0)
+        {
+            selectedUnit.path.Clear();
+        }
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        f = Physics.RaycastAll(ray);
+        if (firstTime)
+        {
+            tempTrail = Instantiate(trail, draggingUnit.transform.position, Quaternion.identity);
+            firstTime = false;
+            previousTile = draggingUnit.transform.position;
+        }
+        for (int i = 0; i < f.Length; i++)
+        {
+            try
+            {
+                GameObject targetObject = f[i].transform.parent.gameObject;
+                if (targetObject.GetComponent<Hex>() != null)
+                {
+                    if (Vector3.Distance(f[i].point, targetObject.transform.position) < 8
+                        && !selectedUnit.path.Contains(targetObject.GetComponent<Hex>())
+                        && Vector3.Distance(previousTile, targetObject.transform.position) < 17.5
+                        && Vector3.Distance(previousTile, targetObject.transform.position) > 2)
+                    {
+                        previousTile = targetObject.transform.position;
+                        selectedUnit.path.Enqueue(targetObject.GetComponent<Hex>());
+                        tempTrail.transform.position = targetObject.transform.position;
+                        //trail.GetComponentInChildren<TrailRenderer>().AddPosition(targetObject.transform.position);
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+    }
     void Zoom(float deltaMagnitudeDiff, float speed)
     {
 
@@ -168,9 +254,8 @@ public class MouseManager : MonoBehaviour
     }
     void MouseClicked()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] castArray = new RaycastHit[10];
-        RaycastHit[] f = Physics.RaycastAll(ray);
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        f = Physics.RaycastAll(ray);
         for (int i = 0; i < f.Length; i++)
         {
             try
@@ -178,57 +263,33 @@ public class MouseManager : MonoBehaviour
                 GameObject targetObject = f[i].transform.parent.gameObject;
                 if (targetObject.GetComponent<Unit>() != null)//如果目前鼠标在单位上面
                 {
-                    //Debug.Log("点到了角色");
                     MouseClickUnit(targetObject);
                     return;
-                }
-                else if (targetObject.GetComponent<Hex>() != null)//如果点到个地块
-                {
-                    Debug.Log("点到了地块："+ targetObject.name);
-                    if (selectedUnit != null)
-                    {
-                        MouseClickMap(targetObject);
-                    }
                 }
             }
             catch
             {
             }
         }
+        if (selectedUnit != null)
+        {
+            selectedUnit.unitSelection = false;
+            selectedUnit.selectionBox.SetActive(false);
+            selectedUnit = null;
+        }
     }
     void MouseClickMap(GameObject targetObject)
     {
+        lastSelectedUnit.selectionBox.SetActive(false);
+        lastSelectedUnit = selectedUnit;
         if (selectedUnit != null)
         {
-            Hex currentTile = GameObject.Find("Map" + selectedUnit.hang + "_" + selectedUnit.lie).GetComponent<Hex>();
             if (selectedUnit.unitSelection)
             {
-                selectedTile = targetObject.GetComponent<Hex>();//目前所选的tile
+                lastSelectedUnit.unitSelection = false;
                 if (IsAround(selectedUnit, selectedTile) && selectedUnit.canMove)//这个tile是在这个unit的六周之内吗？
                 {
-                    //UpdateMap(selectedUnit);
-                    targetLocation = selectedTile.transform.position;
-                    currentTile.haveUnit = false;
-                    //selectedUnit.isMoving = true;
-                    GameObject obj = Instantiate(tileSelectedGoldenHex, targetLocation, Quaternion.identity);//在此处生成一个金框框
-                    Destroy(obj, 0.25f);//0.25秒之后删除
-                    selectedUnit.destination = targetLocation;
-                    selectedUnit.hang = selectedTile.hang;
-                    selectedUnit.lie = selectedTile.lie;
-                    selectedUnit.GetComponent<DollsCombat>().height = selectedTile.height;
-                    selectedUnit.GetComponent<DollsCombat>().dodgeBuff = selectedTile.dodgeBuff;
-                    selectedUnit.GetComponent<DollsCombat>().rangeBuff = selectedTile.rangeBuff;
-                    selectedTile.haveUnit = true;
-                    selectedUnit.moveTime = selectedUnit.movementCooldown * selectedTile.movecost;
-                    selectedUnit.Move();
-                    selectedUnit.GetComponent<DollsCombat>().CheckStatus();
                 }
-            }
-            else//那看来是不在四周了
-            {
-                lastSelectedUnit.unitSelection = false;
-                lastSelectedUnit.selectionBox.SetActive(false);
-                lastSelectedUnit = selectedUnit;
             }
         }
     }
@@ -252,7 +313,7 @@ public class MouseManager : MonoBehaviour
             {
                 lastSelectedUnit = selectedUnit;
             }
-
+            
             if (selectedUnit.unitSelection == true)//颜色控制，如果是选中就变红不然就是白色
             {
                 selectedUnit.selectionBox.SetActive(true);

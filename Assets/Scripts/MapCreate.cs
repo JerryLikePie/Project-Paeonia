@@ -130,7 +130,7 @@ public class MapCreate : MonoBehaviour
         SpawnTheEnemy("Map9_12");
         SpawnTheEnemy("Map1_12");
         SpawnTheEnemy("Map10_12");
-        SpawnTheEnemy("Map9_13");
+        //SpawnTheEnemy("Map9_13");
         SpawnTheUnits(homeHang, homeLie);
         //StartCoroutine(SecondWave());
     }
@@ -142,13 +142,13 @@ public class MapCreate : MonoBehaviour
     IEnumerator SecondWave()
     {
         yield return new WaitForSeconds(60f);
-        SpawnTheEnemy("Map12_2");
-        SpawnTheEnemy("Map8_10");
-        SpawnTheEnemy("Map8_8");
-        SpawnTheEnemy("Map9_13");
-        SpawnTheEnemy("Map10_12");
-        SpawnTheEnemy("Map11_11");
-        SpawnTheEnemy("Map12_9");
+        //SpawnTheEnemy("Map12_2");
+        //SpawnTheEnemy("Map8_10");
+        //SpawnTheEnemy("Map8_8");
+        //SpawnTheEnemy("Map9_13");
+        //SpawnTheEnemy("Map10_12");
+        //SpawnTheEnemy("Map11_11");
+        //SpawnTheEnemy("Map12_9");
     }
     // Update is called once per frame
     void Update()

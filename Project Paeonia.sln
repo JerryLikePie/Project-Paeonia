@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{3C381CF7-92EF-CA90-3A2D-4C9ACF2008E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StylizedWaterForURP", "StylizedWaterForURP.csproj", "{8575A803-BF8A-AD57-71EF-6C9AF9BD48C6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StylizedWaterForURPEditor", "StylizedWaterForURPEditor.csproj", "{FF7C7160-4944-1DA3-27C5-D4A4D3D1E056}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,14 +13,6 @@ Global
 		{3C381CF7-92EF-CA90-3A2D-4C9ACF2008E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C381CF7-92EF-CA90-3A2D-4C9ACF2008E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C381CF7-92EF-CA90-3A2D-4C9ACF2008E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8575A803-BF8A-AD57-71EF-6C9AF9BD48C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8575A803-BF8A-AD57-71EF-6C9AF9BD48C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8575A803-BF8A-AD57-71EF-6C9AF9BD48C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8575A803-BF8A-AD57-71EF-6C9AF9BD48C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF7C7160-4944-1DA3-27C5-D4A4D3D1E056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF7C7160-4944-1DA3-27C5-D4A4D3D1E056}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF7C7160-4944-1DA3-27C5-D4A4D3D1E056}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF7C7160-4944-1DA3-27C5-D4A4D3D1E056}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

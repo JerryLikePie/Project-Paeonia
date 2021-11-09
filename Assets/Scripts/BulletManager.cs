@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
-    public Vector3 parentVelocity;
-    public float damage;
-    public string damageIndicate;
-    public GameObject sender;
-    public GameObject enemyList;
-    public GameObject dollsList;
-    public Vector3 WhereTheShotWillGo;
+    [HideInInspector] public Vector3 parentVelocity;
+    [HideInInspector] public float damage;
+    [HideInInspector] public string damageIndicate;
+    [HideInInspector] public GameObject sender;
+    [HideInInspector] public GameObject enemyList;
+    [HideInInspector] public GameObject dollsList;
+    [HideInInspector] public Vector3 WhereTheShotWillGo;
     public GameObject bullet;
-    public string whoShotMe;
-    public float speed;
-    public bool firstImpact;
-    public float penetration;
+    [HideInInspector] public string whoShotMe;
+    [HideInInspector] public float speed;
+    [HideInInspector] public bool firstImpact;
+    [HideInInspector] public float penetration;
     public GameObject DamageIndicator;
-    public int shotType;
+    [HideInInspector] public int shotType;
     Vector3 velocity;
     //public ParticleManager parti;
     //public GameObject parti;
@@ -72,7 +72,6 @@ public class BulletManager : MonoBehaviour
                     HitEnemy();
                     HitPlayer();
                 }
-                //Debug.Log(transform.position);
             }
             Destroy(gameObject,3f);
         }

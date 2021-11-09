@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3581535914689298926
 Transform:
@@ -46,7 +46,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3136170594939648422
 Transform:
@@ -87,6 +87,9 @@ MonoBehaviour:
   height: 5
   blockVision: 1
   isInFog: 0
+  isSpotted: 0
+  dodgeBuff: 0
+  rangeBuff: 0
   FogOfWarDarken: {fileID: 4780122984139675763}
 --- !u!1 &4780122984139675763
 GameObject:
@@ -105,7 +108,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4774762971009532747
 Transform:

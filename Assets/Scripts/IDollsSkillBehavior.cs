@@ -5,14 +5,10 @@ using UnityEngine.UI;
 
 public class IDollsSkillBehavior : MonoBehaviour
 {
-    [HideInInspector]
-    public long timeStart, timeElapsed;//记录技能开始时间和已经过去的时间
-    [HideInInspector]
-    public float percentageTime, timeleft;//已经过去的百分比，用于黑色overlay的长度，以及剩余多少时间
-    [HideInInspector]
-    public bool inCoolDown = false;//在不在技能冷却时间里面
-    [HideInInspector]
-    public Hex[] allTiles;
+    [HideInInspector] public long timeStart, timeElapsed;//记录技能开始时间和已经过去的时间
+    [HideInInspector] public float percentageTime, timeleft;//已经过去的百分比，用于黑色overlay的长度，以及剩余多少时间
+    [HideInInspector] public bool inCoolDown = false;//在不在技能冷却时间里面
+    [HideInInspector] public Hex[] allTiles;
 
     public float cooldownTime;//技能冷却时间
     public GameObject showTime;//冷却的时候有个文字来倒数时间

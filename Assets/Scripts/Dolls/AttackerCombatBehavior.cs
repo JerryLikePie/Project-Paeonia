@@ -10,6 +10,9 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
     public Vector3 flyEndCord;
     private DollsCombat context;
     private Queue<Hex> toCancelFog;
+    public float airSpeed;
+    private long timenow;
+    private float time;
 
     void Start()
     {
@@ -21,30 +24,30 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
     {
         if (context.supportTargetCord != null)
         {
+            context.thisUnit.EngineSound.volume = 1f;
             if (firstTime)
             {
-                context.Invoke("ResetCord", context.resetTime);
-                Invoke("backToBase", 30f);
+                context.Invoke("resetCord", context.resetTime);
+                float distance = Vector3.Distance(transform.position, context.supportTargetCord.position);
+                time = distance / airSpeed;
+                //transform.position = Vector3.Lerp(transform.position, flyEndCord, time);
                 firstTime = false;
             }
+            transform.position = Vector3.Lerp(transform.position, flyEndCord, Time.deltaTime / time);
             AirRecon(context);
-            Vector3 direction = flyEndCord - transform.position;
-            Vector3 velocity = direction.normalized;
-            velocity = Vector3.ClampMagnitude(velocity, 0.5f);
-            transform.Translate(velocity);
             if (transform.position.x > context.supportTargetCord.position.x - 20)
             {
-                try
+                for (int i = 0; i < context.enemy.Count; i++)
                 {
-                    for (int i = 1; i <= context.enemy.Count; i++)
+                    try
                     {
-                        if (Find_Distance(transform.gameObject, context.enemy[i].gameObject) <= 40)
+                        if (Find_Distance(transform.gameObject, context.enemy[i].gameObject) <= 50)
                         {
                             if (context.enemy[i].enemy.enemy_visible == true && context.enemy[i].gameObject.activeSelf)
                             {
                                 if (context.canFire)
                                 {
-                                    context.planeVelocity = velocity;
+                                    context.planeVelocity = 0.4f * (flyEndCord - transform.position).normalized;
                                     context.setEnemy = context.enemy[i];
                                     context.counter = 0;
                                     context.Attack();
@@ -53,18 +56,18 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
                             }
                         }
                     }
-                }
-                catch
-                {
+                    catch
+                    {
+
+                    }
                 }
             }
         }
-    }
-    void backToBase()
-    {
-        transform.position = airBase;
-        Vector3 velocity = new Vector3(0f,0f,0f);
-        transform.Translate(velocity);
+        else
+        {
+            context.thisUnit.EngineSound.volume = 0f;
+            transform.position = airBase;
+        }
     }
     public void AirRecon(DollsCombat context)
     {

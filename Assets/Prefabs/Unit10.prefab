@@ -625,7 +625,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78ef32e6dc602714e825a4727c308ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 0, y: 0, z: 0}
   hang: 1
   lie: 1
   tempHang: 0
@@ -635,6 +634,9 @@ MonoBehaviour:
   nextTileMovecost: 0
   timeStart: 0
   canBeSelected: 1
+  canMove: 0
+  tileSelectedGoldenHex: {fileID: 3052251377189052946, guid: 786bf4ec257dd4f4982dd43fc7a2d7b4,
+    type: 3}
   unitSelection: 0
   isMoving: 0
   ActionCDBar: {fileID: 536842292586463471}
@@ -643,7 +645,6 @@ MonoBehaviour:
   skillBox: {fileID: 8832351820180104458}
   unitInMoveCooldown: 0
   EngineSound: {fileID: 4006193671999296912}
-  canMove: 0
 --- !u!114 &7792257469145220921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,6 +704,9 @@ MonoBehaviour:
   combatBehaviour: {fileID: 956881101723511582}
   dolls: {fileID: 0}
   health: 0
+  accurancyBuff: 0
+  rangeBuff: 0
+  dodgeBuff: 0
   healthBar: {fileID: 536842294524252083}
   FullHealthNoHealth:
     serializedVersion: 2
@@ -733,52 +737,18 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  HealthTextWhite: {fileID: 2662789864676494548}
-  HealthTextBlack: {fileID: 7895756917969541001}
   enemiesList: {fileID: 0}
   dollsList: {fileID: 0}
   setEnemy: {fileID: 0}
   map: {fileID: 0}
   beingSpotted: 0
   supportTargetCord: {fileID: 0}
-  ToCancelFog:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   enemy: []
   dollsEntities:
   - {fileID: 3845774082876267792}
   - {fileID: 6223219462225899355}
   - {fileID: 6383218052539241312}
   crewNum: 0
-  height: 1
   bullet: {fileID: 7454840463464474591}
   Fire: {fileID: 4940044103798371628}
   Fire2: {fileID: 4940044103798371628}
@@ -787,9 +757,8 @@ MonoBehaviour:
   ReloadEnd: {fileID: 2711910354357590730}
   SkillSound: {fileID: 0}
   shotsInMag: 0
-  ReloadStartTime: 0
   LineofSight: {fileID: 0}
-  Skill: {fileID: 0}
+  planeVelocity: {x: 0, y: 0, z: 0}
   healthRestrictLine:
   - 0
   - 0
@@ -797,13 +766,13 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  thisUnit: {fileID: 0}
   canFire: 1
   counter: 0
   healthLevel: 0
+  height: 1
+  ReloadStartTime: 0
   resetTime: 5
-  accurancyBuff: 0
-  rangeBuff: 0
-  dodgeBuff: 0
 --- !u!114 &956881101723511582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -816,6 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbec60ef3d834d34eb76394a087837ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstTime: 1
 --- !u!1 &536842292918875990
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,8 +31,8 @@ public class Hex : MonoBehaviour
             MaskedColor = new Color(originalColor.r - 0.5f, originalColor.g - 0.5f, originalColor.b - 0.5f);
             HighlightColor = new Color(originalColor.r + 0.1f, originalColor.g + 0.5f, originalColor.b + 0.1f);
         }
-        if (FogOfWarDarken != null)
-            FogOfWarDarken.GetComponent<Renderer>().material.color = MaskedColor;
+        //if (FogOfWarDarken != null)
+            //FogOfWarDarken.GetComponent<Renderer>().material.color = MaskedColor;
     }
     void Update()
     {

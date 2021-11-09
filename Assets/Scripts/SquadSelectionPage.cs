@@ -98,7 +98,6 @@ public class SquadSelectionPage : MonoBehaviour
                         if (checkDoll.GetComponent<DollsProperty>().dolls_type == 0 || checkDoll.GetComponent<DollsProperty>().dolls_type == 1 || checkDoll.GetComponent<DollsProperty>().dolls_type == 2 || checkDoll.GetComponent<DollsProperty>().dolls_type == 3)
                         {
                             Vector2 parentPosition = new Vector2(checkDoll.transform.parent.localPosition.x, checkDoll.transform.parent.localPosition.y);
-                            //Debug.Log(parentPosition + "还有" + checkDoll.transform.parent.name);
                             checkDoll.transform.localPosition = new Vector2(currentSlot.transform.localPosition.x, currentSlot.transform.localPosition.y);
                             i++;
                             checkDoll.SetActive(true);
@@ -110,7 +109,6 @@ public class SquadSelectionPage : MonoBehaviour
                         if (checkDoll.GetComponent<DollsProperty>().dolls_type == 0 || checkDoll.GetComponent<DollsProperty>().dolls_type == 3)
                         {
                             Vector2 parentPosition = new Vector2(checkDoll.transform.parent.localPosition.x, checkDoll.transform.parent.localPosition.y);
-                            //Debug.Log(parentPosition+"还有"+ checkDoll.transform.parent.name);
                             checkDoll.transform.localPosition = new Vector2(currentSlot.transform.localPosition.x, currentSlot.transform.localPosition.y);
                             i++;
                             checkDoll.SetActive(true);

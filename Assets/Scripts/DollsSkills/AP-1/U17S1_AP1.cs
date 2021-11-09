@@ -7,7 +7,6 @@ public class U17S1_AP1 : IDollsSkillBehavior
     //¸´ÐËºÅ Õ¨µ¯
     public override void activateSkill(Transform location)
     {
-        Debug.Log(unit.name);
         inCoolDown = true;
         timeStart = System.DateTime.Now.Ticks;
         unit.supportTargetCord = location;
