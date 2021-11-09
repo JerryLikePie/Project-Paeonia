@@ -1,2 +1,22 @@
-# Project-Paeonia
-An anime-styled military RTS game I'm developing on since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms
+# 灰烬战线：九霄共和
+## Project-Paeonia
+An anime-styled military RTS-like game I'm developing on since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms
+
+## 关于游戏
+《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于类RTS，由一群网友从2021年5月开始制作。
+
+## 关于背景和设定
+( •̀ ω •́ )✧\
+娘化，都可以娘化\
+\
+本游戏起源于在百度贴吧中关于灰烬战线中系的讨论。在原游戏《灰烬战线》中，有不同的“学联”代表着现实中的不同国家。其中没有中系。在贴吧里关于中系的讨论中，大部分人都持有中系“无车可出”，“只有冷战后期才有自己的特色载具”的想法。\
+\
+作为一名热衷于老装备的《战争雷霆》老玩家，我认为这样的说法是不妥的。于是，《灰烬战线：九霄共和》应运而生了。一开始作为一个图文帖，科普（这应该不算科普吧）从“九一八”事变到内战结束这段时间内涌现出的中国本土载具，后来因为本人考入了计算机系，决定和画师联手将这些设定变为一个游戏，一定程度上也是锻炼自己的编程能力的同时向玩家进行科普。（但我好像找不到更好的词了）\
+\
+名字 *“九霄共和学联”* 来自于向网友征集的名字。原本想要设定为“九州”，但是据网友反馈对于这个名字的印象已经被日本的“九州”先入为主了，于是改为了“九霄”。\
+\
+因为原游戏《灰烬战线》的背景是二战时期的装备，本游戏内（将）主要涵盖从民国初期至共和国建立的中国本土装备，以及冷战初期乃至中期的二战水平的装备。
+
+## 关于游戏玩法
+
+## 关于授权
