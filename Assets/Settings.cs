@@ -10,7 +10,8 @@ public class Settings : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        bgm.volume = PlayerPrefs.GetFloat("BGM_volume", 1);
+        musicVolume.value = PlayerPrefs.GetFloat("BGM_volume", 1);
     }
 
     // Update is called once per frame
@@ -22,5 +23,7 @@ public class Settings : MonoBehaviour
     public void changeMusicVolume()
     {
         bgm.volume = musicVolume.value;
+        PlayerPrefs.SetFloat("BGM_volume", musicVolume.value);
+        PlayerPrefs.Save();
     }
 }
