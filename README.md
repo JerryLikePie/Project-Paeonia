@@ -36,6 +36,8 @@ An anime-styled military RTS-like game I'm developing on since May 2021 in colla
  - 现在玩家的信息可以被保存下来，例如上一次通关所得的星数
  - “复兴”甲的弹着点优化，攻击力提升，散布减少
  - 0.0.131：修复了一个小的导致空中支援无法找到敌军的bug
+ - 0.0.132：增加了新的BGM
+ - 0.0.133：试了一下新的UI
 
 ### 0.0.12
  - 增加了主页面和结算页面
