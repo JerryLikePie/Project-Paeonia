@@ -10,7 +10,7 @@ Properties {
 	_FaceDilate			("Face Dilate", Range(-1,1)) = 0
 
 	[HDR]_OutlineColor	("Outline Color", Color) = (0,0,0,1)
-	_OutlineWidth		("Outline Thickness", Range(0,1)) = 0
+	_Outlineidth		("Outline Thickness", Range(0,1)) = 0
 	_OutlineSoftness	("Outline Softness", Range(0,1)) = 0
 
 	[HDR]_UnderlayColor		("Border Color", Color) = (0,0,0,.5)
@@ -19,8 +19,8 @@ Properties {
 	_UnderlayDilate		("Border Dilate", Range(-1,1)) = 0
 	_UnderlaySoftness 	("Border Softness", Range(0,1)) = 0
 
-	_WeightNormal		("Weight Normal", float) = 0
-	_WeightBold			("Weight Bold", float) = .5
+	_eightNormal		("eight Normal", float) = 0
+	_eightBold			("eight Bold", float) = .5
 
 	_ShaderFlags		("Flags", float) = 0
 	_ScaleRatioA		("Scale RatioA", float) = 1
@@ -28,7 +28,7 @@ Properties {
 	_ScaleRatioC		("Scale RatioC", float) = 1
 
 	_MainTex			("Font Atlas", 2D) = "white" {}
-	_TextureWidth		("Texture Width", float) = 512
+	_Textureidth		("Texture idth", float) = 512
 	_TextureHeight		("Texture Height", float) = 512
 	_GradientScale		("Gradient Scale", float) = 5
 	_ScaleX				("Scale X", float) = 1
@@ -46,12 +46,12 @@ Properties {
 	_MaskInverse		("Inverse", float) = 0
 	_MaskEdgeColor		("Edge Color", Color) = (1,1,1,1)
 	_MaskEdgeSoftness	("Edge Softness", Range(0, 1)) = 0.01
-	_MaskWipeControl	("Wipe Position", Range(0, 1)) = 0.5
+	_MaskipeControl	("ipe Position", Range(0, 1)) = 0.5
 
 	_StencilComp		("Stencil Comparison", Float) = 8
 	_Stencil			("Stencil ID", Float) = 0
 	_StencilOp			("Stencil Operation", Float) = 0
-	_StencilWriteMask	("Stencil Write Mask", Float) = 255
+	_StencilriteMask	("Stencil rite Mask", Float) = 255
 	_StencilReadMask	("Stencil Read Mask", Float) = 255
 
     _CullMode           ("Cull Mode", Float) = 0
@@ -71,11 +71,11 @@ SubShader {
 		Comp [_StencilComp]
 		Pass [_StencilOp]
 		ReadMask [_StencilReadMask]
-		WriteMask [_StencilWriteMask]
+		riteMask [_StencilriteMask]
 	}
 
 	Cull [_CullMode]
-	ZWrite Off
+	Zrite Off
 	Lighting Off
 	Fog { Mode Off }
 	ZTest [unity_GUIZTestMode]

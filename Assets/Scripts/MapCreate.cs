@@ -15,7 +15,8 @@ public class MapCreate : MonoBehaviour
     public GameObject ObjectivePoint;
     public GameObject HomePoint;
     //public GameObject hexPrefab;
-    [SerializeField] int mapToLoad;
+    //string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "1");
+    string mapToLoad = "1";
     float zOffset = 8.65f;//无痕：8.65f，有：9f
     float xOffset = 17.31f;//无痕：17.31f，有：17.75f
     float hangOffset = 15f;//无痕：15f，有：15.35f
@@ -30,94 +31,92 @@ public class MapCreate : MonoBehaviour
     public float timeLimit;
     Hex RedPoint, BluePoint;
 
+    class MapInfo
+    {
+        public string[] mapTiles;
+    }
+
     public void SpawnGameMap()
     {
         timeStart = System.DateTime.Now.Ticks;
-        MapOverlayCreate overlay = gameObject.GetComponentInChildren<MapOverlayCreate>();
         //首先，生成地图本体
-        TextAsset textToMap = (TextAsset)Resources.Load("Map" + mapToLoad);
-        string[] mapFromText = textToMap.text.Trim().Split('\n');
-        TextAsset textToMapOverlay = (TextAsset)Resources.Load("MapOverlay" + mapToLoad);
-        string[] mapOverlayFromText = textToMapOverlay.text.Trim().Split('\n');
 
-        for (int i = 0; i < mapFromText.Length; i++)
+        TextAsset textToMapJson = (TextAsset)Resources.Load("Map" + mapToLoad + "_json");
+        MapInfo mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
+        Debug.Log(mapInfo);
+
+        for (int i = 0; i < mapInfo.mapTiles.Length; i++)
         {
-            for (int j = 0; j < mapFromText[i].Length - 1; j++)
+            for (int j = 0; j < mapInfo.mapTiles[i].Length - 1; j++)
             {
                 GameObject thisTile = tileTypes[7].tilePrefabType; //先默认为都生成虚空
-                if (mapFromText[i][j] == '0')//如果文件说这里是水
+                if (mapInfo.mapTiles[i][j] == '0')//如果文件说这里是水
                 {
                     thisTile = tileTypes[0].tilePrefabType;
                 }
-                else if (mapFromText[i][j] == '1')//如果文件说这里是草地
+                else if (mapInfo.mapTiles[i][j] == '1')//如果文件说这里是草地
                 {
                     thisTile = tileTypes[1].tilePrefabType;
                 }
-                else if (mapFromText[i][j] == '2')//如果文件说这里是沙地
+                else if (mapInfo.mapTiles[i][j] == '2')//如果文件说这里是沙地
                 {
                     thisTile = tileTypes[2].tilePrefabType;
                 }
-                else if (mapFromText[i][j] == '3')//如果文件说这里是沼泽
+                else if (mapInfo.mapTiles[i][j] == '3')//如果文件说这里是沼泽
                 {
                     thisTile = tileTypes[3].tilePrefabType;
                 }
-                else if (mapFromText[i][j] == '4')//如果文件说这里是树林
+                else if (mapInfo.mapTiles[i][j] == '4')//如果文件说这里是树林
                 {
                     thisTile = tileTypes[4].tilePrefabType;
                 }
-                else if (mapFromText[i][j] == '5')//如果文件说这里是高地
+                else if (mapInfo.mapTiles[i][j] == '5')//如果文件说这里是高地
                 {
                     thisTile = tileTypes[5].tilePrefabType;
                 }
-                else if (mapFromText[i][j] == '6')//如果文件说这里是山地
+                else if (mapInfo.mapTiles[i][j] == '6')//如果文件说这里是山地
                 {
                     thisTile = tileTypes[6].tilePrefabType;
                 }
-                else if (mapFromText[i][j] == 'B')//如果文件说这里是我方的家
+                else if (mapInfo.mapTiles[i][j] == 'B')//如果文件说这里是我方的家
                 {
                     thisTile = tileTypes[8].tilePrefabType;
                     homeHang = i;
                     homeLie = j;
+                    BluePoint = thisTile.GetComponent<Hex>();
+                    BluePoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
+                    HomePoint = thisTile;
                 }
-                else if (mapFromText[i][j] == 'R')//如果文件说这里是敌方的家
+                else if (mapInfo.mapTiles[i][j] == 'R')//如果文件说这里是敌方的家
                 {
                     thisTile = tileTypes[9].tilePrefabType;
+                    RedPoint = thisTile.GetComponent<Hex>();
+                    RedPoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
+                    ObjectivePoint = thisTile;
                 }
                 //虽然可以直接tileTypes[mapFromText[i][j]]但是因为要设定可到达还有移动点数，干脆全列出来算了
                 //有什么办法可以优化吗？
-                GameObject obj;
+                
                 if (i % 2 == 0)
                 {
-                    obj = Instantiate(thisTile, new Vector3(j * xOffset, 0, i * hangOffset), Quaternion.identity);
+                    thisTile = Instantiate(thisTile, new Vector3(j * xOffset, 0, i * hangOffset), Quaternion.identity);
                 }
                 else
                 {
-                    obj = Instantiate(thisTile, new Vector3((j * xOffset) - zOffset, 0, i * hangOffset), Quaternion.identity);
+                    thisTile = Instantiate(thisTile, new Vector3((j * xOffset) - zOffset, 0, i * hangOffset), Quaternion.identity);
                 }
                 //给这个地图命名
-                obj.name = "Map" + i + "_" + j;
+                thisTile.name = "Map" + i + "_" + j;
                 try
                 {
                     //但命名只是给我们看的，程序也要知道
-                    obj.GetComponent<Hex>().hang = i;
-                    obj.GetComponent<Hex>().lie = j;
-                    if (mapOverlayFromText[i][j] == 'R')
-                    {
-                        RedPoint = obj.GetComponent<Hex>();
-                        RedPoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
-                        ObjectivePoint = obj;
-                    }
-                    if (mapOverlayFromText[i][j] == 'B')
-                    {
-                        BluePoint = obj.GetComponent<Hex>();
-                        BluePoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
-                        HomePoint = obj;
-                    }
+                    thisTile.GetComponent<Hex>().hang = i;
+                    thisTile.GetComponent<Hex>().lie = j;
                 }
                 catch
                 { continue; }
                 //把所有地图块都装入一个地图文件夹里面
-                obj.transform.parent = this.gameObject.transform;
+                thisTile.transform.parent = this.gameObject.transform;
             }
         }
         InitialMapVision(homeHang, homeLie);

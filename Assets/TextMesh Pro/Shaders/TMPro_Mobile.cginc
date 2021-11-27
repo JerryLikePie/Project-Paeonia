@@ -43,7 +43,7 @@ pixel_t VertShader(vertex_t input)
 
     float4 vPosition = UnityObjectToClipPos(vert);
 
-    float weight = lerp(_WeightNormal, _WeightBold, bold) / 4.0;
+    float weight = lerp(_eightNormal, _eightBold, bold) / 4.0;
     weight = (weight + _FaceDilate) * _ScaleRatioA * 0.5;
 
     // Generate UV for the Masking Texture
@@ -71,7 +71,7 @@ pixel_t VertShader(vertex_t input)
     output.faceColor = faceColor;
     output.outlineColor = outlineColor;
     output.texcoord0 = float4(input.texcoord0.xy, maskUV.xy);
-    output.param = float4(0.5 - weight, 1.3333 * _GradientScale * (_Sharpness + 1) / _TextureWidth, _OutlineWidth * _ScaleRatioA * 0.5, 0);
+    output.param = float4(0.5 - weight, 1.3333 * _GradientScale * (_Sharpness + 1) / _Textureidth, _Outlineidth * _ScaleRatioA * 0.5, 0);
 
     float2 mask = float2(0, 0);
     #if UNITY_UI_CLIP_RECT
@@ -83,7 +83,7 @@ pixel_t VertShader(vertex_t input)
     float4 underlayColor = _UnderlayColor;
     underlayColor.rgb *= underlayColor.a;
 
-    float x = -(_UnderlayOffsetX * _ScaleRatioC) * _GradientScale / _TextureWidth;
+    float x = -(_UnderlayOffsetX * _ScaleRatioC) * _GradientScale / _Textureidth;
     float y = -(_UnderlayOffsetY * _ScaleRatioC) * _GradientScale / _TextureHeight;
 
     output.texcoord2 = float4(input.texcoord0 + float2(x, y), input.color.a, 0);
@@ -132,7 +132,7 @@ float4 PixShader(pixel_t input) : SV_Target
 
     #ifdef MASKING
     float a = abs(_MaskInverse - tex2D(_MaskTex, input.texcoord0.zw).a);
-    float t = a + (1 - _MaskWipeControl) * _MaskEdgeSoftness - _MaskWipeControl;
+    float t = a + (1 - _MaskipeControl) * _MaskEdgeSoftness - _MaskipeControl;
     a = saturate(t / _MaskEdgeSoftness);
     faceColor.rgb = lerp(_MaskEdgeColor.rgb * faceColor.a, faceColor.rgb, a);
     faceColor *= a;
@@ -140,8 +140,8 @@ float4 PixShader(pixel_t input) : SV_Target
 
     // Alternative implementation to UnityGet2DClipping with support for softness
     #if UNITY_UI_CLIP_RECT
-    float2 maskZW = 0.25 / (0.25 * half2(_MaskSoftnessX, _MaskSoftnessY) + (1 / scale));
-    float2 m = saturate((_ClipRect.zw - _ClipRect.xy - abs(input.mask.xy)) * maskZW);
+    float2 maskZ = 0.25 / (0.25 * half2(_MaskSoftnessX, _MaskSoftnessY) + (1 / scale));
+    float2 m = saturate((_ClipRect.zw - _ClipRect.xy - abs(input.mask.xy)) * maskZ);
     faceColor *= m.x * m.y;
     #endif
 

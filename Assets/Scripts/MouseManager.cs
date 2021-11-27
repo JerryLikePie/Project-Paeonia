@@ -295,7 +295,7 @@ public class MouseManager : MonoBehaviour
     }
     public void UpdateMap(Unit selectedUnit)
     {
-        //selectedUnit.GetComponent<DollsCombat>().FogOfWar();
+        //selectedUnit.GetComponent<DollsCombat>().FogOfar();
     }
     void MouseClickUnit(GameObject targetObject)
     {

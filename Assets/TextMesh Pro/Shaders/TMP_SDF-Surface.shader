@@ -11,12 +11,12 @@ Properties {
 	_OutlineTex			("Outline Texture", 2D) = "white" {}
 	_OutlineUVSpeedX	("Outline UV Speed X", Range(-5, 5)) = 0.0
 	_OutlineUVSpeedY	("Outline UV Speed Y", Range(-5, 5)) = 0.0
-	_OutlineWidth		("Outline Thickness", Range(0, 1)) = 0
+	_Outlineidth		("Outline Thickness", Range(0, 1)) = 0
 	_OutlineSoftness	("Outline Softness", Range(0,1)) = 0
 
 	_Bevel				("Bevel", Range(0,1)) = 0.5
 	_BevelOffset		("Bevel Offset", Range(-0.5,0.5)) = 0
-	_BevelWidth			("Bevel Width", Range(-.5,0.5)) = 0
+	_Bevelidth			("Bevel idth", Range(-.5,0.5)) = 0
 	_BevelClamp			("Bevel Clamp", Range(0,1)) = 0
 	_BevelRoundness		("Bevel Roundness", Range(0,1)) = 0
 
@@ -39,8 +39,8 @@ Properties {
 	_GlowOuter			("Outer", Range(0,1)) = 0.05
 	_GlowPower			("Falloff", Range(1, 0)) = 0.75
 
-	_WeightNormal		("Weight Normal", float) = 0
-	_WeightBold			("Weight Bold", float) = 0.5
+	_eightNormal		("eight Normal", float) = 0
+	_eightBold			("eight Bold", float) = 0.5
 
 	// Should not be directly exposed to the user
 	_ShaderFlags		("Flags", float) = 0
@@ -49,7 +49,7 @@ Properties {
 	_ScaleRatioC		("Scale RatioC", float) = 1
 
 	_MainTex			("Font Atlas", 2D) = "white" {}
-	_TextureWidth		("Texture Width", float) = 512
+	_Textureidth		("Texture idth", float) = 512
 	_TextureHeight		("Texture Height", float) = 512
 	_GradientScale		("Gradient Scale", float) = 5.0
 	_ScaleX				("Scale X", float) = 1.0
@@ -75,7 +75,7 @@ SubShader {
 	CGPROGRAM
 	#pragma surface PixShader BlinnPhong alpha:blend vertex:VertShader nolightmap nodirlightmap
 	#pragma target 3.0
-	#pragma shader_feature __ GLOW_ON
+	#pragma shader_feature __ GLO_ON
 	#pragma glsl
 
 	#include "TMPro_Properties.cginc"
@@ -90,7 +90,7 @@ SubShader {
 		float2	uv_MainTex;
 		float2	uv2_FaceTex;
 		float2  uv2_OutlineTex;
-		float2	param;						// Weight, Scale
+		float2	param;						// eight, Scale
 		float3	viewDirEnv;
 	};
 
@@ -108,7 +108,7 @@ SubShader {
 		Offset 1, 1
 
 		Fog {Mode Off}
-		ZWrite On
+		Zrite On
 		ZTest LEqual
 		Cull Off
 
@@ -119,7 +119,7 @@ SubShader {
 		#include "UnityCG.cginc"
 
 		struct v2f {
-			V2F_SHADOW_CASTER;
+			V2F_SHADO_CASTER;
 			float2	uv			: TEXCOORD1;
 			float2	uv2			: TEXCOORD3;
 			float	alphaClip	: TEXCOORD2;
@@ -127,17 +127,17 @@ SubShader {
 
 		uniform float4 _MainTex_ST;
 		uniform float4 _OutlineTex_ST;
-		float _OutlineWidth;
+		float _Outlineidth;
 		float _FaceDilate;
 		float _ScaleRatioA;
 
 		v2f vert( appdata_base v )
 		{
 			v2f o;
-			TRANSFER_SHADOW_CASTER(o)
+			TRANSFER_SHADO_CASTER(o)
 			o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 			o.uv2 = TRANSFORM_TEX(v.texcoord, _OutlineTex);
-			o.alphaClip = (1.0 - _OutlineWidth * _ScaleRatioA - _FaceDilate * _ScaleRatioA) / 2;
+			o.alphaClip = (1.0 - _Outlineidth * _ScaleRatioA - _FaceDilate * _ScaleRatioA) / 2;
 			return o;
 		}
 
@@ -147,7 +147,7 @@ SubShader {
 		{
 			fixed4 texcol = tex2D(_MainTex, i.uv).a;
 			clip(texcol.a - i.alphaClip);
-			SHADOW_CASTER_FRAGMENT(i)
+			SHADO_CASTER_FRAGMENT(i)
 		}
 		ENDCG
 	}

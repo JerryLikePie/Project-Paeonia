@@ -8,8 +8,8 @@ public class ClickAndMove : MonoBehaviour
     public bool TimeToGoUp;
     public bool isUp = false, isDown = false;
     public bool TimeToGoDown;
-    public Vector3 WhereIsUp;
-    public Vector3 WhereIsDown;
+    public Vector3 hereIsUp;
+    public Vector3 hereIsDown;
     void Start()
     {
         NextPos = transform.localPosition;
@@ -19,12 +19,12 @@ public class ClickAndMove : MonoBehaviour
         //transform.Translate(Vector3.up * 30 * Time.deltaTime);
         if (TimeToGoUp)
         {
-            NextPos = WhereIsUp;
+            NextPos = hereIsUp;
             TimeToGoUp = false;
         }
         if (TimeToGoDown)
         {
-            NextPos = WhereIsDown;
+            NextPos = hereIsDown;
             TimeToGoDown = false;
         }
         transform.localPosition = Vector3.Lerp(transform.localPosition, NextPos, 20.0f * Time.deltaTime);
@@ -39,9 +39,9 @@ public class ClickAndMove : MonoBehaviour
     }
     public void ClickToSwitch()
     {
-        if (Vector3.Distance(transform.localPosition, WhereIsDown) < 1)
+        if (Vector3.Distance(transform.localPosition, hereIsDown) < 1)
             isDown = true;
-        else if (Vector3.Distance(transform.localPosition, WhereIsUp) < 1)
+        else if (Vector3.Distance(transform.localPosition, hereIsUp) < 1)
             isUp = true;
         if (isUp)
         {
