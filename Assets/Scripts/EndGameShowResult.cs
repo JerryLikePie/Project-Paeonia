@@ -75,36 +75,36 @@ public class EndGameShowResult : MonoBehaviour
     }
     void Final()
     {
-        int previousRun = PlayerPrefs.GetInt("Stars_2_1", 0);
+        int previousRun = PlayerPrefs.GetInt(Scores.stageName, 0);
         if (howManyStars > previousRun)
         {
-            PlayerPrefs.SetInt("Stars_2_1", howManyStars);
+            PlayerPrefs.SetInt(Scores.stageName, howManyStars);
             PlayerPrefs.Save();
         }
         if (Scores.friendlyBaseCaptured)
         {
             EndScore.GetComponent<Text>().text = "作战失败";
-            EndWords.GetComponent<Text>().text = "灾兽正在逼近前哨指挥所，请立即撤退。";
+            //EndWords.GetComponent<Text>().text = "灾兽正在逼近前哨指挥所，请立即撤退。";
         }
         else if (howManyStars == 1)
         {
             EndScore.GetComponent<Text>().text = "作战成功";
-            EndWords.GetComponent<Text>().text = "虽然占领了该地区，但还不能休息。";
+            //EndWords.GetComponent<Text>().text = "虽然占领了该地区，但还不能休息。";
         }
         else if (howManyStars == 2)
         {
             EndScore.GetComponent<Text>().text = "作战成功";
-            EndWords.GetComponent<Text>().text = "基本完成了作战目标，辛苦了。";
+            //EndWords.GetComponent<Text>().text = "基本完成了作战目标，辛苦了。";
         }
         else if (howManyStars == 3)
         {
             EndScore.GetComponent<Text>().text = "作战成功";
-            EndWords.GetComponent<Text>().text = "完美完成了作战目标，可喜可贺。";
+            //EndWords.GetComponent<Text>().text = "完美完成了作战目标，可喜可贺。";
         }
         else if (howManyStars > 3)
         {
             EndScore.GetComponent<Text>().text = "作战大成功";
-            EndWords.GetComponent<Text>().text = "听闻有个代理人成天带着队伍打胜仗，你不会就是他吧？";
+            //EndWords.GetComponent<Text>().text = "听闻有个代理人成天带着队伍打胜仗，你不会就是他吧？";
         }
     }
 }

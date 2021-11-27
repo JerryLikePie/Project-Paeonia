@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public GameObject[] rating;
-    public string stageName;
     public string enteringStage;
     public string previousStage;
     private void Start()
@@ -15,7 +14,7 @@ public class MainMenu : MonoBehaviour
     }
     public void ToGame()
     {
-        PlayerPrefs.SetString("Stage_You_Should_Load", stageName);
+        PlayerPrefs.SetString("Stage_You_Should_Load", enteringStage);
         SceneManager.LoadScene("Game1");
     }
     public void ToMainMenu()
@@ -34,7 +33,7 @@ public class MainMenu : MonoBehaviour
     {
         try
         {
-            int howManyStars = PlayerPrefs.GetInt(stageName, 0);
+            int howManyStars = PlayerPrefs.GetInt(enteringStage, 0);
             for (int i = 0; i < howManyStars; i++)
             {
                 rating[i].SetActive(true);
@@ -42,7 +41,6 @@ public class MainMenu : MonoBehaviour
             gameObject.SetActive(false);
             if (previousStage == "none")
             {
-                
                 gameObject.SetActive(true);
             }
             else

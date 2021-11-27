@@ -31,6 +31,7 @@ public class ClickAndMove : MonoBehaviour
     }
     public void Going_Up()
     {
+        Debug.Log("Œ“≥¨");
         TimeToGoUp = true;
     }
     public void Going_Down()

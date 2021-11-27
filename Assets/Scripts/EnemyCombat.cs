@@ -17,9 +17,11 @@ public class EnemyCombat : MonoBehaviour
     public GameObject dollsList;
     DollsCombat dolls = new DollsCombat(), setDolls;
     bool canFire = true;
-    public Hex targetHex;
+    public Queue<Hex> targetHex;
+    public Queue<int> moveWaitTime;
+    int nextWaitTime;
     public GameObject toHideTheEnemy;
-    public int height = 1;
+    int height = 1;
     Vector3 destination;
 
     public UnitEntity[] enemyEntities;
@@ -34,6 +36,7 @@ public class EnemyCombat : MonoBehaviour
     bool isFiring = false;
     public bool canMove;
     int counter;
+    public int moveSpeedWaitTime;
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +48,12 @@ public class EnemyCombat : MonoBehaviour
         dodge = enemy.enemy_dodge;
         shotsInMag = enemy.enemy_mag;
         if (canMove)
-            Invoke("Move", Random.Range(1f, 30f));
+        {
+            if (targetHex.Count != 0 && moveWaitTime.Count != 0)
+            {
+                Invoke("Move", moveWaitTime.Dequeue());
+            }
+        }
         ScanMap();
         healthLevel = crewNum - 1;
         destination = transform.position;
@@ -68,42 +76,62 @@ public class EnemyCombat : MonoBehaviour
     }
     void Move()
     {
-        float lastDistance = 9999f;
-        Hex closestOne = map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>(); ;
-        int[] change_hang = { 0, 1, 1, 0, -1, -1 };
-        int[] change_lie = { 1, 1, 0, -1 , 0, 1,
+        Hex nextTarget = targetHex.Dequeue();
+        while (true)
+        {
+            float lastDistance = 9999f;
+            Hex closestOne = map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>();
+            if (closestOne == nextTarget)
+            {
+                break;
+            }
+            int[] change_hang = { 0, 1, 1, 0, -1, -1 };
+            int[] change_lie = { 1, 1, 0, -1 , 0, 1,
                        1, 0, -1, -1, - 1, 0 };//分奇偶层，当前坐标的“六个可能的下个坐标”
-        for (int i = 0; i < 6; i++)
-        {
-            Hex nextHex;
-            if (hang % 2 == 0)
-            {
-                nextHex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i])).transform.GetComponent<Hex>();
-            }
-            else
-            {
-                nextHex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i + 6])).transform.GetComponent<Hex>();
-            }
-            float distance = Find_Distance(nextHex.gameObject, targetHex.gameObject);
-            if (distance <= lastDistance && !nextHex.haveEnemy && !nextHex.haveUnit && nextHex.reachable)
-            {
-                lastDistance = distance;
-                closestOne = nextHex;
-            }
-        }
-        map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>().haveEnemy = false;
-        if (gameObject.activeSelf)
-        {
-            DeScanMap();
-            closestOne.haveEnemy = true;
-            destination = closestOne.transform.position;
-            firstTime = false;
-            hang = closestOne.hang; lie = closestOne.lie; height = closestOne.height;
-            dodge = enemy.enemy_dodge + closestOne.dodgeBuff;
-            rangeBuff = closestOne.rangeBuff;
-            Invoke("Move", enemy.enemy_moveTime + Random.Range(-6f, 10f));
-        }
             
+            for (int i = 0; i < 6; i++)
+            {
+                Hex nextHex;
+                try
+                {
+                    if (hang % 2 == 0)
+                    {
+                        nextHex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i])).transform.GetComponent<Hex>();
+                    }
+                    else
+                    {
+                        nextHex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i + 6])).transform.GetComponent<Hex>();
+                    }
+                    float distance = Find_Distance(nextHex.gameObject, nextTarget.gameObject);
+                    if (distance <= lastDistance && !nextHex.haveEnemy && !nextHex.haveUnit && nextHex.reachable)
+                    {
+                        lastDistance = distance;
+                        closestOne = nextHex;
+                    }
+                }
+                catch { }
+            }
+            if (gameObject.activeSelf)
+            {
+                map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>().haveEnemy = false;
+                DeScanMap();
+                destination = closestOne.transform.position;
+                closestOne.haveEnemy = true;
+                firstTime = false;
+                hang = closestOne.hang; lie = closestOne.lie; height = closestOne.height;
+                dodge = enemy.enemy_dodge + closestOne.dodgeBuff;
+                rangeBuff = closestOne.rangeBuff;
+                StartCoroutine(smallMove());
+            }
+        }
+        if (targetHex.Count != 0)
+        {
+            Invoke("Move", moveWaitTime.Dequeue());
+        }
+    }
+    IEnumerator smallMove()
+    {
+        yield return new WaitForSeconds(moveSpeedWaitTime);
     }
     void MoveToDestination()
     {
@@ -196,6 +224,7 @@ public class EnemyCombat : MonoBehaviour
         shot.firstImpact = true;
         counter++;
     }
+    
     IEnumerator SetInActiveAfterFire()
     {
         yield return new WaitForSeconds(1f);

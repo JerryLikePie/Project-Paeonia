@@ -206,6 +206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
   health: 0
+  dodge: 0
+  rangeBuff: 0
   healthBar: {fileID: 4951395500206748569}
   FullHealthNoHealth:
     serializedVersion: 2
@@ -240,10 +242,9 @@ MonoBehaviour:
   lie: 0
   map: {fileID: 0}
   dollsList: {fileID: 0}
-  targetHex: {fileID: 0}
   toHideTheEnemy: {fileID: 4951395500566556863}
-  height: 1
-  enemyEntities: []
+  enemyEntities:
+  - {fileID: 0}
   crewNum: 1
   healthRestrictLine:
   - 0
@@ -256,6 +257,7 @@ MonoBehaviour:
   shotsInMag: 0
   bullet: {fileID: 0}
   canMove: 0
+  moveSpeedWaitTime: 999
 --- !u!114 &4951395499524743747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,22 +274,22 @@ MonoBehaviour:
   enemy_id: 1
   enemy_type: 1
   enemy_range: 0
-  enemy_max_hp: 350
+  enemy_max_hp: 5000
   enemy_damage_recieved_multiplier:
   - 1
   - 1
   - 1
   - 1
   enemy_penetration: 50
-  enemy_sts_attack: 15
+  enemy_sts_attack: 0
   enemy_ata_attack: 0
   enemy_sta_attack: 0
   enemy_ats_attack: 0
-  enemy_accuracy: 100
-  enemy_dodge: 100
+  enemy_accuracy: 0
+  enemy_dodge: 0
   enemy_reload: 5
   enemy_firerate: 0
-  enemy_armor_front: 15
+  enemy_armor_front: 0
   enemy_armor_side: 0
   enemy_armor_back: 0
   enemy_damage_multiplier: 1

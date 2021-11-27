@@ -14,13 +14,9 @@ public class MapCreate : MonoBehaviour
     public GameObject[] Skills;
     public GameObject ObjectivePoint;
     public GameObject HomePoint;
-    //public GameObject hexPrefab;
-    //string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "1");
-    string mapToLoad = "1";
     float zOffset = 8.65f;//无痕：8.65f，有：9f
     float xOffset = 17.31f;//无痕：17.31f，有：17.75f
     float hangOffset = 15f;//无痕：15f，有：15.35f
-    // Start is called before the first frame update
     public GameObject enemyList;
     public GameObject unitList;
     int homeHang = 0;
@@ -30,21 +26,31 @@ public class MapCreate : MonoBehaviour
     long timeStart;
     public float timeLimit;
     Hex RedPoint, BluePoint;
-
+    class enemySpawnPoints
+    {
+        public int spawnType;
+        public string spawnTile;
+        public int spawnTime;
+        public string[] nextTile;
+        public int[] waitTime;
+    }
     class MapInfo
     {
         public string[] mapTiles;
+        //public enemySpawnPoints[] enemySpawnPoints;
+        public int timeLimit;
     }
+    MapInfo mapInfo;
 
     public void SpawnGameMap()
     {
         timeStart = System.DateTime.Now.Ticks;
         //首先，生成地图本体
-
-        TextAsset textToMapJson = (TextAsset)Resources.Load("Map" + mapToLoad + "_json");
-        MapInfo mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
-        Debug.Log(mapInfo);
-
+        string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_2-1");
+        Debug.Log(mapToLoad);
+        TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
+        mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
+        timeLimit = mapInfo.timeLimit;
         for (int i = 0; i < mapInfo.mapTiles.Length; i++)
         {
             for (int j = 0; j < mapInfo.mapTiles[i].Length - 1; j++)
@@ -83,16 +89,10 @@ public class MapCreate : MonoBehaviour
                     thisTile = tileTypes[8].tilePrefabType;
                     homeHang = i;
                     homeLie = j;
-                    BluePoint = thisTile.GetComponent<Hex>();
-                    BluePoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
-                    HomePoint = thisTile;
                 }
                 else if (mapInfo.mapTiles[i][j] == 'R')//如果文件说这里是敌方的家
                 {
                     thisTile = tileTypes[9].tilePrefabType;
-                    RedPoint = thisTile.GetComponent<Hex>();
-                    RedPoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
-                    ObjectivePoint = thisTile;
                 }
                 //虽然可以直接tileTypes[mapFromText[i][j]]但是因为要设定可到达还有移动点数，干脆全列出来算了
                 //有什么办法可以优化吗？
@@ -112,6 +112,18 @@ public class MapCreate : MonoBehaviour
                     //但命名只是给我们看的，程序也要知道
                     thisTile.GetComponent<Hex>().hang = i;
                     thisTile.GetComponent<Hex>().lie = j;
+                    if (mapInfo.mapTiles[i][j] == 'R')
+                    {
+                        RedPoint = thisTile.GetComponent<Hex>();
+                        RedPoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
+                        ObjectivePoint = thisTile;
+                    }
+                    if (mapInfo.mapTiles[i][j] == 'B')
+                    {
+                        BluePoint = thisTile.GetComponent<Hex>();
+                        BluePoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
+                        HomePoint = thisTile;
+                    }
                 }
                 catch
                 { continue; }
@@ -120,48 +132,30 @@ public class MapCreate : MonoBehaviour
             }
         }
         InitialMapVision(homeHang, homeLie);
-        SpawnTheEnemy("Map5_8");
-        SpawnTheEnemy("Map6_10");
-        SpawnTheEnemy("Map7_10");
-        SpawnTheEnemy("Map6_11");
-        SpawnTheEnemy("Map6_9");
-        SpawnTheEnemy("Map7_12");
-        SpawnTheEnemy("Map9_12");
-        SpawnTheEnemy("Map1_12");
-        SpawnTheEnemy("Map10_12");
-        //SpawnTheEnemy("Map9_13");
         SpawnTheUnits(homeHang, homeLie);
-        //StartCoroutine(SecondWave());
+        //SpawnTheEnemy();
     }
     void Start()
     {
         Score = ScoreManager.GetComponent<ScoreManager>();
         Score.Initialize();
-    }
-    IEnumerator SecondWave()
-    {
-        yield return new WaitForSeconds(60f);
-        //SpawnTheEnemy("Map12_2");
-        //SpawnTheEnemy("Map8_10");
-        //SpawnTheEnemy("Map8_8");
-        //SpawnTheEnemy("Map9_13");
-        //SpawnTheEnemy("Map10_12");
-        //SpawnTheEnemy("Map11_11");
-        //SpawnTheEnemy("Map12_9");
+        Score.stageName = PlayerPrefs.GetString("Stage_You_Should_Load", null);
     }
     // Update is called once per frame
     void Update()
     {
         if (ObjectivePoint != null && RedPoint.haveUnit == true)
         {
+            Debug.Log("明明已经结束了你怎么不跳转呢？？？");
             Score.enemyBaseCaptured = true;
             Score.CapturedEnemyPoints();
-            Invoke("GameEnd", 3f);
+            Invoke("GameEnd", 2);
+            GameEnd();
         }
         if (HomePoint != null && BluePoint.haveEnemy == true)
         {
             Score.friendlyBaseCaptured = true;
-            Invoke("GameEnd", 3f);
+            Invoke("GameEnd", 2);
         }
     }
     void GameEnd()
@@ -236,19 +230,34 @@ public class MapCreate : MonoBehaviour
         }
         gameInitial.gameObject.SetActive(false);
     }
-    public void SpawnTheEnemy(string map)
+    /*
+    public void SpawnTheEnemy()
     {
-        Score.totalEnemy += 1;
-        GameObject spawnedEnemy;
-        GameObject tiletoSpawn = GameObject.Find(map);
-        Hex Hex = tiletoSpawn.GetComponent<Hex>();
-        spawnedEnemy = Instantiate(spawnEnemy[(int)Random.Range(0f,1.5f)].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
-        spawnedEnemy.GetComponent<EnemyCombat>().hang = Hex.hang;
-        spawnedEnemy.GetComponent<EnemyCombat>().lie = Hex.lie;
-        spawnedEnemy.GetComponent<EnemyCombat>().map = gameObject;
-        spawnedEnemy.GetComponent<EnemyCombat>().dollsList = unitList;
-        spawnedEnemy.GetComponent<EnemyCombat>().targetHex = GameObject.Find("Map" + homeHang + "_" + homeLie).GetComponent<Hex>();
-        spawnedEnemy.transform.parent = enemyList.transform;
-        Hex.haveEnemy = true;
+        if (mapInfo.enemySpawnPoints != null)
+        {
+            for (int i = 0; i < mapInfo.enemySpawnPoints.Length; i++)
+            {
+                Score.totalEnemy += 1;
+                GameObject spawnedEnemy;
+                GameObject tiletoSpawn = GameObject.Find(mapInfo.enemySpawnPoints[i].spawnTile);
+                Hex Hex = tiletoSpawn.GetComponent<Hex>();
+                spawnedEnemy = Instantiate(spawnEnemy[mapInfo.enemySpawnPoints[i].spawnType].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
+                EnemyCombat thisEnemy = spawnedEnemy.GetComponent<EnemyCombat>();
+                thisEnemy.hang = Hex.hang;
+                thisEnemy.lie = Hex.lie;
+                thisEnemy.map = gameObject;
+                thisEnemy.dollsList = unitList;
+                thisEnemy.targetHex = new Queue<Hex>();
+                thisEnemy.moveWaitTime = new Queue<int>();
+                for (int j = 0; j < mapInfo.enemySpawnPoints[i].nextTile.Length; j++)
+                {
+                    thisEnemy.targetHex.Enqueue(GameObject.Find(mapInfo.enemySpawnPoints[i].nextTile[j]).GetComponent<Hex>());
+                    thisEnemy.moveWaitTime.Enqueue(mapInfo.enemySpawnPoints[i].waitTime[j]);
+                }
+                spawnedEnemy.transform.parent = enemyList.transform;
+                Hex.haveEnemy = true;
+            }
+        }
     }
+    */
 }

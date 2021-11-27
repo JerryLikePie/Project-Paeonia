@@ -566,9 +566,7 @@ MonoBehaviour:
   lie: 0
   map: {fileID: 0}
   dollsList: {fileID: 0}
-  targetHex: {fileID: 0}
   toHideTheEnemy: {fileID: 4951395500566556863}
-  height: 1
   enemyEntities:
   - {fileID: 4652926741915323562}
   crewNum: 1
@@ -583,6 +581,7 @@ MonoBehaviour:
   shotsInMag: 0
   bullet: {fileID: 2012459107164196893}
   canMove: 1
+  moveSpeedWaitTime: 8
 --- !u!114 &4951395499524743747
 MonoBehaviour:
   m_ObjectHideFlags: 0

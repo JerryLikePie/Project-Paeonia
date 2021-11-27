@@ -10,6 +10,7 @@ public class ScoreManager : MonoBehaviour
     public GameObject enemyList;
     public GameObject friendlyList;
     public bool captureObjective, noDeath, allDestroyed, inTime;
+    public string stageName;
     // Start is called before the first frame update
     private void Awake()
     {

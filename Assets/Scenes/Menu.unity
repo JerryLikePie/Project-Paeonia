@@ -184,9 +184,8 @@ MonoBehaviour:
   - {fileID: 1472291531}
   - {fileID: 1206882576}
   - {fileID: 182636100}
-  stageName: Training_1_2
   enteringStage: Map_T1-2
-  previousStage: Training_1_1
+  previousStage: Map_T1-1
 --- !u!114 &922510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +229,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 922511}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 922509}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ToGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &922511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1281,7 +1292,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 213106605}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 757240805}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &213106605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2927,7 +2950,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &590080981
 GameObject:
@@ -3123,7 +3146,6 @@ MonoBehaviour:
   - {fileID: 1786199331}
   - {fileID: 1022225107}
   - {fileID: 2085778991}
-  stageName: Training_1_1
   enteringStage: Map_T1-1
   previousStage: none
 --- !u!114 &640860581
@@ -4210,7 +4232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &757240806
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4313,7 +4335,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &784344433
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5332,9 +5354,8 @@ MonoBehaviour:
   - {fileID: 1420594482}
   - {fileID: 689369882}
   - {fileID: 1347139715}
-  stageName: Training_1_3
   enteringStage: Map_T1-3
-  previousStage: Training_1_2
+  previousStage: Map_T1-2
 --- !u!114 &964663111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6124,7 +6145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1132167386
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6413,7 +6434,6 @@ GameObject:
   - component: {fileID: 1189850504}
   - component: {fileID: 1189850503}
   - component: {fileID: 1189850502}
-  - component: {fileID: 1189850501}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -6440,22 +6460,6 @@ RectTransform:
   m_AnchoredPosition: {x: 122, y: -100}
   m_SizeDelta: {x: 261.34998, y: 111.21002}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1189850501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1189850499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ce6fd33b4c3d34697f405342baf03a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rating: []
-  stageName: 
-  enteringStage: 
-  previousStage: 
 --- !u!114 &1189850502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6960,7 +6964,7 @@ Transform:
   - {fileID: 1606546418}
   - {fileID: 757240806}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1273973228
 MonoBehaviour:
@@ -8883,7 +8887,6 @@ GameObject:
   - component: {fileID: 1602158571}
   - component: {fileID: 1602158570}
   - component: {fileID: 1602158569}
-  - component: {fileID: 1602158568}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -8911,22 +8914,6 @@ RectTransform:
   m_AnchoredPosition: {x: 196.88, y: 9.81}
   m_SizeDelta: {x: 261.35, y: 111.21}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1602158568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1602158566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ce6fd33b4c3d34697f405342baf03a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rating: []
-  stageName: 
-  enteringStage: 
-  previousStage: 
 --- !u!114 &1602158569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11137,7 +11124,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1946671024}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: stage2_1
         m_Mode: 1
@@ -11199,7 +11186,6 @@ GameObject:
   - component: {fileID: 1946671023}
   - component: {fileID: 1946671022}
   - component: {fileID: 1946671021}
-  - component: {fileID: 1946671024}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -11307,26 +11293,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1946671024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1946671019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ce6fd33b4c3d34697f405342baf03a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rating:
-  - {fileID: 1902693125}
-  - {fileID: 1625185559}
-  - {fileID: 891675165}
-  - {fileID: 1714187772}
-  stageName: 
-  enteringStage: 
-  previousStage: 
 --- !u!1 &1952450249
 GameObject:
   m_ObjectHideFlags: 0
@@ -11470,7 +11436,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1985543455
 GameObject:
@@ -11554,7 +11520,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1946671024}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: QuitTheGame
         m_Mode: 1
