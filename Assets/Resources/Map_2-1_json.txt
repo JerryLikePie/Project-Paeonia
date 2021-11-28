@@ -21,7 +21,7 @@
 			"spawnType": 1,
 			"spawnTile": "Map5_8",
 			"spawnTime": 0,
-			"nextTile": ["Map5_3", "Map3_3", "Map1_2"],
+			"nextTile": ["Map5_3", "Map3_3", "Map2_3"],
 			"waitTime": [25, 10, 13]
 		},
 		{
@@ -35,7 +35,7 @@
 			"spawnType": 1,
 			"spawnTile": "Map7_9",
 			"spawnTime": 0,
-			"nextTile": ["Map7_4", "Map4_4", "Map1_4", "Map1_2"],
+			"nextTile": ["Map7_6", "Map4_6", "Map4_3", "Map2_3"],
 			"waitTime": [10, 10, 0, 5]
 		}
 	],

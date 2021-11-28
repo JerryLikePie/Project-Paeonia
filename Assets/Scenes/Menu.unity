@@ -2345,7 +2345,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446820690}
   m_LocalRotation: {x: 0, y: 0, z: 0.12334171, w: 0.9923643}
-  m_LocalPosition: {x: 153, y: -41.300003, z: -24.4}
+  m_LocalPosition: {x: 177, y: -47, z: -80}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 1902693126}
@@ -3956,7 +3956,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 702405770}
   m_LocalRotation: {x: 0, y: 0, z: 0.12334171, w: 0.9923643}
-  m_LocalPosition: {x: 50, y: -41.3, z: -24.400057}
+  m_LocalPosition: {x: 74, y: -46.999992, z: -80.00003}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 1714187773}
@@ -5463,7 +5463,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021513565}
   m_LocalRotation: {x: 0, y: 0, z: 0.12334171, w: 0.9923643}
-  m_LocalPosition: {x: 118.9, y: -41.300003, z: -24.400057}
+  m_LocalPosition: {x: 142.90001, y: -47, z: -80.00003}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 1625185560}
@@ -7397,7 +7397,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384428537}
   m_LocalRotation: {x: 0, y: 0, z: 0.12334171, w: 0.9923643}
-  m_LocalPosition: {x: 83.1, y: -41.300003, z: -24.400057}
+  m_LocalPosition: {x: 107.1, y: -47, z: -80.00003}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 891675166}
@@ -11049,6 +11049,7 @@ GameObject:
   - component: {fileID: 1936165013}
   - component: {fileID: 1936165012}
   - component: {fileID: 1936165011}
+  - component: {fileID: 1936165014}
   m_Layer: 5
   m_Name: 2-1
   m_TagString: Untagged
@@ -11124,9 +11125,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1936165014}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: stage2_1
+        m_MethodName: ToGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11174,6 +11175,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1936165009}
   m_CullTransparentMesh: 1
+--- !u!114 &1936165014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936165009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ce6fd33b4c3d34697f405342baf03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rating:
+  - {fileID: 1714187772}
+  - {fileID: 891675165}
+  - {fileID: 1625185559}
+  - {fileID: 1902693125}
+  enteringStage: Map_2-1
+  previousStage: none
 --- !u!1 &1946671019
 GameObject:
   m_ObjectHideFlags: 0

@@ -47,13 +47,6 @@ public class EnemyCombat : MonoBehaviour
         health = enemy.enemy_max_hp;
         dodge = enemy.enemy_dodge;
         shotsInMag = enemy.enemy_mag;
-        if (canMove)
-        {
-            if (targetHex.Count != 0 && moveWaitTime.Count != 0)
-            {
-                Invoke("Move", moveWaitTime.Dequeue());
-            }
-        }
         ScanMap();
         healthLevel = crewNum - 1;
         destination = transform.position;
@@ -66,7 +59,11 @@ public class EnemyCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveToDestination();
+        if (canMove)
+        {
+            UpdateRoute();
+            MoveToDestination();
+        }
         if (gameObject.activeSelf)
         {
             UpdateHealthBar();
@@ -74,6 +71,102 @@ public class EnemyCombat : MonoBehaviour
             GroundCheckDolls();
         }
     }
+
+    const int RSTATE_NODE = 0;
+    const int RSTATE_MOVE = 1;
+    const int RSTATE_WAIT = 2;
+    const int RSTATE_END  = 3;
+    int routeState = RSTATE_NODE;
+    float timeWaitStart;
+    float timeToWait;
+    Hex nextTarget = null;
+
+    void UpdateRoute()
+    {
+        if (routeState == RSTATE_NODE)
+        {
+            // 路径起点
+            if (targetHex.Count > 0)
+            {
+                nextTarget = targetHex.Dequeue();
+                routeState = RSTATE_MOVE;
+            }
+            else
+            {
+                routeState = RSTATE_END;
+            }
+        }
+        else if (routeState == RSTATE_MOVE) {
+            // 计算下一步要去的格子
+            // 等待 moveSpeedWaitTime
+            float minDistance = 9999f;
+            Hex currentHex = map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>();
+
+            int[] change_hang = { 0, 1, 1, 0, -1, -1 };
+            int[] change_lie = { 1, 1, 0, -1 , 0, 1,
+                       1, 0, -1, -1, - 1, 0 };//分奇偶层，当前坐标的“六个可能的下个坐标”
+            for (int i = 0; i < 6; i++)
+            {
+                Hex nextHex;
+                // try catch 防止地图下标越界
+                try
+                {
+                    if (hang % 2 == 0)
+                    {
+                        nextHex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i])).transform.GetComponent<Hex>();
+                    }
+                    else
+                    {
+                        nextHex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i + 6])).transform.GetComponent<Hex>();
+                    }
+                    float distance = Find_Distance(nextHex.gameObject, nextTarget.gameObject);
+                    if (distance <= minDistance && !nextHex.haveEnemy && !nextHex.haveUnit && nextHex.reachable)
+                    {
+                        minDistance = distance;
+                        currentHex = nextHex;
+                    }
+                }
+                catch { }
+            }
+            // 坐标移动过去，修改destination
+            if (gameObject.activeSelf)
+            {
+                Debug.Log(this + "(" + hang + "," + lie + ")->(" + currentHex.hang + "," + currentHex.lie + ")\tTarget:" + nextTarget);
+                map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>().haveEnemy = false;
+                DeScanMap();
+                destination = currentHex.transform.position;
+                // transform.position = currentHex.transform.position;
+                currentHex.haveEnemy = true;
+                firstTime = true;
+                hang = currentHex.hang; lie = currentHex.lie; height = currentHex.height;
+                dodge = enemy.enemy_dodge + currentHex.dodgeBuff;
+                rangeBuff = currentHex.rangeBuff;
+                // 等待移动结束
+                timeToWait = moveSpeedWaitTime;
+                timeWaitStart = Time.time;
+                routeState = RSTATE_WAIT;
+            }
+        }
+        else if (routeState == RSTATE_WAIT)
+        {
+            if (Time.time - timeWaitStart >= timeToWait)
+            {
+                // 此时默认对象已经就位并且静止
+                Hex currentHex = map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>();
+                if (currentHex == nextTarget)
+                {
+                    // 到达路径节点，更新 target 路径
+                    routeState = RSTATE_NODE;
+                }
+                else
+                {
+                    // 未到达，继续移动
+                    routeState = RSTATE_MOVE;
+                }
+            }
+        }
+    }
+
     void Move()
     {
         Hex nextTarget = targetHex.Dequeue();
@@ -103,21 +196,24 @@ public class EnemyCombat : MonoBehaviour
                         nextHex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i + 6])).transform.GetComponent<Hex>();
                     }
                     float distance = Find_Distance(nextHex.gameObject, nextTarget.gameObject);
+                    //Debug.Log(distance);
                     if (distance <= lastDistance && !nextHex.haveEnemy && !nextHex.haveUnit && nextHex.reachable)
                     {
                         lastDistance = distance;
                         closestOne = nextHex;
                     }
                 }
-                catch { }
+                catch{}
             }
+            //Debug.Log(closestOne);
             if (gameObject.activeSelf)
             {
                 map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>().haveEnemy = false;
                 DeScanMap();
-                destination = closestOne.transform.position;
+                //destination = closestOne.transform.position;
+                transform.position = closestOne.transform.position;
                 closestOne.haveEnemy = true;
-                firstTime = false;
+                firstTime = true;
                 hang = closestOne.hang; lie = closestOne.lie; height = closestOne.height;
                 dodge = enemy.enemy_dodge + closestOne.dodgeBuff;
                 rangeBuff = closestOne.rangeBuff;
@@ -131,8 +227,10 @@ public class EnemyCombat : MonoBehaviour
     }
     IEnumerator smallMove()
     {
+        
         yield return new WaitForSeconds(moveSpeedWaitTime);
     }
+
     void MoveToDestination()
     {
         Vector3 direction = destination - transform.position;

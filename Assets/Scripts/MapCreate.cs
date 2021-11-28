@@ -26,7 +26,9 @@ public class MapCreate : MonoBehaviour
     long timeStart;
     public float timeLimit;
     Hex RedPoint, BluePoint;
-    class enemySpawnPoints
+
+    [System.Serializable]
+    class EnemySpawnPoint
     {
         public int spawnType;
         public string spawnTile;
@@ -37,19 +39,34 @@ public class MapCreate : MonoBehaviour
     class MapInfo
     {
         public string[] mapTiles;
-        //public enemySpawnPoints[] enemySpawnPoints;
+        public EnemySpawnPoint[] enemySpawnPoints;
         public int timeLimit;
+
+        public override string ToString()
+        {
+            string str = "";
+            foreach (EnemySpawnPoint e in enemySpawnPoints)
+            {
+                str += "spawnTile: " + e.spawnTile + "\n";
+                foreach (string s in e.nextTile)
+                {
+                    str += "  nextTile: " + s + "\n";
+                }
+            }
+            return str;
+        }
     }
-    MapInfo mapInfo;
 
     public void SpawnGameMap()
     {
+        MapInfo mapInfo;
         timeStart = System.DateTime.Now.Ticks;
         //首先，生成地图本体
         string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_2-1");
         Debug.Log(mapToLoad);
         TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
         mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
+        Debug.Log("mapInfo:\n" + mapInfo);
         timeLimit = mapInfo.timeLimit;
         for (int i = 0; i < mapInfo.mapTiles.Length; i++)
         {
@@ -133,7 +150,7 @@ public class MapCreate : MonoBehaviour
         }
         InitialMapVision(homeHang, homeLie);
         SpawnTheUnits(homeHang, homeLie);
-        //SpawnTheEnemy();
+        SpawnTheEnemy(mapInfo);
     }
     void Start()
     {
@@ -173,7 +190,7 @@ public class MapCreate : MonoBehaviour
             try
             {
                 Hex ToCancelFog = transform.GetChild(i).GetComponent<Hex>();
-                if (Vector3.Distance(Home.transform.position, ToCancelFog.transform.position) <= 17.5 * 2)
+                if (Vector3.Distance(Home.transform.position, ToCancelFog.transform.position) <= 17.5 * 40)
                 {
                     ToCancelFog.isInFog = 999;
                 }
@@ -230,8 +247,8 @@ public class MapCreate : MonoBehaviour
         }
         gameInitial.gameObject.SetActive(false);
     }
-    /*
-    public void SpawnTheEnemy()
+
+    void SpawnTheEnemy(MapInfo mapInfo)
     {
         if (mapInfo.enemySpawnPoints != null)
         {
@@ -259,5 +276,4 @@ public class MapCreate : MonoBehaviour
             }
         }
     }
-    */
 }

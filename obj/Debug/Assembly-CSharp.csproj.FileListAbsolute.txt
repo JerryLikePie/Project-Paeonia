@@ -233,8 +233,6 @@ D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\Unity.Cecil.dll
 D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\UnityEditor.TestRunner.dll
 D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\UnityEngine.TestRunner.dll
 D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\Unity.ShaderGraph.Utilities.dll
-D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\ICSharpCode.NRefactory.dll
-D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\Elringus.SpriteGlow.Runtime.pdb
 D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\UnityEngine.xml
 D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\UnityEngine.AIModule.xml
 D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\UnityEngine.ARModule.xml
@@ -357,3 +355,4 @@ D:\Learning_To_Be_Useful\Project Paeonia\obj\Debug\Assembly-CSharp.csproj.CoreCo
 D:\Learning_To_Be_Useful\Project Paeonia\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 D:\Learning_To_Be_Useful\Project Paeonia\obj\Debug\Assembly-CSharp.dll
 D:\Learning_To_Be_Useful\Project Paeonia\obj\Debug\Assembly-CSharp.pdb
+D:\Learning_To_Be_Useful\Project Paeonia\Temp\Bin\Debug\Newtonsoft.Json.dll
