@@ -141,10 +141,10 @@ public class EnemyCombat : MonoBehaviour
                 hang = currentHex.hang; lie = currentHex.lie; height = currentHex.height;
                 dodge = enemy.enemy_dodge + currentHex.dodgeBuff;
                 rangeBuff = currentHex.rangeBuff;
-                // 等待移动结束
-                timeToWait = moveSpeedWaitTime;
+                // 等待移动结束，如果是到达路径点上，则停留路径规划的时间
+                timeToWait = (currentHex == nextTarget) ? moveWaitTime.Dequeue() : moveSpeedWaitTime;
                 timeWaitStart = Time.time;
-                routeState = RSTATE_WAIT;
+                routeState = RSTATE_WAIT;   
             }
         }
         else if (routeState == RSTATE_WAIT)
@@ -153,16 +153,9 @@ public class EnemyCombat : MonoBehaviour
             {
                 // 此时默认对象已经就位并且静止
                 Hex currentHex = map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>();
-                if (currentHex == nextTarget)
-                {
-                    // 到达路径节点，更新 target 路径
-                    routeState = RSTATE_NODE;
-                }
-                else
-                {
-                    // 未到达，继续移动
-                    routeState = RSTATE_MOVE;
-                }
+                // 到达路径节点，更新路径点路径
+                // 未到达，继续移动
+                routeState = (currentHex == nextTarget) ? RSTATE_NODE : RSTATE_MOVE;
             }
         }
     }

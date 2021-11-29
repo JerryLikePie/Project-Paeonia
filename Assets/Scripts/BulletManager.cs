@@ -86,9 +86,9 @@ public class BulletManager : MonoBehaviour
                 dolls.health -= damage;
                 randomDisplacement = new Vector3(Random.Range(-5f, 3f), Random.Range(-1f, 1f), Random.Range(-5f, 3f));
                 GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
-                if (damageIndicate != "miss")
+                if (damageIndicate == "miss")
                 {
-
+                    damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
                 }
                 damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
                 Destroy(damageText, 1.5f);

@@ -10,11 +10,11 @@ uniform sampler2D	_OutlineTex;				// RGBA : Color + Opacity
 uniform float		_OutlineUVSpeedX;
 uniform float		_OutlineUVSpeedY;
 uniform fixed4		_OutlineColor;				// RGBA : Color + Opacity
-uniform float		_Outlineidth;				// v[ 0, 1]
+uniform float		_OutlineWidth;				// v[ 0, 1]
 
 uniform float		_Bevel;						// v[ 0, 1]
 uniform float		_BevelOffset;				// v[-1, 1]
-uniform float		_Bevelidth;				// v[-1, 1]
+uniform float		_BevelWidth;				// v[-1, 1]
 uniform float		_BevelClamp;				// v[ 0, 1]
 uniform float		_BevelRoundness;			// v[ 0, 1]
 
@@ -51,8 +51,8 @@ uniform float 		_GlowPower;					// v[ 1, 1/(1+4*4)]
 
 // API Editable properties
 uniform float 		_ShaderFlags;
-uniform float		_eightNormal;
-uniform float		_eightBold;
+uniform float		_WeightNormal;
+uniform float		_WeightBold;
 
 uniform float		_ScaleRatioA;
 uniform float		_ScaleRatioB;
@@ -66,7 +66,7 @@ uniform float		_MaskID;
 uniform sampler2D	_MaskTex;
 uniform float4		_MaskCoord;
 uniform float4		_ClipRect;	// bottom left(x,y) : top right(z,w)
-//uniform float		_MaskipeControl;
+//uniform float		_MaskWipeControl;
 //uniform float		_MaskEdgeSoftness;
 //uniform fixed4		_MaskEdgeColor;
 //uniform bool		_MaskInverse;
@@ -76,7 +76,7 @@ uniform float		_MaskSoftnessY;
 
 // Font Atlas properties
 uniform sampler2D	_MainTex;
-uniform float		_Textureidth;
+uniform float		_TextureWidth;
 uniform float		_TextureHeight;
 uniform float 		_GradientScale;
 uniform float		_ScaleX;

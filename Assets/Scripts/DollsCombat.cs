@@ -23,7 +23,7 @@ public class DollsCombat : MonoBehaviour
     [HideInInspector] public Transform supportTargetCord;
     [HideInInspector] public Queue<Hex> ToCancelFog = new Queue<Hex>();
     public List<EnemyCombat> enemy;
-    [HideInInspector] public UnitEntity[] dollsEntities;
+    public UnitEntity[] dollsEntities;
 
     public int crewNum;
     Hex NextTile;
@@ -42,23 +42,37 @@ public class DollsCombat : MonoBehaviour
     
     [HideInInspector] public int counter, healthLevel, height, ReloadStartTime;
     public float resetTime;
+    float newMaxHealth;
 
     void Start()
     {
+        counter = 0;
         for (int i = 0; i < enemiesList.transform.childCount; i++)
         {
             enemy.Add(enemiesList.transform.GetChild(i).GetComponent<EnemyCombat>());
         }
         dolls = transform.GetComponent<DollsProperty>();
         thisUnit = transform.GetComponent<Unit>();
-        crewNum = dolls.dolls_ammount;
-        health = dolls.dolls_max_hp;
+        crewNum = PlayerPrefs.GetInt(dolls.dolls_id + "_crewNum", 1);
+        checkCrewNumber();
+        shotsInMag = dolls.dolls_mag;
+        healthLevel = crewNum - 1;
+    }
+    void checkCrewNumber()
+    {
+        int maxCrewNum = dolls.dolls_ammount;
+        float crewPercentage = crewNum / (float)maxCrewNum;
+        newMaxHealth = dolls.dolls_max_hp * crewPercentage;
+        health = newMaxHealth;
         for (int i = 0; i <= crewNum; i++)
         {
             healthRestrictLine[i] = health * ((float)i / (float)crewNum);
         }
-        shotsInMag = dolls.dolls_mag;
-        healthLevel = crewNum - 1;
+        for (int j = crewNum; j <dolls.dolls_ammount; j++)
+        {
+            dollsEntities[j].gameObject.SetActive(false);
+        }
+
     }
 
     // Update is called once per frame
@@ -143,8 +157,9 @@ public class DollsCombat : MonoBehaviour
     public void Attack()
     {
         StartCoroutine(SetInactiveAfterFire());
-        for (int i = 0; i < crewNum; i++)
+        for (int i = 1; i <= crewNum; i++)
         {
+            Debug.Log(i + " -> " + crewNum);
             if (dolls.dolls_type == 1)
             {
                 Invoke("FireBullet", Random.Range(0f, 1f));
@@ -158,6 +173,7 @@ public class DollsCombat : MonoBehaviour
                 Invoke("ThrowBomb", Random.Range(0f,0.1f));
             }
         }
+        counter = 0;
     }
     void resetCord()
     {
@@ -172,13 +188,13 @@ public class DollsCombat : MonoBehaviour
     }
     void updateHealthBar()
     {
-        percentageHealth = health / dolls.dolls_max_hp;
+        percentageHealth = health / newMaxHealth;
         healthBar.fillRect.GetComponent<Image>().color = FullHealthNoHealth.Evaluate(percentageHealth);
         if (health <= dolls.dolls_max_hp)
         {
             health = health + 0.1f;//我们为所有dolls都购买了维修套件和灭火器
         }
-        healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 20f * Time.deltaTime);
+        healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 100f * Time.deltaTime);
         if (health < healthRestrictLine[healthLevel])
         {
             health = healthRestrictLine[healthLevel];

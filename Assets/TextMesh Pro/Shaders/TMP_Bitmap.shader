@@ -15,7 +15,7 @@ Properties {
 	_StencilComp("Stencil Comparison", Float) = 8
 	_Stencil("Stencil ID", Float) = 0
 	_StencilOp("Stencil Operation", Float) = 0
-	_StencilriteMask("Stencil rite Mask", Float) = 255
+	_StencilWriteMask("Stencil Write Mask", Float) = 255
 	_StencilReadMask("Stencil Read Mask", Float) = 255
 
 	_CullMode("Cull Mode", Float) = 0
@@ -32,14 +32,14 @@ SubShader{
 		Comp[_StencilComp]
 		Pass[_StencilOp]
 		ReadMask[_StencilReadMask]
-		riteMask[_StencilriteMask]
+		WriteMask[_StencilWriteMask]
 	}
 
 
 	Lighting Off
 	Cull [_CullMode]
 	ZTest [unity_GUIZTestMode]
-	Zrite Off
+	ZWrite Off
 	Fog { Mode Off }
 	Blend SrcAlpha OneMinusSrcAlpha
 	ColorMask[_ColorMask]

@@ -29,6 +29,13 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit(0);
     }
+    public void resetProgress()
+    {
+        PlayerPrefs.SetInt("Map_T1-1", 0);
+        PlayerPrefs.SetInt("Map_T2-1", 0);
+        PlayerPrefs.SetInt("Map_2-1", 0);
+        
+    }
     public void LoadSavedProgress()
     {
         try

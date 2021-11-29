@@ -1814,7 +1814,7 @@ MonoBehaviour:
   - {fileID: 1728788109586405769}
   - {fileID: 4452140819528466063}
   - {fileID: 7977427728536264880}
-  crewNum: 5
+  crewNum: 1
   bullet: {fileID: 7899560838223106138}
   Fire: {fileID: 857604431729754053}
   Fire2: {fileID: 857604431729754053}
@@ -1879,10 +1879,10 @@ MonoBehaviour:
   dolls_ats_attack: 0
   dolls_penetration: 48
   dolls_accuracy: 98
-  dolls_dodge: 79
+  dolls_dodge: 1179
   dolls_reload: 4.7
   dolls_firerate: 4.7
-  dolls_armor_front: 150
+  dolls_armor_front: 15
   dolls_armor_side: 15
   dolls_armor_back: 5
   dolls_damage_multiplier: 1
