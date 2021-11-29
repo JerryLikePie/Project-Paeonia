@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour
     public string previousStage;
     private void Start()
     {
+        Application.targetFrameRate = 300;
         LoadSavedProgress();
     }
     public void ToGame()
@@ -32,9 +33,10 @@ public class MainMenu : MonoBehaviour
     public void resetProgress()
     {
         PlayerPrefs.SetInt("Map_T1-1", 0);
-        PlayerPrefs.SetInt("Map_T2-1", 0);
+        PlayerPrefs.SetInt("Map_T1-2", 0);
+        PlayerPrefs.SetInt("Map_T1-3", 0);
         PlayerPrefs.SetInt("Map_2-1", 0);
-        
+        LoadSavedProgress();
     }
     public void LoadSavedProgress()
     {

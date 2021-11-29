@@ -368,7 +368,7 @@ MonoBehaviour:
   - {fileID: 8146853704200685613}
   - {fileID: 4738134130491771166}
   - {fileID: 6384422372135786764}
-  crewNum: 4
+  crewNum: 2
   healthRestrictLine:
   - 0
   - 0
@@ -397,7 +397,7 @@ MonoBehaviour:
   enemy_id: 3
   enemy_type: 1
   enemy_range: 3
-  enemy_max_hp: 950
+  enemy_max_hp: 300
   enemy_damage_recieved_multiplier:
   - 1
   - 4
@@ -405,7 +405,7 @@ MonoBehaviour:
   - 2.5
   - 4
   enemy_penetration: 15.5
-  enemy_sts_attack: 80
+  enemy_sts_attack: 40
   enemy_ata_attack: 0
   enemy_sta_attack: 0
   enemy_ats_attack: 0
@@ -996,7 +996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1738898976123093892
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6993,7 +6993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9168793239154742151
 RectTransform:
   m_ObjectHideFlags: 0

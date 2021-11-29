@@ -190,7 +190,7 @@ public class MapCreate : MonoBehaviour
             try
             {
                 Hex ToCancelFog = transform.GetChild(i).GetComponent<Hex>();
-                if (Vector3.Distance(Home.transform.position, ToCancelFog.transform.position) <= 17.5 * 40)
+                if (Vector3.Distance(Home.transform.position, ToCancelFog.transform.position) <= 17.5 * 2)
                 {
                     ToCancelFog.isInFog = 999;
                 }

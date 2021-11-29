@@ -87,6 +87,8 @@
     <Compile Include="Assets\Scripts\Hex.cs" />
     <Compile Include="Assets\Scripts\SquadSelectionPage.cs" />
     <Compile Include="Assets\Scripts\Dolls\AttackerCombatBehavior.cs" />
+    <Compile Include="Assets\TutorialManage.cs" />
+    <Compile Include="Assets\DollsUnlockManage.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

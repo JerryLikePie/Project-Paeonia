@@ -9,8 +9,8 @@ public class DollsCombat : MonoBehaviour
     // Dolls不同的战斗行为
     public IDollsCombatBehaviour combatBehaviour;
     [HideInInspector] public DollsProperty dolls;
-    [HideInInspector] public float health, accurancyBuff, rangeBuff, dodgeBuff;
-
+    [HideInInspector] public float accurancyBuff, rangeBuff, dodgeBuff;
+    public float health;
     public Slider healthBar;
     float percentageHealth;
     public Gradient FullHealthNoHealth;
@@ -39,7 +39,7 @@ public class DollsCombat : MonoBehaviour
     
     [HideInInspector] public bool canFire = true;
     bool firstTime;
-    
+
     [HideInInspector] public int counter, healthLevel, height, ReloadStartTime;
     public float resetTime;
     float newMaxHealth;
@@ -53,17 +53,18 @@ public class DollsCombat : MonoBehaviour
         }
         dolls = transform.GetComponent<DollsProperty>();
         thisUnit = transform.GetComponent<Unit>();
-        crewNum = PlayerPrefs.GetInt(dolls.dolls_id + "_crewNum", 1);
+        //crewNum = PlayerPrefs.GetInt(dolls.dolls_id + "_crewNum", 1);
         checkCrewNumber();
         shotsInMag = dolls.dolls_mag;
-        healthLevel = crewNum - 1;
     }
     void checkCrewNumber()
     {
+        
         int maxCrewNum = dolls.dolls_ammount;
         float crewPercentage = crewNum / (float)maxCrewNum;
         newMaxHealth = dolls.dolls_max_hp * crewPercentage;
         health = newMaxHealth;
+        healthLevel = crewNum - 1;
         for (int i = 0; i <= crewNum; i++)
         {
             healthRestrictLine[i] = health * ((float)i / (float)crewNum);
@@ -190,7 +191,7 @@ public class DollsCombat : MonoBehaviour
     {
         percentageHealth = health / newMaxHealth;
         healthBar.fillRect.GetComponent<Image>().color = FullHealthNoHealth.Evaluate(percentageHealth);
-        if (health <= dolls.dolls_max_hp)
+        if (health <= newMaxHealth)
         {
             health = health + 0.1f;//我们为所有dolls都购买了维修套件和灭火器
         }

@@ -664,7 +664,7 @@ MonoBehaviour:
   dolls_type: 2
   dolls_range: 8
   dolls_view_range: 1
-  dolls_unlocked: 1
+  dolls_unlocked: 0
   dolls_max_hp: 1500
   dolls_sts_attack: 358
   dolls_ata_attack: 0
@@ -748,7 +748,7 @@ MonoBehaviour:
   - {fileID: 3845774082876267792}
   - {fileID: 6223219462225899355}
   - {fileID: 6383218052539241312}
-  crewNum: 0
+  crewNum: 2
   bullet: {fileID: 7454840463464474591}
   Fire: {fileID: 4940044103798371628}
   Fire2: {fileID: 4940044103798371628}
