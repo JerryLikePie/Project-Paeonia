@@ -1,6 +1,6 @@
 # 灰烬战线：九霄共和
 ## Project-Paeonia
-An anime-styled military RTS-like game I'm developing on since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms
+An anime-styled military RTS-like game I'm developing since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms
 
 ## 关于游戏
 《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于类RTS，由一群网友从2021年5月开始制作。
@@ -24,6 +24,19 @@ An anime-styled military RTS-like game I'm developing on since May 2021 in colla
 
 
 ## Dev Blog
+### 0.0.14
+ - 现在编队不再是最大编队了
+ - 移动模式的bug修复
+ - 更改了敌军的生成模式和移动模式，现在敌人会在文件中设定好的位置出生，然后沿着设定好的路线移动
+ - 更改了地图的生成模式，将文件从纯文本改为了json
+ - 加入了背景草稿
+ - 加入了新的测试UI
+ - 加入了新的BGM
+ - BGM可以更改音乐大小了，但是音效还不行
+ - 更改了主页逻辑，新增了关卡要打完上一关才能解锁下一关的设定，并且可以保存进度
+ - 不同的关卡加入了选人的限制
+ - 可以一键清除进度了
+
 ### 0.0.13
  - 项目的管理模式从Unity Collab改为了上传至Github
  - 重新加入了移动读条并且更改了移动方式，从点击周围的格子改为拖拽出路线，角色会自动沿着这条路线行进。在前进时，如果玩家画出新的路线，角色会走完当前一格然后沿着新的路线移动
