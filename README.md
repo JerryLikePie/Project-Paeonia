@@ -1,11 +1,12 @@
 # 灰烬战线：九霄共和
 ## Project-Paeonia
-An anime-styled military RTS-like game I'm developing since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms
+An anime-styled military RTS-like game I'm developing since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms.\
+The decision to develop a game came as I was accepted into Computer Science. I was wondering if I could put what I've been learning and what I love together and get something out of it. Playing the game AshArms gave me an idea. While I enjoyed the game overall, the gameplay isn't the most satisfying. Thus came the question "what if I can make a better version?"\
 
 ## 关于游戏
-《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于类RTS，由一群网友从2021年5月开始制作。
+《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于类RTS，由一群兴趣使然网友从2021年5月开始制作。游戏将预计在2022年2月放出无剧情DEMO，在2022年8月放出完整游戏，2023年之前完成所有更新。游戏不收费，无内购，暂无DLC的计划，没有决定开不开放赞助通道
 
-## 关于背景和设定
+## 关于背景和设定 Settings
 ( •̀ ω •́ )✧\
 娘化，都可以娘化\
 \
@@ -17,9 +18,9 @@ An anime-styled military RTS-like game I'm developing since May 2021 in collabor
 \
 因为原游戏《灰烬战线》的背景是二战时期的装备，本游戏内（将）主要涵盖从民国初期至共和国建立的中国本土装备，以及冷战初期乃至中期的二战水平的装备。
 
-## 关于游戏玩法
+## 关于游戏玩法 Gameplay
 
-## 关于授权
+## 关于授权 Authorization
 ![image](https://user-images.githubusercontent.com/90075718/140989907-ca65bf82-11c5-4e88-a115-ceeb5aed47d3.png)
 
 
