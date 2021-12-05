@@ -1,29 +1,43 @@
 # 灰烬战线：九霄共和
 ## Project-Paeonia
-An anime-styled military RTS-like game I'm developing on since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms
+An anime-styled military RTS-like game I'm developing since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms.\
+The decision to develop a game came as I was accepted into Computer Science. I was wondering if I could put what I've been learning and what I love together and get something out of it. Playing the game AshArms gave me an idea. While I enjoyed the game overall, the gameplay isn't the most satisfying. Thus came the question "what if I can make a better version?"\
 
 ## 关于游戏
-《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于类RTS，由一群网友从2021年5月开始制作。
+《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于类RTS，由一群兴趣使然网友从2021年5月开始制作。游戏将预计在2022年2月放出无剧情DEMO，在2022年8月放出完整游戏，2023年之前完成所有更新。游戏不收费，无内购，暂无DLC的计划，没有决定开不开放赞助通道
 
-## 关于背景和设定
+## 关于背景和设定 Settings
 ( •̀ ω •́ )✧\
 娘化，都可以娘化\
 \
 本游戏起源于在百度贴吧中关于灰烬战线中系的讨论。在原游戏《灰烬战线》中，有不同的“学联”代表着现实中的不同国家。其中没有中系。在贴吧里关于中系的讨论中，大部分人都持有中系“无车可出”，“只有冷战后期才有自己的特色载具”的想法。\
 \
-作为一名热衷于老装备的《战争雷霆》老玩家，我认为这样的说法是不妥的。于是，《灰烬战线：九霄共和》应运而生了。一开始作为一个图文帖，科普（这应该不算科普吧）从“九一八”事变到内战结束这段时间内涌现出的中国本土载具，后来因为本人考入了计算机系，决定和画师联手将这些设定变为一个游戏，一定程度上也是锻炼自己的编程能力的同时向玩家进行科普。（但我好像找不到更好的词了）\
+作为一名热衷于老装备的《战争雷霆》老玩家，同时因为对老物件总有特殊情感，本人认为这样的说法是不妥的。于是，《灰烬战线：九霄共和》应运而生了。一开始作为一个图文帖，科普（这应该不算科学普及吧，我也只是让其他人知晓了装备的存在而已，并没有什么干货，毕竟没有门路）从“九一八”事变到内战结束这段时间内涌现出的中国本土载具，后来因为本人考入了计算机系，决定和画师联手将这些设定变为一个游戏，一定程度上也是锻炼自己的编程能力的同时向玩家进行科普。（但我好像找不到更好的词了）\
 \
 名字 *“九霄共和学联”* 来自于向网友征集的名字。原本想要设定为“九州”，但是据网友反馈对于这个名字的印象已经被日本的“九州”先入为主了，于是改为了“九霄”。\
 \
 因为原游戏《灰烬战线》的背景是二战时期的装备，本游戏内（将）主要涵盖从民国初期至共和国建立的中国本土装备，以及冷战初期乃至中期的二战水平的装备。
 
-## 关于游戏玩法
+## 关于游戏玩法 Gameplay
 
-## 关于授权
+## 关于授权 Authorization
 ![image](https://user-images.githubusercontent.com/90075718/140989907-ca65bf82-11c5-4e88-a115-ceeb5aed47d3.png)
 
 
 ## Dev Blog
+### 0.0.14
+ - 现在编队不再是最大编队了
+ - 移动模式的bug修复
+ - 更改了敌军的生成模式和移动模式，现在敌人会在文件中设定好的位置出生，然后沿着设定好的路线移动
+ - 更改了地图的生成模式，将文件从纯文本改为了json
+ - 加入了背景草稿
+ - 加入了新的测试UI
+ - 加入了新的BGM
+ - BGM可以更改音乐大小了，但是音效还不行
+ - 更改了主页逻辑，新增了关卡要打完上一关才能解锁下一关的设定，并且可以保存进度
+ - 不同的关卡加入了选人的限制
+ - 可以一键清除进度了
+
 ### 0.0.13
  - 项目的管理模式从Unity Collab改为了上传至Github
  - 重新加入了移动读条并且更改了移动方式，从点击周围的格子改为拖拽出路线，角色会自动沿着这条路线行进。在前进时，如果玩家画出新的路线，角色会走完当前一格然后沿着新的路线移动
