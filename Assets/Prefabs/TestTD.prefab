@@ -581,7 +581,7 @@ MonoBehaviour:
   shotsInMag: 0
   bullet: {fileID: 2012459107164196893}
   canMove: 1
-  moveSpeedWaitTime: 8
+  moveSpeedWaitTime: 14
 --- !u!114 &4951395499524743747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,7 +597,7 @@ MonoBehaviour:
   enemy_name: "\u9776\u6807"
   enemy_id: 1
   enemy_type: 1
-  enemy_range: 4
+  enemy_range: 3
   enemy_max_hp: 500
   enemy_damage_recieved_multiplier:
   - 1.5

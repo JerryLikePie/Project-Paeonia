@@ -1766,10 +1766,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatBehaviour: {fileID: 4316943497344552239}
   dolls: {fileID: 0}
-  health: 0
   accurancyBuff: 0
   rangeBuff: 0
   dodgeBuff: 0
+  health: 0
   healthBar: {fileID: 5195854791554712922}
   FullHealthNoHealth:
     serializedVersion: 2
@@ -1882,8 +1882,8 @@ MonoBehaviour:
   dolls_dodge: 79
   dolls_reload: 4.7
   dolls_firerate: 4.7
-  dolls_armor_front: 5
-  dolls_armor_side: 15
+  dolls_armor_front: 10
+  dolls_armor_side: 10
   dolls_armor_back: 5
   dolls_damage_multiplier: 1
   dolls_ammo_type: 0

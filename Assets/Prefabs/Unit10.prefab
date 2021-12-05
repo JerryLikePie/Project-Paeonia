@@ -629,7 +629,7 @@ MonoBehaviour:
   lie: 1
   tempHang: 0
   tempLie: 0
-  movementCooldown: 7
+  movementCooldown: 1
   moveTime: 0
   nextTileMovecost: 0
   timeStart: 0
@@ -663,7 +663,7 @@ MonoBehaviour:
   dolls_id: 10
   dolls_type: 2
   dolls_range: 8
-  dolls_view_range: 1
+  dolls_view_range: 2
   dolls_unlocked: 0
   dolls_max_hp: 1500
   dolls_sts_attack: 358
@@ -675,7 +675,7 @@ MonoBehaviour:
   dolls_dodge: 30
   dolls_reload: 16
   dolls_firerate: 16
-  dolls_armor_front: 60
+  dolls_armor_front: 45
   dolls_armor_side: 20
   dolls_armor_back: 20
   dolls_damage_multiplier: 1
@@ -703,10 +703,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatBehaviour: {fileID: 956881101723511582}
   dolls: {fileID: 0}
-  health: 0
   accurancyBuff: 0
   rangeBuff: 0
   dodgeBuff: 0
+  health: 0
   healthBar: {fileID: 536842294524252083}
   FullHealthNoHealth:
     serializedVersion: 2

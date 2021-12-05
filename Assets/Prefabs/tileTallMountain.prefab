@@ -85,7 +85,7 @@ MonoBehaviour:
   haveEnemy: 0
   endGame: 0
   height: 5
-  blockVision: 1
+  blockVision: 0
   isInFog: 0
   isSpotted: 0
   dodgeBuff: 0

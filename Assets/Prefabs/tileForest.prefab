@@ -205,7 +205,7 @@ MonoBehaviour:
   blockVision: 1
   isInFog: 0
   isSpotted: 0
-  dodgeBuff: 60
+  dodgeBuff: 40
   rangeBuff: -1
   FogOfWarDarken: {fileID: 391366813668766383}
 --- !u!1 &5666021327523269582

@@ -77,11 +77,14 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
             try
             {
                 NextTile = context.map.transform.GetChild(i).GetComponent<Hex>();
-                if (Find_Distance(gameObject, NextTile.gameObject) <= 17.8 * context.dolls.dolls_view_range && NextTile.isInFog == 0)
+                if (Find_Distance(gameObject, NextTile.gameObject) <= 17.5 * context.dolls.dolls_view_range && NextTile.isInFog == 0)
                 {
-                    NextTile.isInFog += 1;
-                    toCancelFog.Enqueue(NextTile);
-                    Invoke("DeFogOfWarOneAtATime", 10f);
+                    if (!NextTile.blockVision)
+                    {
+                        NextTile.isInFog += 1;
+                        toCancelFog.Enqueue(NextTile);
+                        Invoke("DeFogOfWarOneAtATime", 10f);
+                    }
                 }
                 NextTile.ChangeTheFog();
 

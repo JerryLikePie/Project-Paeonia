@@ -1524,7 +1524,7 @@ MonoBehaviour:
   dolls_type: 0
   dolls_range: 0
   dolls_view_range: 0
-  dolls_unlocked: 0
+  dolls_unlocked: 1
   dolls_max_hp: 0
   dolls_sts_attack: 0
   dolls_ata_attack: 0
@@ -1761,7 +1761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dolls:
-  - {fileID: 0}
+  - {fileID: 228481551}
   - {fileID: 1480754927}
   - {fileID: 0}
   - {fileID: 0}
@@ -2267,7 +2267,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bee2d9c256dac1647933a0db867f7dd4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 513658359965c9741a09831491a8f97c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -26,17 +26,17 @@
 		},
 		{
 			"spawnType": 2,
-			"spawnTile": "Map10_11",
+			"spawnTile": "Map10_12",
 			"spawnTime": 0,
-			"nextTile": [],
-			"waitTime": []
+			"nextTile": ["Map10_11"],
+			"waitTime": [25]
 		},
 		{
 			"spawnType": 2,
-			"spawnTile": "Map8_7",
+			"spawnTile": "Map8_6",
 			"spawnTime": 5,
-			"nextTile": [],
-			"waitTime": []
+			"nextTile": ["Map8_7"],
+			"waitTime": [25]
 		},
 		{
 			"spawnType": 1,

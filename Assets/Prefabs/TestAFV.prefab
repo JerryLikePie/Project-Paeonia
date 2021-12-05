@@ -364,9 +364,9 @@ MonoBehaviour:
   dollsList: {fileID: 0}
   toHideTheEnemy: {fileID: 722467875048697758}
   enemyEntities:
-  - {fileID: 1232995994780612080}
   - {fileID: 8146853704200685613}
   - {fileID: 4738134130491771166}
+  - {fileID: 1232995994780612080}
   - {fileID: 6384422372135786764}
   crewNum: 2
   healthRestrictLine:
@@ -380,7 +380,7 @@ MonoBehaviour:
   shotsInMag: 0
   bullet: {fileID: 6151331772909063996}
   canMove: 1
-  moveSpeedWaitTime: 5
+  moveSpeedWaitTime: 8
 --- !u!114 &722467874009513314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,7 +396,7 @@ MonoBehaviour:
   enemy_name: "\u6B65\u6218\u8F66\u9776\u6807"
   enemy_id: 3
   enemy_type: 1
-  enemy_range: 3
+  enemy_range: 2
   enemy_max_hp: 300
   enemy_damage_recieved_multiplier:
   - 1
@@ -411,8 +411,8 @@ MonoBehaviour:
   enemy_ats_attack: 0
   enemy_accuracy: 89
   enemy_dodge: 40
-  enemy_reload: 3
-  enemy_firerate: 1
+  enemy_reload: 5
+  enemy_firerate: 0.5
   enemy_armor_front: 15
   enemy_armor_side: 0
   enemy_armor_back: 0
@@ -906,7 +906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &722467875443428188
 RectTransform:
   m_ObjectHideFlags: 0
@@ -996,7 +996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1738898976123093892
 RectTransform:
   m_ObjectHideFlags: 0

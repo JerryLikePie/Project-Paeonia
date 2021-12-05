@@ -42,19 +42,19 @@ public class Hex : MonoBehaviour
     {
         if (FogOfWarDarken != null)
         {
-            if (isInFog == 0)//0是有雾
+            if (isSpotted == 0)//0是有雾
             {
                 FogOfWarDarken.GetComponent<Renderer>().material.color = MaskedColor;
             }
-            if (isInFog >= 1)//1是没有雾
+            if (isSpotted >= 1)//1是没有雾
             {
                 FogOfWarDarken.GetComponent<Renderer>().material.color = originalColor;
             }
-            if (isInFog == 9999)
+            if (isSpotted == 9999)
             {
                 FogOfWarDarken.GetComponent<Renderer>().material.color = HighlightColor;
             }
-            if (isInFog < 0) isInFog = 0;
+            if (isSpotted < 0) isInFog = 0;
             if (isSpotted < 0) isSpotted = 0;
         }
     }

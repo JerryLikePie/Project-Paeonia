@@ -14,9 +14,9 @@ public class MapCreate : MonoBehaviour
     public GameObject[] Skills;
     public GameObject ObjectivePoint;
     public GameObject HomePoint;
-    float zOffset = 8.65f;//无痕：8.65f，有：9f
+    float zOffset = 8.655f;//无痕：8.65f，有：9f
     float xOffset = 17.31f;//无痕：17.31f，有：17.75f
-    float hangOffset = 15f;//无痕：15f，有：15.35f
+    float hangOffset = 14.99f;//无痕：15f，有：15.35f
     public GameObject enemyList;
     public GameObject unitList;
     int homeHang = 0;
@@ -238,7 +238,7 @@ public class MapCreate : MonoBehaviour
                 spawnedUnit.GetComponent<DollsCombat>().map = this.gameObject;
                 nextHex.haveUnit = true;
                 spawnedUnit.transform.parent = unitList.transform;
-                spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
+                //spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
                 Skills[slot.spawnID].SetActive(true);
                 Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().unit = spawnedUnit.GetComponent<DollsCombat>();
                 Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().mapList = this.gameObject;
@@ -266,6 +266,7 @@ public class MapCreate : MonoBehaviour
                 thisEnemy.dollsList = unitList;
                 thisEnemy.targetHex = new Queue<Hex>();
                 thisEnemy.moveWaitTime = new Queue<int>();
+                thisEnemy.deScanTheMap = new Queue<Hex>();
                 for (int j = 0; j < mapInfo.enemySpawnPoints[i].nextTile.Length; j++)
                 {
                     thisEnemy.targetHex.Enqueue(GameObject.Find(mapInfo.enemySpawnPoints[i].nextTile[j]).GetComponent<Hex>());

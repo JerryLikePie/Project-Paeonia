@@ -73,6 +73,19 @@ public class Unit : MonoBehaviour
             if (destination != transform.position)
             {
                 MoveThroughPath();
+            } else if (firstTime2)
+            {
+                transform.GetComponent<DollsCombat>().DeFogOfWar();
+                hang = next.hang;
+                lie = next.lie;
+                GetComponent<DollsCombat>().height = next.height;
+                GetComponent<DollsCombat>().dodgeBuff = next.dodgeBuff;
+                GetComponent<DollsCombat>().rangeBuff = next.rangeBuff;
+                transform.GetComponent<DollsCombat>().FogOfWar();
+                next.haveUnit = true;
+                GetComponent<DollsCombat>().CheckStatus();
+                firstTime2 = false;
+                firstTime = true;
             }
             moveTimer.TimerUpdate();
             if (ActionCDBar.value >= 1f)
@@ -96,20 +109,6 @@ public class Unit : MonoBehaviour
         //velocity = Vector3.ClampMagnitude(velocity, direction.magnitude);
         
         transform.Translate(velocity);
-        if (firstTime2 && (destination - transform.position).magnitude < 2)
-        {
-            hang = next.hang;
-            lie = next.lie;
-            GetComponent<DollsCombat>().height = next.height;
-            GetComponent<DollsCombat>().dodgeBuff = next.dodgeBuff;
-            GetComponent<DollsCombat>().rangeBuff = next.rangeBuff;
-            next.haveUnit = true;
-            GetComponent<DollsCombat>().CheckStatus();
-            transform.GetComponent<DollsCombat>().DeFogOfWar();
-            firstTime2 = false;
-            firstTime = true;
-            transform.GetComponent<DollsCombat>().FogOfWar();
-        }
     }
     public void Move()
     {

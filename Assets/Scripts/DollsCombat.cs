@@ -18,7 +18,7 @@ public class DollsCombat : MonoBehaviour
     [HideInInspector] public GameObject enemiesList, dollsList;
     [HideInInspector] public EnemyCombat setEnemy;
     [HideInInspector] public GameObject map;
-    [HideInInspector] public bool beingSpotted = false;
+    public bool beingSpotted = false;
 
     [HideInInspector] public Transform supportTargetCord;
     [HideInInspector] public Queue<Hex> ToCancelFog = new Queue<Hex>();
@@ -189,7 +189,7 @@ public class DollsCombat : MonoBehaviour
     }
     void updateHealthBar()
     {
-        percentageHealth = health / newMaxHealth;
+        percentageHealth = health / dolls.dolls_max_hp;
         healthBar.fillRect.GetComponent<Image>().color = FullHealthNoHealth.Evaluate(percentageHealth);
         if (health <= newMaxHealth)
         {
@@ -218,7 +218,18 @@ public class DollsCombat : MonoBehaviour
         bool blocked = false;
         if (Find_Distance(x,y) < 17.5)
         {
-            return blocked;
+            return false;
+        } else {
+            try
+            {
+                if (y.GetComponent<Hex>().blockVision)
+                {
+                    return true;
+                }
+            } catch
+            {
+                // do nothing
+            }
         }
         float lastDistance = 9999f;
         int myHeight = height;
@@ -226,20 +237,20 @@ public class DollsCombat : MonoBehaviour
         int[] change_hang = { 0, 1, 1, 0, -1, -1 };
         int[] change_lie = { 1, 1, 0, -1 , 0, 1,
                        1, 0, -1, -1, - 1, 0 };//分奇偶层，当前坐标的“六个可能的下个坐标”
-        int hang = x.GetComponent<Unit>().hang, lie = x.GetComponent<Unit>().lie;
+        int tempX = x.GetComponent<Unit>().hang, tempY = x.GetComponent<Unit>().lie;
         while (true)
         {
             lastDistance = 9999f;
             for (int i = 0; i < 6; i++)
             {
                 Hex hex;
-                if (hang % 2 == 0)
+                if (tempX % 2 == 0)
                 {
-                    hex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i])).transform.GetComponent<Hex>();
+                    hex = map.transform.Find("Map" + (tempX + change_hang[i]) + "_" + (tempY + change_lie[i])).transform.GetComponent<Hex>();
                 }
                 else
                 {
-                    hex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i+6])).transform.GetComponent<Hex>();
+                    hex = map.transform.Find("Map" + (tempX + change_hang[i]) + "_" + (tempY + change_lie[i + 6])).transform.GetComponent<Hex>();
                 }
                 float distance = Find_Distance(hex.gameObject, y);
                 if (distance <= lastDistance)
@@ -248,24 +259,21 @@ public class DollsCombat : MonoBehaviour
                     closestOne = hex;
                 }
             }
-            hang = closestOne.hang;
-            lie = closestOne.lie;
+            tempX = closestOne.hang;
+            tempY = closestOne.lie;
             if (closestOne.height == height && closestOne.blockVision)
             {
-                blocked = true;//如果相同的话，那就看当前格子是不是可以遮挡视线的（树林）
-                break;
+                return true;//如果相同的话，那就看当前格子是不是可以遮挡视线的（树林）
             }
             if (closestOne.height > height)
             {
-                blocked = true;//如果遇到了高地，那就是说明不能打
-                break;
+                return true;//如果遇到了高地，那就是说明不能打
             }
-            if (lastDistance <= 1)
+            if (lastDistance <= 17.3)
             {
-                break;
+                return blocked;
             }
         }
-        return blocked;
     }
     public void CheckStatus()
     {
@@ -287,7 +295,7 @@ public class DollsCombat : MonoBehaviour
             try
             {
                 NextTile = map.transform.GetChild(i).GetComponent<Hex>();
-                if (Find_Distance(gameObject, NextTile.gameObject) <= 17.8 * (dolls.dolls_view_range + rangeBuff))
+                if (Find_Distance(gameObject, NextTile.gameObject) <= 17.5 * (dolls.dolls_view_range + rangeBuff))
                 {
                     if (!Check_Blocked(gameObject, NextTile.gameObject))
                     {
