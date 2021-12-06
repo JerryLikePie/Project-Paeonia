@@ -80,18 +80,27 @@ public class BulletManager : MonoBehaviour
     {
         for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
         {
-            dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
-            if (Vector3.Distance(dolls.transform.position, transform.position) < 17.4f * DamageRange && dolls.gameObject.activeSelf && dolls.gameObject != sender)
+            try
             {
-                dolls.health -= damage;
-                randomDisplacement = new Vector3(Random.Range(-5f, 3f), Random.Range(-1f, 1f), Random.Range(-5f, 3f));
-                GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
-                if (damageIndicate == "miss")
+                dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
+                if (transform.position.y <= 5)
                 {
-                    damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                    if (Vector3.Distance(dolls.transform.position, transform.position) < 17.4f * DamageRange && dolls.gameObject.activeSelf && dolls.gameObject != sender)
+                    {
+                        dolls.health -= damage;
+                        randomDisplacement = new Vector3(Random.Range(-5f, 3f), Random.Range(-1f, 1f), Random.Range(-5f, 3f));
+                        GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+                        if (damageIndicate == "miss")
+                        {
+                            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                        }
+                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+                        Destroy(damageText, 1.5f);
+                    }
                 }
-                damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-                Destroy(damageText, 1.5f);
+            } catch
+            {
+
             }
         }
     }
@@ -100,31 +109,35 @@ public class BulletManager : MonoBehaviour
         for (int i = 0; i <= enemyList.transform.childCount - 1; i++)
         {
             enemy = enemyList.transform.GetChild(i).GetComponent<EnemyCombat>();
-            if (Vector3.Distance(enemy.transform.position, transform.position) < 17.4f * DamageRange && enemy.gameObject.activeSelf)
+            if (transform.position.y <= 5)
             {
-                damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
-                randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
-                GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-                if (damageIndicate == "miss")
+                if (Vector3.Distance(enemy.transform.position, transform.position) < 17.4f * DamageRange && enemy.gameObject.activeSelf)
                 {
-                    damageText.gameObject.transform.localScale = new Vector3(0.5f, 1f, 0.5f);
-                    damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                    damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
+                    randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
+                    GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+                    if (damageIndicate == "miss")
+                    {
+                        damageText.gameObject.transform.localScale = new Vector3(0.5f, 1f, 0.5f);
+                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                    }
+                    else
+                    {
+                        damageIndicate = damage.ToString("F0");
+                    }
+                    if (enemy.enemy.enemy_armor_front > penetration)
+                    {
+                        damage = 0;
+                        damageIndicate = "hit";
+                        damageText.gameObject.transform.localScale = new Vector3(0.5f, 1f, 0.5f);
+                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                    }
+                    damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+                    enemy.health -= damage;
+                    Destroy(damageText, 1.5f);
                 }
-                else
-                {
-                    damageIndicate = damage.ToString("F0");
-                }
-                if (enemy.enemy.enemy_armor_front > penetration)
-                {
-                    damage = 0;
-                    damageIndicate = "hit";
-                    damageText.gameObject.transform.localScale = new Vector3(0.5f,1f,0.5f);
-                    damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-                }
-                damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-                enemy.health -= damage;
-                Destroy(damageText, 1.5f);
             }
+           
         }
     }
 

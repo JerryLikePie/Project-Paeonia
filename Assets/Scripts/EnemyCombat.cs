@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class EnemyCombat : MonoBehaviour
 {
     public EnemyProperty enemy;
-    public float health,dodge,rangeBuff;
+    public float health, dodge, rangeBuff;
     public Slider healthBar;
     float percentageHealth;
     public Gradient FullHealthNoHealth;
@@ -38,12 +38,14 @@ public class EnemyCombat : MonoBehaviour
     public bool canMove;
     int counter;
     public int moveSpeedWaitTime;
+    Transform supportTargetCord;
+    public Transform artyTarget;
 
     // Start is called before the first frame update
     void Start()
     {
         //InvokeRepeating("ScanMap", 1f, 1f);
-        InvokeRepeating("DeScanMap", 0.9f, 1f);
+        //Invoke("DeScanMap", 1f);
         //deScanTheMap;
         enemy = transform.GetComponent<EnemyProperty>();
         health = enemy.enemy_max_hp;
@@ -66,19 +68,29 @@ public class EnemyCombat : MonoBehaviour
             if (destination != transform.position)
             {
                 MoveToDestination();
-            } else if (firstTime)
+            }
+            else if (firstTime)
             {
                 //DeScanMap();
                 firstTime = false;
                 ScanMap();
             }
-            
+
         }
         if (gameObject.activeSelf)
         {
             UpdateHealthBar();
             FogOfWar();
-            GroundCheckDolls();
+            switch(enemy.enemy_type)
+            {
+                case 1:
+                    GroundCheckDolls();
+                    break;
+                case 2:
+                    SupportCheckDolls();
+                    break;
+            }
+            
         }
     }
 
@@ -172,7 +184,6 @@ public class EnemyCombat : MonoBehaviour
             }
         }
     }
-
     void MoveToDestination()
     {
         Vector3 direction = destination - transform.position;
@@ -180,54 +191,19 @@ public class EnemyCombat : MonoBehaviour
         velocity = Vector3.ClampMagnitude(velocity, direction.magnitude);
         transform.Translate(velocity);
     }
-    public void GroundCheckDolls()
-    {
-        try
-        {
-            for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
-            {
-                dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
-                if (bullet != null && Find_Distance(transform.gameObject, dolls.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff) && dolls.dolls.dolls_type != 3)
-                {
-                    if (canFire && dolls.beingSpotted == true && dolls.gameObject.activeSelf)
-                    {
-                        counter = 0;
-                        setDolls = dolls;
-                        for (int j = 0; j < crewNum; j++)
-                            Invoke("Attack", Random.Range(0f, 0.49f));
-                        StartCoroutine(FireRate());
-                    }
-                }
-            }
-        }
-        catch
-        {
-        }
-    }
-    IEnumerator FireRate()
-    {
-        canFire = false;
-        if (shotsInMag > 1)
-        {
-            yield return new WaitForSeconds(enemy.enemy_firerate);
-            shotsInMag -= 1;
-            canFire = true;
-        }
-        else
-        {
-            StartCoroutine(Reload());
-        }
-    }
-    IEnumerator Reload()
-    {
-        //ReloadStart.Play();
-        yield return new WaitForSeconds(enemy.enemy_reload - 2.5f);
-        //ReloadEnd.Play();
-        yield return new WaitForSeconds(2.5f);
-        shotsInMag = enemy.enemy_mag;
-        canFire = true;
-    }
     public void Attack ()
+    {
+        switch (enemy.enemy_type)
+        {
+            case 1:
+                fireBullet();
+                break;
+            case 2:
+                fireHowitzer();
+                break;
+        }
+    }
+    void fireBullet()
     {
         enemy.enemy_visible = true;
         toHideTheEnemy.SetActive(true);
@@ -259,7 +235,100 @@ public class EnemyCombat : MonoBehaviour
         shot.firstImpact = true;
         counter++;
     }
-    
+    void fireHowitzer()
+    {
+        Debug.Log("Fire");
+        GameObject bulletThatWasShot = Instantiate(bullet, enemyEntities[counter].transform.position, Quaternion.identity);
+        bulletThatWasShot.SetActive(true);
+        bulletThatWasShot.transform.LookAt(supportTargetCord);
+        shot = bulletThatWasShot.GetComponent<BulletManager>();
+        shot.speed = enemy.enemy_shell_speed;
+        shot.WhereTheShotWillGo = supportTargetCord.position;
+        shot.shotType = enemy.enemy_ammo_type;
+        shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.9f, 1.1f);
+        shot.damageIndicate = shot.damage.ToString("F0");
+        float randomPen = enemy.enemy_penetration + Random.Range(-10f, 10f);
+        shot.penetration = randomPen;
+        shot.sender = enemyEntities[counter].gameObject;
+        counter++;
+        shot.dollsList = dollsList;
+        shot.whoShotMe = "enemy";
+        shot.firstImpact = true;
+    }
+    public void GroundCheckDolls()
+    {
+        try
+        {
+            for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
+            {
+                dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
+                if (bullet != null && Find_Distance(transform.gameObject, dolls.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff) && dolls.dolls.dolls_type != 3)
+                {
+                    if (canFire && dolls.beingSpotted == true && dolls.gameObject.activeSelf)
+                    {
+                        counter = 0;
+                        setDolls = dolls;
+                        for (int j = 0; j < crewNum; j++)
+                            Invoke("Attack", Random.Range(0f, 0.49f));
+                        StartCoroutine(FireRate());
+                    }
+                }
+            }
+        }
+        catch
+        {
+        }
+    }
+    public void SupportCheckDolls()
+    {
+        try
+        {
+            for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
+            {
+                Transform maybeTarget = dollsList.transform.GetChild(i);
+                if (maybeTarget.GetChild(0).name == "Spotted")
+                {
+                    if (canFire)
+                    {
+                        
+                        supportTargetCord = maybeTarget;
+                        counter = 0;
+                        for (int j = 0; j < crewNum; j++)
+                            Invoke("Attack", Random.Range(0f, 3f));
+                        StartCoroutine(FireRate());
+                        break;
+                    }
+                }
+            }
+            
+        }
+        catch
+        {
+        }
+    }
+    IEnumerator FireRate()
+    {
+        canFire = false;
+        if (shotsInMag > 1)
+        {
+            yield return new WaitForSeconds(enemy.enemy_firerate);
+            shotsInMag -= 1;
+            canFire = true;
+        }
+        else
+        {
+            StartCoroutine(Reload());
+        }
+    }
+    IEnumerator Reload()
+    {
+        //ReloadStart.Play();
+        yield return new WaitForSeconds(enemy.enemy_reload - 2.5f);
+        //ReloadEnd.Play();
+        yield return new WaitForSeconds(2.5f);
+        shotsInMag = enemy.enemy_mag;
+        canFire = true;
+    }
     IEnumerator SetInActiveAfterFire()
     {
         yield return new WaitForSeconds(1f);
@@ -318,14 +387,17 @@ public class EnemyCombat : MonoBehaviour
     }
     void DeScanMap()
     {
-        for (int i = 0; i < deScanTheMap.Count; i++)
+        //Debug.Log("取消之前，队列里面有" + deScanTheMap.Count + "个地块");
+        while (deScanTheMap.Count != 0)
         {
             deScanTheMap.Dequeue().isSpotted -= 1;
-            deScanTheMap.Dequeue().isInFog -= 1;
         }
+         //Debug.Log("i为" + i + ", 总共有" + deScanTheMap.Count + "个地块，正在取消" + deScanTheMap.Peek());
+        //Debug.Log("这次取消了" + i + "个地块，总共队列的长度是" + deScanTheMap.Count);
     }
     void ScanMap()
     {
+        //Debug.Log("现在进行扫描，现在，队列里面有" + deScanTheMap.Count + "个地块");
         Hex NextTile;
         for (int i = 0; i <= map.transform.childCount - 1; i++)
         {
@@ -337,7 +409,6 @@ public class EnemyCombat : MonoBehaviour
                     if (!BeingBlocked(gameObject, NextTile.gameObject))
                     {
                         NextTile.isSpotted += 1;
-                        NextTile.isInFog += 1;
                         deScanTheMap.Enqueue(NextTile);
                     }
                 }
@@ -347,7 +418,7 @@ public class EnemyCombat : MonoBehaviour
                 continue;
             }
         }
-        Debug.Log(deScanTheMap.Count);
+        //Debug.Log("一轮之后，队列里有" + deScanTheMap.Count + "个地块");
     }
     bool BeingBlocked(GameObject x, GameObject y)
     {
@@ -355,6 +426,20 @@ public class EnemyCombat : MonoBehaviour
         if (Find_Distance(x, y) < 17.5)
         {
             return blocked;
+        }
+        else
+        {
+            try
+            {
+                if (y.GetComponent<Hex>().blockVision)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                // do nothing
+            }
         }
 
         float lastDistance = 9999f;

@@ -53,22 +53,13 @@
     <UnityVersion>2020.3.8f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\ConeEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\GengonEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\PrimitiveBaseEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\DiskEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\GeoSphereEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\PlaneEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\TeapotEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\SphereEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\QuadEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\TorusEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\CylinderEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\WireBoxEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\BoxEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\ArrowEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\OutlinedBoxEditor.cs" />
-    <Compile Include="Assets\DestPrimitives\Source\Primitives\Editor\TubeEditor.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\NavMeshComponents\Editor\NavMeshComponentsGUIUtility.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\Editor\AntiMissileGunScannerEditor.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\Editor\InterceptMissileScannerEditor.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\NavMeshComponents\Editor\NavMeshSurfaceEditor.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\NavMeshComponents\Editor\NavMeshLinkEditor.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\NavMeshComponents\Editor\NavMeshModifierEditor.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\NavMeshComponents\Editor\NavMeshModifierVolumeEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -310,6 +301,9 @@
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>Library\PackageCache\com.unity.render-pipelines.core@10.5.1\Editor\ShaderGenerator\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets\UnityPackages\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
@@ -790,10 +784,6 @@
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{3C381CF7-92EF-CA90-3A2D-4C9ACF2008E0}</Project>
       <Name>Assembly-CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="Elringus.SpriteGlow.Runtime.csproj">
-      <Project>{C03676A9-A978-525B-BE79-081AB94F70C2}</Project>
-      <Name>Elringus.SpriteGlow.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

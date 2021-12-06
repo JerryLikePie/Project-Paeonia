@@ -55,9 +55,11 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\DollsSkills\AP-1\U17S1_AP1.cs" />
     <Compile Include="Assets\Scripts\Utils\Utilities.cs" />
+    <Compile Include="Assets\TutorialManage.cs" />
     <Compile Include="Assets\Scripts\SquadSlot.cs" />
     <Compile Include="Assets\Scripts\ParticleManager.cs" />
     <Compile Include="Assets\MainMenu.cs" />
+    <Compile Include="Assets\DollsUnlockManage.cs" />
     <Compile Include="Assets\Scripts\MapOverlayCreate.cs" />
     <Compile Include="Assets\Scripts\DollsSkills\AP-1\U17S2_AP1.cs" />
     <Compile Include="Assets\Scripts\DollsSkills\M10_105mm\U10S1_M10.cs" />
@@ -87,12 +89,30 @@
     <Compile Include="Assets\Scripts\Hex.cs" />
     <Compile Include="Assets\Scripts\SquadSelectionPage.cs" />
     <Compile Include="Assets\Scripts\Dolls\AttackerCombatBehavior.cs" />
-    <Compile Include="Assets\TutorialManage.cs" />
-    <Compile Include="Assets\DollsUnlockManage.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\AntiMissileGun\AntiMissileGunController.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\InterceptMissile\InterceptMissile.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\PoolingManager\PoolObject.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\InterceptMissile\InterceptMissileController.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\NavMeshComponents\Scripts\NavMeshModifier.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\AntiMissileGun\AntiMissileProjectile.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\NavMeshComponents\Scripts\NavMeshLink.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\EffectsScipts\SmokeDirection.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\AntiMissileGun\AntiMissileGunScanner.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\InterceptMissile\InterceptMissileScanner.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\PoolingManager\PoolManager.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\NavMeshComponents\Scripts\NavMeshModifierVolume.cs" />
+    <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\NavMeshComponents\Scripts\NavMeshSurface.cs" />
+    <Compile Include="Assets\Scripts\IEnemyCombatBehavior.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyTankBehavior.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyPlaneBehavior.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemySupportBehavior.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyAABehavior.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyBunkerBehavior.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Changelog.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\Resources\Map_T1-2_json.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />

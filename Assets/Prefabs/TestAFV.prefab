@@ -285,6 +285,7 @@ GameObject:
   - component: {fileID: 722467874009513315}
   - component: {fileID: 722467874009513341}
   - component: {fileID: 722467874009513314}
+  - component: {fileID: 4865713256707360266}
   m_Layer: 9
   m_Name: TestAFV
   m_TagString: Enemy
@@ -324,6 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105afcc99105f0c4481ad952317d2644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatBehaviour: {fileID: 4865713256707360266}
   enemy: {fileID: 0}
   health: 0
   dodge: 0
@@ -363,6 +365,7 @@ MonoBehaviour:
   map: {fileID: 0}
   dollsList: {fileID: 0}
   toHideTheEnemy: {fileID: 722467875048697758}
+  height: 1
   enemyEntities:
   - {fileID: 8146853704200685613}
   - {fileID: 4738134130491771166}
@@ -377,7 +380,6 @@ MonoBehaviour:
   - 0
   - 0
   healthLevel: 0
-  shotsInMag: 0
   bullet: {fileID: 6151331772909063996}
   canMove: 1
   moveSpeedWaitTime: 8
@@ -429,6 +431,21 @@ MonoBehaviour:
   enemy_visible: 0
   enemy_mag: 4
   enemy_shell_speed: 7800
+--- !u!114 &4865713256707360266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722467874009513312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51adb093d12a028418a8564920c348b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstTime: 1
+  shotsInMag: 0
+  enemy: {fileID: 0}
 --- !u!1 &722467874561431197
 GameObject:
   m_ObjectHideFlags: 0

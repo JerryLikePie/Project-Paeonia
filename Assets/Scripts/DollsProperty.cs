@@ -9,7 +9,7 @@ public class DollsProperty : MonoBehaviour
     public int dolls_ammount;//有几个。之后可以加入心智升级之类的设定，虽然还不知道咋表现出来
     public int dolls_star;//星级
     public int dolls_id;//ID
-    public int dolls_type;//1陆军 2支援 3空军
+    public int dolls_type;//1陆军 2支援 3空军 4防空
     public int dolls_range;//攻击距离
     public int dolls_view_range;//视野
     public bool dolls_unlocked;//是否已解锁

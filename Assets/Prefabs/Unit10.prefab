@@ -629,7 +629,7 @@ MonoBehaviour:
   lie: 1
   tempHang: 0
   tempLie: 0
-  movementCooldown: 1
+  movementCooldown: 4.5
   moveTime: 0
   nextTileMovecost: 0
   timeStart: 0
@@ -786,6 +786,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstTime: 1
+  questionMarker: {fileID: 3852623604104132309, guid: 7025b0e3b9faafa48bf9269f8343f6f0,
+    type: 3}
+  spottedMarker: {fileID: 6226237802915441926, guid: a41fa28958cfd384f8529687bc2e9ffc,
+    type: 3}
 --- !u!1 &536842292918875990
 GameObject:
   m_ObjectHideFlags: 0

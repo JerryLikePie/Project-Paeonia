@@ -6,7 +6,7 @@ public class EnemyProperty : MonoBehaviour
 {
     public string enemy_name;//名称
     public int enemy_id;//ID
-    public int enemy_type;//1陆军 2支援 3空军
+    public int enemy_type;//1陆军 2支援 3空军 4防空
     public int enemy_range;//攻击距离
     public float enemy_max_hp;//最大生命值
     public float[] enemy_damage_recieved_multiplier;//不同弹种的伤害不一样

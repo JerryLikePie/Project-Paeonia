@@ -16,7 +16,7 @@
 		"W2211111220000W",
 		"WWWWWWWWWWWWWWW"
 	],
-	"enemySpawnPoints": [
+		"enemySpawnPoints": [
 		{
 			"spawnType": 1,
 			"spawnTile": "Map5_11",
@@ -25,7 +25,7 @@
 			"waitTime": [25, 10, 13]
 		},
 		{
-			"spawnType": 2,
+			"spawnType": 3,
 			"spawnTile": "Map10_12",
 			"spawnTime": 0,
 			"nextTile": ["Map10_11"],
@@ -35,8 +35,8 @@
 			"spawnType": 2,
 			"spawnTile": "Map8_6",
 			"spawnTime": 5,
-			"nextTile": ["Map8_7"],
-			"waitTime": [25]
+			"nextTile": ["Map8_7", "Map8_8", "Map8_7"],
+			"waitTime": [30,30,30]
 		},
 		{
 			"spawnType": 1,

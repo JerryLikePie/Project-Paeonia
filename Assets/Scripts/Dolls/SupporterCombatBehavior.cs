@@ -6,7 +6,9 @@ public class SupporterCombatBehavior : IDollsCombatBehaviour
 {
     private DollsCombat context;
     private Queue<Hex> toCancelFog;
-    
+    public GameObject questionMarker, spottedMarker;
+    GameObject question, spot;
+    bool inQuestion = false, enemyArtyWoke = false;
 
     void Start()
     {
@@ -20,6 +22,42 @@ public class SupporterCombatBehavior : IDollsCombatBehaviour
             context.Attack();
             if (firstTime)
             {
+                if (context.beingSpotted || enemyArtyWoke)
+                {
+                    spot = Instantiate(spottedMarker, transform.position, Quaternion.identity);
+                    spot.transform.SetParent(transform.parent);
+                    enemyArtyWoke = true;
+                    Destroy(spot, 10f);
+                    if (inQuestion)
+                    {
+                        Destroy(question);
+                    }
+                } else
+                {
+                    if (!inQuestion)
+                    {
+                        question = Instantiate(questionMarker, transform.position, Quaternion.identity);
+                        question.transform.SetParent(transform.parent);
+                        inQuestion = true;
+                    } else
+                    {
+                        if (Vector3.Distance(transform.position, question.transform.position) <= 17.5f)
+                        {
+                            inQuestion = false;
+                            Destroy(question);
+                            spot = Instantiate(spottedMarker, transform.position, Quaternion.identity);
+                            spot.transform.SetParent(transform.parent);
+                            Destroy(spot, 10f);
+                        } else
+                        {
+                            inQuestion = false;
+                            Destroy(question);
+                            question = Instantiate(questionMarker, transform.position, Quaternion.identity);
+                            question.transform.SetParent(transform.parent);
+                            inQuestion = true;
+                        }
+                    }
+                }
                 context.Invoke("resetCord", context.resetTime);
                 firstTime = false;
             }

@@ -6420,6 +6420,7 @@ MonoBehaviour:
   - {fileID: 4951395499524743747, guid: 3dcc0fbeeca965f40be181acb6cb9fe5, type: 3}
   - {fileID: 722467874009513314, guid: 5d86548477a243849a2394ef9ba7d8f2, type: 3}
   - {fileID: 4951395499524743747, guid: 991ea969f8712e7409959ddc3100eba4, type: 3}
+  - {fileID: 7215935891652757822, guid: 55e730855f4f9fd4faf69584cafab7c7, type: 3}
   Skills:
   - {fileID: 0}
   - {fileID: 1599607165}
