@@ -3441,6 +3441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   T1: {fileID: 764973386}
   T2: {fileID: 639301675350106983}
+  bgm: {fileID: 1715702603}
 --- !u!4 &650661652
 Transform:
   m_ObjectHideFlags: 0

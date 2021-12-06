@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static Utilities;
 
 public class Unit : MonoBehaviour
 {
@@ -23,12 +24,12 @@ public class Unit : MonoBehaviour
     GameObject doll;
     public GameObject tileSelectedGoldenHex;
     public bool unitSelection, isMoving = false;
-    public Slider ActionCDBar;
+    public Slider actionCDBar;
     public GameObject CDBarCanvas;
     public GameObject selectionBox;
     public GameObject skillBox;
     public bool unitInMoveCooldown = false;
-    public AudioSource EngineSound;
+    public AudioSource engineSound;
     Timer moveTimer = new Timer();
     bool firstTime = true, firstTime2 = false;
     DollsProperty dolls;
@@ -70,12 +71,13 @@ public class Unit : MonoBehaviour
                     firstTime2 = true;
                 }
             }
-            if (destination != transform.position)
+            if (!Vector3Equal(destination, transform.position))
             {
                 MoveThroughPath();
-            } else if (firstTime2)
+            }
+            else if (firstTime2)
             {
-                transform.GetComponent<DollsCombat>().DeFogOfWar();
+                transform.GetComponent<DollsCombat>().deFogOfWar();
                 hang = next.hang;
                 lie = next.lie;
                 GetComponent<DollsCombat>().height = next.height;
@@ -88,17 +90,17 @@ public class Unit : MonoBehaviour
                 firstTime = true;
             }
             moveTimer.TimerUpdate();
-            if (ActionCDBar.value >= 1f)
+            if (actionCDBar.value >= 1f)
                 CDBarCanvas.SetActive(false);
             else
                 CDBarCanvas.SetActive(true);
             if (unitSelection)
             {
-                EngineSound.volume = 0.3f;
+                engineSound.volume = 0.3f;
             }
             else
             {
-                EngineSound.volume = 0f;
+                engineSound.volume = 0f;
             }
         }
     }

@@ -24,7 +24,7 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
     {
         if (context.supportTargetCord != null)
         {
-            context.thisUnit.EngineSound.volume = 1f;
+            context.thisUnit.engineSound.volume = 1f;
             if (firstTime)
             {
                 context.Invoke("resetCord", context.resetTime);
@@ -37,18 +37,18 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
             AirRecon(context);
             if (transform.position.x > context.supportTargetCord.position.x - 20)
             {
-                for (int i = 0; i < context.enemy.Count; i++)
+                for (int i = 0; i < context.enemyList.Count; i++)
                 {
                     try
                     {
-                        if (Find_Distance(transform.gameObject, context.enemy[i].gameObject) <= 50)
+                        if (FindDistance(transform.gameObject, context.enemyList[i].gameObject) <= 50)
                         {
-                            if (context.enemy[i].enemy.enemy_visible == true && context.enemy[i].gameObject.activeSelf)
+                            if (context.enemyList[i].enemy.enemy_visible == true && context.enemyList[i].gameObject.activeSelf)
                             {
                                 if (context.canFire)
                                 {
                                     context.planeVelocity = 0.4f * (flyEndCord - transform.position).normalized;
-                                    context.setEnemy = context.enemy[i];
+                                    context.setEnemy = context.enemyList[i];
                                     context.counter = 0;
                                     context.Attack();
                                     StartCoroutine(context.FireRate());
@@ -65,7 +65,7 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
         }
         else
         {
-            context.thisUnit.EngineSound.volume = 0f;
+            context.thisUnit.engineSound.volume = 0f;
             transform.position = airBase;
         }
     }
@@ -77,7 +77,7 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
             try
             {
                 NextTile = context.map.transform.GetChild(i).GetComponent<Hex>();
-                if (Find_Distance(gameObject, NextTile.gameObject) <= 17.5 * context.dolls.dolls_view_range && NextTile.isInFog == 0)
+                if (FindDistance(gameObject, NextTile.gameObject) <= 17.5 * context.dolls.dolls_view_range && NextTile.isInFog == 0)
                 {
                     if (!NextTile.blockVision)
                     {
@@ -86,7 +86,7 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
                         Invoke("DeFogOfWarOneAtATime", 10f);
                     }
                 }
-                NextTile.ChangeTheFog();
+                NextTile.UpdateFogStatus();
 
             }
             catch
@@ -101,7 +101,7 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
         {
             Hex hex = toCancelFog.Dequeue();
             hex.isInFog -= 1;
-            hex.ChangeTheFog();
+            hex.UpdateFogStatus();
         }
         catch
         {

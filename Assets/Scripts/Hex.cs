@@ -18,41 +18,55 @@ public class Hex : MonoBehaviour
     public int isInFog = 0;//0为在迷雾中
     public int isSpotted = 0;//0为没有被点亮（对于我方来说
     public float dodgeBuff,rangeBuff;
-    public GameObject FogOfWarDarken;
+    public GameObject fogOfWarDarken;
 
     Color originalColor;
-    Color MaskedColor;
-    Color HighlightColor;
+    Color maskedColor;
+    Color highlightColor;
     void Start()
     {
-        if (FogOfWarDarken != null)
+        if (fogOfWarDarken != null)
         {
-            originalColor = FogOfWarDarken.GetComponent<Renderer>().material.color;
-            MaskedColor = new Color(originalColor.r - 0.5f, originalColor.g - 0.5f, originalColor.b - 0.5f);
-            HighlightColor = new Color(originalColor.r + 0.1f, originalColor.g + 0.5f, originalColor.b + 0.1f);
+            originalColor = fogOfWarDarken.GetComponent<Renderer>().material.color;
+            maskedColor = new Color(originalColor.r - 0.5f, originalColor.g - 0.5f, originalColor.b - 0.5f);
+            highlightColor = new Color(originalColor.r + 0.1f, originalColor.g + 0.5f, originalColor.b + 0.1f);
         }
-        //if (FogOfWarDarken != null)
-            //FogOfWarDarken.GetComponent<Renderer>().material.color = MaskedColor;
     }
     void Update()
     {
-        ChangeTheFog();
+        //changeTheFog();
     }
-    public void ChangeTheFog()
+    public void GainVisual()
     {
-        if (FogOfWarDarken != null)
+        this.isInFog++;
+    }
+    public void LoseVisual()
+    {
+        this.isInFog--;
+    }
+    public void EnemySpot()
+    {
+        this.isSpotted++;
+    }
+    public void EnemyLoseVisual()
+    {
+        this.isSpotted--;
+    }
+    public void UpdateFogStatus()
+    {
+        if (fogOfWarDarken != null)
         {
             if (isInFog == 0)//0是有雾
             {
-                FogOfWarDarken.GetComponent<Renderer>().material.color = MaskedColor;
+                fogOfWarDarken.GetComponent<Renderer>().material.color = maskedColor;
             }
             if (isInFog >= 1)//1是没有雾
             {
-                FogOfWarDarken.GetComponent<Renderer>().material.color = originalColor;
+                fogOfWarDarken.GetComponent<Renderer>().material.color = originalColor;
             }
-            if (isInFog == 9999)
+            if (isInFog == 9999)//9999是高光
             {
-                FogOfWarDarken.GetComponent<Renderer>().material.color = HighlightColor;
+                fogOfWarDarken.GetComponent<Renderer>().material.color = highlightColor;
             }
             if (isInFog < 0) isInFog = 0;
             if (isSpotted < 0) isSpotted = 0;

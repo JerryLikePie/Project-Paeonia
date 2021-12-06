@@ -19,7 +19,7 @@ public class Timer
             timeElapsed = System.DateTime.Now.Ticks - timeStart; // 计算已经cd了多久
             percentageTime = timeElapsed / moveTime;
             timeLeft = (moveTime - timeElapsed) / 10000000;
-            unit.ActionCDBar.value = percentageTime;
+            unit.actionCDBar.value = percentageTime;
             if (percentageTime >= 1f)
             {
                 unit.canMove = true;

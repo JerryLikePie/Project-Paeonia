@@ -233,8 +233,8 @@ public class MapCreate : MonoBehaviour
                 Debug.Log("在" + tiletoSpawn.name + "生成了" + slot.spawnID + "号单位" + spawnSquad[slot.spawnID].name);
                 spawnedUnit.GetComponent<Unit>().hang = next_hang;
                 spawnedUnit.GetComponent<Unit>().lie = next_lie;
-                spawnedUnit.GetComponent<DollsCombat>().enemiesList = enemyList;
-                spawnedUnit.GetComponent<DollsCombat>().dollsList = unitList;
+                spawnedUnit.GetComponent<DollsCombat>().allEnemy = enemyList;
+                spawnedUnit.GetComponent<DollsCombat>().allDolls = unitList;
                 spawnedUnit.GetComponent<DollsCombat>().map = this.gameObject;
                 nextHex.haveUnit = true;
                 spawnedUnit.transform.parent = unitList.transform;

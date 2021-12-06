@@ -489,7 +489,6 @@ GameObject:
   - component: {fileID: 4951395499524743746}
   - component: {fileID: 4951395499524743772}
   - component: {fileID: 4951395499524743747}
-  - component: {fileID: 117272834563803360}
   m_Layer: 9
   m_Name: TestTD
   m_TagString: Enemy
@@ -529,7 +528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105afcc99105f0c4481ad952317d2644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatBehaviour: {fileID: 117272834563803360}
   enemy: {fileID: 0}
   health: 0
   dodge: 0
@@ -581,9 +579,11 @@ MonoBehaviour:
   - 0
   - 0
   healthLevel: 0
+  shotsInMag: 0
   bullet: {fileID: 2012459107164196893}
   canMove: 1
   moveSpeedWaitTime: 14
+  artyTarget: {fileID: 0}
 --- !u!114 &4951395499524743747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,20 +632,6 @@ MonoBehaviour:
   enemy_visible: 0
   enemy_mag: 1
   enemy_shell_speed: 9500
---- !u!114 &117272834563803360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4951395499524743745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51adb093d12a028418a8564920c348b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstTime: 1
-  shotsInMag: 0
 --- !u!1 &4951395500155458684
 GameObject:
   m_ObjectHideFlags: 0

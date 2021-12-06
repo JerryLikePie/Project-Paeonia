@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static Utilities;
 
 public class EnemyCombat : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class EnemyCombat : MonoBehaviour
     public float health, dodge, rangeBuff;
     public Slider healthBar;
     float percentageHealth;
-    public Gradient FullHealthNoHealth;
+    Gradient healthGradient;
     public int hang;
     public int lie;
     public GameObject map;
@@ -44,9 +45,11 @@ public class EnemyCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        healthGradient = new Gradient();
         //InvokeRepeating("ScanMap", 1f, 1f);
         //Invoke("DeScanMap", 1f);
         //deScanTheMap;
+        SetHealthGradient(healthGradient);
         enemy = transform.GetComponent<EnemyProperty>();
         health = enemy.enemy_max_hp;
         dodge = enemy.enemy_dodge;
@@ -73,7 +76,7 @@ public class EnemyCombat : MonoBehaviour
             {
                 //DeScanMap();
                 firstTime = false;
-                ScanMap();
+                scanMap();
             }
 
         }
@@ -141,7 +144,7 @@ public class EnemyCombat : MonoBehaviour
                     {
                         nextHex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i + 6])).transform.GetComponent<Hex>();
                     }
-                    float distance = Find_Distance(nextHex.gameObject, nextTarget.gameObject);
+                    float distance = FindDistance(nextHex.gameObject, nextTarget.gameObject);
                     if (distance <= minDistance && !nextHex.haveEnemy && !nextHex.haveUnit && nextHex.reachable)
                     {
                         minDistance = distance;
@@ -153,7 +156,7 @@ public class EnemyCombat : MonoBehaviour
             // 坐标移动过去，修改destination
             if (gameObject.activeSelf)
             {
-                DeScanMap();
+                descanMap();
                 //Debug.Log(this + "(" + hang + "," + lie + ")->(" + currentHex.hang + "," + currentHex.lie + ")\tTarget:" + nextTarget);
                 map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>().haveEnemy = false;
                 
@@ -262,7 +265,7 @@ public class EnemyCombat : MonoBehaviour
             for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
             {
                 dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
-                if (bullet != null && Find_Distance(transform.gameObject, dolls.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff) && dolls.dolls.dolls_type != 3)
+                if (bullet != null && FindDistance(transform.gameObject, dolls.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff) && dolls.dolls.dolls_type != 3)
                 {
                     if (canFire && dolls.beingSpotted == true && dolls.gameObject.activeSelf)
                     {
@@ -283,24 +286,15 @@ public class EnemyCombat : MonoBehaviour
     {
         try
         {
-            for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
+            if (canFire)
             {
-                Transform maybeTarget = dollsList.transform.GetChild(i);
-                if (maybeTarget.GetChild(0).name == "Spotted")
-                {
-                    if (canFire)
-                    {
-                        
-                        supportTargetCord = maybeTarget;
-                        counter = 0;
-                        for (int j = 0; j < crewNum; j++)
-                            Invoke("Attack", Random.Range(0f, 3f));
-                        StartCoroutine(FireRate());
-                        break;
-                    }
-                }
+                GameObject maybeTarget = GameObject.FindWithTag("ArtilleryReference");
+                supportTargetCord = maybeTarget.transform;
+                counter = 0;
+                for (int j = 0; j < crewNum; j++)
+                    Invoke("Attack", Random.Range(0f, 3f));
+                StartCoroutine(FireRate());
             }
-            
         }
         catch
         {
@@ -343,7 +337,7 @@ public class EnemyCombat : MonoBehaviour
     {
         map.GetComponent<MapCreate>().Score.killedEnemy += 1;
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
-        DeScanMap();
+        descanMap();
         transform.gameObject.SetActive(false);
         transform.GetComponent<EnemyCombat>().enabled = false;
         Destroy(gameObject);
@@ -359,7 +353,7 @@ public class EnemyCombat : MonoBehaviour
             healthLevel -= 1;
         }
         healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 20f * Time.deltaTime);
-        healthBar.fillRect.GetComponent<Image>().color = FullHealthNoHealth.Evaluate(percentageHealth);
+        healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
         if (health <= 0)
         {
             map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
@@ -380,31 +374,23 @@ public class EnemyCombat : MonoBehaviour
             toHideTheEnemy.SetActive(true);
         }
     }
-    public float Find_Distance(GameObject x, GameObject y)
+    void descanMap()
     {
-        float dist = Vector3.Distance(x.transform.position, y.transform.position);
-        return dist;
-    }
-    void DeScanMap()
-    {
-        //Debug.Log("取消之前，队列里面有" + deScanTheMap.Count + "个地块");
         while (deScanTheMap.Count != 0)
         {
-            deScanTheMap.Dequeue().isSpotted -= 1;
+            deScanTheMap.Peek().EnemyLoseVisual();
+            deScanTheMap.Dequeue().UpdateFogStatus();
         }
-         //Debug.Log("i为" + i + ", 总共有" + deScanTheMap.Count + "个地块，正在取消" + deScanTheMap.Peek());
-        //Debug.Log("这次取消了" + i + "个地块，总共队列的长度是" + deScanTheMap.Count);
     }
-    void ScanMap()
+    void scanMap()
     {
-        //Debug.Log("现在进行扫描，现在，队列里面有" + deScanTheMap.Count + "个地块");
         Hex NextTile;
         for (int i = 0; i <= map.transform.childCount - 1; i++)
         {
             try
             {
                 NextTile = map.transform.GetChild(i).GetComponent<Hex>();
-                if (Find_Distance(gameObject, NextTile.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff))
+                if (FindDistance(gameObject, NextTile.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff))
                 {
                     if (!BeingBlocked(gameObject, NextTile.gameObject))
                     {
@@ -423,7 +409,7 @@ public class EnemyCombat : MonoBehaviour
     bool BeingBlocked(GameObject x, GameObject y)
     {
         bool blocked = false;
-        if (Find_Distance(x, y) < 17.5)
+        if (FindDistance(x, y) < 17.5)
         {
             return blocked;
         }
@@ -462,7 +448,7 @@ public class EnemyCombat : MonoBehaviour
                 {
                     hex = map.transform.Find("Map" + (newHang + change_hang[i]) + "_" + (newLie + change_lie[i + 6])).transform.GetComponent<Hex>();
                 }
-                float distance = Find_Distance(hex.gameObject, y);
+                float distance = FindDistance(hex.gameObject, y);
                 if (distance <= lastDistance)
                 {
                     lastDistance = distance;

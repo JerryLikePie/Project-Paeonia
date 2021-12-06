@@ -1746,12 +1746,12 @@ MonoBehaviour:
     type: 3}
   unitSelection: 0
   isMoving: 0
-  ActionCDBar: {fileID: 5195854789835131398}
+  actionCDBar: {fileID: 5195854789835131398}
   CDBarCanvas: {fileID: 5195854789835131400}
   selectionBox: {fileID: 5195854791273394205}
   skillBox: {fileID: 6509036996494525624}
   unitInMoveCooldown: 0
-  EngineSound: {fileID: 8714613390007918457}
+  engineSound: {fileID: 8714613390007918457}
 --- !u!114 &6815548471661580418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1771,43 +1771,13 @@ MonoBehaviour:
   dodgeBuff: 0
   health: 0
   healthBar: {fileID: 5195854791554712922}
-  FullHealthNoHealth:
-    serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 0.10670447, g: 1, b: 0, a: 1}
-    key2: {r: 1, g: 1, b: 1, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 65535
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
-  enemiesList: {fileID: 0}
-  dollsList: {fileID: 0}
+  allEnemy: {fileID: 0}
+  allDolls: {fileID: 0}
   setEnemy: {fileID: 0}
   map: {fileID: 0}
   beingSpotted: 0
   supportTargetCord: {fileID: 0}
-  enemy:
-  - {fileID: 0}
+  enemyList: []
   dollsEntities:
   - {fileID: 8806422352429127673}
   - {fileID: 1816371766325601714}
@@ -1816,14 +1786,13 @@ MonoBehaviour:
   - {fileID: 7977427728536264880}
   crewNum: 3
   bullet: {fileID: 7899560838223106138}
-  Fire: {fileID: 857604431729754053}
-  Fire2: {fileID: 857604431729754053}
-  FireBase: {fileID: 650500840799225772}
-  ReloadStart: {fileID: 159986526877262149}
-  ReloadEnd: {fileID: 7695236996059844643}
-  SkillSound: {fileID: 7648644005236092867}
+  fireSound: {fileID: 857604431729754053}
+  fireSound2: {fileID: 857604431729754053}
+  fireSoundBase: {fileID: 650500840799225772}
+  reloadStartSound: {fileID: 159986526877262149}
+  reloadEndSound: {fileID: 7695236996059844643}
+  skillSound: {fileID: 7648644005236092867}
   shotsInMag: 0
-  LineofSight: {fileID: 0}
   planeVelocity: {x: 0, y: 0, z: 0}
   healthRestrictLine:
   - 0
@@ -1837,7 +1806,7 @@ MonoBehaviour:
   counter: 0
   healthLevel: 0
   height: 0
-  ReloadStartTime: 0
+  reloadStartTime: 0
   resetTime: 0
 --- !u!114 &4316943497344552239
 MonoBehaviour:

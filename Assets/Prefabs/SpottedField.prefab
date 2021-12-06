@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 6226237802915441925}
   m_Layer: 0
   m_Name: SpottedField
-  m_TagString: Untagged
+  m_TagString: ArtilleryReference
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
