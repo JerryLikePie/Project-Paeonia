@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0f25d1947537a42bd82da1c9403e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hang: 0
-  lie: 0
+  X: 0
+  Z: 0
   reachable: 1
   movecost: 3
   spawnNum: 0
@@ -57,9 +57,9 @@ MonoBehaviour:
   blockVision: 0
   isInFog: 0
   isSpotted: 0
-  dodgeBuff: 20
+  dodgeBuff: 15
   rangeBuff: 1
-  FogOfWarDarken: {fileID: 6936256128989578971}
+  fogOfWarDarken: {fileID: 6936256128989578971}
 --- !u!1 &6936213531766485365
 GameObject:
   m_ObjectHideFlags: 0

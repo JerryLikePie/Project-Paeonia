@@ -88,15 +88,27 @@ public class BulletManager : MonoBehaviour
                 {
                     if (Vector3.Distance(dolls.transform.position, transform.position) < 17.4f * DamageRange && dolls.gameObject.activeSelf && dolls.gameObject != sender)
                     {
-                        dolls.health -= damage;
+                        
                         randomDisplacement = new Vector3(Random.Range(-5f, 3f), Random.Range(-1f, 1f), Random.Range(-5f, 3f));
-                        GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
                         if (damageIndicate == "miss")
                         {
+                            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
                             damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+                            Destroy(damageText, 1.5f);
                         }
-                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-                        Destroy(damageText, 1.5f);
+                        else if (damageIndicate == "hit")
+                        {
+                            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+                            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+                            Destroy(damageText, 1.5f);
+                        }
+                        else
+                        {
+
+                        }
+                        dolls.health -= damage;
                     }
                 }
             } catch
@@ -116,26 +128,31 @@ public class BulletManager : MonoBehaviour
                 {
                     damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
                     randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
-                    GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+                    
                     if (damageIndicate == "miss")
                     {
+                        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
                         damageText.gameObject.transform.localScale = new Vector3(0.5f, 1f, 0.5f);
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+                        Destroy(damageText, 1.5f);
                     }
-                    else
+                    else if (enemy.enemy.enemy_armor_front > penetration)
                     {
-                        damageIndicate = damage.ToString("F0");
-                    }
-                    if (enemy.enemy.enemy_armor_front > penetration)
-                    {
+                        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
                         damage = 0;
                         damageIndicate = "hit";
                         damageText.gameObject.transform.localScale = new Vector3(0.5f, 1f, 0.5f);
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+                        Destroy(damageText, 1.5f);
                     }
-                    damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+                    else
+                    {
+
+                    }
                     enemy.health -= damage;
-                    Destroy(damageText, 1.5f);
+                    
                 }
             }
            

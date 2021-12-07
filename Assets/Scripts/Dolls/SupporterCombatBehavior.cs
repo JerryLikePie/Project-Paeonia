@@ -58,7 +58,7 @@ public class SupporterCombatBehavior : IDollsCombatBehaviour
                         }
                     }
                 }
-                context.Invoke("resetCord", context.resetTime);
+                context.Invoke("ResetCord", context.resetTime);
                 firstTime = false;
             }
             StartCoroutine(context.FireRate());

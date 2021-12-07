@@ -42,6 +42,11 @@ public class IDollsSkillBehavior : MonoBehaviour
         //技能
     }
 
+    public virtual void activateSkill()
+    {
+        //没有范围的技能
+    }
+
     public virtual void passiveTrait(DollsCombat unit)
     {
         //被动

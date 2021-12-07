@@ -27,6 +27,7 @@ public class DollsUnlockManage : MonoBehaviour
                 break;
             default:
                 unlockWho.Enqueue(1);
+                unlockWho.Enqueue(5);
                 unlockWho.Enqueue(10);
                 unlockWho.Enqueue(17);
                 break;

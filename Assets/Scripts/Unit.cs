@@ -34,11 +34,13 @@ public class Unit : MonoBehaviour
     bool firstTime = true, firstTime2 = false;
     DollsProperty dolls;
     public Queue<Hex> path = new Queue<Hex>();
+    DollsCombat combat;
 
     // Start is called before the first frame update
     void Start()
     {
         dolls = this.GetComponent<DollsProperty>();
+        combat = GetComponent<DollsCombat>();
         canMove = false;
         selectionBox.SetActive(false);
         destination = transform.position;
@@ -77,15 +79,16 @@ public class Unit : MonoBehaviour
             }
             else if (firstTime2)
             {
-                transform.GetComponent<DollsCombat>().deFogOfWar();
-                hang = next.hang;
-                lie = next.lie;
-                GetComponent<DollsCombat>().height = next.height;
-                GetComponent<DollsCombat>().dodgeBuff = next.dodgeBuff;
-                GetComponent<DollsCombat>().rangeBuff = next.rangeBuff;
-                transform.GetComponent<DollsCombat>().FogOfWar();
+                combat.deFogOfWar();
+                hang = next.X;
+                lie = next.Z;
+                combat.height = next.height;
+                combat.dodgeBuff = next.dodgeBuff;
+                combat.rangeBuff = next.rangeBuff;
                 next.haveUnit = true;
-                GetComponent<DollsCombat>().CheckStatus();
+                
+                combat.CheckStatus();
+                combat.FogOfWar();
                 firstTime2 = false;
                 firstTime = true;
             }
@@ -96,7 +99,7 @@ public class Unit : MonoBehaviour
                 CDBarCanvas.SetActive(true);
             if (unitSelection)
             {
-                engineSound.volume = 0.3f;
+                engineSound.volume = 0.15f;
             }
             else
             {

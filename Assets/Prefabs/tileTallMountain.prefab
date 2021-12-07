@@ -90,7 +90,7 @@ MonoBehaviour:
   isSpotted: 0
   dodgeBuff: 0
   rangeBuff: 0
-  FogOfWarDarken: {fileID: 4780122984139675763}
+  fogOfWarDarken: {fileID: 4780122984139675763}
 --- !u!1 &4780122984139675763
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using static Utilities;
 
 public class MapCreate : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class MapCreate : MonoBehaviour
     public List<TileType> tileTypes;
     public Unit[] spawnSquad = null;
     public EnemyProperty[] spawnEnemy = null;
+    public GameObject[] SkillSlot;
     public GameObject[] Skills;
     public GameObject ObjectivePoint;
     public GameObject HomePoint;
@@ -21,11 +23,16 @@ public class MapCreate : MonoBehaviour
     public GameObject unitList;
     int homeHang = 0;
     int homeLie = 0;
-    public GameObject ScoreManager;
     public ScoreManager Score;
     long timeStart;
+    bool gameStarted = false;
+    bool gameEnded = false;
     public float timeLimit;
+    float timeTook;
     Hex RedPoint, BluePoint;
+    int maxX, maxZ;
+    public SquadSlot[] slots;
+    public SquadSelectionPage squadSelectionPage;
 
     [System.Serializable]
     class EnemySpawnPoint
@@ -60,7 +67,7 @@ public class MapCreate : MonoBehaviour
     public void SpawnGameMap()
     {
         MapInfo mapInfo;
-        timeStart = System.DateTime.Now.Ticks;
+        
         //首先，生成地图本体
         string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_2-1");
         Debug.Log(mapToLoad);
@@ -68,9 +75,11 @@ public class MapCreate : MonoBehaviour
         mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
         Debug.Log("mapInfo:\n" + mapInfo);
         timeLimit = mapInfo.timeLimit;
-        for (int i = 0; i < mapInfo.mapTiles.Length; i++)
+        maxZ = mapInfo.mapTiles.Length;
+        maxX = mapInfo.mapTiles[0].Length;
+        for (int i = 0; i < maxZ; i++)
         {
-            for (int j = 0; j < mapInfo.mapTiles[i].Length - 1; j++)
+            for (int j = 0; j < maxX; j++)
             {
                 GameObject thisTile = tileTypes[7].tilePrefabType; //先默认为都生成虚空
                 if (mapInfo.mapTiles[i][j] == '0')//如果文件说这里是水
@@ -127,8 +136,8 @@ public class MapCreate : MonoBehaviour
                 try
                 {
                     //但命名只是给我们看的，程序也要知道
-                    thisTile.GetComponent<Hex>().hang = i;
-                    thisTile.GetComponent<Hex>().lie = j;
+                    thisTile.GetComponent<Hex>().X = i;
+                    thisTile.GetComponent<Hex>().Z = j;
                     if (mapInfo.mapTiles[i][j] == 'R')
                     {
                         RedPoint = thisTile.GetComponent<Hex>();
@@ -151,10 +160,12 @@ public class MapCreate : MonoBehaviour
         InitialMapVision(homeHang, homeLie);
         SpawnTheUnits(homeHang, homeLie);
         SpawnTheEnemy(mapInfo);
+        Debug.Log("宽和长分别为" + maxX + "和" + maxZ);
+        timeStart = System.DateTime.Now.Ticks;
+        gameStarted = true;
     }
     void Start()
     {
-        Score = ScoreManager.GetComponent<ScoreManager>();
         Score.Initialize();
         Score.stageName = PlayerPrefs.GetString("Stage_You_Should_Load", null);
     }
@@ -163,22 +174,30 @@ public class MapCreate : MonoBehaviour
     {
         if (ObjectivePoint != null && RedPoint.haveUnit == true)
         {
-            Debug.Log("明明已经结束了你怎么不跳转呢？？？");
-            Score.enemyBaseCaptured = true;
-            Score.CapturedEnemyPoints();
-            Invoke("GameEnd", 2);
-            GameEnd();
+            Score.EnemyBaseCaptured();
+            gameEnded = true;
+            Invoke("GameEnd", 3);
+            //GameEnd();
         }
         if (HomePoint != null && BluePoint.haveEnemy == true)
         {
-            Score.friendlyBaseCaptured = true;
-            Invoke("GameEnd", 2);
+            Score.FriendlyBaseLost();
+            gameEnded = true;
+            Invoke("GameEnd", 3);
         }
+        if (gameStarted && !gameEnded)
+        {
+            UpdateTime();
+        }
+        
+    }
+    void UpdateTime()
+    {
+        Score.SetTime((System.DateTime.Now.Ticks - timeStart) / 10000000f);
     }
     void GameEnd()
     {
-        Score.timeTook = (System.DateTime.Now.Ticks - timeStart)/10000000f;
-        Score.timeLimit = timeLimit;
+        Score.SetTimeLimit(timeLimit);
         Score.GameEnded();
         SceneManager.LoadScene("GameEnd");
     }
@@ -202,50 +221,47 @@ public class MapCreate : MonoBehaviour
             }
         }
     }
-    public void SpawnTheUnits(int current_hang, int current_lie)
+    public void SpawnTheUnits(int X, int Z)
     {
-        int[] change_hang = { 0, 1, 1, 0, -1, -1 };
-        int[] change_lie = { 1, 1, 0, -1 , 0, 1,
-                       1, 0, -1, -1, - 1, 0 };//分奇偶层，当前坐标的“六个可能的下个坐标”
         GameObject spawnedUnit;
-        SquadSlot slot;
-        SquadSelectionPage gameInitial;
-        gameInitial = GameObject.Find("SquadSelection").GetComponent<SquadSelectionPage>();
-        for (int i = 1; i <= 6; i++)//查看左右，上左上右，下左下右，周围的六个格子
+        for (int i = 0; i < 6; i++)//查看左右，上左上右，下左下右，周围的六个格子
         {
-            slot = GameObject.Find("Slot" + i).GetComponent<SquadSlot>();
-            int next_hang = current_hang + change_hang[i - 1];
+            int next_hang = X + changeX[i];
             int next_lie;
-            if (current_hang % 2 == 0)
+            if (X % 2 == 0)
             {
-                next_lie = current_lie + change_lie[i - 1];
+                next_lie = Z + changeZ[i];
             }
             else
             {
-                next_lie = current_lie + change_lie[i + 6 - 1];
+                next_lie = Z + changeZ[i + 6];
             }
             GameObject tiletoSpawn = GameObject.Find("Map" + next_hang + "_" + next_lie);
             Hex nextHex = tiletoSpawn.GetComponent<Hex>();
-            if (slot.spawnID != 0 && spawnSquad[slot.spawnID] != null)
+            if (slots[i].spawnID != 0 && spawnSquad[slots[i].spawnID] != null)
             {
-                Score.totalDolls++;
-                spawnedUnit = Instantiate(spawnSquad[slot.spawnID].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
-                Debug.Log("在" + tiletoSpawn.name + "生成了" + slot.spawnID + "号单位" + spawnSquad[slot.spawnID].name);
+                Score.SpawnDoll();
+                spawnedUnit = Instantiate(spawnSquad[slots[i].spawnID].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
+                Debug.Log("在" + tiletoSpawn.name + "生成了" + slots[i].spawnID + "号单位" + spawnSquad[slots[i].spawnID].name);
                 spawnedUnit.GetComponent<Unit>().hang = next_hang;
                 spawnedUnit.GetComponent<Unit>().lie = next_lie;
                 spawnedUnit.GetComponent<DollsCombat>().allEnemy = enemyList;
                 spawnedUnit.GetComponent<DollsCombat>().allDolls = unitList;
-                spawnedUnit.GetComponent<DollsCombat>().map = this.gameObject;
+                spawnedUnit.GetComponent<DollsCombat>().thisUnit = spawnedUnit.GetComponent<Unit>();
+                spawnedUnit.GetComponent<DollsCombat>().map = this;
+                
+                //spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
                 nextHex.haveUnit = true;
                 spawnedUnit.transform.parent = unitList.transform;
-                //spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
-                Skills[slot.spawnID].SetActive(true);
-                Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().unit = spawnedUnit.GetComponent<DollsCombat>();
-                Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().mapList = this.gameObject;
-                Skills[slot.spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().loadMap();
+                Skills[slots[i].spawnID].transform.SetParent(SkillSlot[i].transform);
+                Skills[slots[i].spawnID].transform.localPosition = Vector3.zero;
+                Skills[slots[i].spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().unit = spawnedUnit.GetComponent<DollsCombat>();
+                Skills[slots[i].spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().mapList = this.gameObject;
+                Skills[slots[i].spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().loadMap();
+                spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
             }
         }
-        gameInitial.gameObject.SetActive(false);
+        squadSelectionPage.gameObject.SetActive(false);
     }
 
     void SpawnTheEnemy(MapInfo mapInfo)
@@ -254,14 +270,14 @@ public class MapCreate : MonoBehaviour
         {
             for (int i = 0; i < mapInfo.enemySpawnPoints.Length; i++)
             {
-                Score.totalEnemy += 1;
+                Score.SpawnEnemy();
                 GameObject spawnedEnemy;
                 GameObject tiletoSpawn = GameObject.Find(mapInfo.enemySpawnPoints[i].spawnTile);
                 Hex Hex = tiletoSpawn.GetComponent<Hex>();
                 spawnedEnemy = Instantiate(spawnEnemy[mapInfo.enemySpawnPoints[i].spawnType].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
                 EnemyCombat thisEnemy = spawnedEnemy.GetComponent<EnemyCombat>();
-                thisEnemy.hang = Hex.hang;
-                thisEnemy.lie = Hex.lie;
+                thisEnemy.hang = Hex.X;
+                thisEnemy.lie = Hex.Z;
                 thisEnemy.map = gameObject;
                 thisEnemy.dollsList = unitList;
                 thisEnemy.targetHex = new Queue<Hex>();
@@ -275,6 +291,144 @@ public class MapCreate : MonoBehaviour
                 spawnedEnemy.transform.parent = enemyList.transform;
                 Hex.haveEnemy = true;
             }
+        }
+    }
+
+    public bool IsBlocked(Hex point, Vector3 target)
+    {
+        try
+        {
+            Hex hex = null;
+            bool blocked = false;
+            if (FindDistance(point.gameObject, target) < 17.5)
+            {
+                return blocked;
+            }
+            int tempX, tempZ;
+            float lastDistance = 9999f;
+            Hex closestOne = null;
+            int newX = point.X, newZ = point.Z;
+            int k = 0;
+            while (k < 100)
+            {
+                lastDistance = 9999f;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (newX % 2 == 0)
+                    {
+                        tempX = newX + changeX[i];
+                        tempZ = newZ + changeZ[i];
+                    }
+                    else
+                    {
+                        tempX = newX + changeX[i];
+                        tempZ = newZ + changeZ[i + 6];
+                    }
+                    if (tempX < maxX && tempZ < maxZ)
+                    {
+                        hex = transform.Find("Map" + tempX + "_" + tempZ).GetComponent<Hex>();
+                        float distance = FindDistance(hex.gameObject, target);
+                        if (distance <= lastDistance)
+                        {
+                            lastDistance = distance;
+                            closestOne = hex;
+                        }
+                    }
+                }
+                newX = closestOne.X;
+                newZ = closestOne.Z;
+                if (closestOne.height == point.height && closestOne.blockVision)
+                {
+                    blocked = true;//如果相同的话，那就看当前格子是不是可以遮挡视线的（树林）
+                    break;
+                }
+                if (closestOne.height > point.height)
+                {
+                    blocked = true;//如果遇到了高地，那就是说明不能打
+                    break;
+                }
+                if (lastDistance <= 17)
+                {
+                    break;
+                }
+                k++;
+            }
+            return blocked;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.Log(ex);
+            return false;
+        }
+    }
+    public bool IsBlocked(Hex point, Hex target)
+    {
+        try
+        {
+            Hex hex = null;
+            bool blocked = false;
+            if (FindDistance(point.gameObject, target.gameObject) < 17.5)
+            {
+                return blocked;
+            } else if (target.blockVision)
+            {
+                return true;
+            }
+            int tempX, tempZ;
+            float lastDistance = 9999f;
+            Hex closestOne = null;
+            int newX = point.X, newZ = point.Z;
+            int k = 0;
+            while (k < 100)
+            {
+                lastDistance = 9999f;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (newX % 2 == 0)
+                    {
+                        tempX = newX + changeX[i];
+                        tempZ = newZ + changeZ[i];
+                    }
+                    else
+                    {
+                        tempX = newX + changeX[i];
+                        tempZ = newZ + changeZ[i + 6];
+                    }
+                    if (tempX < maxX && tempZ < maxZ)
+                    {
+                        hex = transform.Find("Map" + tempX + "_" + tempZ).GetComponent<Hex>();
+                        float distance = FindDistance(hex.gameObject, target.gameObject);
+                        if (distance <= lastDistance)
+                        {
+                            lastDistance = distance;
+                            closestOne = hex;
+                        }
+                    }
+                }
+                newX = closestOne.X;
+                newZ = closestOne.Z;
+                if (closestOne.height == point.height && closestOne.blockVision)
+                {
+                    blocked = true;//如果相同的话，那就看当前格子是不是可以遮挡视线的（树林）
+                    break;
+                }
+                if (closestOne.height > point.height)
+                {
+                    blocked = true;//如果遇到了高地，那就是说明不能打
+                    break;
+                }
+                if (lastDistance <= 17)
+                {
+                    break;
+                }
+                k++;
+            }
+            return blocked;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.Log(ex);
+            return false;
         }
     }
 }

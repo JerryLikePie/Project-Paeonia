@@ -1775,6 +1775,7 @@ MonoBehaviour:
   allDolls: {fileID: 0}
   setEnemy: {fileID: 0}
   map: {fileID: 0}
+  thisUnit: {fileID: 0}
   beingSpotted: 0
   supportTargetCord: {fileID: 0}
   enemyList: []
@@ -1784,14 +1785,11 @@ MonoBehaviour:
   - {fileID: 1728788109586405769}
   - {fileID: 4452140819528466063}
   - {fileID: 7977427728536264880}
-  crewNum: 3
+  crewNum: 5
+  currentTile: {fileID: 0}
   bullet: {fileID: 7899560838223106138}
-  fireSound: {fileID: 857604431729754053}
-  fireSound2: {fileID: 857604431729754053}
-  fireSoundBase: {fileID: 650500840799225772}
   reloadStartSound: {fileID: 159986526877262149}
   reloadEndSound: {fileID: 7695236996059844643}
-  skillSound: {fileID: 7648644005236092867}
   shotsInMag: 0
   planeVelocity: {x: 0, y: 0, z: 0}
   healthRestrictLine:
@@ -1801,7 +1799,6 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  thisUnit: {fileID: 0}
   canFire: 1
   counter: 0
   healthLevel: 0
@@ -1847,8 +1844,8 @@ MonoBehaviour:
   dolls_sta_attack: 0
   dolls_ats_attack: 0
   dolls_penetration: 48
-  dolls_accuracy: 98
-  dolls_dodge: 79
+  dolls_accuracy: 79
+  dolls_dodge: 103
   dolls_reload: 4.7
   dolls_firerate: 4.7
   dolls_armor_front: 10
@@ -1864,7 +1861,7 @@ MonoBehaviour:
   dolls_skill_fullcharge: 4
   dolls_withdrew: 0
   dolls_mag: 1
-  dolls_shell_speed: 6500
+  dolls_shell_speed: 5400
 --- !u!1 &5195854790762086271
 GameObject:
   m_ObjectHideFlags: 0

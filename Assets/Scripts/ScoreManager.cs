@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public int killedEnemy, totalEnemy, killedDolls, totalDolls;
-    public bool enemyBaseCaptured = false, friendlyBaseCaptured = false;
-    public float finalPoints, killPoints, capturePoints, timePoints, casualtyPoints, timeTook, timeLimit;
+    int killedEnemy, totalEnemy, killedDolls, totalDolls;
+    bool enemyBaseCaptured = false, friendlyBaseCaptured = false;
+    float finalPoints, killPoints, capturePoints, timePoints, casualtyPoints, timeTook, timeLimit;
     public GameObject enemyList;
     public GameObject friendlyList;
     public bool captureObjective, noDeath, allDestroyed, inTime;
     public string stageName;
+    public TMPro.TextMeshPro killCount;
+    public TMPro.TextMeshPro timeCount;
+    public GameObject HUD;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -22,10 +26,6 @@ public class ScoreManager : MonoBehaviour
                 Destroy(Object.FindObjectsOfType<ScoreManager>()[i].gameObject);
             }
         }
-    }
-    public void CapturedEnemyPoints()
-    {
-        capturePoints = 10000;
     }
     public void GameEnded()
     {
@@ -46,8 +46,56 @@ public class ScoreManager : MonoBehaviour
             allDestroyed = true;
         }
     }
+    public void SetTime(float time)
+    {
+        this.timeTook = time;
+        timeCount.SetText(((int) time / 60) + ":" + ((int) time % 60).ToString("00"));
+    }
+    public void SetTimeLimit(float time)
+    {
+        this.timeLimit = time;
+    }
+    public float GetTimeLimit()
+    {
+        return this.timeLimit;
+    }
+    public float GetTime()
+    {
+        return this.timeTook;
+    }
+    public void EnemyKilled()
+    {
+        this.killedEnemy++;
+        killCount.SetText(killedEnemy + "/" + totalEnemy);
+    }
+    public void FriendlyDead()
+    {
+        this.killedDolls++;
+    }
+    public void SpawnDoll()
+    {
+        this.totalDolls++;
+    }
+    public void SpawnEnemy()
+    {
+        this.totalEnemy++;
+        killCount.SetText(killedEnemy + "/" + totalEnemy);
+    }
+    public void FriendlyBaseLost()
+    {
+        this.friendlyBaseCaptured = true;
+    }
+    public void EnemyBaseCaptured()
+    {
+        this.enemyBaseCaptured = true;
+    }
+    public bool Lost()
+    {
+        return friendlyBaseCaptured;
+    }
     public void Initialize()
     {
+        HUD.SetActive(false);
         killedEnemy = 0;
         totalEnemy = 0;
         killedDolls = 0;
@@ -55,5 +103,7 @@ public class ScoreManager : MonoBehaviour
         timeTook = 0;
         enemyBaseCaptured = false;
         friendlyBaseCaptured = false;
+        killCount.SetText("0/0");
+        timeCount.SetText("0:00");
     }
 }

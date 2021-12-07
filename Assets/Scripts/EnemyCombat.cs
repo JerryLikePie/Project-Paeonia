@@ -41,6 +41,8 @@ public class EnemyCombat : MonoBehaviour
     public int moveSpeedWaitTime;
     Transform supportTargetCord;
     public Transform artyTarget;
+    bool enemyInRange = false;
+    public float aaAttackInterval;
 
     // Start is called before the first frame update
     void Start()
@@ -86,12 +88,16 @@ public class EnemyCombat : MonoBehaviour
             FogOfWar();
             switch(enemy.enemy_type)
             {
-                case 1:
+                case 1: case 3:
                     GroundCheckDolls();
                     break;
                 case 2:
                     SupportCheckDolls();
                     break;
+                case 4:
+                    AntiAirCheckDolls();
+                    break;
+
             }
             
         }
@@ -164,7 +170,7 @@ public class EnemyCombat : MonoBehaviour
                 // transform.position = currentHex.transform.position;
                 currentHex.haveEnemy = true;
                 firstTime = true;
-                hang = currentHex.hang; lie = currentHex.lie; height = currentHex.height;
+                hang = currentHex.X; lie = currentHex.Z; height = currentHex.height;
                 dodge = enemy.enemy_dodge + currentHex.dodgeBuff;
                 rangeBuff = currentHex.rangeBuff;
                 
@@ -196,17 +202,26 @@ public class EnemyCombat : MonoBehaviour
     }
     public void Attack ()
     {
-        switch (enemy.enemy_type)
+        for (int j = 0; j < crewNum; j++)
         {
-            case 1:
-                fireBullet();
-                break;
-            case 2:
-                fireHowitzer();
-                break;
+            switch (enemy.enemy_type)
+            {
+                case 1:
+                    Invoke("FireBullet", Random.Range(0, 0.34f));
+                    break;
+                case 2:
+                    Invoke("FireHowitzer", Random.Range(0, 2));
+                    break;
+                case 3:
+                    Invoke("FireSmallArty", Random.Range(0, 5));
+                    break;
+                case 4:
+                    StartCoroutine(FireAA());
+                    break;
+            }
         }
     }
-    void fireBullet()
+    void FireBullet()
     {
         enemy.enemy_visible = true;
         toHideTheEnemy.SetActive(true);
@@ -219,7 +234,7 @@ public class EnemyCombat : MonoBehaviour
         shot.WhereTheShotWillGo = setDolls.transform.position;
         shot.damage = 0;//先设为0
         shot.damageIndicate = "hit";
-        float randomPen = enemy.enemy_penetration + Random.Range(-1.5f, 1.5f);
+        float randomPen = enemy.enemy_penetration + Random.Range(-5, 5f);
         if (randomPen >= setDolls.dolls.dolls_armor_front)
         {
             shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
@@ -238,9 +253,40 @@ public class EnemyCombat : MonoBehaviour
         shot.firstImpact = true;
         counter++;
     }
-    void fireHowitzer()
+    void FireSmallArty()
     {
-        Debug.Log("Fire");
+        enemy.enemy_visible = true;
+        toHideTheEnemy.SetActive(true);
+        StartCoroutine(SetInActiveAfterFire());
+        GameObject bulletThatWasShot = Instantiate(bullet, enemyEntities[counter].transform.position, Quaternion.identity);
+        bulletThatWasShot.SetActive(true);
+        bulletThatWasShot.transform.LookAt(setDolls.transform);
+        shot = bulletThatWasShot.GetComponent<BulletManager>();
+        shot.speed = enemy.enemy_shell_speed;
+        shot.WhereTheShotWillGo = setDolls.transform.position + Random.Range(-17, 17f) * Vector3.left + Random.Range(-17, 17f) * Vector3.forward;
+        shot.damage = 0;//先设为0
+        shot.damageIndicate = "hit";
+        float randomPen = enemy.enemy_penetration + Random.Range(-5, 5f);
+        if (randomPen >= setDolls.dolls.dolls_armor_front)
+        {
+            shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
+            //判定，如果可以击穿那就把伤害加上去，不然的话这发炮弹就是0伤害
+            shot.damageIndicate = shot.damage.ToString("F0");
+            if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
+            {
+                shot.damage = 0;
+                //判定，被闪避了那就miss
+                shot.damageIndicate = "miss";
+            }
+        }
+        shot.sender = enemyEntities[counter].gameObject;
+        shot.dollsList = dollsList;
+        shot.whoShotMe = "enemy";
+        shot.firstImpact = true;
+        counter++;
+    }
+    void FireHowitzer()
+    {
         GameObject bulletThatWasShot = Instantiate(bullet, enemyEntities[counter].transform.position, Quaternion.identity);
         bulletThatWasShot.SetActive(true);
         bulletThatWasShot.transform.LookAt(supportTargetCord);
@@ -258,6 +304,20 @@ public class EnemyCombat : MonoBehaviour
         shot.whoShotMe = "enemy";
         shot.firstImpact = true;
     }
+    IEnumerator FireAA()
+    {
+        while (enemyInRange)
+        {
+            
+            float damage = enemy.enemy_sta_attack * enemy.enemy_damage_multiplier * Random.Range(0.9f, 1.1f);
+            float dollsDodge = setDolls.dolls.dolls_dodge + setDolls.dodgeBuff;
+            if (Random.Range(0, 100) > dollsDodge - enemy.enemy_accuracy)
+            {
+                setDolls.RevieveDamage(damage);
+            }
+            yield return new WaitForSeconds(aaAttackInterval);
+        }
+    }
     public void GroundCheckDolls()
     {
         try
@@ -271,11 +331,45 @@ public class EnemyCombat : MonoBehaviour
                     {
                         counter = 0;
                         setDolls = dolls;
-                        for (int j = 0; j < crewNum; j++)
-                            Invoke("Attack", Random.Range(0f, 0.49f));
+                        Attack();
                         StartCoroutine(FireRate());
                     }
                 }
+            }
+        }
+        catch
+        {
+        }
+    }
+    public void AntiAirCheckDolls()
+    {
+        try
+        {
+            for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
+            {
+                dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
+                if (dolls.dolls.dolls_type == 3)
+                {
+                    
+                    if (FindDistance(transform.gameObject, dolls.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff) && dolls.gameObject.activeSelf)
+                    {
+                        if (canFire)
+                        {
+                            enemyInRange = true;
+                            GetComponent<AntiMissileGunController>().ProjectileCount += 20 * crewNum;
+                            counter = 0;
+                            setDolls = dolls;
+                            Attack();
+                            StartCoroutine(FireRate());
+                        }
+                    }
+                    else
+                    {
+                        GetComponent<AntiMissileGunController>().ProjectileCount = 0;
+                        enemyInRange = false;
+                    }
+                }
+                
             }
         }
         catch
@@ -291,8 +385,7 @@ public class EnemyCombat : MonoBehaviour
                 GameObject maybeTarget = GameObject.FindWithTag("ArtilleryReference");
                 supportTargetCord = maybeTarget.transform;
                 counter = 0;
-                for (int j = 0; j < crewNum; j++)
-                    Invoke("Attack", Random.Range(0f, 3f));
+                Attack();
                 StartCoroutine(FireRate());
             }
         }
@@ -335,7 +428,7 @@ public class EnemyCombat : MonoBehaviour
     }
     void WithDrawl()
     {
-        map.GetComponent<MapCreate>().Score.killedEnemy += 1;
+        map.GetComponent<MapCreate>().Score.EnemyKilled();
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
         descanMap();
         transform.gameObject.SetActive(false);
@@ -394,7 +487,8 @@ public class EnemyCombat : MonoBehaviour
                 {
                     if (!BeingBlocked(gameObject, NextTile.gameObject))
                     {
-                        NextTile.isSpotted += 1;
+                        NextTile.EnemySpot();
+                        NextTile.UpdateFogStatus();
                         deScanTheMap.Enqueue(NextTile);
                     }
                 }
@@ -455,8 +549,8 @@ public class EnemyCombat : MonoBehaviour
                     closestOne = hex;
                 }
             }
-            newHang = closestOne.hang;
-            newLie = closestOne.lie;
+            newHang = closestOne.X;
+            newLie = closestOne.Z;
             if (closestOne.height == height && closestOne.blockVision)
             {
                 blocked = true;//如果相同的话，那就看当前格子是不是可以遮挡视线的（树林）

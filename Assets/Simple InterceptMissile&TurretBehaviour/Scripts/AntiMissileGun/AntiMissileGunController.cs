@@ -57,7 +57,7 @@ public class AntiMissileGunController : MonoBehaviour {
 	public GameObject ProjectilePrefab;
 
 	[Tooltip("Adjust the efficiency of this turret")]
-	[Range(3f,4f)]
+	[Range(-4f,4f)]
 	public float Efficiency;
 
 	[Tooltip("Barrel for instantiating projectile")]
@@ -151,11 +151,11 @@ public class AntiMissileGunController : MonoBehaviour {
 
 		float distance = Vector3.Distance(transform.position, target.position);
 		float projectileTravelTime = distance / Mathf.Max(ProjectileSpeed,2f);
-		Vector3 aimPoint = target.position + targetSpeed * Efficiency/4 * projectileTravelTime;
+		Vector3 aimPoint = target.position + targetSpeed * Random.Range(Efficiency, 4)/4 * projectileTravelTime;
 
 		float distance2 = Vector3.Distance(transform.position, aimPoint);
 		float projectileTravelTime2 = distance2 / Mathf.Max(ProjectileSpeed,2f);
-		predictedTargetPosition = target.position + targetSpeed * Efficiency/4 * projectileTravelTime2;
+		predictedTargetPosition = target.position + targetSpeed * Random.Range(Efficiency, 4) / 4 * projectileTravelTime2;
 
 		Debug.DrawLine(transform.position, predictedTargetPosition, Color.blue);
 
@@ -249,21 +249,26 @@ public class AntiMissileGunController : MonoBehaviour {
 	{			
 		// Only fire when there is a target, turret is aiming and within fire rate
 		if(target != null && ProjectileCount > 0 && Time.time > nextFireAllowed && IsAiming)
-		{	
-			for(int i = 0; i < Barrel.Length; i++)
-			{	
-				if(UsePooling)
-					PoolManager.instance.ReuseObject(ProjectilePrefab, Barrel[i].position, Barrel[i].rotation, predictedTargetPosition, ProjectileSpeed);
+		{
+            
+            for (int i = 0; i < Barrel.Length; i++)
+			{
+                if (UsePooling)
+                {
+                    PoolManager.instance.ReuseObject(ProjectilePrefab, Barrel[i].position, Barrel[i].rotation, predictedTargetPosition, ProjectileSpeed);
+                    Debug.Log(ProjectileSpeed);
+                }
 				else
 				{
-					AntiMissileProjectile newProjectile = Instantiate(ProjectilePrefab, Barrel[i].position, Barrel[i].rotation).GetComponent<AntiMissileProjectile>();							
+					AntiMissileProjectile newProjectile = Instantiate(ProjectilePrefab, Barrel[i].position + Random.Range(-5, 5) * Vector3.right + Random.Range(-5, 5) * Vector3.forward, Barrel[i].rotation).GetComponent<AntiMissileProjectile>();							
 					newProjectile.transform.LookAt(predictedTargetPosition);
 					newProjectile.Speed = this.ProjectileSpeed;
+                    
 				}
 				
 				ProjectileCount --;
 			}
-			nextFireAllowed = Time.time + FireRate;
+			nextFireAllowed = Time.time + Random.Range(FireRate * -0.1f, FireRate * 1f);
 			
 			// Play Effects
 			if(BulletShellFX != null)

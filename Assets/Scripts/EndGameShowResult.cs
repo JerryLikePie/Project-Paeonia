@@ -18,7 +18,7 @@ public class EndGameShowResult : MonoBehaviour
     }
     void Conditions()
     {
-        if (Scores.captureObjective&& !Scores.friendlyBaseCaptured)
+        if (Scores.captureObjective && !Scores.Lost())
         {
             Condition1.GetComponent<Text>().text = "已占领该区域关键节点";
             Star1.SetActive(true);
@@ -29,7 +29,7 @@ public class EndGameShowResult : MonoBehaviour
             Condition1.GetComponent<Text>().text = "未能占领该区域";
             Star1.SetActive(false);
         }
-        if (Scores.allDestroyed && !Scores.friendlyBaseCaptured)
+        if (Scores.allDestroyed && !Scores.Lost())
         {
             Condition2.GetComponent<Text>().text = "已清缴该区域全部目标";
             Star2.SetActive(true);
@@ -40,7 +40,7 @@ public class EndGameShowResult : MonoBehaviour
             Condition2.GetComponent<Text>().text = "未能清缴全部目标";
             Star2.SetActive(false);
         }
-        if (Scores.noDeath && !Scores.friendlyBaseCaptured)
+        if (Scores.noDeath && !Scores.Lost())
         {
             Condition3.GetComponent<Text>().text = "DOLLS没有受到重大损失";
             Star3.SetActive(true);
@@ -51,9 +51,9 @@ public class EndGameShowResult : MonoBehaviour
             Condition3.GetComponent<Text>().text = "DOLLS遭受了重大损失";
             Star3.SetActive(false);
         }
-        if (Scores.inTime && !Scores.friendlyBaseCaptured)
+        if (Scores.inTime && !Scores.Lost())
         {
-            Condition4.GetComponent<Text>().text = "作战时间" + Scores.timeTook.ToString("F1")+"，规定时间为" + Scores.timeLimit.ToString("F0");
+            Condition4.GetComponent<Text>().text = "作战时间" + Scores.GetTime().ToString("F1")+"，规定时间为" + Scores.GetTimeLimit().ToString("F0");
             if (howManyStars < 3)
             {
                 Star4.SetActive(true);
@@ -68,7 +68,7 @@ public class EndGameShowResult : MonoBehaviour
         }
         else 
         {
-            Condition4.GetComponent<Text>().text = "作战时间" + Scores.timeTook.ToString("F1") + "，规定时间为" + Scores.timeLimit.ToString("F0");
+            Condition4.GetComponent<Text>().text = "作战时间" + Scores.GetTime().ToString("F1") + "，规定时间为" + Scores.GetTimeLimit().ToString("F0");
             Star4.SetActive(false);
             Star4Special.SetActive(false);
         }
@@ -81,7 +81,7 @@ public class EndGameShowResult : MonoBehaviour
             PlayerPrefs.SetInt(Scores.stageName, howManyStars);
             PlayerPrefs.Save();
         }
-        if (Scores.friendlyBaseCaptured)
+        if (Scores.Lost())
         {
             EndScore.GetComponent<Text>().text = "作战失败";
             //EndWords.GetComponent<Text>().text = "灾兽正在逼近前哨指挥所，请立即撤退。";

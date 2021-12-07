@@ -10246,7 +10246,7 @@ Transform:
   m_GameObject: {fileID: 4636164127759887071}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 80, y: 80, z: 80}
+  m_LocalScale: {x: 130, y: 130, z: 30}
   m_Children:
   - {fileID: 2481920176445952522}
   - {fileID: 5687623851040482764}
@@ -15737,35 +15737,6 @@ MonoBehaviour:
   dodge: 0
   rangeBuff: 0
   healthBar: {fileID: 7215935892192352484}
-  FullHealthNoHealth:
-    serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 0.061807394, g: 1, b: 0, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
   hang: 0
   lie: 0
   map: {fileID: 0}
@@ -15790,6 +15761,7 @@ MonoBehaviour:
   moveSpeedWaitTime: 14
   artyTarget: {fileID: 6226237802915441925, guid: a41fa28958cfd384f8529687bc2e9ffc,
     type: 3}
+  aaAttackInterval: 0
 --- !u!114 &7215935891652757822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15806,22 +15778,23 @@ MonoBehaviour:
   enemy_id: 3
   enemy_type: 2
   enemy_range: 99
-  enemy_max_hp: 900
+  enemy_max_hp: 1200
   enemy_damage_recieved_multiplier:
-  - 0.7
-  - 0.7
+  - 1
+  - 0.5
   - 1.3
   - 1.3
-  - 0.4
+  - 0.5
+  - 1
   enemy_penetration: 80
-  enemy_sts_attack: 1560
+  enemy_sts_attack: 680
   enemy_ata_attack: 0
   enemy_sta_attack: 0
   enemy_ats_attack: 0
   enemy_accuracy: 170
-  enemy_dodge: 0
-  enemy_reload: 5
-  enemy_firerate: 5
+  enemy_dodge: 20
+  enemy_reload: 20
+  enemy_firerate: 20
   enemy_armor_front: 50
   enemy_armor_side: 15
   enemy_armor_back: 15

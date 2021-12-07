@@ -1,0 +1,127 @@
+{
+	"timeLimit": 125,
+	"mapTiles": [
+		"WWWWWWWWWWWWWWWWW",
+		"W111111111111111W",
+		"W11111B111144411W",
+		"W144111111111411W",
+		"W511114444111111W",
+		"W665111144111111W",
+		"W144411111114441W",
+		"W111111111111111W",
+		"W111441114441111W",
+		"W111114441111111W",
+		"W444111111111111W",
+		"W45441111111R111W",
+		"W665444111111111W",
+		"WWWWWWWWWWWWWWWWW"
+	],
+		"enemySpawnPoints": [
+		{
+			"spawnType": 5,
+			"spawnTile": "Map6_1",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 5,
+			"spawnTile": "Map10_1",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 3,
+			"spawnTile": "Map9_5",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 3,
+			"spawnTile": "Map9_4",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 2,
+			"spawnTile": "Map10_4",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 2,
+			"spawnTile": "Map8_7",
+			"spawnTime": 0,
+			"nextTile": ["Map8_8"],
+			"waitTime": [0]
+		},
+		{
+			"spawnType": 2,
+			"spawnTile": "Map7_8",
+			"spawnTime": 0,
+			"nextTile": ["Map7_9"],
+			"waitTime": [0]
+		},
+		{
+			"spawnType": 2,
+			"spawnTile": "Map7_9",
+			"spawnTime": 0,
+			"nextTile": ["Map7_10"],
+			"waitTime": [0]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map10_14",
+			"spawnTime": 0,
+			"nextTile": ["Map10_13","Map2_6"],
+			"waitTime": [0,0]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map10_14",
+			"spawnTime": 0,
+			"nextTile": ["Map10_13","Map2_6"],
+			"waitTime": [1,0]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map10_13",
+			"spawnTime": 0,
+			"nextTile": ["Map10_12","Map2_6"],
+			"waitTime": [3,0]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map11_14",
+			"spawnTime": 0,
+			"nextTile": ["Map11_13","Map2_6"],
+			"waitTime": [5,0]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map10_12",
+			"spawnTime": 0,
+			"nextTile": ["Map10_11","Map2_6"],
+			"waitTime": [7,0]
+		},
+		{
+			"spawnType": 4,
+			"spawnTile": "Map11_12",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map12_11",
+			"spawnTime": 0,
+			"nextTile": ["Map12_10","Map2_6"],
+			"waitTime": [0,0]
+		}
+	],
+	"somethingelse": 1
+}

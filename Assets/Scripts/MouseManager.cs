@@ -336,7 +336,7 @@ public class MouseManager : MonoBehaviour
             if (current_hang % 2 == 0)
             {
                 int next_lie = current_lie + change_lie[i];
-                if (next_hang == selectedTile.hang && next_lie == selectedTile.lie && selectedTile.haveUnit == false && selectedTile.haveEnemy == false)
+                if (next_hang == selectedTile.X && next_lie == selectedTile.Z && selectedTile.haveUnit == false && selectedTile.haveEnemy == false)
                 {
                     walkable = true;//如果我点的tile的坐标是在这6个数中间，那就可以走
                 }
@@ -344,7 +344,7 @@ public class MouseManager : MonoBehaviour
             else
             {
                 int next_lie = current_lie + change_lie[i+6];
-                if (next_hang == selectedTile.hang && next_lie == selectedTile.lie && selectedTile.haveUnit == false && selectedTile.haveEnemy == false)
+                if (next_hang == selectedTile.X && next_lie == selectedTile.Z && selectedTile.haveUnit == false && selectedTile.haveEnemy == false)
                 {
                     walkable = true;//如果我点的tile的坐标是在这6个数中间，那就可以走
                 }

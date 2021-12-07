@@ -329,35 +329,6 @@ MonoBehaviour:
   dodge: 0
   rangeBuff: 0
   healthBar: {fileID: 722467875354209464}
-  FullHealthNoHealth:
-    serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 0.061807394, g: 1, b: 0, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
   hang: 0
   lie: 0
   map: {fileID: 0}
@@ -369,7 +340,7 @@ MonoBehaviour:
   - {fileID: 4738134130491771166}
   - {fileID: 1232995994780612080}
   - {fileID: 6384422372135786764}
-  crewNum: 2
+  crewNum: 3
   healthRestrictLine:
   - 0
   - 0
@@ -383,6 +354,7 @@ MonoBehaviour:
   canMove: 1
   moveSpeedWaitTime: 8
   artyTarget: {fileID: 0}
+  aaAttackInterval: 0
 --- !u!114 &722467874009513314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,17 +374,18 @@ MonoBehaviour:
   enemy_max_hp: 300
   enemy_damage_recieved_multiplier:
   - 1
-  - 4
+  - 2
   - 1.8
   - 2.5
-  - 4
+  - 2
+  - 0.5
   enemy_penetration: 15.5
   enemy_sts_attack: 40
   enemy_ata_attack: 0
   enemy_sta_attack: 0
   enemy_ats_attack: 0
-  enemy_accuracy: 89
-  enemy_dodge: 40
+  enemy_accuracy: 90
+  enemy_dodge: 83
   enemy_reload: 5
   enemy_firerate: 0.5
   enemy_armor_front: 15
@@ -429,7 +402,7 @@ MonoBehaviour:
   enemy_moveTime: 10
   enemy_withdrew: 0
   enemy_visible: 0
-  enemy_mag: 4
+  enemy_mag: 3
   enemy_shell_speed: 7800
 --- !u!1 &722467874561431197
 GameObject:
@@ -908,7 +881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &722467875443428188
 RectTransform:
   m_ObjectHideFlags: 0

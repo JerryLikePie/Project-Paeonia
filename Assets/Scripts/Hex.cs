@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Hex : MonoBehaviour
 {
-    public int hang;
-    public int lie;
+    public int X;
+    public int Z;
     public bool reachable = false;
     public float movecost;
     public int spawnNum;
@@ -31,6 +31,7 @@ public class Hex : MonoBehaviour
             maskedColor = new Color(originalColor.r - 0.5f, originalColor.g - 0.5f, originalColor.b - 0.5f);
             highlightColor = new Color(originalColor.r + 0.1f, originalColor.g + 0.5f, originalColor.b + 0.1f);
         }
+        UpdateFogStatus();
     }
     void Update()
     {

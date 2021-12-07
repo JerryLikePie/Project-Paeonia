@@ -25,7 +25,7 @@
 			"waitTime": [25, 10, 13]
 		},
 		{
-			"spawnType": 3,
+			"spawnType": 2,
 			"spawnTile": "Map10_12",
 			"spawnTime": 0,
 			"nextTile": ["Map10_11"],
@@ -37,6 +37,13 @@
 			"spawnTime": 5,
 			"nextTile": ["Map8_7", "Map8_8", "Map8_7"],
 			"waitTime": [30,30,30]
+		},
+		{
+			"spawnType": 2,
+			"spawnTile": "Map8_7",
+			"spawnTime": 5,
+			"nextTile": ["Map8_5", "Map8_8", "Map8_7"],
+			"waitTime": [12,15,12]
 		},
 		{
 			"spawnType": 1,
@@ -57,6 +64,13 @@
 			"spawnTile": "Map7_13",
 			"spawnTime": 0,
 			"nextTile": ["Map6_8", "Map7_9", "Map4_3", "Map2_3"],
+			"waitTime": [0, 0, 0, 0]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map7_12",
+			"spawnTime": 0,
+			"nextTile": ["Map6_7", "Map7_5", "Map4_3", "Map2_3"],
 			"waitTime": [0, 0, 0, 0]
 		}
 	],

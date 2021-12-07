@@ -18,25 +18,27 @@ public class DollsCombat : MonoBehaviour
 
     [HideInInspector] public GameObject allEnemy, allDolls;
     [HideInInspector] public EnemyCombat setEnemy;
-    [HideInInspector] public GameObject map;
-    public bool beingSpotted = false;
+    [HideInInspector] public MapCreate map;
+    [HideInInspector] public Unit thisUnit;
+    [HideInInspector] public bool beingSpotted = false;
 
     [HideInInspector] public Transform supportTargetCord;
     [HideInInspector] public Queue<Hex> toCancelFogQueue = new Queue<Hex>();
-    public List<EnemyCombat> enemyList;
+    [HideInInspector] public List<EnemyCombat> enemyList;
     public UnitEntity[] dollsEntities;
 
     public int crewNum;
     Hex nextTile;
+    [HideInInspector] public Hex currentTile;
     public GameObject bullet;
-    public AudioSource fireSound, fireSound2, fireSoundBase, reloadStartSound, reloadEndSound, skillSound;
+    public AudioSource reloadStartSound, reloadEndSound;
     public int shotsInMag;
     BulletManager shot = new BulletManager();
     //public GameObject lineOfSight;
 
     [HideInInspector] public Vector3 planeVelocity;
     [HideInInspector] public float[] healthRestrictLine = { 0, 0, 0, 0, 0, 0 };
-    [HideInInspector] public Unit thisUnit;
+
 
     [HideInInspector] public bool canFire = true;
     bool firstTime;
@@ -164,7 +166,6 @@ public class DollsCombat : MonoBehaviour
         StartCoroutine(SetInactiveAfterFire());
         for (int i = 1; i <= crewNum; i++)
         {
-            Debug.Log(i + " -> " + crewNum);
             if (dolls.dolls_type == 1)
             {
                 Invoke("FireBullet", Random.Range(0f, 1f));
@@ -187,7 +188,7 @@ public class DollsCombat : MonoBehaviour
     void Withdrawl()
     {
         deFogOfWar();
-        map.GetComponent<MapCreate>().Score.killedDolls += 1;
+        map.Score.FriendlyDead();
         transform.GetComponent<DollsCombat>().enabled = false;
         transform.gameObject.SetActive(false);
         map.transform.Find("Map" + thisUnit.hang + "_" + thisUnit.lie).GetComponent<Hex>().haveUnit = false;
@@ -213,64 +214,11 @@ public class DollsCombat : MonoBehaviour
             Withdrawl();
         }
     }
-    public bool IsBlocked(GameObject x, GameObject y)//x是玩家，y是目标，直线过去有没有受阻
-    {
-        bool blocked = false;
-        if (FindDistance(x, y) < 17.5)
-        {
-            return blocked;
-        }
-        float lastDistance = 9999f;
-        int myHeight = height;
-        Hex closestOne = null;
-        int[] change_hang = { 0, 1, 1, 0, -1, -1 };
-        int[] change_lie = { 1, 1, 0, -1 , 0, 1,
-                       1, 0, -1, -1, - 1, 0 };//分奇偶层，当前坐标的“六个可能的下个坐标”
-        int hang = x.GetComponent<Unit>().hang, lie = x.GetComponent<Unit>().lie;
-        while (true)
-        {
-            lastDistance = 9999f;
-            for (int i = 0; i < 6; i++)
-            {
-                Hex hex;
-                if (hang % 2 == 0)
-                {
-                    hex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i])).transform.GetComponent<Hex>();
-                }
-                else
-                {
-                    hex = map.transform.Find("Map" + (hang + change_hang[i]) + "_" + (lie + change_lie[i + 6])).transform.GetComponent<Hex>();
-                }
-                float distance = FindDistance(hex.gameObject, y);
-                if (distance <= lastDistance)
-                {
-                    lastDistance = distance;
-                    closestOne = hex;
-                }
-            }
-            hang = closestOne.hang;
-            lie = closestOne.lie;
-            if (closestOne.height == height && closestOne.blockVision)
-            {
-                blocked = true;//如果相同的话，那就看当前格子是不是可以遮挡视线的（树林）
-                break;
-            }
-            if (closestOne.height > height)
-            {
-                blocked = true;//如果遇到了高地，那就是说明不能打
-                break;
-            }
-            if (lastDistance <= 1)
-            {
-                break;
-            }
-        }
-        return blocked;
-    }
+
     public void CheckStatus()
     {
-        Hex hex = map.transform.Find("Map" + thisUnit.hang + "_" + thisUnit.lie).GetComponent<Hex>();
-        if (hex.isSpotted <= 0)
+        currentTile = map.transform.Find("Map" + thisUnit.hang + "_" + thisUnit.lie).GetComponent<Hex>();
+        if (currentTile.isSpotted <= 0)
         {
             beingSpotted = false;
         }
@@ -281,28 +229,31 @@ public class DollsCombat : MonoBehaviour
     }
     public void FogOfWar()
     {
-        int j = 0;
+        int j = 0, k = 0;
         for (int i = 0; i <= map.transform.childCount - 1; i++)
         {
             try
             {
                 nextTile = map.transform.GetChild(i).GetComponent<Hex>();
-                if (FindDistance(gameObject, nextTile.gameObject) <= 17.8 * (dolls.dolls_view_range + rangeBuff))
+                if (FindDistance(gameObject, nextTile.gameObject) <= 17.5 * (dolls.dolls_view_range + rangeBuff))
                 {
-                    if (!IsBlocked(gameObject, nextTile.gameObject))
+                    j++;
+                    //
+                    if (!map.IsBlocked(currentTile, nextTile))
                     {
                         nextTile.GainVisual();
                         toCancelFogQueue.Enqueue(nextTile);
-                        j += 1;
                     }
+                    k++;
                 }
                 nextTile.UpdateFogStatus();
             }
-            catch
+            catch (System.Exception ex)
             {
-                continue;
+                Debug.Log(ex.StackTrace);
             }
         }
+        Debug.Log("这次进入了" + j + "个地块，但是，k = " + k);
     }
     public void deFogOfWar()
     {
@@ -347,4 +298,9 @@ public class DollsCombat : MonoBehaviour
             StartCoroutine(Reload());
         }
     }
+    public void RevieveDamage(float num)
+    {
+        health -= num;
+    }
+
 }

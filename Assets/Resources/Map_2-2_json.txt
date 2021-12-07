@@ -1,0 +1,93 @@
+{
+	"timeLimit": 140,
+	"mapTiles": [
+		"WWWWWWWWWWWWWWWWW",
+		"W111122111144566W",
+		"W111111144454455W",
+		"W441111444455544W",
+		"W41B111114444144W",
+		"W111114444441111W",
+		"W111111111111111W",
+		"W141114144441111W",
+		"W466655654411144W",
+		"W645566541111544W",
+		"W455444111144444W",
+		"W4R1111114444444W",
+		"W444444111444444W",
+		"WWWWWWWWWWWWWWWWW"
+	],
+		"enemySpawnPoints": [
+		{
+			"spawnType": 2,
+			"spawnTile": "Map10_3",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 2,
+			"spawnTile": "Map10_1",
+			"spawnTime": 0,
+			"nextTile": ["Map10_2"],
+			"waitTime": [0]
+		},
+		{
+			"spawnType": 3,
+			"spawnTile": "Map2_13",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map1_10",
+			"spawnTime": 0,
+			"nextTile": ["Map1_9","Map4_3"],
+			"waitTime": [25,0]
+		},
+		{
+			"spawnType": 2,
+			"spawnTile": "Map3_12",
+			"spawnTime": 0,
+			"nextTile": ["Map3_11"],
+			"waitTime": [25]
+		},
+		{
+			"spawnType": 2,
+			"spawnTile": "Map8_9",
+			"spawnTime": 0,
+			"nextTile": ["Map8_8"],
+			"waitTime": [25]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map8_13",
+			"spawnTime": 0,
+			"nextTile": ["Map8_12","Map4_3"],
+			"waitTime": [25,0]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map8_12",
+			"spawnTime": 0,
+			"nextTile": ["Map8_13","Map4_3"],
+			"waitTime": [5,0]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map8_11",
+			"spawnTime": 0,
+			"nextTile": ["Map9_12","Map4_3"],
+			"waitTime": [0,0]
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map5_12",
+			"spawnTime": 0,
+			"nextTile": ["Map5_13","Map6_11","Map4_3"],
+			"waitTime": [25,0,0]
+		}
+
+	],
+	"somethingelse": 1
+}

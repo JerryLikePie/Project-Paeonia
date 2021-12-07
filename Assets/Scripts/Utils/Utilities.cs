@@ -4,6 +4,10 @@ using System.Collections;
 // 工具类，存放各种静态工具方法
 public static class Utilities
 {
+    public static int[] changeX = { 0, 1, 1, 0, -1, -1 };
+    public static int[] changeZ = { 1, 1, 0, -1 , 0, 1,
+                       1, 0, -1, -1, - 1, 0 };//分奇偶层，当前坐标的“六个可能的下个坐标”
+
     public static void SetHealthGradient(Gradient gradient)
     {
         GradientColorKey[] colorKey;
@@ -28,6 +32,22 @@ public static class Utilities
     {
         return Vector3.Distance(x.transform.position, y.transform.position);
     }
+
+    public static float FindDistance(Vector3 x, Vector3 y)
+    {
+        return Vector3.Distance(x, y);
+    }
+
+    public static float FindDistance(GameObject x, Vector3 y)
+    {
+        return Vector3.Distance(x.transform.position, y);
+    }
+
+    public static float FindDistance(Vector3 x, GameObject y)
+    {
+        return Vector3.Distance(x, y.transform.position);
+    }
+
     // 判断两个 Vector3 是否近似相等
     public static bool Vector3Equal(Vector3 a, Vector3 b)
     {

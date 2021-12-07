@@ -27,7 +27,7 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
             context.thisUnit.engineSound.volume = 1f;
             if (firstTime)
             {
-                context.Invoke("resetCord", context.resetTime);
+                context.Invoke("ResetCord", context.resetTime);
                 float distance = Vector3.Distance(transform.position, context.supportTargetCord.position);
                 time = distance / airSpeed;
                 //transform.position = Vector3.Lerp(transform.position, flyEndCord, time);

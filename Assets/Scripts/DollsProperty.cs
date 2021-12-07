@@ -30,7 +30,7 @@ public class DollsProperty : MonoBehaviour
     public int dolls_armor_back;//后装甲
 
     public float dolls_damage_multiplier;//伤害乘子
-    public int dolls_ammo_type;//弹种 0穿甲弹 1高爆弹 2破甲弹 3APCBC等后效弹 4航空炸弹
+    public int dolls_ammo_type;//弹种 0穿甲弹 1高爆弹 2破甲弹 3APCBC等后效弹 4航空炸弹 5尾翼稳定脱壳穿甲弹
 
     public bool dolls_airstrike;//可否空袭
     public bool dolls_recon;//可否侦查
@@ -44,4 +44,41 @@ public class DollsProperty : MonoBehaviour
 
     public int dolls_mag;//弹夹数量，如果不是弹夹炮那就是1发
     public int dolls_shell_speed;//弹速
+
+    float storeAttack;
+    float storeReload;
+    float storePen;
+
+    void Start()
+    {
+        storeAttack = dolls_sts_attack;
+        storeReload = dolls_reload;
+        storePen = dolls_penetration;
+    }
+
+    public void Buff(float attackBuff, float reloadBuff, float penetrationBuff, float time)
+    {
+        dolls_sts_attack += attackBuff;
+        dolls_reload += reloadBuff;
+        dolls_penetration += penetrationBuff;
+        Invoke("RemoveAtkBuff", time);
+        Invoke("RemoveSpdBuff", time);
+        Invoke("RemovePenBuff", time);
+    }
+    public void SwitchAmmo(int newAmmoType)
+    {
+        dolls_ammo_type = newAmmoType;
+    }
+    public void RemoveAtkBuff()
+    {
+        dolls_sts_attack = storeAttack;
+    }
+    public void RemoveSpdBuff()
+    {
+        dolls_reload = storeReload;
+    }
+    public void RemovePenBuff()
+    {
+        dolls_penetration = storePen;
+    }
 }

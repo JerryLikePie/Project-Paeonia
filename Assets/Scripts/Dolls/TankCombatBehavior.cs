@@ -7,6 +7,7 @@ public class TankCombatBehavior : IDollsCombatBehaviour
 {
     private DollsCombat context;
     private Queue<Hex> toCancelFog;
+    int newRange;
 
     void Start()
     {
@@ -31,12 +32,24 @@ public class TankCombatBehavior : IDollsCombatBehaviour
                 {
                     if (context.enemyList[i].enemy.enemy_visible == true && context.enemyList[i].gameObject.activeSelf)
                     {
-                        if (FindDistance(transform.gameObject, context.enemyList[i].gameObject) <= 17.32 * (context.dolls.dolls_range + context.rangeBuff))
+                        if (context.rangeBuff > 0)
                         {
-                            context.setEnemy = context.enemyList[i];
-                            context.counter = 0;
-                            context.Attack();
-                            StartCoroutine(context.FireRate());
+                            newRange = context.dolls.dolls_range;
+                        }
+                        else
+                        {
+                            newRange = context.dolls.dolls_range + (int)context.rangeBuff;
+                        }
+                        if (FindDistance(transform.gameObject, context.enemyList[i].gameObject) <= 17.32 * newRange)
+                        {
+                            //
+                            if (!context.map.IsBlocked(context.currentTile, context.enemyList[i].transform.position))
+                            {
+                                context.setEnemy = context.enemyList[i];
+                                context.counter = 0;
+                                context.Attack();
+                                StartCoroutine(context.FireRate());
+                            }
                         }
                     }
                 }
