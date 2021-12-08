@@ -35,7 +35,16 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("Map_T1-1", 0);
         PlayerPrefs.SetInt("Map_T1-2", 0);
         PlayerPrefs.SetInt("Map_T1-3", 0);
+        PlayerPrefs.SetInt("Map_1-1", 0);
+        PlayerPrefs.SetInt("Map_1-2", 0);
+        PlayerPrefs.SetInt("Map_1-3", 0);
+        PlayerPrefs.SetInt("Map_1-4", 0);
         PlayerPrefs.SetInt("Map_2-1", 0);
+        PlayerPrefs.SetInt("Map_2-2", 0);
+        PlayerPrefs.SetInt("Map_2-3", 0);
+        PlayerPrefs.SetInt("Map_2-4", 0);
+        PlayerPrefs.SetInt("Map_2-5", 0);
+        PlayerPrefs.SetInt("Map_2-6", 0);
         LoadSavedProgress();
     }
     public void LoadSavedProgress()

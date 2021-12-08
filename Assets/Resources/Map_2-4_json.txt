@@ -1,5 +1,5 @@
 {
-	"timeLimit": 120,
+	"timeLimit": 160,
 	"mapTiles": [
 		"WWWWWWWWWWWWWWW",
 		"W1111111111111W",
