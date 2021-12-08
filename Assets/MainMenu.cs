@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
     public string previousStage;
     private void Start()
     {
-        Application.targetFrameRate = 300;
+        Application.targetFrameRate = 60;
         LoadSavedProgress();
     }
     public void ToGame()

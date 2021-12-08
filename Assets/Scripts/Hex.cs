@@ -19,6 +19,8 @@ public class Hex : MonoBehaviour
     public int isSpotted = 0;//0为没有被点亮（对于我方来说
     public float dodgeBuff,rangeBuff;
     public GameObject fogOfWarDarken;
+    public GameObject hexBase;
+    public bool render;
 
     Color originalColor;
     Color maskedColor;
@@ -39,6 +41,10 @@ public class Hex : MonoBehaviour
     }
     public void GainVisual()
     {
+        if (!render)
+        {
+            render = true;
+        }
         this.isInFog++;
     }
     public void LoseVisual()
@@ -71,6 +77,32 @@ public class Hex : MonoBehaviour
             }
             if (isInFog < 0) isInFog = 0;
             if (isSpotted < 0) isSpotted = 0;
+        }
+ 
+        if (render)
+        {
+            
+            if (hexBase != null)
+            {
+                hexBase.GetComponent<MeshRenderer>().enabled = true;
+            }
+            if (fogOfWarDarken != null)
+            {
+                fogOfWarDarken.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
+        else
+        {
+            
+            if (hexBase != null)
+            {
+                hexBase.GetComponent<MeshRenderer>().enabled = false;
+
+            }
+            if (fogOfWarDarken != null)
+            {
+                fogOfWarDarken.GetComponent<MeshRenderer>().enabled = false;
+            }
         }
     }
 }

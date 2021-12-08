@@ -12,6 +12,7 @@ public class U17S1_AP1 : IDollsSkillBehavior
         unit.supportTargetCord = location;
         ((AttackerCombatBehavior)unit.combatBehaviour).flyEndCord = 2.5f * location.position - unit.transform.position;
         unit.combatBehaviour.CheckEnemy(unit);
+        ((AttackerCombatBehavior)unit.combatBehaviour).canAttack = true;
     }
     void Start()
     {

@@ -216,9 +216,7 @@ MonoBehaviour:
   toHideTheEnemy: {fileID: 4951395500566556863}
   height: 1
   enemyEntities:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 5539842265748656162}
   crewNum: 1
   healthRestrictLine:
   - 0
@@ -294,6 +292,7 @@ GameObject:
   - component: {fileID: 4951395500155458685}
   - component: {fileID: 4951395500155458687}
   - component: {fileID: 4951395500155458686}
+  - component: {fileID: 5539842265748656162}
   m_Layer: 9
   m_Name: EnemySprite
   m_TagString: Enemy
@@ -358,6 +357,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5539842265748656162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4951395500155458684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48c945dfe510794fad3bfa69094dc30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  howManyEntity: 0
+  amIShowing: 1
 --- !u!1 &4951395500206748575
 GameObject:
   m_ObjectHideFlags: 0

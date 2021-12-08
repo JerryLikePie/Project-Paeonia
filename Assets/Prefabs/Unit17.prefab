@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 149885170178798499}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 324280250789678756}
   - {fileID: 56064266143538685}
@@ -596,8 +596,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2
-      minScalar: 1.2
+      scalar: 1
+      minScalar: 0.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -765,8 +765,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 0.5
+      scalar: 0.6
+      minScalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5552,7 +5552,7 @@ Transform:
   m_GameObject: {fileID: 1928046035060051257}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 117358779004612364}
   - {fileID: 4996285008135034857}
@@ -15963,7 +15963,7 @@ Transform:
   m_GameObject: {fileID: 4996679618567991425}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 3070857306995884266}
   m_Father: {fileID: 2374448597981494459}
@@ -16974,6 +16974,8 @@ MonoBehaviour:
   firstTime: 1
   flyEndCord: {x: 0, y: 0, z: 0}
   airSpeed: 50
+  canAttack: 0
+  bombdrop: {fileID: 1281100019908995072}
 --- !u!114 &4137196982756760085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17003,7 +17005,7 @@ MonoBehaviour:
   dolls_accuracy: 300
   dolls_dodge: 212
   dolls_reload: 15
-  dolls_firerate: 0.21
+  dolls_firerate: 0.4
   dolls_armor_front: 0
   dolls_armor_side: 0
   dolls_armor_back: 0
@@ -17279,7 +17281,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d74cc57ab173b9f4b84a8a67990c0010, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4370eb226391165469f48e44dff58825, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.725
   m_Pitch: 1
@@ -18161,7 +18163,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 75c37c5a56c504a4c814742dc36bd3a8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.267
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -18417,7 +18419,7 @@ Transform:
   m_GameObject: {fileID: 8718961891457677251}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 324280250789678756}
   m_RootOrder: 0

@@ -467,8 +467,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0f25d1947537a42bd82da1c9403e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hang: 0
-  lie: 0
+  X: 0
+  Z: 0
   reachable: 1
   movecost: 0.8
   spawnNum: 0
@@ -483,3 +483,5 @@ MonoBehaviour:
   dodgeBuff: 0
   rangeBuff: 0
   fogOfWarDarken: {fileID: 7813683644894044397}
+  hexBase: {fileID: 7813743110302967309}
+  render: 0

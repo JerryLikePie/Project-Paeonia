@@ -13,6 +13,7 @@ public class DragSkillManager: MonoBehaviour,IDragHandler,IEndDragHandler,IBegin
     public bool canSpawn = false;
     public bool isDragging = false;
     public IDollsSkillBehavior skill;
+    public Vector3 snapBack;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -35,8 +36,8 @@ public class DragSkillManager: MonoBehaviour,IDragHandler,IEndDragHandler,IBegin
         isDragging = false;
         mouseManager.isDraggingUI = false;
         try { skill.unit.thisUnit.skillBox.SetActive(false); } catch { }//有些dolls是没有技能范围的
-        transform.localPosition = Vector3.zero;
-        if (!(Input.mousePosition.x < (Screen.width * 0.25f) && Input.mousePosition.y < 170))
+        transform.localPosition = snapBack;
+        if (!(Input.mousePosition.x < (Screen.width * 0.5f) && Input.mousePosition.y < 170))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] rayinfo;

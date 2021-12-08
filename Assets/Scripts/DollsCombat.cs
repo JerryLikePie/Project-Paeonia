@@ -138,16 +138,17 @@ public class DollsCombat : MonoBehaviour
         counter++;
         shot.enemyList = allEnemy;
         shot.dollsList = allDolls;
-        shot.whoShotMe = "hitAll";
+        shot.whoShotMe = "player";
         shot.firstImpact = true;
     }
     void ThrowBomb()
     {
-        GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
+        Vector3 randomPoint = supportTargetCord.position + Random.Range(-17, 17) * Vector3.left + Random.Range(-17, 17) * Vector3.forward + 3 * Vector3.up;
+        GameObject bulletThatWasShot = Instantiate(bullet, randomPoint, Quaternion.identity);
         bulletThatWasShot.SetActive(true);
         shot = bulletThatWasShot.GetComponent<BulletManager>();
-        shot.speed = 0;
-        shot.WhereTheShotWillGo = transform.position;
+        shot.speed = 3000;
+        shot.WhereTheShotWillGo = randomPoint;
         shot.shotType = dolls.dolls_ammo_type;
         shot.damage = (dolls.dolls_ats_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
         float randomPen = dolls.dolls_penetration + Random.Range(-1f, 5f);
@@ -156,9 +157,9 @@ public class DollsCombat : MonoBehaviour
         counter++;
         shot.enemyList = allEnemy;
         shot.dollsList = allDolls;
-        shot.whoShotMe = "hitAll";
+        shot.whoShotMe = "player";
         shot.firstImpact = true;
-        shot.GetComponent<Rigidbody>().velocity = planeVelocity * 70f;
+        //shot.GetComponent<Rigidbody>().velocity = planeVelocity * 70f;
     }
 
     public void Attack()
@@ -176,7 +177,7 @@ public class DollsCombat : MonoBehaviour
             }
             else if (dolls.dolls_type == 3)
             {
-                Invoke("ThrowBomb", Random.Range(0f, 0.1f));
+                Invoke("ThrowBomb", Random.Range(0f, 0.4f));
             }
         }
         counter = 0;
@@ -197,7 +198,7 @@ public class DollsCombat : MonoBehaviour
     {
         percentageHealth = health / dolls.dolls_max_hp;
         healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
-        if (health <= newMaxHealth)
+        if (health <= healthRestrictLine[healthLevel + 1])
         {
             health = health + 0.1f;//我们为所有dolls都购买了维修套件和灭火器
         }

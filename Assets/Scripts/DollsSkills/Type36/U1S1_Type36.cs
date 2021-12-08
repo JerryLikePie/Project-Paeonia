@@ -28,7 +28,7 @@ public class U1S1_Type36 : IDollsSkillBehavior
         {
             if (Vector3.Distance(newFlare.transform.position, allTiles[i].transform.position) <= 17.32 * 3)
             {
-                allTiles[i].isInFog += 1;
+                allTiles[i].GainVisual();
                 allTiles[i].UpdateFogStatus();
                 temp.Enqueue(allTiles[i]);
             }
@@ -37,7 +37,7 @@ public class U1S1_Type36 : IDollsSkillBehavior
         while(temp.Count != 0)
         {
             Hex hex = temp.Dequeue();
-            hex.isInFog -= 1;
+            hex.LoseVisual();
             hex.UpdateFogStatus();
         }
         Destroy(newFlare);

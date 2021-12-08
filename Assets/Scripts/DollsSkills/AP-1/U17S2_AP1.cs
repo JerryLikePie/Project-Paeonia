@@ -10,8 +10,8 @@ public class U17S2_AP1 : IDollsSkillBehavior
         inCoolDown = true;
         timeStart = System.DateTime.Now.Ticks;
         unit.supportTargetCord = location;
-        ((AttackerCombatBehavior)unit.combatBehaviour).flyEndCord = 2.5f * location.position - unit.transform.position;
-        ((AttackerCombatBehavior)unit.combatBehaviour).AirRecon(unit);
+        ((AttackerCombatBehavior)unit.combatBehaviour).flyEndCord = 3f * location.position - unit.transform.position;
+        ((AttackerCombatBehavior)unit.combatBehaviour).canAttack = false;
     }
     void Start()
     {

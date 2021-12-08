@@ -309,3 +309,5 @@ MonoBehaviour:
   dodgeBuff: -10
   rangeBuff: 0
   fogOfWarDarken: {fileID: 7151678234558453999}
+  hexBase: {fileID: 7150042756652509323}
+  render: 0

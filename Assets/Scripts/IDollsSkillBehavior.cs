@@ -9,6 +9,7 @@ public class IDollsSkillBehavior : MonoBehaviour
     [HideInInspector] public float percentageTime, timeleft;//已经过去的百分比，用于黑色overlay的长度，以及剩余多少时间
     [HideInInspector] public bool inCoolDown = false;//在不在技能冷却时间里面
     [HideInInspector] public Hex[] allTiles;
+    public IDollsSkillBehavior secondSkill;
 
     public float cooldownTime;//技能冷却时间
     public GameObject showTime;//冷却的时候有个文字来倒数时间

@@ -25,7 +25,7 @@ public class MouseManager : MonoBehaviour
     public bool isDragging;
     private readonly float MouseZoomSpeed = 15.0f, TouchZoomSpeed = 0.08f;
     private readonly float ZoomMinBound = 25f, ZoomMaxBound = 60f, 
-        MIN_Y = 60f, MAX_Y = 140f, 
+        MIN_Y = 40f, MAX_Y = 140f, 
         MAX_X = 135f,MIN_X = -40f,
         MIN_Z = -80f,MAX_Z = 40f;
     private Vector3 Origin;

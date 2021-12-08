@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4432340503618340052
 Transform:
   m_ObjectHideFlags: 0
@@ -401,3 +401,5 @@ MonoBehaviour:
   dodgeBuff: -5
   rangeBuff: 0
   fogOfWarDarken: {fileID: 7843924954234871519}
+  hexBase: {fileID: 7843865624983771199}
+  render: 0

@@ -74,7 +74,7 @@ public class BulletManager : MonoBehaviour
                     HitPlayer();
                 }
             }
-            Destroy(gameObject,3f);
+            Destroy(gameObject,0.5f);
         }
     }
     void HitPlayer()

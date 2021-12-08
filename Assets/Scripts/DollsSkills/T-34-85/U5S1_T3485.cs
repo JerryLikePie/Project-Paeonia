@@ -6,8 +6,10 @@ public class U5S1_T3485 : IDollsSkillBehavior
 {
     bool haveAPDS = false;
     public GameObject text;
+    public AudioSource skillSound;
     public override void activateSkill()
     {
+        skillSound.Play();
         if (!inCoolDown)
         {
             if (haveAPDS)

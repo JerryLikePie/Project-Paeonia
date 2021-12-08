@@ -208,6 +208,8 @@ MonoBehaviour:
   dodgeBuff: 25
   rangeBuff: -1
   fogOfWarDarken: {fileID: 391366813668766383}
+  hexBase: {fileID: 5666021327523269582}
+  render: 0
 --- !u!1 &5666021327523269582
 GameObject:
   m_ObjectHideFlags: 0

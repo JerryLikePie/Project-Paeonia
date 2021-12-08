@@ -440,12 +440,11 @@ public class EnemyCombat : MonoBehaviour
         percentageHealth = health / enemy.enemy_max_hp;
         if (health < healthRestrictLine[healthLevel])
         {
-            health = healthRestrictLine[healthLevel];
             enemyEntities[healthLevel].gameObject.SetActive(false);
             crewNum -= 1;
             healthLevel -= 1;
         }
-        healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 20f * Time.deltaTime);
+        healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 40f * Time.deltaTime);
         healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
         if (health <= 0)
         {

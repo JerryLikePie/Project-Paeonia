@@ -138,6 +138,7 @@ public class MapCreate : MonoBehaviour
                     //但命名只是给我们看的，程序也要知道
                     thisTile.GetComponent<Hex>().X = i;
                     thisTile.GetComponent<Hex>().Z = j;
+                    thisTile.GetComponent<Hex>().render = false;
                     if (mapInfo.mapTiles[i][j] == 'R')
                     {
                         RedPoint = thisTile.GetComponent<Hex>();
@@ -149,6 +150,7 @@ public class MapCreate : MonoBehaviour
                         BluePoint = thisTile.GetComponent<Hex>();
                         BluePoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
                         HomePoint = thisTile;
+                        Camera.main.transform.position = HomePoint.transform.position + 78 * Vector3.up + 40 * Vector3.left + -78 * Vector3.forward;
                     }
                 }
                 catch
@@ -212,6 +214,7 @@ public class MapCreate : MonoBehaviour
                 if (Vector3.Distance(Home.transform.position, ToCancelFog.transform.position) <= 17.5 * 2)
                 {
                     ToCancelFog.isInFog = 999;
+                    ToCancelFog.render = true;
                 }
                 //ToCancelFog.ChangeTheFog();
             }
@@ -224,6 +227,7 @@ public class MapCreate : MonoBehaviour
     public void SpawnTheUnits(int X, int Z)
     {
         GameObject spawnedUnit;
+        int tempCounter = 0;
         for (int i = 0; i < 6; i++)//查看左右，上左上右，下左下右，周围的六个格子
         {
             int next_hang = X + changeX[i];
@@ -253,11 +257,23 @@ public class MapCreate : MonoBehaviour
                 //spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
                 nextHex.haveUnit = true;
                 spawnedUnit.transform.parent = unitList.transform;
-                Skills[slots[i].spawnID].transform.SetParent(SkillSlot[i].transform);
+                Skills[slots[i].spawnID].transform.SetParent(SkillSlot[tempCounter].transform);
+                tempCounter++;
                 Skills[slots[i].spawnID].transform.localPosition = Vector3.zero;
-                Skills[slots[i].spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().unit = spawnedUnit.GetComponent<DollsCombat>();
-                Skills[slots[i].spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().mapList = this.gameObject;
-                Skills[slots[i].spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().loadMap();
+                IDollsSkillBehavior skill1 = Skills[slots[i].spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>();
+                skill1.unit = spawnedUnit.GetComponent<DollsCombat>();
+                //Skills[slots[i].spawnID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>().mapList = this.gameObject;
+                skill1.loadMap();
+                if (skill1.secondSkill != null)
+                {
+                    skill1.secondSkill.unit = spawnedUnit.GetComponent<DollsCombat>();
+                    skill1.secondSkill.loadMap();
+                    if (skill1.secondSkill.secondSkill != null)
+                    {
+                        skill1.secondSkill.secondSkill.unit = spawnedUnit.GetComponent<DollsCombat>();
+                        skill1.secondSkill.secondSkill.loadMap();
+                    }
+                }
                 spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
             }
         }

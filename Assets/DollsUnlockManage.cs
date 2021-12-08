@@ -30,6 +30,7 @@ public class DollsUnlockManage : MonoBehaviour
                 unlockWho.Enqueue(5);
                 unlockWho.Enqueue(10);
                 unlockWho.Enqueue(17);
+                unlockWho.Enqueue(18);
                 break;
         }
         unlockWho.Enqueue(0);
