@@ -7978,6 +7978,7 @@ MonoBehaviour:
   - {fileID: 7215935891652757822, guid: 55e730855f4f9fd4faf69584cafab7c7, type: 3}
   - {fileID: 7215935891652757822, guid: d62cb9c8d4039e64ba2cce7522c29d59, type: 3}
   - {fileID: 7215935891652757822, guid: bf1fa73da5980d340867a767b1e707bd, type: 3}
+  - {fileID: 722467874009513314, guid: 56c5cf35a6036554fb4af7640f3a4824, type: 3}
   SkillSlot:
   - {fileID: 1599607165}
   - {fileID: 860770850}

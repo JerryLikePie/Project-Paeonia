@@ -96,6 +96,7 @@
     <Compile Include="Assets\Scripts\DragSkillManager.cs" />
     <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\InterceptMissile\InterceptMissileScanner.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
+    <Compile Include="Assets\Scripts\DollsSkills\XB-3\U18S1_XB3.cs" />
     <Compile Include="Assets\Scripts\MouseManager.cs" />
     <Compile Include="Assets\Scripts\EnemyCombat.cs" />
     <Compile Include="Assets\Scripts\Hex.cs" />
@@ -103,7 +104,6 @@
     <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\PoolingManager\PoolObject.cs" />
     <Compile Include="Assets\Scripts\DollsSkills\T-34-85\U5S1_T3485.cs" />
     <Compile Include="Assets\Scripts\Dolls\AttackerCombatBehavior.cs" />
-    <Compile Include="Assets\Scripts\DollsSkills\XB-3\U18S1_XB3.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -116,7 +116,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\Resources\Map_T1-1_json.txt" />
-     <None Include="Assets\Resources\Map_2-5_json.txt" />
+     <None Include="Assets\Resources\Map_2-6_json.txt" />
      <None Include="Assets\UnityPackages\JsonNet\Newtonsoft.Json.dll" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
@@ -131,6 +131,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\Resources\Map_2-5_json.txt" />
      <None Include="Assets\Resources\Map_2-3_json.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\Resources\Map_2-1_json.txt" />

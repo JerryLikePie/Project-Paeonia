@@ -16525,7 +16525,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5925278498670520506}
   m_LocalRotation: {x: 0, y: 0.2588191, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: -75, y: 50, z: 0}
+  m_LocalPosition: {x: 15, y: 50, z: 0}
   m_LocalScale: {x: 20, y: 5, z: 20}
   m_Children: []
   m_Father: {fileID: 5925278499864462148}
@@ -16606,7 +16606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 35, y: 30, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -75, y: 50}
+  m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5925278498757349821
@@ -16996,14 +16996,14 @@ MonoBehaviour:
   dolls_range: 1
   dolls_view_range: 3
   dolls_unlocked: 0
-  dolls_max_hp: 500
+  dolls_max_hp: 1000
   dolls_sts_attack: 0
   dolls_ata_attack: 240
   dolls_sta_attack: 0
-  dolls_ats_attack: 220
+  dolls_ats_attack: 340
   dolls_penetration: 99
   dolls_accuracy: 300
-  dolls_dodge: 212
+  dolls_dodge: 202
   dolls_reload: 15
   dolls_firerate: 0.4
   dolls_armor_front: 0

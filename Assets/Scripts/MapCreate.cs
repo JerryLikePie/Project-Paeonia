@@ -162,7 +162,7 @@ public class MapCreate : MonoBehaviour
         InitialMapVision(homeHang, homeLie);
         SpawnTheUnits(homeHang, homeLie);
         SpawnTheEnemy(mapInfo);
-        Debug.Log("宽和长分别为" + maxX + "和" + maxZ);
+        //Debug.Log("宽和长分别为" + maxX + "和" + maxZ);
         timeStart = System.DateTime.Now.Ticks;
         gameStarted = true;
     }
@@ -316,6 +316,7 @@ public class MapCreate : MonoBehaviour
         {
             Hex hex = null;
             bool blocked = false;
+            bool lastOne = false;
             if (FindDistance(point.gameObject, target) < 17.5)
             {
                 return blocked;
@@ -353,17 +354,16 @@ public class MapCreate : MonoBehaviour
                 }
                 newX = closestOne.X;
                 newZ = closestOne.Z;
-                if (closestOne.height == point.height && closestOne.blockVision)
+                if (closestOne.height > point.height || (closestOne.height == point.height && closestOne.blockVision))
                 {
-                    blocked = true;//如果相同的话，那就看当前格子是不是可以遮挡视线的（树林）
+                    if (lastDistance <= 5)
+                    {
+                        break;
+                    }
+                    blocked = true;//如果遇到高地，咱们可以再来一格，比如山上我们是可以打到的，但是再来一个就不行了
                     break;
                 }
-                if (closestOne.height > point.height)
-                {
-                    blocked = true;//如果遇到了高地，那就是说明不能打
-                    break;
-                }
-                if (lastDistance <= 17)
+                if (lastDistance <= 5)
                 {
                     break;
                 }
@@ -371,9 +371,9 @@ public class MapCreate : MonoBehaviour
             }
             return blocked;
         }
-        catch (System.Exception ex)
+        catch
         {
-            Debug.Log(ex);
+            //Debug.Log(ex);
             return false;
         }
     }
@@ -386,9 +386,6 @@ public class MapCreate : MonoBehaviour
             if (FindDistance(point.gameObject, target.gameObject) < 17.5)
             {
                 return blocked;
-            } else if (target.blockVision)
-            {
-                return true;
             }
             int tempX, tempZ;
             float lastDistance = 9999f;
@@ -423,17 +420,16 @@ public class MapCreate : MonoBehaviour
                 }
                 newX = closestOne.X;
                 newZ = closestOne.Z;
-                if (closestOne.height == point.height && closestOne.blockVision)
+                if (closestOne.height > point.height || (closestOne.height == point.height && closestOne.blockVision))
                 {
-                    blocked = true;//如果相同的话，那就看当前格子是不是可以遮挡视线的（树林）
+                    if (lastDistance <= 5)
+                    {
+                        break;
+                    }
+                    blocked = true;//如果遇到高地，咱们可以再来一格，比如山上我们是可以打到的，但是再来一个就不行了
                     break;
                 }
-                if (closestOne.height > point.height)
-                {
-                    blocked = true;//如果遇到了高地，那就是说明不能打
-                    break;
-                }
-                if (lastDistance <= 17)
+                if (lastDistance <= 5)
                 {
                     break;
                 }
@@ -441,9 +437,7 @@ public class MapCreate : MonoBehaviour
             }
             return blocked;
         }
-        catch (System.Exception ex)
-        {
-            Debug.Log(ex);
+        catch{
             return false;
         }
     }

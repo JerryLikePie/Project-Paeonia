@@ -6,7 +6,7 @@ using System.Collections.Generic;
 // Air Unit
 public class AttackerCombatBehavior : IDollsCombatBehaviour
 {
-    Vector3 airBase = new Vector3(-250, 0, 20);
+    Vector3 airBase = new Vector3(-310, 0, 100);
     public Vector3 flyEndCord;
     private DollsCombat context;
     private Queue<Hex> toCancelFog;
@@ -31,6 +31,7 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
             if (firstTime)
             {
                 context.Invoke("ResetCord", context.resetTime);
+                
                 float distance = Vector3.Distance(transform.position, context.supportTargetCord.position);
                 time = distance / airSpeed;
                 //transform.position = Vector3.Lerp(transform.position, flyEndCord, time);
@@ -38,7 +39,7 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
             }
             transform.position = Vector3.Lerp(transform.position, flyEndCord, Time.deltaTime / time);
             AirRecon(context, 0);
-            if (transform.position.x > context.supportTargetCord.position.x + 100)
+            if (transform.position.x > context.supportTargetCord.position.x + 40)
             {
                 if (context.canFire)
                 {

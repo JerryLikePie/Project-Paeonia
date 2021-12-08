@@ -93,32 +93,62 @@ public class DollsCombat : MonoBehaviour
     }
     void FireBullet()
     {
-        if (setEnemy != null && setEnemy.gameObject.activeSelf == true)
+        if (setEnemy != null && setEnemy.gameObject.activeSelf == true && counter < crewNum)
         {
-            GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
-            bulletThatWasShot.SetActive(true);
-            bulletThatWasShot.transform.LookAt(setEnemy.transform);
-            shot = bulletThatWasShot.GetComponent<BulletManager>();
-            shot.shotType = dolls.dolls_ammo_type;
-            shot.speed = dolls.dolls_shell_speed;
-            shot.WhereTheShotWillGo = setEnemy.transform.position;
-            shot.damage = (dolls.dolls_sts_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
-            shot.damageIndicate = shot.damage.ToString("F0");
-            float randomPen = dolls.dolls_penetration + Random.Range(-2f, 2f);
-            shot.penetration = randomPen;
-            if (Random.Range(0, 100) < setEnemy.dodge - (dolls.dolls_accuracy + accurancyBuff))
+            try
             {
-                shot.damage = 0;
-                //判定，被闪避了那就miss
-                shot.damageIndicate = "miss";
+                GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
+                bulletThatWasShot.SetActive(true);
+                bulletThatWasShot.transform.LookAt(setEnemy.transform);
+                shot = bulletThatWasShot.GetComponent<BulletManager>();
+                shot.shotType = dolls.dolls_ammo_type;
+                shot.speed = dolls.dolls_shell_speed;
+                shot.WhereTheShotWillGo = setEnemy.transform.position;
+                shot.damage = (dolls.dolls_sts_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
+                shot.damageIndicate = shot.damage.ToString("F0");
+                float randomPen = dolls.dolls_penetration + Random.Range(-2f, 2f);
+                shot.penetration = randomPen;
+                if (Random.Range(0, 100) < setEnemy.dodge - (dolls.dolls_accuracy + accurancyBuff))
+                {
+                    shot.damage = 0;
+                    //判定，被闪避了那就miss
+                    shot.damageIndicate = "miss";
+                }
+                shot.penetration = randomPen;
+                shot.sender = dollsEntities[counter].gameObject;
+                counter++;
+                shot.enemyList = allEnemy;
+                shot.dollsList = allDolls;
+                shot.whoShotMe = "player";
+                shot.firstImpact = true;
+            } catch
+            {
+                Debug.LogError(counter);
             }
-            shot.penetration = randomPen;
-            shot.sender = dollsEntities[counter].gameObject;
-            counter++;
-            shot.enemyList = allEnemy;
-            shot.dollsList = allDolls;
-            shot.whoShotMe = "player";
-            shot.firstImpact = true;
+        } else if (setEnemy == null || !setEnemy.gameObject.activeSelf)
+        {
+            SwitchTarget();
+            counter--;
+            FireBullet();
+        }
+    }
+    void SwitchTarget()
+    {
+        for (int i = 0; i < enemyList.Count; i++)
+        {
+            if (enemyList[i] != null)
+            {
+                if (enemyList[i].enemy.enemy_visible == true && enemyList[i].gameObject.activeSelf)
+                {
+                    if (FindDistance(transform.gameObject, enemyList[i].gameObject) <= 17.32 * (dolls.dolls_range + rangeBuff))
+                    {
+                        if (!map.IsBlocked(currentTile, enemyList[i].transform.position))
+                        {
+                            setEnemy = enemyList[i];
+                        }
+                    }
+                }
+            }
         }
     }
     void FireHowitzer()
@@ -165,7 +195,8 @@ public class DollsCombat : MonoBehaviour
     public void Attack()
     {
         StartCoroutine(SetInactiveAfterFire());
-        for (int i = 1; i <= crewNum; i++)
+        counter = 0;
+        for (int i = 0; i < crewNum; i++)
         {
             if (dolls.dolls_type == 1)
             {
@@ -181,6 +212,7 @@ public class DollsCombat : MonoBehaviour
             }
         }
         counter = 0;
+
     }
     void ResetCord()
     {
@@ -198,9 +230,9 @@ public class DollsCombat : MonoBehaviour
     {
         percentageHealth = health / dolls.dolls_max_hp;
         healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
-        if (health <= healthRestrictLine[healthLevel + 1])
+        if (health <= healthRestrictLine[healthLevel + 1] && dolls.dolls_type == 3)
         {
-            health = health + 0.1f;//我们为所有dolls都购买了维修套件和灭火器
+            health = health + 0.15f; //我们取消了免费的维修套件和灭火器，现在只有空军有了
         }
         healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 100f * Time.deltaTime);
         if (health < healthRestrictLine[healthLevel])
@@ -230,31 +262,27 @@ public class DollsCombat : MonoBehaviour
     }
     public void FogOfWar()
     {
-        int j = 0, k = 0;
         for (int i = 0; i <= map.transform.childCount - 1; i++)
         {
             try
             {
                 nextTile = map.transform.GetChild(i).GetComponent<Hex>();
-                if (FindDistance(gameObject, nextTile.gameObject) <= 17.5 * (dolls.dolls_view_range + rangeBuff))
+                if (nextTile != null && FindDistance(gameObject, nextTile.gameObject) <= 17.5 * (dolls.dolls_view_range + rangeBuff))
                 {
-                    j++;
-                    //
                     if (!map.IsBlocked(currentTile, nextTile))
                     {
                         nextTile.GainVisual();
                         toCancelFogQueue.Enqueue(nextTile);
+                        nextTile.UpdateFogStatus();
                     }
-                    k++;
                 }
-                nextTile.UpdateFogStatus();
             }
             catch (System.Exception ex)
             {
-                Debug.Log(ex.StackTrace);
+                Debug.LogError(ex);
             }
         }
-        Debug.Log("这次进入了" + j + "个地块，但是，k = " + k);
+        //Debug.Log("这次进入了" + j + "个地块，但是，k = " + k);
     }
     public void deFogOfWar()
     {
@@ -274,7 +302,10 @@ public class DollsCombat : MonoBehaviour
         {
             beingSpotted = false;
         }
-        catch { }
+        catch (System.Exception ex)
+        {
+            Debug.LogError(ex);
+        }
     }
     IEnumerator Reload()
     {
@@ -299,7 +330,25 @@ public class DollsCombat : MonoBehaviour
             StartCoroutine(Reload());
         }
     }
-    public void RevieveDamage(float num)
+    public void RecieveDamage(float num)
+    {
+        if (healthLevel >= 0)
+        {
+            if ((health - num) < healthRestrictLine[healthLevel])
+            {
+                health = healthRestrictLine[healthLevel] - 1;
+            }
+            else
+            {
+                health -= num;
+            }
+        } else
+        {
+            health -= num;
+        }
+        
+    }
+    public void RecieveExplosiveDamage(float num)
     {
         health -= num;
     }

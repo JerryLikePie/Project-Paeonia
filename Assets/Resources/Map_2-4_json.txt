@@ -4,7 +4,7 @@
 		"WWWWWWWWWWWWWWW",
 		"W1111111111111W",
 		"W1111441111111W",
-		"W11144111111B4W",
+		"W11144111111B1W",
 		"W5411411333111W",
 		"W0411100003111W",
 		"W0004001100111W",
@@ -62,6 +62,13 @@
 		{
 			"spawnType": 5,
 			"spawnTile": "Map10_3",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 5,
+			"spawnTile": "Map2_4",
 			"spawnTime": 0,
 			"nextTile": [],
 			"waitTime": []

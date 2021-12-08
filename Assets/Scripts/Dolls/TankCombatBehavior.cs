@@ -26,6 +26,9 @@ public class TankCombatBehavior : IDollsCombatBehaviour
         }
         if (context.canFire)
         {
+            float nearest = 99999f;
+            float distance;
+            int number = -1;
             for (int i = 0; i < context.enemyList.Count; i++)
             {
                 if (context.enemyList[i] != null)
@@ -40,19 +43,27 @@ public class TankCombatBehavior : IDollsCombatBehaviour
                         {
                             newRange = context.dolls.dolls_range + (int)context.rangeBuff;
                         }
-                        if (FindDistance(transform.gameObject, context.enemyList[i].gameObject) <= 17.32 * newRange)
+                        distance = FindDistance(transform.gameObject, context.enemyList[i].gameObject);
+                        if (distance <= 17.32 * newRange)
                         {
-                            //
                             if (!context.map.IsBlocked(context.currentTile, context.enemyList[i].transform.position))
                             {
-                                context.setEnemy = context.enemyList[i];
-                                context.counter = 0;
-                                context.Attack();
-                                StartCoroutine(context.FireRate());
+                                if (distance < nearest)
+                                {
+                                    number = i;
+                                    nearest = distance;
+                                }
                             }
                         }
                     }
                 }
+            }
+            if (number >= 0)
+            {
+                context.setEnemy = context.enemyList[number];
+                context.counter = 0;
+                context.Attack();
+                StartCoroutine(context.FireRate());
             }
         }
     }

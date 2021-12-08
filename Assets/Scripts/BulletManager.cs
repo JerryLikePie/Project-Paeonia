@@ -55,24 +55,29 @@ public class BulletManager : MonoBehaviour
             bullet.SetActive(false);
             if (firstImpact == true)
             {
-                GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
-                Destroy(newSound, 5f);
-                GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
-                Destroy(newVisual, 5f);
-                firstImpact = false;
-                if (whoShotMe == "player")
+                try
                 {
-                    HitEnemy();
+                    GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+                    Destroy(newSound, 5f);
+                    GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+                    Destroy(newVisual, 5f);
+                    firstImpact = false;
+                    if (whoShotMe == "player")
+                    {
+                        HitEnemy();
+                    }
+                    else if (whoShotMe == "enemy")
+                    {
+                        HitPlayer();
+                    }
+                    else if (whoShotMe == "hitAll")
+                    {
+                        HitEnemy();
+                        HitPlayer();
+                    }
                 }
-                else if (whoShotMe == "enemy")
-                {
-                    HitPlayer();
-                }
-                else if (whoShotMe == "hitAll")
-                {
-                    HitEnemy();
-                    HitPlayer();
-                }
+                catch { }
+                
             }
             Destroy(gameObject,0.5f);
         }
@@ -106,14 +111,26 @@ public class BulletManager : MonoBehaviour
                         }
                         else
                         {
-
+                            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+                            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+                            Destroy(damageText, 1.5f);
+                            if (shotType == 2 || shotType == 4)
+                            {
+                                dolls.RecieveExplosiveDamage(damage);
+                            }
+                            else
+                            {
+                                dolls.RecieveDamage(damage);
+                            }
+                            
                         }
-                        dolls.health -= damage;
+                        
                     }
                 }
-            } catch
+            } catch (System.Exception ex)
             {
-
+                Debug.LogError(ex);
             }
         }
     }
@@ -126,13 +143,19 @@ public class BulletManager : MonoBehaviour
             {
                 if (Vector3.Distance(enemy.transform.position, transform.position) < 17.4f * DamageRange && enemy.gameObject.activeSelf)
                 {
-                    damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
+                    if (shotType == 2 || shotType == 4)
+                    {
+                        damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType] * (1 / (Vector3.Distance(enemy.transform.position, transform.position) / 17.3f));
+                    } else
+                    {
+                        damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
+
+                    }
                     randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
                     
                     if (damageIndicate == "miss")
                     {
                         GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-                        damageText.gameObject.transform.localScale = new Vector3(0.5f, 1f, 0.5f);
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
                         Destroy(damageText, 1.5f);
@@ -142,16 +165,26 @@ public class BulletManager : MonoBehaviour
                         GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
                         damage = 0;
                         damageIndicate = "hit";
-                        damageText.gameObject.transform.localScale = new Vector3(0.5f, 1f, 0.5f);
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
                         Destroy(damageText, 1.5f);
                     }
                     else
                     {
-
+                        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+                        Destroy(damageText, 1.5f);
+                        if (shotType == 2 || shotType == 4)
+                        {
+                            enemy.RecieveExplosiveDamage(damage);
+                        }
+                        else
+                        {
+                            enemy.RecieveDamage(damage);
+                        }
                     }
-                    enemy.health -= damage;
+                    
                     
                 }
             }

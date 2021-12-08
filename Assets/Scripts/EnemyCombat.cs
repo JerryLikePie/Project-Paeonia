@@ -17,6 +17,7 @@ public class EnemyCombat : MonoBehaviour
     public GameObject map;
     public GameObject dollsList;
     DollsCombat dolls = new DollsCombat(), setDolls;
+    bool targetLocked = false;
     bool canFire = true;
     public Queue<Hex> targetHex;
     public Queue<int> moveWaitTime;
@@ -311,9 +312,9 @@ public class EnemyCombat : MonoBehaviour
             
             float damage = enemy.enemy_sta_attack * enemy.enemy_damage_multiplier * Random.Range(0.9f, 1.1f);
             float dollsDodge = setDolls.dolls.dolls_dodge + setDolls.dodgeBuff;
-            if (Random.Range(0, 100) > dollsDodge - enemy.enemy_accuracy)
+            if (Random.Range(0, 100) > (dollsDodge - enemy.enemy_accuracy))
             {
-                setDolls.RevieveDamage(damage);
+                setDolls.RecieveDamage(damage);
             }
             yield return new WaitForSeconds(aaAttackInterval);
         }
@@ -350,21 +351,34 @@ public class EnemyCombat : MonoBehaviour
                 dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
                 if (dolls.dolls.dolls_type == 3)
                 {
-                    
+                    if (!targetLocked)
+                    {
+                        //Debug.Log("Searching...");
+                    }
                     if (FindDistance(transform.gameObject, dolls.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff) && dolls.gameObject.activeSelf)
                     {
                         if (canFire)
                         {
                             enemyInRange = true;
-                            GetComponent<AntiMissileGunController>().ProjectileCount += 20 * crewNum;
+                            
                             counter = 0;
-                            setDolls = dolls;
+                            
+                            if (!targetLocked)
+                            {
+                                GetComponent<AntiMissileGunController>().ProjectileCount += 30 * crewNum;
+                                setDolls = dolls;
+                                //Debug.Log("locked on to " + setDolls.name + "!");
+                                targetLocked = true;
+                            }
                             Attack();
                             StartCoroutine(FireRate());
-                        }
+                        }                        
                     }
-                    else
+                    else if (setDolls != null && FindDistance(transform.gameObject, setDolls.gameObject) > 17.5 * (enemy.enemy_range + rangeBuff))
                     {
+                        //Debug.Log("Lost" + setDolls.name + "!");
+                        setDolls = null;
+                        targetLocked = false;
                         GetComponent<AntiMissileGunController>().ProjectileCount = 0;
                         enemyInRange = false;
                     }
@@ -438,6 +452,10 @@ public class EnemyCombat : MonoBehaviour
     void UpdateHealthBar()
     {
         percentageHealth = health / enemy.enemy_max_hp;
+        if (healthLevel <= 0)
+        {
+            healthLevel = 0;
+        }
         if (health < healthRestrictLine[healthLevel])
         {
             enemyEntities[healthLevel].gameObject.SetActive(false);
@@ -482,7 +500,7 @@ public class EnemyCombat : MonoBehaviour
             try
             {
                 NextTile = map.transform.GetChild(i).GetComponent<Hex>();
-                if (FindDistance(gameObject, NextTile.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff))
+                if (NextTile != null && FindDistance(gameObject, NextTile.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff))
                 {
                     if (!BeingBlocked(gameObject, NextTile.gameObject))
                     {
@@ -566,5 +584,27 @@ public class EnemyCombat : MonoBehaviour
             }
         }
         return blocked;
+    }
+    public void RecieveDamage(float num)
+    {
+        if (healthLevel >= 0)
+        {
+            if ((health - num) < healthRestrictLine[healthLevel])
+            {
+                health = healthRestrictLine[healthLevel] - 1;
+            }
+            else
+            {
+                health -= num;
+            }
+        }
+        else
+        {
+            health -= num;
+        }
+    }
+    public void RecieveExplosiveDamage(float num)
+    {
+        health -= num;
     }
 }

@@ -385,7 +385,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8e1e2b8bdca6d9c4984391265842dfeb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.744
+  m_Volume: 0.295
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -572,13 +572,13 @@ MonoBehaviour:
   enemy_id: 1
   enemy_type: 1
   enemy_range: 3
-  enemy_max_hp: 550
+  enemy_max_hp: 2600
   enemy_damage_recieved_multiplier:
   - 1.4
   - 0.7
   - 1.5
   - 2
-  - 0.4
+  - 0.8
   - 0.7
   enemy_penetration: 100
   enemy_sts_attack: 460
@@ -600,7 +600,7 @@ MonoBehaviour:
   enemy_artillery: 0
   enemy_skill_point: 0
   enemy_skill_fullcharge: 0
-  enemy_moveTime: 20
+  enemy_moveTime: 15
   enemy_withdrew: 0
   enemy_visible: 0
   enemy_mag: 1

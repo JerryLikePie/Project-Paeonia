@@ -32,6 +32,13 @@
 			"waitTime": []
 		},
 		{
+			"spawnType": 5,
+			"spawnTile": "Map11_11",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
 			"spawnType": 3,
 			"spawnTile": "Map9_5",
 			"spawnTime": 0,

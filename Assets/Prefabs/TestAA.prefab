@@ -16160,8 +16160,8 @@ MonoBehaviour:
   enemy_name: "\u6D4B\u8BD5\u9632\u7A7A\u70AE"
   enemy_id: 3
   enemy_type: 4
-  enemy_range: 5
-  enemy_max_hp: 600
+  enemy_range: 6
+  enemy_max_hp: 1900
   enemy_damage_recieved_multiplier:
   - 1
   - 1.2
@@ -16169,15 +16169,15 @@ MonoBehaviour:
   - 1.2
   - 1.2
   - 0.5
-  enemy_penetration: 80
+  enemy_penetration: 200
   enemy_sts_attack: 0
   enemy_ata_attack: 0
   enemy_sta_attack: 3
   enemy_ats_attack: 0
   enemy_accuracy: 170
   enemy_dodge: 20
-  enemy_reload: 10
-  enemy_firerate: 10
+  enemy_reload: 1
+  enemy_firerate: 1
   enemy_armor_front: 5
   enemy_armor_side: 5
   enemy_armor_back: 5
@@ -16216,12 +16216,12 @@ MonoBehaviour:
   DownwardsRotationLimit: 0
   TurnSpeed: 300
   UsePooling: 0
-  FireRate: 0.2
+  FireRate: 0.1
   ProjectileSpeed: 130
   ProjectileCount: 0
   ProjectilePrefab: {fileID: 5576881936127116635, guid: 08dfd18703cc8604692307cbe943e323,
     type: 3}
-  Efficiency: -1.17
+  Efficiency: -0.7
   Barrel:
   - {fileID: 6191879068293636787}
   target: {fileID: 0}
@@ -16245,7 +16245,7 @@ MonoBehaviour:
   Mask:
     serializedVersion: 2
     m_Bits: 1024
-  ScanRadius: 300
+  ScanRadius: 290
   ShowGizmos: 1
   AntiMissileGunController: {fileID: 611204854175536283}
   TurretModes: 0

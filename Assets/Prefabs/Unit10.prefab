@@ -665,8 +665,8 @@ MonoBehaviour:
   dolls_range: 8
   dolls_view_range: 2
   dolls_unlocked: 0
-  dolls_max_hp: 1500
-  dolls_sts_attack: 358
+  dolls_max_hp: 2100
+  dolls_sts_attack: 450
   dolls_ata_attack: 0
   dolls_sta_attack: 0
   dolls_ats_attack: 0
@@ -6546,7 +6546,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c731dea5b2962d042bb0ec513072729c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.263
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -11930,7 +11930,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7feff831e32a07a4da2dc40fa0dbcd68, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.725
+  m_Volume: 0.172
   m_Pitch: 1
   Loop: 0
   Mute: 0

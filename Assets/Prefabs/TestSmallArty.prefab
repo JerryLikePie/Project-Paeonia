@@ -15656,7 +15656,7 @@ MonoBehaviour:
   enemy_id: 5
   enemy_type: 3
   enemy_range: 8
-  enemy_max_hp: 300
+  enemy_max_hp: 1100
   enemy_damage_recieved_multiplier:
   - 0.7
   - 1.7
@@ -15677,7 +15677,7 @@ MonoBehaviour:
   enemy_armor_side: 5
   enemy_armor_back: 5
   enemy_damage_multiplier: 1
-  enemy_ammo_type: 0
+  enemy_ammo_type: 2
   enemy_airstrike: 0
   enemy_recon: 0
   enemy_air_sup: 0
