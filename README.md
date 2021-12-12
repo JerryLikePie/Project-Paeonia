@@ -165,4 +165,4 @@ The decision to develop a game came as I was accepted into Computer Science. I w
 
 ### 0.0.00
  - 完成了Unity的下载和安装
- - 确定了游戏模式：战棋和RTS的融合
+ - 确定了游戏模式：战棋和RTT的融合
