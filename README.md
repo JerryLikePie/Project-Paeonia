@@ -1,10 +1,10 @@
 # 灰烬战线：九霄共和
 ## Project-Paeonia
-An anime-styled military RTS-like game I'm developing since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms.\
+An anime-styled military RTT game I'm developing since May 2021 in collaboration with several artist and coder online, a parody to the game AshArms.\
 The decision to develop a game came as I was accepted into Computer Science. I was wondering if I could put what I've been learning and what I love together and get something out of it. Playing the game AshArms gave me an idea. While I enjoyed the game overall, the gameplay isn't the most satisfying. Thus came the question "what if I can make a better version?"
 
 ## 关于游戏
-《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于类RTS，由一群兴趣使然网友从2021年5月开始制作。游戏将预计在2022年2月放出无剧情DEMO，在2022年8月放出完整游戏，2023年之前完成所有更新。游戏不收费，无内购，暂无DLC的计划，没有决定开不开放赞助通道
+《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于RTT，由一群兴趣使然网友从2021年5月开始制作。游戏将预计在2022年2月放出无剧情DEMO，在2022年8月放出完整游戏，2023年之前完成所有更新。游戏不收费，无内购，暂无DLC的计划，没有决定开不开放赞助通道
 
 ## 关于背景和设定 Settings
 ( •̀ ω •́ )✧\
@@ -37,6 +37,7 @@ The decision to develop a game came as I was accepted into Computer Science. I w
  - 增加了共7个关卡
  - 章节加入了背景图片
  - 0.0.151：新人物：研轰三式，中型轰炸机，满编2人，只能进行轰炸，视野比侦察机窄，不容易被敌方防空炮击落。时间长，需要72秒钟；更改了视野范围，现在不在视野内的会消失不见，首次点亮后会出现然后失去视野会变成灰色
+ - 0.0.152：修复了一个DOLLS因为血量变量out of bound导致的无法减血量而变为无敌的bug；修复了一个敌方因为血量变量null pointer导致的一被攻击就死亡的bug；修复了一个因为代码逻辑问题导致直到眼前才能看到山和树林的bug。这是不对的，应该是如果前面有个山，我看得到这个山，但是看不到后面的东西，树林也是一样。
 
 ### 0.0.14
  - 现在编队不再是最大编队了
@@ -164,4 +165,4 @@ The decision to develop a game came as I was accepted into Computer Science. I w
 
 ### 0.0.00
  - 完成了Unity的下载和安装
- - 确定了游戏模式：战棋和RTS的融合
+ - 确定了游戏模式：战棋和RTT的融合
