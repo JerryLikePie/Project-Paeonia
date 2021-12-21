@@ -104,6 +104,7 @@
     <Compile Include="Assets\Simple InterceptMissile&amp;TurretBehaviour\Scripts\PoolingManager\PoolObject.cs" />
     <Compile Include="Assets\Scripts\DollsSkills\T-34-85\U5S1_T3485.cs" />
     <Compile Include="Assets\Scripts\Dolls\AttackerCombatBehavior.cs" />
+    <Compile Include="Assets\Scripts\InventoryManager\InventorySaveSystem.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
