@@ -16,6 +16,9 @@ public class ScoreManager : MonoBehaviour
     public TMPro.TextMeshPro timeCount;
     public GameObject HUD;
     // Start is called before the first frame update
+    public int dropID;
+    public int dropAmmount;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);

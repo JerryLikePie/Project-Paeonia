@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e0de6064b6c7904a83ca309db6bc6cc, type: 3}
   m_Name: TestSkadi
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: 6cb72d2ed58318c489c8d8b6b887354b, type: 3}
   itemType: 5
-  itemName: 
-  itemDescription: 
+  itemName: "\u65AF\u5361\u8482"
+  itemDescription: "\u662F\u4E2A\u65AF\u5361\u8482\uFF0C\u4F46\u662F\u6211\u4E5F\u4E0D\u77E5\u9053\u4E3A\u5565\u8981\u5199"

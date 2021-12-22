@@ -18,5 +18,8 @@
 			"nextTile": [],
 			"waitTime": []
 		}
-	]
+	],
+	"dropID": 0,
+	"dropAmount": 100,
+	"dropRate":101
 }

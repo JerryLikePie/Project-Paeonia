@@ -33,6 +33,7 @@ public class MapCreate : MonoBehaviour
     int maxX, maxZ;
     public SquadSlot[] slots;
     public SquadSelectionPage squadSelectionPage;
+    int dropID, dropAmount, dropRate;
 
     [System.Serializable]
     class EnemySpawnPoint
@@ -48,6 +49,9 @@ public class MapCreate : MonoBehaviour
         public string[] mapTiles;
         public EnemySpawnPoint[] enemySpawnPoints;
         public int timeLimit;
+        public int dropID;
+        public int dropAmount;
+        public int dropRate;
 
         public override string ToString()
         {
@@ -77,6 +81,13 @@ public class MapCreate : MonoBehaviour
         timeLimit = mapInfo.timeLimit;
         maxZ = mapInfo.mapTiles.Length;
         maxX = mapInfo.mapTiles[0].Length;
+        this.dropID = mapInfo.dropID;
+        this.dropAmount = mapInfo.dropAmount; 
+        this.dropRate = mapInfo.dropRate;
+        Debug.Log(mapInfo.dropID);
+        Debug.Log(mapInfo.dropAmount);
+        Debug.Log(mapInfo.dropRate);
+
         for (int i = 0; i < maxZ; i++)
         {
             for (int j = 0; j < maxX; j++)
@@ -200,8 +211,19 @@ public class MapCreate : MonoBehaviour
     void GameEnd()
     {
         Score.SetTimeLimit(timeLimit);
+        EndGameDrop();
         Score.GameEnded();
         SceneManager.LoadScene("GameEnd");
+    }
+    void EndGameDrop()
+    {
+        Debug.Log(dropRate);
+        Debug.Log(dropAmount);
+        if (Random.Range(0,100) < dropRate)
+        {
+            Score.dropID = dropID;
+            Score.dropAmmount = dropAmount;
+        }
     }
     void InitialMapVision(int home_hang, int home_lie)
     {
