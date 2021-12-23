@@ -39,11 +39,32 @@ public class InventoryManager : MonoBehaviour
     public void UpdateInventory()
     {
         string wordsToDisplay = "";
-        for (int i = 0; i < menuInventory.container.Count; i++)
+        int j = 0;
+        for (int i = 0; i < buttonsList.Length; i++) //查看Inventory里面有多少Item
         {
-            buttonsList[i].setItem(menuInventory.container[i].item);
-            wordsToDisplay = menuInventory.container[i].item.itemName + "（" + menuInventory.container[i].amount + "）";
-            buttonsList[i].textfield.SetText(wordsToDisplay);
+            if (j < menuInventory.container.Count) //只要不超过Inventory的大小
+            {
+                while (menuInventory.container[j].amount == 0)//如果这个Item的数量是0
+                {
+                    j++; //那就跳过，一直到下一个不是0的Item
+                }
+                if (j < menuInventory.container.Count)//再确保一遍
+                {
+                    buttonsList[i].gameObject.SetActive(true);
+                    buttonsList[i].setItem(menuInventory.container[j].item);
+                    wordsToDisplay = menuInventory.container[j].item.itemName + "（" + menuInventory.container[j].amount + "）";
+                    buttonsList[i].textfield.SetText(wordsToDisplay);
+                    j++;
+                }
+                else
+                {
+                    buttonsList[i].gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                buttonsList[i].gameObject.SetActive(false);
+            }
         }
     }
 

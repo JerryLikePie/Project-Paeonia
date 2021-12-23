@@ -10,5 +10,8 @@
 	],
 	"enemySpawnPoints": [
 
-	]
+	],
+	"dropID": 1,
+	"dropAmount": 103,
+	"dropRate":100
 }

@@ -20,6 +20,6 @@
 		}
 	],
 	"dropID": 0,
-	"dropAmount": 100,
-	"dropRate":101
+	"dropAmount": 15,
+	"dropRate":100
 }

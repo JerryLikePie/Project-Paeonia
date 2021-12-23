@@ -43,7 +43,7 @@
 			"waitTime": [0]
 		}
 	],
-		"dropID": 0,
-		"dropAmount": 100,
+		"dropID": 2,
+		"dropAmount": 5,
 		"dropRate":101
 }

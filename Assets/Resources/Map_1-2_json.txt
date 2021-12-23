@@ -48,5 +48,8 @@
 			"nextTile": ["Map7_7","Map2_2"],
 			"waitTime": [0,0]
 		}
-	]
+	],
+		"dropID": 3,
+		"dropAmount": 6,
+		"dropRate":101
 }
