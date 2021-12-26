@@ -229,19 +229,21 @@ public class DollsCombat : MonoBehaviour
     void UpdateHealthBar()
     {
         percentageHealth = health / dolls.dolls_max_hp;
-        healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
+        
         if (health <= healthRestrictLine[healthLevel + 1] && dolls.dolls_type == 3)
         {
             health = health + 0.15f; //我们取消了免费的维修套件和灭火器，现在只有空军有了
         }
-        healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 100f * Time.deltaTime);
+        
         if (health < healthRestrictLine[healthLevel])
         {
-            health = healthRestrictLine[healthLevel];
+            //health = healthRestrictLine[healthLevel];
             dollsEntities[healthLevel].gameObject.SetActive(false);
             crewNum -= 1;
             healthLevel -= 1;
         }
+        healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
+        healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 100f * Time.deltaTime);
         if (health <= 0)
         {
             Withdrawl();

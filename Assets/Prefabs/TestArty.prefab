@@ -15787,7 +15787,7 @@ MonoBehaviour:
   - 0.7
   - 0.85
   enemy_penetration: 80
-  enemy_sts_attack: 680
+  enemy_sts_attack: 730
   enemy_ata_attack: 0
   enemy_sta_attack: 0
   enemy_ats_attack: 0

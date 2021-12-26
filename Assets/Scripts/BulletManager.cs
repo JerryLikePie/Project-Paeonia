@@ -89,12 +89,12 @@ public class BulletManager : MonoBehaviour
             try
             {
                 dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
-                if (transform.position.y <= 5)
+                if (transform.position.y <= 5 && dolls)
                 {
                     if (Vector3.Distance(dolls.transform.position, transform.position) < 17.4f * DamageRange && dolls.gameObject.activeSelf && dolls.gameObject != sender)
                     {
                         
-                        randomDisplacement = new Vector3(Random.Range(-5f, 3f), Random.Range(-1f, 1f), Random.Range(-5f, 3f));
+                        randomDisplacement = new Vector3(Random.Range(-5f, 5f), Random.Range(-1f, 1f), Random.Range(-5f, 5f));
                         if (damageIndicate == "miss")
                         {
                             GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
@@ -117,6 +117,7 @@ public class BulletManager : MonoBehaviour
                             Destroy(damageText, 1.5f);
                             if (shotType == 2 || shotType == 4)
                             {
+                                Debug.Log("¸ß±¬µ¯");
                                 dolls.RecieveExplosiveDamage(damage);
                             }
                             else

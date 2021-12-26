@@ -27,7 +27,6 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
-        UpdateInventory();
     }
 
     public void AddTestSkadi()
@@ -38,34 +37,31 @@ public class InventoryManager : MonoBehaviour
 
     public void UpdateInventory()
     {
-        string wordsToDisplay = "";
-        int j = 0;
-        for (int i = 0; i < buttonsList.Length; i++) //查看Inventory里面有多少Item
+        try
         {
-            if (j < menuInventory.container.Count) //只要不超过Inventory的大小
+            string wordsToDisplay = "";
+            int j = 0;
+            for (int i = 0; i < menuInventory.container.Count; i++)
             {
-                while (menuInventory.container[j].amount == 0)//如果这个Item的数量是0
+                if (menuInventory.container[i].amount > 0)
                 {
-                    j++; //那就跳过，一直到下一个不是0的Item
-                }
-                if (j < menuInventory.container.Count)//再确保一遍
-                {
-                    buttonsList[i].gameObject.SetActive(true);
-                    buttonsList[i].setItem(menuInventory.container[j].item);
-                    wordsToDisplay = menuInventory.container[j].item.itemName + "（" + menuInventory.container[j].amount + "）";
-                    buttonsList[i].textfield.SetText(wordsToDisplay);
+                    buttonsList[j].gameObject.SetActive(true);
+                    buttonsList[j].setItem(menuInventory.container[i].item);
+                    wordsToDisplay = menuInventory.container[i].item.itemName + "（" + menuInventory.container[i].amount + "）";
+                    buttonsList[j].textfield.SetText(wordsToDisplay);
                     j++;
                 }
-                else
-                {
-                    buttonsList[i].gameObject.SetActive(false);
-                }
             }
-            else
+            while (j < buttonsList.Length)
             {
-                buttonsList[i].gameObject.SetActive(false);
+                buttonsList[j].gameObject.SetActive(false);
+                j++;
             }
+        } catch(System.Exception ex)
+        {
+            Debug.LogError(ex);
         }
+        
     }
 
     public void UponItemClicked(ItemListButton buttonClicked)
