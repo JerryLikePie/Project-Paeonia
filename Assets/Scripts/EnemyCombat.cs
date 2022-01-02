@@ -462,6 +462,14 @@ public class EnemyCombat : MonoBehaviour
             crewNum -= 1;
             healthLevel -= 1;
         }
+        if (percentageHealth >= 1f && healthBar.gameObject.activeSelf)
+        {
+            healthBar.gameObject.SetActive(false);
+        }
+        else if (percentageHealth < 1f && !healthBar.gameObject.activeSelf)
+        {
+            healthBar.gameObject.SetActive(true);
+        }
         healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 40f * Time.deltaTime);
         healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
         if (health <= 0)

@@ -228,7 +228,7 @@ public class DollsCombat : MonoBehaviour
     }
     void UpdateHealthBar()
     {
-        percentageHealth = health / dolls.dolls_max_hp;
+        percentageHealth = health / newMaxHealth;
         
         if (health <= healthRestrictLine[healthLevel + 1] && dolls.dolls_type == 3)
         {
@@ -241,6 +241,14 @@ public class DollsCombat : MonoBehaviour
             dollsEntities[healthLevel].gameObject.SetActive(false);
             crewNum -= 1;
             healthLevel -= 1;
+        }
+        if (percentageHealth >= 1f && healthBar.gameObject.activeSelf)
+        {
+            healthBar.gameObject.SetActive(false);
+        }
+        else if (percentageHealth < 1f && !healthBar.gameObject.activeSelf)
+        {
+            healthBar.gameObject.SetActive(true);
         }
         healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
         healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 100f * Time.deltaTime);

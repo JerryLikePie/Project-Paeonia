@@ -53,7 +53,7 @@ public class Unit : MonoBehaviour
     {
         if (dolls.dolls_type != 3)
         {
-            if (path.Count != 0 && !Input.GetMouseButton(0) && !path.Peek().haveEnemy)
+            if (path.Count != 0 && !Input.GetMouseButton(0) && !path.Peek().haveEnemy && !path.Peek().haveUnit)
             {
                 if (firstTime)
                 {
