@@ -16,6 +16,7 @@ public class ClickAndMove : MonoBehaviour
     }
     void Update()
     {
+        // TODO 存在反复刷新的问题
         //transform.Translate(Vector3.up * 30 * Time.deltaTime);
         if (TimeToGoUp)
         {
