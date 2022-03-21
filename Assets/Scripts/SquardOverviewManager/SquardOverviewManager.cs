@@ -49,15 +49,7 @@ public class SquardOverviewManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentPageIndex < -1)
-        {
-            currentPageIndex = -1;
-        }
-        if (currentPageIndex > 6)
-        {
-            currentPageIndex = 6;
-        }
-        
+
     }
 
     // invoke when open the squard page
@@ -124,8 +116,8 @@ public class SquardOverviewManager : MonoBehaviour
         {
             DollDetailInfo detailInfo = detailInfoList[currentPageIndex];
             sdp_DetailImage.GetComponent<Image>().sprite = detailInfo.dollDetailImage != null ? detailInfo.dollDetailImage : detailImageFallback;
-            // sdp_BtnPrev.SetActive(currentPageIndex > 0);
-            // sdp_BtnNext.SetActive(currentPageIndex < detailInfoList.Count - 1);
+            sdp_BtnPrev.SetActive(currentPageIndex > 0);
+            sdp_BtnNext.SetActive(currentPageIndex < detailInfoList.Count - 1);
             sdp_TxtName.GetComponent<Text>().text = detailInfo.dollName;
         }
     }
