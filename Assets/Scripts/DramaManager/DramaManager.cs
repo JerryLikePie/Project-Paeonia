@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DramaManager : MonoBehaviour
 {
@@ -77,6 +78,7 @@ public class DramaManager : MonoBehaviour
                 {
                     Debug.Log("剧情播放完毕!~");
                     myState = DramaState.FINISHED;
+                    SceneManager.LoadScene("Menu");
                     return;
                 }
                 // 开始新 section

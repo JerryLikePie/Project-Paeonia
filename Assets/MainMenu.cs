@@ -26,6 +26,10 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("AboutPage");
     }
+    public void testScene()
+    {
+        SceneManager.LoadScene("DramaScene");
+    }
     public void QuitTheGame()
     {
         Application.Quit(0);

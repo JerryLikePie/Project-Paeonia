@@ -49,6 +49,14 @@ public class SquardOverviewManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentPageIndex < -1)
+        {
+            currentPageIndex = -1;
+        }
+        if (currentPageIndex > 6)
+        {
+            currentPageIndex = 6;
+        }
         
     }
 
