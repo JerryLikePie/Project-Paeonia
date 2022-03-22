@@ -7,7 +7,7 @@ The decision to develop a game came as I was accepted into Computer Science. I w
 《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于RTT，由一群兴趣使然网友从2021年5月开始制作。游戏将预计在2022年2月放出无剧情DEMO，在2022年8月放出完整游戏，2023年之前完成所有更新。游戏不收费，无内购，暂无DLC的计划
 
 ## 赞助通道
-我们在2021年12月开启了赞助通道，你可以在https://afdian.net/@ProjectPaeonia?tab=feed 来查看
+我们在2021年12月开启了赞助通道，[你可以在这里查看](https://afdian.net/@ProjectPaeonia?tab=feed "我们的爱发电主页")
 
 ## 关于背景和设定 Settings
 ( •̀ ω •́ )✧\
