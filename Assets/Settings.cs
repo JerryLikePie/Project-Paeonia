@@ -2,28 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class Settings : MonoBehaviour
 {
-    public AudioSource bgm;
-    public Slider musicVolume;
-    // Start is called before the first frame update
+    [SerializeField] private AudioMixer audioMixer;
+    private string myName;
     void Start()
     {
-        bgm.volume = PlayerPrefs.GetFloat("BGM_volume", 1);
-        musicVolume.value = PlayerPrefs.GetFloat("BGM_volume", 1);
+        myName = gameObject.name;
+        gameObject.GetComponent<Slider>().value = PlayerPrefs.GetFloat(myName, 1.0f);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void setVolume(float sliderValue)
     {
-        
-    }
-
-    public void changeMusicVolume()
-    {
-        bgm.volume = musicVolume.value;
-        PlayerPrefs.SetFloat("BGM_volume", musicVolume.value);
-        PlayerPrefs.Save();
+        PlayerPrefs.SetFloat(myName, sliderValue);
+        audioMixer.SetFloat(myName, Mathf.Log10(sliderValue) * 20);
     }
 }
