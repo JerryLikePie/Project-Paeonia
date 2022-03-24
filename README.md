@@ -4,7 +4,10 @@ An anime-styled military RTT game I'm developing since May 2021 in collaboration
 The decision to develop a game came as I was accepted into Computer Science. I was wondering if I could put what I've been learning and what I love together and get something out of it. Playing the game AshArms gave me an idea. While I enjoyed the game overall, the gameplay isn't the most satisfying. Thus came the question "what if I can make a better version?"
 
 ## 关于游戏
-《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于RTT，由一群兴趣使然网友从2021年5月开始制作。游戏将预计在2022年2月放出无剧情DEMO，在2022年8月放出完整游戏，2023年之前完成所有更新。游戏不收费，无内购，暂无DLC的计划，没有决定开不开放赞助通道
+《灰烬战线：九霄共和》是游戏《灰烬战线》的同人作品，属于RTT，由一群兴趣使然网友从2021年5月开始制作。游戏将预计在2022年2月放出无剧情DEMO，在2022年8月放出完整游戏，2023年之前完成所有更新。游戏不收费，无内购，暂无DLC的计划
+
+## 赞助通道
+我们在2021年12月开启了赞助通道，[你可以在这里查看](https://afdian.net/@ProjectPaeonia?tab=feed "我们的爱发电主页")
 
 ## 关于背景和设定 Settings
 ( •̀ ω •́ )✧\
@@ -25,6 +28,16 @@ The decision to develop a game came as I was accepted into Computer Science. I w
 
 
 ## Dev Blog
+### 0.0.16
+ - 加入了全新的主界面UI
+ - 全新设置界面UI
+ - 右上角还不能用的资源（正在搭建资源管理系统）
+ - 暂时，暂时，暂时采用新字体
+ - 主界面立绘可点击，跳出对话框，暂时不可以更换
+ - 暂时禁用了战斗系统，因为需要对其进行重构
+ - 往剧情演出里面增加了测试脚本
+ - 0.0.161：将所有音效分进了音效组，玩家可以直接调音效组的音量。加入了简单的单击音效
+
 ### 0.0.15
  - 因为难度问题，编队暂时变回了满编大队
  - 修复了一个导致无法移动的恶性bug
