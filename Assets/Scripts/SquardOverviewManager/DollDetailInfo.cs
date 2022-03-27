@@ -14,5 +14,7 @@ namespace Assets.Scripts.SquardOverviewManager
         public Sprite dollOverviewImage;
         // 详情界面显示的角色立绘
         public Sprite dollDetailImage;
+        // 角色ID
+        public int ID;
     }
 }

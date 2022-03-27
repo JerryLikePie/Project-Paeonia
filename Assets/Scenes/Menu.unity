@@ -8538,10 +8538,6 @@ MonoBehaviour:
   dolls_armor_back: 5
   dolls_damage_multiplier: 1
   dolls_ammo_type: 0
-  dolls_airstrike: 0
-  dolls_recon: 0
-  dolls_air_sup: 0
-  dolls_artillery: 0
   dolls_skill_point: 0
   dolls_skill_fullcharge: 4
   dolls_withdrew: 0
@@ -9536,10 +9532,6 @@ MonoBehaviour:
   dolls_armor_back: 0
   dolls_damage_multiplier: 1
   dolls_ammo_type: 0
-  dolls_airstrike: 1
-  dolls_recon: 1
-  dolls_air_sup: 1
-  dolls_artillery: 0
   dolls_skill_point: 0
   dolls_skill_fullcharge: 1
   dolls_withdrew: 0
@@ -14363,10 +14355,6 @@ MonoBehaviour:
   dolls_armor_back: 0
   dolls_damage_multiplier: 1
   dolls_ammo_type: 3
-  dolls_airstrike: 0
-  dolls_recon: 0
-  dolls_air_sup: 0
-  dolls_artillery: 0
   dolls_skill_point: 0
   dolls_skill_fullcharge: 3
   dolls_withdrew: 0
@@ -15668,10 +15656,6 @@ MonoBehaviour:
   dolls_armor_back: 25
   dolls_damage_multiplier: 1
   dolls_ammo_type: 0
-  dolls_airstrike: 0
-  dolls_recon: 0
-  dolls_air_sup: 0
-  dolls_artillery: 0
   dolls_skill_point: 0
   dolls_skill_fullcharge: 4
   dolls_withdrew: 0
@@ -33201,10 +33185,6 @@ MonoBehaviour:
   dolls_armor_back: 5
   dolls_damage_multiplier: 1
   dolls_ammo_type: 2
-  dolls_airstrike: 0
-  dolls_recon: 1
-  dolls_air_sup: 0
-  dolls_artillery: 0
   dolls_skill_point: 0
   dolls_skill_fullcharge: 4
   dolls_withdrew: 0
@@ -33748,10 +33728,6 @@ MonoBehaviour:
   dolls_armor_back: 0
   dolls_damage_multiplier: 1
   dolls_ammo_type: 0
-  dolls_airstrike: 1
-  dolls_recon: 1
-  dolls_air_sup: 1
-  dolls_artillery: 0
   dolls_skill_point: 0
   dolls_skill_fullcharge: 1
   dolls_withdrew: 0
@@ -34953,10 +34929,6 @@ MonoBehaviour:
   dolls_armor_back: 0
   dolls_damage_multiplier: 1
   dolls_ammo_type: 0
-  dolls_airstrike: 1
-  dolls_recon: 0
-  dolls_air_sup: 0
-  dolls_artillery: 0
   dolls_skill_point: 0
   dolls_skill_fullcharge: 1
   dolls_withdrew: 0
@@ -35142,10 +35114,6 @@ MonoBehaviour:
   dolls_armor_back: 0
   dolls_damage_multiplier: 0
   dolls_ammo_type: 0
-  dolls_airstrike: 0
-  dolls_recon: 0
-  dolls_air_sup: 0
-  dolls_artillery: 0
   dolls_skill_point: 0
   dolls_skill_fullcharge: 0
   dolls_withdrew: 0
@@ -40763,6 +40731,36 @@ MonoBehaviour:
   TimeToGoDown: 0
   hereIsUp: {x: 2160, y: 0, z: 0}
   hereIsDown: {x: -50, y: 0, z: 0}
+--- !u!1 &2042071405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2042071406}
+  m_Layer: 0
+  m_Name: DollsPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2042071406
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042071405}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.2433376, y: 20.197086, z: -18.722933}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2052910558
 GameObject:
   m_ObjectHideFlags: 0
@@ -42176,10 +42174,6 @@ MonoBehaviour:
   dolls_armor_back: 45
   dolls_damage_multiplier: 1
   dolls_ammo_type: 3
-  dolls_airstrike: 0
-  dolls_recon: 0
-  dolls_air_sup: 0
-  dolls_artillery: 0
   dolls_skill_point: 0
   dolls_skill_fullcharge: 4
   dolls_withdrew: 0
@@ -42954,10 +42948,6 @@ MonoBehaviour:
   dolls_armor_back: 20
   dolls_damage_multiplier: 1
   dolls_ammo_type: 1
-  dolls_airstrike: 0
-  dolls_recon: 0
-  dolls_air_sup: 0
-  dolls_artillery: 1
   dolls_skill_point: 0
   dolls_skill_fullcharge: 1
   dolls_withdrew: 0
