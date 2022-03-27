@@ -25,9 +25,9 @@ public class MouseManager : MonoBehaviour
     public bool isDragging;
     private readonly float MouseZoomSpeed = 15.0f, TouchZoomSpeed = 0.08f;
     private readonly float ZoomMinBound = 25f, ZoomMaxBound = 60f, 
-        MIN_Y = 40f, MAX_Y = 140f, 
-        MAX_X = 135f,MIN_X = -40f,
-        MIN_Z = -80f,MAX_Z = 40f;
+        MIN_Y = 60f, MAX_Y = 60.1f, 
+        MAX_X = 1000f,MIN_X = 0f,
+        MIN_Z = -40f,MAX_Z = 135f;
     private Vector3 Origin;
     private Vector3 Difference;
     private bool Drag = false;
@@ -134,10 +134,10 @@ public class MouseManager : MonoBehaviour
                     if (Drag == true)
                     {
                         Camera.main.transform.position = Origin - Difference;
-                        Camera.main.transform.position = new Vector3(
-                          Mathf.Clamp(Camera.main.transform.position.x, MIN_X, MAX_X),
-                          Mathf.Clamp(Camera.main.transform.position.y, MIN_Y, MAX_Y),
-                          Mathf.Clamp(Camera.main.transform.position.z, MIN_Z, MAX_Z));
+                        //Camera.main.transform.position = new Vector3(
+                        //  Mathf.Clamp(Camera.main.transform.position.x, MIN_X, MAX_X),
+                        //  Mathf.Clamp(Camera.main.transform.position.y, MIN_Y, MAX_Y),
+                        //  Mathf.Clamp(Camera.main.transform.position.z, MIN_Z, MAX_Z));
                     }
                 }
                 else if (Input.touchCount == 2)//如果是两个手指
@@ -176,10 +176,10 @@ public class MouseManager : MonoBehaviour
                 if (Drag == true)
                 {
                     Camera.main.transform.position = Origin - Difference;
-                    Camera.main.transform.position = new Vector3(
-                          Mathf.Clamp(Camera.main.transform.position.x, MIN_X, MAX_X),
-                          Mathf.Clamp(Camera.main.transform.position.y, MIN_Y, MAX_Y),
-                          Mathf.Clamp(Camera.main.transform.position.z, MIN_Z, MAX_Z));
+                    //Camera.main.transform.position = new Vector3(
+                    //      Mathf.Clamp(Camera.main.transform.position.x, MIN_X, MAX_X),
+                    //      Mathf.Clamp(Camera.main.transform.position.y, MIN_Y, MAX_Y),
+                    //      Mathf.Clamp(Camera.main.transform.position.z, MIN_Z, MAX_Z));
                 }
                 float scroll = Input.GetAxis("Mouse ScrollWheel");
                 Zoom(scroll, MouseZoomSpeed);

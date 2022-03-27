@@ -442,7 +442,6 @@ public class EnemyCombat : MonoBehaviour
     }
     void WithDrawl()
     {
-        map.GetComponent<MapCreate>().Score.EnemyKilled();
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
         descanMap();
         transform.gameObject.SetActive(false);

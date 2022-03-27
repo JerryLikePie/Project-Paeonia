@@ -36,74 +36,14 @@ public class MainMenu : MonoBehaviour
     }
     public void resetProgress()
     {
-        PlayerPrefs.SetInt("Map_T1-1", 0);
-        PlayerPrefs.SetInt("Map_T1-2", 0);
-        PlayerPrefs.SetInt("Map_T1-3", 0);
-        PlayerPrefs.SetInt("Map_T1-4", 0);
-        PlayerPrefs.SetInt("Map_1-1", 0);
-        PlayerPrefs.SetInt("Map_1-2", 0);
-        PlayerPrefs.SetInt("Map_1-3", 0);
-        PlayerPrefs.SetInt("Map_1-4", 0);
-        PlayerPrefs.SetInt("Map_1-5", 0);
-        PlayerPrefs.SetInt("Map_1-6", 0);
-        PlayerPrefs.SetInt("Map_2-1", 0);
-        PlayerPrefs.SetInt("Map_2-2", 0);
-        PlayerPrefs.SetInt("Map_2-3", 0);
-        PlayerPrefs.SetInt("Map_2-4", 0);
-        PlayerPrefs.SetInt("Map_2-5", 0);
-        PlayerPrefs.SetInt("Map_2-6", 0);
-        PlayerPrefs.SetInt("Map_2-7", 0);
-        ToMainMenu();
+
     }
     public void allProgress()
     {
-        PlayerPrefs.SetInt("Map_T1-1", 1);
-        PlayerPrefs.SetInt("Map_T1-2", 1);
-        PlayerPrefs.SetInt("Map_T1-3", 1);
-        PlayerPrefs.SetInt("Map_T1-4", 1);
-        PlayerPrefs.SetInt("Map_1-1", 1);
-        PlayerPrefs.SetInt("Map_1-2", 1);
-        PlayerPrefs.SetInt("Map_1-3", 1);
-        PlayerPrefs.SetInt("Map_1-4", 1);
-        PlayerPrefs.SetInt("Map_1-5", 1);
-        PlayerPrefs.SetInt("Map_1-6", 1);
-        PlayerPrefs.SetInt("Map_2-1", 1);
-        PlayerPrefs.SetInt("Map_2-2", 1);
-        PlayerPrefs.SetInt("Map_2-3", 1);
-        PlayerPrefs.SetInt("Map_2-4", 1);
-        PlayerPrefs.SetInt("Map_2-5", 1);
-        PlayerPrefs.SetInt("Map_2-6", 1);
-        PlayerPrefs.SetInt("Map_2-7", 1);
-        ToMainMenu();
+
     }
     public void LoadSavedProgress()
     {
-        try
-        {
-            int howManyStars = PlayerPrefs.GetInt(enteringStage, 0);
-            for (int i = 0; i < howManyStars; i++)
-            {
-                rating[i].SetActive(true);
-            }
-            gameObject.SetActive(false);
-            if (previousStage == "none")
-            {
-                gameObject.SetActive(true);
-            }
-            else
-            {
-                int previous = PlayerPrefs.GetInt(previousStage, 0);
-                if (previous >= 1)
-                {
-                    gameObject.SetActive(true);
-                }
-            }
-        }
-        catch
-        {
-
-        }
-        
     }
 
 }

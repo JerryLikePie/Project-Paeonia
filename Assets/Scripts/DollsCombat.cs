@@ -221,7 +221,6 @@ public class DollsCombat : MonoBehaviour
     void Withdrawl()
     {
         deFogOfWar();
-        map.Score.FriendlyDead();
         transform.GetComponent<DollsCombat>().enabled = false;
         transform.gameObject.SetActive(false);
         map.transform.Find("Map" + thisUnit.hang + "_" + thisUnit.lie).GetComponent<Hex>().haveUnit = false;

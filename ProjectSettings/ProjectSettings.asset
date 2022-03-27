@@ -40,7 +40,7 @@ PlayerSettings:
     width: 1
     height: 1
   m_SplashScreenLogos:
-  - logo: {fileID: 21300000, guid: 300e699f60e72764badb6240577c14cc, type: 3}
+  - logo: {fileID: 21300000, guid: a146dcf5a36ca5b4eaa7e88b36cfa13c, type: 3}
     duration: 2
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
@@ -55,7 +55,7 @@ PlayerSettings:
   numberOfMipsStripped: 0
   m_StackTraceTypes: 010000000100000001000000000000000100000001000000
   iosShowActivityIndicatorOnLoading: -1
-  androidShowActivityIndicatorOnLoading: -1
+  androidShowActivityIndicatorOnLoading: 2
   iosUseCustomAppBackgroundBehavior: 0
   iosAllowHTTPDownload: 1
   allowedAutorotateToPortrait: 0
@@ -152,8 +152,8 @@ PlayerSettings:
   m_ColorGamuts: 00000000
   targetPixelDensity: 30
   resolutionScalingMode: 0
-  androidSupportedAspectRatio: 0
-  androidMaxAspectRatio: 2.1
+  androidSupportedAspectRatio: 2
+  androidMaxAspectRatio: 2.2
   applicationIdentifier:
     Android: com.Enderby.ProjectPaeonia
     Standalone: com..
