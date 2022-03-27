@@ -27,6 +27,11 @@ public class SquadSelectionPage : MonoBehaviour
 
     public SquadSave squadSave;
 
+    private void Start()
+    {
+        LoadSquad();
+    }
+
     public void LoadDolls()
     {
         DiscardDolls();
@@ -119,7 +124,7 @@ public class SquadSelectionPage : MonoBehaviour
     {
         string datapath = Application.persistentDataPath;
         
-        if (System.IO.File.Exists(datapath + "/squadSetUp.save"))
+        if (File.Exists(datapath + "/squadSetUp.save"))
         {
             var serializer = new XmlSerializer(typeof(SquadSave));
             var stream = new FileStream(datapath + "/squadSetUp.save", FileMode.Open);

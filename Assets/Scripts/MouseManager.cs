@@ -282,6 +282,7 @@ public class MouseManager : MonoBehaviour
     {
         lastSelectedUnit.selectionBox.SetActive(false);
         lastSelectedUnit = selectedUnit;
+        Debug.Log(selectedTile.name);
         if (selectedUnit != null)
         {
             if (selectedUnit.unitSelection)

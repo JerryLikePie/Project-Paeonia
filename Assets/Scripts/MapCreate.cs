@@ -18,7 +18,7 @@ public class MapCreate : MonoBehaviour
     public GameObject HomePoint;
     float zOffset = 8.655f;//无痕：8.65f，有：9f
     float xOffset = 17.31f;//无痕：17.31f，有：17.75f
-    float hangOffset = 14.99f;//无痕：15f，有：15.35f
+    float hangOffset = -14.99f;//无痕：15f，有：15.35f
     public GameObject enemyList;
     public GameObject unitList;
     long timeStart;
@@ -29,7 +29,6 @@ public class MapCreate : MonoBehaviour
     Hex RedPoint, BluePoint;
     int maxX, maxZ;
     public SquadSlot[] slots;
-    public SquadSelectionPage squadSelectionPage;
 
     [System.Serializable]
     class EnemySpawnPoint
@@ -71,9 +70,10 @@ public class MapCreate : MonoBehaviour
         //首先，生成地图本体
         string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_2-1");
         mapToLoad = "Map_1-1";
-        Debug.Log(mapToLoad);
         TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
         mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
+        maxZ = mapInfo.mapTiles.Length;
+        maxX = mapInfo.mapTiles[0].Length;
 
         for (int i = 0; i < maxZ; i++)
         {
@@ -148,7 +148,7 @@ public class MapCreate : MonoBehaviour
     }
     void Start()
     {
-        SpawnGameMap();
+        //SpawnGameMap();
     }
     // Update is called once per frame
     void Update()
@@ -239,7 +239,6 @@ public class MapCreate : MonoBehaviour
                 spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
             }
         }
-        squadSelectionPage.gameObject.SetActive(false);
     }
 
     void SpawnTheEnemy(MapInfo mapInfo)

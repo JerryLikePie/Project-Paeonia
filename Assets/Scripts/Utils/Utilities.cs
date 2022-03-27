@@ -56,27 +56,27 @@ public static class Utilities
     }
 
     [System.Serializable]
-    struct DollType
+    public struct DollType
     {
-        [SerializeField] bool tank;
-        [SerializeField] bool spaa;
-        [SerializeField] bool arty;
-        [SerializeField] bool fighter;
-        [SerializeField] bool bomber;
+        [SerializeField] public bool tank;
+        [SerializeField] public bool spaa;
+        [SerializeField] public bool arty;
+        [SerializeField] public bool fighter;
+        [SerializeField] public bool bomber;
     }
 
     //一个通用的人物类
     [System.Serializable]
     public class Charactor
     {
-        [SerializeField] string name; //名字
-        [SerializeField] int id; //id
-        [SerializeField] bool isInUse; //是否被占用
-        [SerializeField] DollType type; //是什么
+        [SerializeField] public string name; //名字
+        [SerializeField] public int id; //id
+        [SerializeField] public bool isInUse; //是否被占用
+        [SerializeField] public DollType type; //是什么
         [SerializeField] public Sprite banner; //图鉴中显示的部分，半身
-        [SerializeField] Sprite avatar; //小图头像，作战中需要用到
-        [SerializeField] DollsProperty stats; //人物的具体数据
-        [SerializeField] GameObject doll; //放在地图上的prefab
+        [SerializeField] public Sprite avatar; //小图头像，作战中需要用到
+        [SerializeField] public DollsProperty stats; //人物的具体数据
+        [SerializeField] public GameObject doll; //放在地图上的prefab
     }
 
 }

@@ -5,15 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject[] rating;
-    public string enteringStage;
-    public string previousStage;
     private void Start()
     {
         Application.targetFrameRate = 60;
         LoadSavedProgress();
     }
-    public void ToGame()
+    public void ToGame(string enteringStage)
     {
         PlayerPrefs.SetString("Stage_You_Should_Load", enteringStage);
         SceneManager.LoadScene("Game1");
@@ -21,10 +18,6 @@ public class MainMenu : MonoBehaviour
     public void ToMainMenu()
     {
         SceneManager.LoadScene("Menu");
-    }
-    public void ToAboutPage()
-    {
-        SceneManager.LoadScene("AboutPage");
     }
     public void testScene()
     {
@@ -44,6 +37,7 @@ public class MainMenu : MonoBehaviour
     }
     public void LoadSavedProgress()
     {
+
     }
 
 }
