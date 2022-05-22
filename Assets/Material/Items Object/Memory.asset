@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e0de6064b6c7904a83ca309db6bc6cc, type: 3}
-  m_Name: TestMoney 1
+  m_Name: Memory
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 21300000, guid: ede45ba35addec745be3081cd7d7ae4c, type: 3}
-  itemType: 5
-  itemName: "\u6211\u8D85\uFF0C\u516D\u8FB9\u5F62"
-  itemDescription: "\u6211\u4E0D\u77E5\u9053\u6211\u662F\u6709\u5565\u5927\u75C5\u624D\u7528\u516D\u8FB9\u5F62\u7684\u5730\u56FE"
+  itemSprite: {fileID: 21300000, guid: d058abf6b240f5944be48f6a799c6068, type: 3}
+  itemType: 2
+  itemName: "\u8BB0\u5FC6\u4F53"
+  itemDescription: "\u7B80\u5355\u6765\u8BF4\uFF0C\u5B58\u50A8\u4E86DOLLS\u6218\u573A\u4E0A\u7684\u8BB0\u5FC6\u3002"

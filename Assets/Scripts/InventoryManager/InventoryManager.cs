@@ -10,8 +10,10 @@ public class InventoryManager : MonoBehaviour
     public Inventory menuInventory;
     public ItemListButton[] buttonsList;
     public Image displayImage;
-    public TextMeshPro itemTitle;
-    public TextMeshPro itemDescription;
+    public Text itemTitle;
+    public Text itemDescription;
+    public Text moneyDisplay;
+    public Text oilDisplay;
 
     private void Awake()
     {
@@ -23,15 +25,43 @@ public class InventoryManager : MonoBehaviour
                 Destroy(Object.FindObjectsOfType<InventoryManager>()[i].gameObject);
             }
         }
+        UpdateMenuDisplay();
+    }
+
+    public void UpdateMenuDisplay()
+    {
+        if (moneyDisplay == null || oilDisplay == null)
+        {
+            return;
+        }
+        moneyDisplay.text = menuInventory.container[1].amount.ToString();
+        oilDisplay.text = menuInventory.container[2].amount.ToString();
     }
 
     void Start()
     {
     }
 
-    public void AddTestSkadi()
+    public void AddResource(int id, int num)
     {
-        menuInventory.AddItem(itemPool[0].item, 1);
+        menuInventory.AddItem(itemPool[id].item, num);
+        UpdateInventory();
+    }
+
+    public void DecreaseResource(int id, int num)
+    {
+        menuInventory.MinusItem(itemPool[id].item, num);
+        UpdateInventory();
+    }
+    public void AddOneResource(int id)
+    {
+        menuInventory.AddItem(itemPool[id].item, 1);
+        UpdateInventory();
+    }
+
+    public void DecreaseOneResource(int id)
+    {
+        menuInventory.MinusItem(itemPool[id].item, 1);
         UpdateInventory();
     }
 
@@ -47,8 +77,8 @@ public class InventoryManager : MonoBehaviour
                 {
                     buttonsList[j].gameObject.SetActive(true);
                     buttonsList[j].setItem(menuInventory.container[i].item);
-                    wordsToDisplay = menuInventory.container[i].item.itemName + "£¨" + menuInventory.container[i].amount + "£©";
-                    buttonsList[j].textfield.SetText(wordsToDisplay);
+                    wordsToDisplay = menuInventory.container[i].item.itemName + " £¨" + menuInventory.container[i].amount + "£©";
+                    buttonsList[j].textfield.text = wordsToDisplay;
                     j++;
                 }
             }
@@ -66,16 +96,16 @@ public class InventoryManager : MonoBehaviour
 
     public void UponItemClicked(ItemListButton buttonClicked)
     {
-        itemTitle.SetText(buttonClicked.item.itemName);
-        itemDescription.SetText(buttonClicked.item.itemDescription);
+        itemTitle.text = buttonClicked.item.itemName;
+        itemDescription.text = buttonClicked.item.itemDescription;
         displayImage.gameObject.SetActive(true);
         displayImage.sprite = buttonClicked.item.itemSprite;
     }
 
     public void UponeClearTheItem()
     {
-        itemTitle.SetText("");
-        itemDescription.SetText("");
+        itemTitle.text = "";
+        itemDescription.text = "";
         displayImage.gameObject.SetActive(false);
     }
 }

@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class ItemListButton : MonoBehaviour
 {
-    public TextMeshProUGUI textfield;
+    public Text textfield;
     public ItemObject item;
 
     public void setItem(ItemObject item)

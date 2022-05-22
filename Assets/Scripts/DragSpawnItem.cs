@@ -92,7 +92,7 @@ public class DragSpawnItem: MonoBehaviour, IDragHandler, IEndDragHandler, IBegin
             //        skill1.secondSkill.secondSkill.loadMap();
             //    }
             //}
-            spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
+            //spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
         }
     }
     void Start()

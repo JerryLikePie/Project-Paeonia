@@ -8,6 +8,10 @@ using UnityEngine.UI;
 
 public class Inventory : ScriptableObject
 {
+    string about = "从上到下依次为：" +
+        "测试物品" +
+        "基础货币" +
+        "高级货币";
     public List<InventorySlot> container = new List<InventorySlot>();
     public void AddItem(ItemObject item, int amount)
     {
@@ -24,6 +28,27 @@ public class Inventory : ScriptableObject
         if (!hasItem)
         {
             container.Add(new InventorySlot(item, amount));
+        }
+    }
+
+    public void MinusItem(ItemObject item, int amount)
+    {
+        bool hasItem = false;
+        for (int i = 0; i < container.Count; i++)
+        {
+            if (container[i].item == item)
+            {
+                if (container[i].amount < amount)
+                {
+                    return;
+                }
+                container[i].AddAmount(-amount);
+                hasItem = true;
+                break;
+            }
+        }
+        if (!hasItem)
+        {
         }
     }
 }
