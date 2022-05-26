@@ -26,6 +26,12 @@ public class InventoryManager : MonoBehaviour
             }
         }
         UpdateMenuDisplay();
+        
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveAndLoad();
     }
 
     public void UpdateMenuDisplay()
@@ -63,6 +69,25 @@ public class InventoryManager : MonoBehaviour
     {
         menuInventory.MinusItem(itemPool[id].item, 1);
         UpdateInventory();
+    }
+
+    public void SaveAndLoad()
+    {
+        //首先保存再加载
+        try
+        {
+            string name = "";
+            for (int i = 0; i < menuInventory.container.Count; i++)
+            {
+                name = menuInventory.container[i].item.itemName + "_num";
+                PlayerPrefs.SetInt(name, menuInventory.container[i].amount);
+                menuInventory.container[i].amount = PlayerPrefs.GetInt(name, 0);
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError(ex);
+        }
     }
 
     public void UpdateInventory()
