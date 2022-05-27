@@ -10252,6 +10252,7 @@ MonoBehaviour:
   itemDescription: {fileID: 1563455231}
   moneyDisplay: {fileID: 1057058566}
   oilDisplay: {fileID: 1843074302}
+  itemsNum: 00000000000000000000000000000000000000000000000000000000
 --- !u!4 &524874588
 Transform:
   m_ObjectHideFlags: 0
@@ -11822,6 +11823,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &601098438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 601098440}
+  - component: {fileID: 601098439}
+  m_Layer: 0
+  m_Name: MapCombatEconManage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &601098439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601098438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63998785916249e47babb075fc084309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 524874587}
+--- !u!4 &601098440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601098438}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 35.9769, y: 8.163822, z: 53.71691}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &613165976
 GameObject:
   m_ObjectHideFlags: 0
@@ -22470,7 +22515,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: 'Demo v0.0.162
+  m_Text: 'Demo v0.0.166
 
 '
 --- !u!222 &1102853266

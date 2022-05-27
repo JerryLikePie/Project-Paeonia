@@ -14,9 +14,18 @@ public class InventoryManager : MonoBehaviour
     public Text itemDescription;
     public Text moneyDisplay;
     public Text oilDisplay;
+    public int[] itemsNum;
+
+    /*
+     * 1 = 合金
+     * 2 = 油
+     * 3 = 票
+     * 4 = 记忆体
+     */
 
     private void Awake()
     {
+        LoadinValues();
         DontDestroyOnLoad(gameObject);
         for (int i = 0; i < Object.FindObjectsOfType<InventoryManager>().Length; i++)
         {
@@ -31,7 +40,14 @@ public class InventoryManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        SaveAndLoad();
+        for (int i = 0; i < menuInventory.container.Count; i++)
+        {
+            if (itemsNum[i] != menuInventory.container[i].amount)
+            {
+                name = menuInventory.container[i].item.itemName + "_num";
+                PlayerPrefs.SetInt(name, menuInventory.container[i].amount);
+            }
+        }
     }
 
     public void UpdateMenuDisplay()
@@ -44,8 +60,17 @@ public class InventoryManager : MonoBehaviour
         oilDisplay.text = menuInventory.container[2].amount.ToString();
     }
 
-    void Start()
+    void Update()
     {
+        for (int i = 0; i < menuInventory.container.Count; i++)
+        {
+            if (itemsNum[i] != menuInventory.container[i].amount)
+            {
+                name = menuInventory.container[i].item.itemName + "_num";
+                itemsNum[i] = menuInventory.container[i].amount;
+                PlayerPrefs.SetInt(name, itemsNum[i]);
+            }
+        }
     }
 
     public void AddResource(int id, int num)
@@ -71,17 +96,16 @@ public class InventoryManager : MonoBehaviour
         UpdateInventory();
     }
 
-    public void SaveAndLoad()
+    public void LoadinValues()
     {
-        //首先保存再加载
         try
         {
             string name = "";
             for (int i = 0; i < menuInventory.container.Count; i++)
             {
                 name = menuInventory.container[i].item.itemName + "_num";
-                PlayerPrefs.SetInt(name, menuInventory.container[i].amount);
-                menuInventory.container[i].amount = PlayerPrefs.GetInt(name, 0);
+                itemsNum[i] = PlayerPrefs.GetInt(name, 1);
+                menuInventory.container[i].amount = itemsNum[i];
             }
         }
         catch (System.Exception ex)
