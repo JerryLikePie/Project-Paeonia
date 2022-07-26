@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class DragSkillManager: MonoBehaviour,IDragHandler,IEndDragHandler,IBeginDragHandler
 {
-    MouseManager mouseManager;
+    // MouseManager mouseManager;
     Hex tiletoSpawn;
     Transform parent;
     public Transform Anchor;
@@ -24,7 +24,7 @@ public class DragSkillManager: MonoBehaviour,IDragHandler,IEndDragHandler,IBegin
         Vector2 parentPosition = new Vector2(transform.parent.localPosition.x, transform.parent.localPosition.y);
         //将屏幕拖拽适配到所有屏幕上面去的万能代码，请刻入DNA：
         transform.localPosition = new Vector2((eventData.position.x - Screen.width / 2f) * (1920f / Screen.width) * ((float)Screen.width / Screen.height / (1920f / 1080f)), (eventData.position.y - Screen.height / 2f) * (1080f / Screen.height));
-        mouseManager.isDraggingUI = true;
+        // mouseManager.isDraggingUI = true;
         isDragging = true;
         try { skill.unit.thisUnit.skillBox.SetActive(true); } catch { }//有些dolls是没有技能范围的
         
@@ -34,7 +34,7 @@ public class DragSkillManager: MonoBehaviour,IDragHandler,IEndDragHandler,IBegin
     {
         transform.SetParent(parent);
         isDragging = false;
-        mouseManager.isDraggingUI = false;
+        // mouseManager.isDraggingUI = false;
         try { skill.unit.thisUnit.skillBox.SetActive(false); } catch { }//有些dolls是没有技能范围的
         transform.localPosition = snapBack;
         if (!(Input.mousePosition.x < (Screen.width * 0.5f) && Input.mousePosition.y < 170))
@@ -70,7 +70,7 @@ public class DragSkillManager: MonoBehaviour,IDragHandler,IEndDragHandler,IBegin
     }
     void Start()
     {
-        mouseManager = GameObject.Find("MouseManager").GetComponent<MouseManager>();
+        // mouseManager = GameObject.Find("MouseManager").GetComponent<MouseManager>();
         parent = transform.parent;
     }
 }

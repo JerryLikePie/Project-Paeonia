@@ -209,6 +209,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   m_VolumeTrigger: {fileID: 1242596448}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -775,12 +776,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42107389}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 173.2, y: -14, z: 143}
-  m_LocalScale: {x: 88.35, y: 0, z: 50}
+  m_LocalRotation: {x: -0.24986458, y: -0.25207666, z: 0.06749091, w: 0.9324538}
+  m_LocalPosition: {x: 220, y: -88, z: 426}
+  m_LocalScale: {x: 135.4, y: 0, z: 101.6}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 963194228}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &63039858
 GameObject:
@@ -1115,6 +1116,8 @@ MonoBehaviour:
   killCount: {fileID: 1157524094}
   timeCount: {fileID: 2101369204}
   HUD: {fileID: 1192339888}
+  dropID: 0
+  dropAmmount: 0
 --- !u!1 &138730069
 GameObject:
   m_ObjectHideFlags: 0
@@ -2038,7 +2041,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &300312615
 GameObject:
@@ -3818,6 +3821,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -3945,7 +3949,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &662978163
 GameObject:
@@ -4390,6 +4394,9 @@ MonoBehaviour:
     type: 3}
   isDragging: 0
   isDraggingUI: 0
+  horizonCenter: {x: 3, y: 3}
+  horizonTL: {x: -8, y: -6}
+  horizonBR: {x: 8, y: 6}
   cam: {fileID: 963194227}
   cam2: {fileID: 575314277}
   cam3: {fileID: 7752664}
@@ -4564,7 +4571,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &792762899
 GameObject:
@@ -5388,6 +5395,7 @@ Transform:
   m_Children:
   - {fileID: 575314280}
   - {fileID: 7752668}
+  - {fileID: 42107393}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 30, y: 30.257, z: 0.007}
@@ -5415,6 +5423,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -6485,7 +6494,7 @@ RectTransform:
   m_Children:
   - {fileID: 975405561}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8022,6 +8031,7 @@ MonoBehaviour:
   - {fileID: 869011391}
   - {fileID: 63039860}
   squadSelectionPage: {fileID: 721197088}
+  mouseManagerStub: {fileID: 770827205}
 --- !u!1 &1417660008
 GameObject:
   m_ObjectHideFlags: 0
@@ -9809,7 +9819,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1718605947
 GameObject:
@@ -9957,7 +9967,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1736224328
 GameObject:
@@ -12701,7 +12711,7 @@ Transform:
   m_Children:
   - {fileID: 639301676413364110}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &639301675350106983
 GameObject:
@@ -13237,7 +13247,7 @@ PrefabInstance:
     - target: {fileID: 9020544782129292703, guid: 514aecc94752be743b841af109b9b909,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 9020544782129292703, guid: 514aecc94752be743b841af109b9b909,
         type: 3}

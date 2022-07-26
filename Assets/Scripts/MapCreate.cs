@@ -35,6 +35,13 @@ public class MapCreate : MonoBehaviour
     public SquadSelectionPage squadSelectionPage;
     int dropID, dropAmount, dropRate;
 
+    // 整张地图
+    List<List<GameObject>> mapTiles;
+
+    // @Inj MouseManager
+    public GameObject mouseManagerStub;
+    private MouseManager mouseManager;
+
     [System.Serializable]
     class EnemySpawnPoint
     {
@@ -71,9 +78,9 @@ public class MapCreate : MonoBehaviour
     public void SpawnGameMap()
     {
         MapInfo mapInfo;
-        
+
         //首先，生成地图本体
-        string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_2-1");
+        string mapToLoad = "Fuckin_Big_Map"; // TODO PlayerPrefs.GetString("Stage_You_Should_Load", "Fuckin_Big_Map");
         Debug.Log(mapToLoad);
         TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
         mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
@@ -90,6 +97,7 @@ public class MapCreate : MonoBehaviour
 
         for (int i = 0; i < maxZ; i++)
         {
+            List<GameObject> rowTiles = new List<GameObject>();
             for (int j = 0; j < maxX; j++)
             {
                 GameObject thisTile = tileTypes[7].tilePrefabType; //先默认为都生成虚空
@@ -166,11 +174,20 @@ public class MapCreate : MonoBehaviour
                 }
                 catch
                 { continue; }
+                // 存入地图列表
+                rowTiles.Add(thisTile);
+                // 修改可见性
+                if (thisTile.transform.childCount > 0)
+                {
+                    thisTile.transform.GetChild(0).gameObject.SetActive(false);
+                }
                 //把所有地图块都装入一个地图文件夹里面
                 thisTile.transform.parent = this.gameObject.transform;
             }
+            mapTiles.Add(rowTiles);
         }
         InitialMapVision(homeHang, homeLie);
+        mouseManager.setMapInfo(maxZ, maxX, mapTiles);
         SpawnTheUnits(homeHang, homeLie);
         SpawnTheEnemy(mapInfo);
         //Debug.Log("宽和长分别为" + maxX + "和" + maxZ);
@@ -181,6 +198,10 @@ public class MapCreate : MonoBehaviour
     {
         Score.Initialize();
         Score.stageName = PlayerPrefs.GetString("Stage_You_Should_Load", null);
+        // 依赖注入
+        mouseManager = mouseManagerStub.GetComponent<MouseManager>();
+        // 初始化容器型变量
+        mapTiles = new List<List<GameObject>>();
     }
     // Update is called once per frame
     void Update()
@@ -245,6 +266,7 @@ public class MapCreate : MonoBehaviour
                 continue;
             }
         }
+        mouseManager.setCameraLookAt(Home.gameObject);
     }
     public void SpawnTheUnits(int X, int Z)
     {
