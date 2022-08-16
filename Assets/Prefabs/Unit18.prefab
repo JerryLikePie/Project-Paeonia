@@ -16086,7 +16086,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c218092112a0c3d41bdf32db5349d15f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a2161f8b925e8a842add7891f40f2b1a, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -16956,7 +16956,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 0.24
   MinDistance: 1
-  MaxDistance: 300
+  MaxDistance: 390
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
