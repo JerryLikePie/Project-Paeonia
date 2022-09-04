@@ -10,6 +10,7 @@ TagManager:
   - DamageSphere
   - Bullet
   - ArtilleryReference
+  - Inventory
   layers:
   - Default
   - TransparentFX

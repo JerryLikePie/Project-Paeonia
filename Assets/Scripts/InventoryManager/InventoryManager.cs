@@ -44,7 +44,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (itemsNum[i] != menuInventory.container[i].amount)
             {
-                name = menuInventory.container[i].item.itemName + "_num";
+                string name = menuInventory.container[i].item.itemName + "_num";
                 PlayerPrefs.SetInt(name, menuInventory.container[i].amount);
             }
         }
@@ -66,7 +66,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (itemsNum[i] != menuInventory.container[i].amount)
             {
-                name = menuInventory.container[i].item.itemName + "_num";
+                string name = menuInventory.container[i].item.itemName + "_num";
                 itemsNum[i] = menuInventory.container[i].amount;
                 PlayerPrefs.SetInt(name, itemsNum[i]);
             }

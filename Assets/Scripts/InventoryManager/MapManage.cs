@@ -19,7 +19,7 @@ public class MapManage : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(inventory.name);
+        inventory = GameObject.FindWithTag("Inventory").GetComponent<InventoryManager>();
     }
 
     public void EnemyKilled(int num)
