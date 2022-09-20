@@ -1,4 +1,5 @@
-using System.Collections;
+using Assets.Scripts.Utils;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,15 +20,20 @@ public class MouseManager : MonoBehaviour
     int[] change_hang = { 0, 0, 1, 1, -1, -1};
     int[] change_lie = { -1, 1, 0, 1 , 0, 1,
                        -1, 1, -1, 0, - 1, 0 };//分奇偶层，当前坐标的“六个可能的下个坐标”
-    
+
+    // 地图最大行列数
+    private int MAX_ROWS;
+    private int MAX_COLS;
+    // 整张地图对象
+    private List<List<GameObject>> mapTiles;
 
     //然后是关于移动相机的
     public bool isDragging;
     private readonly float MouseZoomSpeed = 15.0f, TouchZoomSpeed = 0.08f;
-    private readonly float ZoomMinBound = 25f, ZoomMaxBound = 60f, 
-        MIN_Y = 60f, MAX_Y = 60.1f, 
-        MAX_X = 1000f,MIN_X = 0f,
-        MIN_Z = -40f,MAX_Z = 135f;
+    private readonly float ZoomMinBound = 25f, ZoomMaxBound = 60f,
+        MIN_Y = 100f, MAX_Y = 200f,
+        MAX_X = 1000f, MIN_X = 0f,
+        MIN_Z = -40f, MAX_Z = 135f;
     private Vector3 Origin;
     private Vector3 Difference;
     private bool Drag = false;
@@ -35,6 +41,19 @@ public class MouseManager : MonoBehaviour
     bool isOnSelectedUnit = false;
     Ray ray;
     RaycastHit[] f;
+
+    // 从地图格到相机的方向向量
+    private Vector3 invCameraDirection = new Vector3(-Mathf.Sqrt(3) / 2, 1, -3f / 2);
+    // 当前相机瞄准的 Tile
+    private Vector2Int cameraLookAt;
+
+    // 当前显示范围
+    [SerializeField, FieldName("相机初始位置")]
+    Vector2Int horizonCenter = new Vector2Int(3, 3);
+    [SerializeField, FieldName("左下角距中心偏移")]
+    Vector2Int horizonTL = new Vector2Int(-6, -8);
+    [SerializeField, FieldName("右上角距中心偏移")]
+    Vector2Int horizonBR = new Vector2Int(6, 8);
 
     public Camera cam,cam2,cam3;
     Timer moveTimer = new Timer();
@@ -44,6 +63,7 @@ public class MouseManager : MonoBehaviour
         cam2 = cam2.GetComponent<Camera>();
         cam3 = cam3.GetComponent<Camera>();
         moveTimer.IsCounting = false;
+        animatingTiles = new List<TileAnimation>();
     }
 
     //bool unitInMoveCooldown = false; // 是否正在cd
@@ -84,7 +104,254 @@ public class MouseManager : MonoBehaviour
             }
         }
         CameraDrag();
+        updateCameraLookAt();
+        animateOnUpdate();
     }
+
+    private List<TileAnimation> removeList = new List<TileAnimation>();  // 待移除的元素
+
+    private void animateOnUpdate()
+    {
+
+        // 处理地图格渐入渐出动画
+        foreach (TileAnimation anim in animatingTiles)
+        {
+            // 渐入
+            if (anim.target == TileAnimation.T_DOWN)
+            {
+                anim.obj.transform.position += Vector3.down * TILE_ANIM_SPEED * Time.deltaTime; // deltaTime 是频率的倒数
+                if (anim.obj.transform.position.y <= 0f)
+                {
+                    // 复位，解决错位问题
+                    anim.obj.transform.position = new Vector3(anim.obj.transform.position.x, 0, anim.obj.transform.position.z);
+                    removeList.Add(anim);
+                }
+            }
+            // 渐隐
+            else if (anim.target == TileAnimation.T_UP)
+            {
+                anim.obj.transform.position += Vector3.up * TILE_ANIM_SPEED * Time.deltaTime;
+                if (anim.obj.transform.position.y >= TILE_ANIM_END_POS) // TILE_ANIM_END_POS 为动画结束位置
+                {
+                    // 复位，解决错位问题
+                    anim.obj.transform.position = new Vector3(anim.obj.transform.position.x, TILE_ANIM_END_POS, anim.obj.transform.position.z);
+                    if (anim.obj.transform.childCount > 0)
+                    {
+                        anim.obj.transform.GetChild(0).gameObject.SetActive(false);
+                    }
+                    removeList.Add(anim);
+                }
+            }
+        }
+        // 批量删除
+        foreach (TileAnimation anim in removeList)
+        {
+            animatingTiles.Remove(anim);
+        }
+    }
+
+    // 初始化地图时设置相机位置
+    public void setCameraLookAt(GameObject hexLookAt)
+    {
+        // 相机中心指向 hexLookAt
+        // 其中 UP * 0.6f 是 hex 高度的偏移量
+        Camera.main.transform.position = hexLookAt.transform.position + (Vector3.up * 0.6f) + (invCameraDirection * 150f);
+        cameraLookAt = Utilities.tileNameToPos(hexLookAt.transform.name);
+        horizonCenter = cameraLookAt;
+    }
+
+    // 初始化地图时告知地图参数
+    public void setMapInfo(int maxRows, int maxCols, List<List<GameObject>> mapTiles)
+    {
+        this.MAX_ROWS = maxRows;
+        this.MAX_COLS = maxCols;
+        this.mapTiles = mapTiles;
+        // 初始化视野
+        Vector2Int TopLeft = horizonCenter + horizonTL;
+        Vector2Int BottomRight = horizonCenter + horizonBR;
+        for (int row = Math.Max(0, TopLeft.x); row <= Math.Min(MAX_ROWS - 1, (int)BottomRight.x); row++)
+        {
+            for (int col = Math.Max(0, TopLeft.y); col <= Math.Min(MAX_COLS - 1, (int)BottomRight.y); col++)
+            {
+                if (mapTiles[row][col].transform.childCount > 0)
+                {
+                    mapTiles[row][col].transform.GetChild(0).gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+
+    // 每次刷新时更新相机状态
+    public void updateCameraLookAt()
+    {
+        Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 1000.0f))
+        {
+            //绘制相机射线线，仅在Scene视图中可见
+            Debug.DrawLine(ray.origin, hit.point, Color.green);
+            //输出射线探测到的物体的名称
+            if (hit.transform.name.Equals("Hex") && hit.transform.parent != null)
+            {
+                // Debug.Log("射线探测到的物体：" + hit.transform.parent.name);
+                // string tileName = hit.transform.parent.name;
+                Vector2Int pos = Utilities.tileNameToPos(hit.transform.parent.name);
+                int dRow = pos.x - cameraLookAt.x;
+                int dCol = pos.y - cameraLookAt.y;
+                cameraLookAt.x = pos.x;
+                cameraLookAt.y = pos.y;
+                // 调整显示视野
+                if (dRow != 0 || dCol != 0)
+                {
+                    moveHorizon(dRow, dCol);
+                }
+            }
+        }
+    }
+
+    // 调整视野范围
+    private void moveHorizon(int dRow, int dCol)
+    {
+        // 前行号后列号
+        Vector2Int dPos = new Vector2Int(dRow, dCol);
+        Vector2Int oldTopLeft = horizonCenter + horizonTL;
+        Vector2Int oldBottomRight = horizonCenter + horizonBR;
+        Vector2Int newTopLeft = oldTopLeft + dPos;
+        Vector2Int newBottomRight = oldBottomRight + dPos;
+        HashSet<GameObject> tilesToShow = new HashSet<GameObject>();
+        HashSet<GameObject> tilesToHide = new HashSet<GameObject>();
+        // 修改视野
+        horizonCenter += dPos;
+        // 增加新行
+        if (dRow > 0)
+        {
+            for (int row = Math.Max(0, oldBottomRight.x + 1); row <= Math.Min(MAX_ROWS - 1, newBottomRight.x); row++)
+            {
+                for (int col = Math.Max(0, newTopLeft.y); col <= Math.Min(MAX_COLS - 1, newBottomRight.y); col++)
+                {
+                    tilesToShow.Add(mapTiles[row][col]);
+                }
+            }
+            for (int row = Math.Max(0, oldTopLeft.x); row < Math.Min(MAX_ROWS, newTopLeft.x); row++)
+            {
+                for (int col = Math.Max(0, oldTopLeft.y); col <= Math.Max(MAX_COLS - 1, oldBottomRight.y); col++)
+                {
+                    tilesToHide.Add(mapTiles[row][col]);
+                }
+            }
+        }
+        else if (dRow < 0)
+        {
+            for (int row = Math.Max(0, newTopLeft.x); row < Math.Min(MAX_ROWS, oldTopLeft.x); row++)
+            {
+                for (int col = Math.Max(0, newTopLeft.y); col <= Math.Min(MAX_COLS - 1, newBottomRight.y); col++)
+                {
+                    tilesToShow.Add(mapTiles[row][col]);
+                }
+            }
+            for (int row = Math.Max(0, newBottomRight.x + 1); row <= Math.Min(MAX_ROWS - 1, oldBottomRight.x); row++)
+            {
+                for (int col = Math.Max(0, oldTopLeft.y); col <= Math.Min(MAX_COLS - 1, oldBottomRight.y); col++)
+                {
+                    tilesToHide.Add(mapTiles[row][col]);
+                }
+            }
+        }
+        // 增加新列
+        if (dCol > 0)
+        {
+            for (int col = Math.Max(0, oldBottomRight.y + 1); col <= Math.Min(MAX_COLS - 1, newBottomRight.y); col++)
+            {
+                for (int row = Math.Max(0, newTopLeft.x); row <= Math.Min(MAX_ROWS - 1, newBottomRight.x); row++)
+                {
+                    tilesToShow.Add(mapTiles[row][col]);
+                }
+            }
+            for (int col = Math.Max(0, oldTopLeft.y); col < Math.Min(MAX_COLS, newTopLeft.y); col++)
+            {
+                for (int row = Math.Max(0, oldTopLeft.x); row <= Math.Min(MAX_ROWS - 1, oldBottomRight.x); row++)
+                {
+                    tilesToHide.Add(mapTiles[row][col]);
+                }
+            }
+        }
+        else if (dCol < 0)
+        {
+            for (int col = Math.Max(0, newTopLeft.y); col < Math.Min(MAX_COLS, oldTopLeft.y); col++)
+            {
+                for (int row = Math.Max(0, newTopLeft.x); row <= Math.Min(MAX_ROWS - 1, newBottomRight.x); row++)
+                {
+                    tilesToShow.Add(mapTiles[row][col]);
+                }
+            }
+            for (int col = Math.Max(0, newBottomRight.y + 1); col <= Math.Min(MAX_COLS - 1, oldBottomRight.y); col++)
+            {
+                for (int row = Math.Max(0, oldTopLeft.x); row <= Math.Min(MAX_ROWS - 1, oldBottomRight.x); row++)
+                {
+                    tilesToHide.Add(mapTiles[row][col]);
+                }
+            }
+        }
+        showTilesAnimated(tilesToShow);
+        hideTilesAnimated(tilesToHide);
+    }
+
+    // 地图显隐动画
+    private List<TileAnimation> animatingTiles;
+    // 显隐动画开始、结束位置
+    private readonly float TILE_ANIM_END_POS = 1.5f;
+    // 显隐动画播放速度
+    private readonly float TILE_ANIM_SPEED = 32f;
+
+    // 地图格运动动画
+    class TileAnimation
+    {
+        public static int T_DOWN = 0;
+        public static int T_UP = 1;
+        public GameObject obj;
+        public int target; // 0 - down to earth; 1 - up to sky
+    }
+
+    // 渐入动画
+    private void showTilesAnimated(IEnumerable<GameObject> tiles)
+    {
+        TileAnimation anim;
+        foreach (GameObject tile in tiles)
+        {
+            if (tile.transform.childCount > 0)
+            {
+                tile.transform.GetChild(0).gameObject.SetActive(true);
+            }
+            if ((anim = animatingTiles.Find(o => o.obj == tile)) != null)
+            {
+                anim.target = TileAnimation.T_DOWN;
+            }
+            else
+            {
+                tile.transform.position += Vector3.up * TILE_ANIM_END_POS;
+                animatingTiles.Add(new TileAnimation { obj = tile, target = TileAnimation.T_DOWN });
+            }
+        }
+    }
+
+    // 渐出动画
+    private void hideTilesAnimated(IEnumerable<GameObject> tiles)
+    {
+        TileAnimation anim;
+        foreach (GameObject tile in tiles)
+        {
+            if ((anim = animatingTiles.Find(o => o.obj == tile)) != null)
+            {
+                anim.target = TileAnimation.T_UP;
+            }
+            else
+            {
+                animatingTiles.Add(new TileAnimation { obj = tile, target = TileAnimation.T_UP });
+            }
+        }
+    }
+
     bool SeeIfUnitDrag()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -134,6 +401,16 @@ public class MouseManager : MonoBehaviour
                     if (Drag == true)
                     {
                         Camera.main.transform.position = Origin - Difference;
+                        // 限制相机 Y 轴高度
+                        float CY = Camera.main.transform.position.y;
+                        if (CY < MIN_Y)
+                        {
+                            Camera.main.transform.position += invCameraDirection * 50f;
+                        }
+                        else if (CY > MAX_Y)
+                        {
+                            Camera.main.transform.position -= invCameraDirection * 50f;
+                        }
                         //Camera.main.transform.position = new Vector3(
                         //  Mathf.Clamp(Camera.main.transform.position.x, MIN_X, MAX_X),
                         //  Mathf.Clamp(Camera.main.transform.position.y, MIN_Y, MAX_Y),
@@ -176,6 +453,16 @@ public class MouseManager : MonoBehaviour
                 if (Drag == true)
                 {
                     Camera.main.transform.position = Origin - Difference;
+                    // 限制相机 Y 轴高度
+                    float CY = Camera.main.transform.position.y;
+                    if (CY < MIN_Y)
+                    {
+                        Camera.main.transform.position += invCameraDirection * 50f;
+                    }
+                    else if (CY > MAX_Y)
+                    {
+                        Camera.main.transform.position -= invCameraDirection * 50f;
+                    }
                     //Camera.main.transform.position = new Vector3(
                     //      Mathf.Clamp(Camera.main.transform.position.x, MIN_X, MAX_X),
                     //      Mathf.Clamp(Camera.main.transform.position.y, MIN_Y, MAX_Y),

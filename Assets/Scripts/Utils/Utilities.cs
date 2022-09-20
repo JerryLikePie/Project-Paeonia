@@ -55,6 +55,26 @@ public static class Utilities
         return Mathf.Abs(a.x - b.x) <= 0.01 && Mathf.Abs(a.y - b.y) <= 0.01 && Mathf.Abs(a.z - b.z) <= 0.01;
     }
 
+    // 从地图坐标生成 GameObject 名
+    // 例：3, 7 -> "Map3_7" 
+    public static string tilePosToName(int row, int col)
+    {
+        return "Map" + row + '_' + col;
+    }
+
+
+    // 从地图格子 name 获取地图坐标的方法
+    // 例："Map10_5" -> Vector(10, 5)
+    public static Vector2Int tileNameToPos(string name)
+    {
+        Vector2Int pos = new Vector2Int();
+        name = name.Substring(3);
+        string[] ns = name.Split('_');
+        pos.x = int.Parse(ns[0]);
+        pos.y = int.Parse(ns[1]);
+        return pos;
+    }
+
     [System.Serializable]
     public struct DollType
     {

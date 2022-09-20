@@ -10,9 +10,10 @@ public class MainMenu : MonoBehaviour
         Application.targetFrameRate = 60;
         LoadSavedProgress();
     }
-    public void ToGame(string enteringStage)
+    public void ToGame()
     {
-        PlayerPrefs.SetString("Stage_You_Should_Load", enteringStage);
+        // 在 MapDescription 处设置该变量
+        // PlayerPrefs.SetString("Stage_You_Should_Load", enteringStage);
         SceneManager.LoadScene("Game1");
     }
     public void ToMainMenu()

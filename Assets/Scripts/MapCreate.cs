@@ -30,6 +30,13 @@ public class MapCreate : MonoBehaviour
     int maxX, maxZ;
     public SquadSlot[] slots;
 
+    // 整张地图
+    List<List<GameObject>> mapTiles;
+
+    // @Inj MouseManager
+    public MouseManager mouseManager;
+
+
     [System.Serializable]
     class EnemySpawnPoint
     {
@@ -69,14 +76,16 @@ public class MapCreate : MonoBehaviour
         
         //首先，生成地图本体
         string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_2-1");
-        mapToLoad = "Map_1-1";
         TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
         mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
         maxZ = mapInfo.mapTiles.Length;
         maxX = mapInfo.mapTiles[0].Length;
 
+        GameObject homeTile = null;
+        mapTiles = new List<List<GameObject>>();
         for (int i = 0; i < maxZ; i++)
         {
+            List<GameObject> rowTiles = new List<GameObject>();
             for (int j = 0; j < maxX; j++)
             {
                 GameObject thisTile = tileTypes[7].tilePrefabType; //先默认为都生成虚空
@@ -129,6 +138,10 @@ public class MapCreate : MonoBehaviour
                 }
                 //给这个地图命名
                 thisTile.name = "Map" + i + "_" + j;
+                if (mapInfo.mapTiles[i][j] == 'B') //如果文件说这里是我方的家
+                {
+                    homeTile = thisTile;
+                }
                 try
                 {
                     //但命名只是给我们看的，程序也要知道
@@ -138,17 +151,29 @@ public class MapCreate : MonoBehaviour
                 }
                 catch
                 { continue; }
+                // 存入地图列表
+                rowTiles.Add(thisTile);
+                // 修改可见性
+                if (thisTile.transform.childCount > 0)
+                {
+                    thisTile.transform.GetChild(0).gameObject.SetActive(false);
+                }
                 //把所有地图块都装入一个地图文件夹里面
                 thisTile.transform.parent = this.gameObject.transform;
             }
+            mapTiles.Add(rowTiles);
         }
+        mouseManager.setCameraLookAt(homeTile);
+        mouseManager.setMapInfo(maxZ, maxX, mapTiles);
         //SpawnTheEnemy(mapInfo);
         //timeStart = System.DateTime.Now.Ticks;
         //gameStarted = true;
     }
     void Start()
     {
-        //SpawnGameMap();
+        SpawnGameMap();
+        // 初始化容器型变量
+        mapTiles = new List<List<GameObject>>();
     }
     // Update is called once per frame
     void Update()
