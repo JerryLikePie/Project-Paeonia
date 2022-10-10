@@ -302,7 +302,7 @@ public class MouseManager : MonoBehaviour
     // 显隐动画开始、结束位置
     private readonly float TILE_ANIM_END_POS = 1.5f;
     // 显隐动画播放速度
-    private readonly float TILE_ANIM_SPEED = 32f;
+    private readonly float TILE_ANIM_SPEED = 64f;
 
     // 地图格运动动画
     class TileAnimation

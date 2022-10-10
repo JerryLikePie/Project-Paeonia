@@ -27,17 +27,17 @@ public class Hex : MonoBehaviour
     Color highlightColor;
     void Start()
     {
-        //if (fogOfWarDarken != null)
-        //{
-        //    originalColor = fogOfWarDarken.GetComponent<Renderer>().material.color;
-        //    maskedColor = new Color(originalColor.r - 0.5f, originalColor.g - 0.5f, originalColor.b - 0.5f);
-        //    highlightColor = new Color(originalColor.r + 0.1f, originalColor.g + 0.5f, originalColor.b + 0.1f);
-        //}
-        //UpdateFogStatus();
+        if (fogOfWarDarken != null)
+        {
+            originalColor = fogOfWarDarken.GetComponent<Renderer>().material.color;
+            maskedColor = new Color(originalColor.r - 0.5f, originalColor.g - 0.5f, originalColor.b - 0.5f);
+            highlightColor = new Color(originalColor.r + 0.1f, originalColor.g + 0.5f, originalColor.b + 0.1f);
+        }
+        UpdateFogStatus();
     }
     void Update()
     {
-        //changeTheFog();
+        UpdateFogStatus();
     }
     public void GainVisual()
     {
@@ -61,48 +61,48 @@ public class Hex : MonoBehaviour
     }
     public void UpdateFogStatus()
     {
-        //if (fogOfWarDarken != null)
-        //{
-        //    if (isInFog == 0)//0是有雾
-        //    {
-        //        fogOfWarDarken.GetComponent<Renderer>().material.color = maskedColor;
-        //    }
-        //    if (isInFog >= 1)//1是没有雾
-        //    {
-        //        fogOfWarDarken.GetComponent<Renderer>().material.color = originalColor;
-        //    }
-        //    if (isInFog == 9999)//9999是高光
-        //    {
-        //        fogOfWarDarken.GetComponent<Renderer>().material.color = highlightColor;
-        //    }
-        //    if (isInFog < 0) isInFog = 0;
-        //    if (isSpotted < 0) isSpotted = 0;
-        //}
- 
-        //if (render)
-        //{
-            
-        //    if (hexBase != null)
-        //    {
-        //        hexBase.GetComponent<MeshRenderer>().enabled = true;
-        //    }
-        //    if (fogOfWarDarken != null)
-        //    {
-        //        fogOfWarDarken.GetComponent<MeshRenderer>().enabled = true;
-        //    }
-        //}
-        //else
-        //{
-            
-        //    if (hexBase != null)
-        //    {
-        //        hexBase.GetComponent<MeshRenderer>().enabled = false;
+        if (fogOfWarDarken != null)
+        {
+            if (isInFog == 0)//0是有雾
+            {
+                fogOfWarDarken.GetComponent<Renderer>().material.color = maskedColor;
+            }
+            if (isInFog >= 1)//1是没有雾
+            {
+                fogOfWarDarken.GetComponent<Renderer>().material.color = originalColor;
+            }
+            if (isInFog == 9999)//9999是高光
+            {
+                fogOfWarDarken.GetComponent<Renderer>().material.color = highlightColor;
+            }
+            if (isInFog < 0) isInFog = 0;
+            if (isSpotted < 0) isSpotted = 0;
+        }
 
-        //    }
-        //    if (fogOfWarDarken != null)
-        //    {
-        //        fogOfWarDarken.GetComponent<MeshRenderer>().enabled = false;
-        //    }
-        //}
+        if (render)
+        {
+
+            if (hexBase != null)
+            {
+                hexBase.GetComponent<MeshRenderer>().enabled = true;
+            }
+            if (fogOfWarDarken != null)
+            {
+                fogOfWarDarken.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
+        else
+        {
+
+            if (hexBase != null)
+            {
+                hexBase.GetComponent<MeshRenderer>().enabled = false;
+
+            }
+            if (fogOfWarDarken != null)
+            {
+                fogOfWarDarken.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
     }
 }

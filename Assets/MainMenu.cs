@@ -8,12 +8,12 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 60;
+        resetProgress();
         LoadSavedProgress();
     }
-    public void ToGame()
+    public void ToGame(string enteringStage)
     {
-        // 在 MapDescription 处设置该变量
-        // PlayerPrefs.SetString("Stage_You_Should_Load", enteringStage);
+        PlayerPrefs.SetString("Stage_You_Should_Load", enteringStage);
         SceneManager.LoadScene("Game1");
     }
     public void ToMainMenu()
@@ -30,7 +30,9 @@ public class MainMenu : MonoBehaviour
     }
     public void resetProgress()
     {
-
+        PlayerPrefs.SetInt("Map_1-1", 0);
+        PlayerPrefs.SetInt("Map_1-2", 0);
+        PlayerPrefs.SetInt("Map_1-3", 0);
     }
     public void allProgress()
     {

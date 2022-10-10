@@ -50,24 +50,24 @@ public class MapCreate : MonoBehaviour
     {
         public string[] mapTiles;
         public EnemySpawnPoint[] enemySpawnPoints;
-        //public int timeLimit;
-        //public int dropID;
-        //public int dropAmount;
-        //public int dropRate;
+        public int timeLimit;
+        public int dropID;
+        public int dropAmount;
+        public int dropRate;
 
-        //public override string ToString()
-        //{
-        //    string str = "";
-        //    foreach (EnemySpawnPoint e in enemySpawnPoints)
-        //    {
-        //        str += "spawnTile: " + e.spawnTile + "\n";
-        //        foreach (string s in e.nextTile)
-        //        {
-        //            str += "  nextTile: " + s + "\n";
-        //        }
-        //    }
-        //    return str;
-        //}
+        public override string ToString()
+        {
+            string str = "";
+            foreach (EnemySpawnPoint e in enemySpawnPoints)
+            {
+                str += "spawnTile: " + e.spawnTile + "\n";
+                foreach (string s in e.nextTile)
+                {
+                    str += "  nextTile: " + s + "\n";
+                }
+            }
+            return str;
+        }
     }
 
     public void SpawnGameMap()
@@ -165,9 +165,9 @@ public class MapCreate : MonoBehaviour
         }
         mouseManager.setCameraLookAt(homeTile);
         mouseManager.setMapInfo(maxZ, maxX, mapTiles);
-        //SpawnTheEnemy(mapInfo);
-        //timeStart = System.DateTime.Now.Ticks;
-        //gameStarted = true;
+        SpawnTheEnemy(mapInfo);
+        timeStart = System.DateTime.Now.Ticks;
+        gameStarted = true;
     }
     void Start()
     {
@@ -199,12 +199,12 @@ public class MapCreate : MonoBehaviour
                 Hex ToCancelFog = transform.GetChild(i).GetComponent<Hex>();
                 ToCancelFog.isInFog = 999;
                 ToCancelFog.render = true;
-                //if (Vector3.Distance(Home.transform.position, ToCancelFog.transform.position) <= 17.5 * 999)
+                if (Vector3.Distance(Home.transform.position, ToCancelFog.transform.position) <= 17.5 * 999)
                 {
-                    //ToCancelFog.isInFog = 999;
-                    //ToCancelFog.render = true;
+                    ToCancelFog.isInFog = 999;
+                    ToCancelFog.render = true;
                 }
-                //ToCancelFog.ChangeTheFog();
+                ToCancelFog.UpdateFogStatus();
             }
             catch
             {
