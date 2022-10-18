@@ -163,7 +163,7 @@ public class MapCreate : MonoBehaviour
             }
             mapTiles.Add(rowTiles);
         }
-        mouseManager.setCameraLookAt(homeTile);
+        //mouseManager.setCameraLookAt(homeTile);
         mouseManager.setMapInfo(maxZ, maxX, mapTiles);
         SpawnTheEnemy(mapInfo);
         timeStart = System.DateTime.Now.Ticks;

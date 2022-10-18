@@ -13275,7 +13275,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -18171,7 +18171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &784344433
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18776,7 +18776,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u6D3B\u6027\u5316\u8D8A\u9AD8\uFF0C\u533A\u57DF\u5185\u7684\u707E\u517D\u8D8A\u5F3A\u3002\n\u53EA\u6709\u638C\u63E1\u4E86\u5236\u7A7A\u624D\u80FD\u5728\u7A7A\u964D\u70B9\u90E8\u7F72\u90E8\u961F\uFF0C\u5426\u5219\u5FC5\u987B\u8D70\u8FC7\u53BB\u3002"
+  m_Text: "\u6D3B\u6027\u5316\u8D8A\u9AD8\uFF0C\u533A\u57DF\u5185\u7684\u707E\u517D\u8D8A\u5F3A\u3002"
 --- !u!222 &815719533
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24169,7 +24169,7 @@ MonoBehaviour:
   m_Color: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 0.92941177}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -39897,10 +39897,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1107227258}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1076204746}
+        m_TargetAssemblyTypeName: ClickAndMove, Assembly-CSharp
+        m_MethodName: ClickToSwitch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -41690,7 +41690,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -5004,7 +5004,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  mouseManager: {fileID: 0}
+  mouseManager: {fileID: 770827206}
 --- !u!4 &1670143955
 Transform:
   m_ObjectHideFlags: 0
