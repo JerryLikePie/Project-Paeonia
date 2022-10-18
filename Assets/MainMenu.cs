@@ -8,7 +8,6 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 60;
-        resetProgress();
         LoadSavedProgress();
     }
     public void ToGame(string enteringStage)

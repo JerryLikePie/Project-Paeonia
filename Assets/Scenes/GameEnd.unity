@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -268,7 +268,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6210\u529F\u4E0E\u5426"
+  m_Text: "\u8FD8\u6CA1\u505A\u597D\u554A\u8FD8\u6CA1\u505A\u597D"
 --- !u!222 &82750596
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -890,7 +890,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u63A7\u5236\u4E00\u4E2A\u5730\u533A\u7684\u5173\u952E\u8282\u70B9\u53EF\u4EE5\u8BA9\u6211\u4EEC\u5EFA\u7ACB\u8D77\u524D\u54E8\u7AD9\u3002"
+  m_Text: "\u8FD8\u6CA1\u505A\u597D\u554A\u8FD8\u6CA1\u505A\u597D"
 --- !u!222 &748369502
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -970,9 +970,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ce6fd33b4c3d34697f405342baf03a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rating: []
-  enteringStage: 
-  previousStage: none
 --- !u!114 &895481474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1476,6 +1473,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -1835,7 +1833,8 @@ MonoBehaviour:
   Star4Special: {fileID: 2113313041}
   EndScore: {fileID: 82750593}
   EndWords: {fileID: 748369500}
-  Scores: {fileID: 0}
+  scores: {fileID: 0}
+  inventory: {fileID: 0}
 --- !u!4 &1662091725
 Transform:
   m_ObjectHideFlags: 0

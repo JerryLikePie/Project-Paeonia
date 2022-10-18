@@ -4,143 +4,123 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
 
 
 public class SquadSelectionPage : MonoBehaviour
 {
-    [SerializeField] private GameObject spaceAnchor;
-    [SerializeField] private GameObject unitAnchor;
-    [SerializeField] private DollsPoolManager poolManager;
-    [SerializeField] public Queue<Transform> tempBinInUse = new Queue<Transform>();
-    [SerializeField] private bool[] slotLoaded;
-    [SerializeField] private Button[] slots;
-    int slotNum = 0;
-
-    [System.Serializable]
-    public class SquadSave
+    public bool[] selectedSlot = new bool[8];//这个slot是否已经有人了
+    public GameObject lastSlot, allUnitsAnchor, squadSelection, SpacesAnchor;
+    public int slotnum;
+    void Start()
     {
-        public int[] dollsID;
+        gameObject.SetActive(true);
+        slotnum = 0;
+        for (int a = 0; a < 7; a++)
+        {
+            selectedSlot[a] = false;
+        }
     }
-
-    public SquadSave squadSave;
-
-    private void Start()
+    public void Selected_Done()
     {
-        LoadSquad();
+        if (selectedSlot[slotnum] == true)
+        {//当点击的卡槽已经有人的时候，把这个人移回到all里面来备选
+            lastSlot.transform.GetChild(0).gameObject.SetActive(true);
+            lastSlot.transform.GetChild(0).SetParent(allUnitsAnchor.transform);
+            selectedSlot[slotnum] = false;//然后把当前卡槽标为没有人
+        }
+        GameObject slot = GameObject.Find("Slot" + slotnum);//首先获取当前人物是放到几号卡槽
+        GameObject doll = EventSystem.current.currentSelectedGameObject;//然后获取当前人物
+        int ID = doll.GetComponent<DollsProperty>().dolls_id;//获取当前这个人物的ID
+        slot.GetComponent<SquadSlot>().spawnID = ID;//把人物ID给到卡槽的生成ID上面去
+        doll.transform.SetParent(slot.transform);//给送到对应的卡槽里面
+        doll.SetActive(false);//然后把这个人物隐藏掉避免按钮重合出问题
+        slot.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/Unit" + ID + "Avatar");//把人物的图片给到图片上面去
+        selectedSlot[slotnum] = true;//当前卡槽标记为已经有人了
+        if (slot.GetComponent<SquadSlot>().spawnID == 0)//但是如果刚刚选的是取消咋办
+        {
+            //lastSlot.transform.GetChild(0).gameObject.SetActive(true);//那就送回去嘛
+            lastSlot.transform.GetChild(0).SetParent(allUnitsAnchor.transform);
+            selectedSlot[slotnum] = false;
+        }
     }
-
-    public void LoadDolls()
+    public void Slot_Clicked()//点击了slot
     {
-        DiscardDolls();
-        int j = 0;
+        lastSlot = EventSystem.current.currentSelectedGameObject;
+        slotnum = lastSlot.GetComponent<SquadSlot>().slotNum;
+        int slottype = lastSlot.GetComponent<SquadSlot>().slotType;
         int i = 1;
-        if (slotLoaded[slotNum])
-            i = 0;
-        int howMany = unitAnchor.transform.childCount;
-        while (unitAnchor.transform.childCount > i)
+        int biggestNum = 0;
+        for (int n = 1; n <= 25; n++)
         {
-            Transform temp;
-            temp = unitAnchor.transform.GetChild(i);
-            temp.SetParent(spaceAnchor.transform.GetChild(j));
-            temp.localPosition = Vector3.zero;
-            tempBinInUse.Enqueue(temp);
-            if (temp.gameObject.activeSelf)
-                j++;
-        }
-    }
-
-    public void DiscardDolls()
-    {
-        while (tempBinInUse.Count!= 0)
-        {
-            Transform temp = tempBinInUse.Dequeue();
-            temp.SetParent(unitAnchor.transform);
-            temp.localPosition = Vector3.zero;
-        }
-    }
-
-    public void SetSlotNum(int num)
-    {
-        slotNum = num;
-    }
-
-    public void SelectedDolls(int dollsNum)
-    {
-        int previous = poolManager.dollsInputted[slotNum];
-        poolManager.InputDolls(slotNum, dollsNum);
-        if (dollsNum != 0)
-        {
-            if (slotLoaded[slotNum])
+            GameObject currentSlot = SpacesAnchor.transform.Find("Space" + i).gameObject;
+            try
             {
-                SwitchActive(previous, true);
+                GameObject checkDoll;
+                if (selectedSlot[slotnum] == true)
+                {
+                    checkDoll = allUnitsAnchor.transform.Find("Doll" + (n - 1)).gameObject;
+                    checkDoll.SetActive(false);
+                }
+                else
+                {
+                    checkDoll = allUnitsAnchor.transform.Find("Doll" + n).gameObject;
+                    checkDoll.SetActive(false);
+                    allUnitsAnchor.transform.Find("Doll0").gameObject.SetActive(false);
+                }
+                if (checkDoll.GetComponent<DollsProperty>().dolls_unlocked == true)
+                {//先查看：是否存在，是否解锁，是否已选择
+                    biggestNum++;
+                    if (slottype == 1)//要坦克
+                    {
+                        allUnitsAnchor.GetComponent<RectTransform>().sizeDelta = new Vector2(8 * 200, 400);
+                        if (checkDoll.GetComponent<DollsProperty>().dolls_type == 0 || checkDoll.GetComponent<DollsProperty>().dolls_type == 1)
+                        {
+                            Vector2 parentPosition = new Vector2(checkDoll.transform.parent.localPosition.x, checkDoll.transform.parent.localPosition.y);
+                            checkDoll.transform.localPosition = new Vector2(currentSlot.transform.localPosition.x, currentSlot.transform.localPosition.y);
+                            i++;
+                            checkDoll.SetActive(true);
+                        }
+                    }
+                    else if (slottype == 2)//要坦克和火炮
+                    {
+                        allUnitsAnchor.GetComponent<RectTransform>().sizeDelta = new Vector2(11 * 200, 400);
+                        if (checkDoll.GetComponent<DollsProperty>().dolls_type == 0 || checkDoll.GetComponent<DollsProperty>().dolls_type == 1 || checkDoll.GetComponent<DollsProperty>().dolls_type == 2)
+                        {
+                            Vector2 parentPosition = new Vector2(checkDoll.transform.parent.localPosition.x, checkDoll.transform.parent.localPosition.y);
+                            checkDoll.transform.localPosition = new Vector2(currentSlot.transform.localPosition.x, currentSlot.transform.localPosition.y);
+                            i++;
+                            checkDoll.SetActive(true);
+                        }
+                    }
+                    else if (slottype == 3)//要坦克，火炮，和飞机
+                    {
+                        allUnitsAnchor.GetComponent<RectTransform>().sizeDelta = new Vector2(21 * 200, 400);
+                        if (checkDoll.GetComponent<DollsProperty>().dolls_type == 0 || checkDoll.GetComponent<DollsProperty>().dolls_type == 1 || checkDoll.GetComponent<DollsProperty>().dolls_type == 2 || checkDoll.GetComponent<DollsProperty>().dolls_type == 3)
+                        {
+                            Vector2 parentPosition = new Vector2(checkDoll.transform.parent.localPosition.x, checkDoll.transform.parent.localPosition.y);
+                            checkDoll.transform.localPosition = new Vector2(currentSlot.transform.localPosition.x, currentSlot.transform.localPosition.y);
+                            i++;
+                            checkDoll.SetActive(true);
+                        }
+                    }
+                    else if (slottype == 4)//要飞机
+                    {
+                        allUnitsAnchor.GetComponent<RectTransform>().sizeDelta = new Vector2(10 * 200, 400);
+                        if (checkDoll.GetComponent<DollsProperty>().dolls_type == 0 || checkDoll.GetComponent<DollsProperty>().dolls_type == 3)
+                        {
+                            Vector2 parentPosition = new Vector2(checkDoll.transform.parent.localPosition.x, checkDoll.transform.parent.localPosition.y);
+                            checkDoll.transform.localPosition = new Vector2(currentSlot.transform.localPosition.x, currentSlot.transform.localPosition.y);
+                            i++;
+                            checkDoll.SetActive(true);
+                        }
+                    }
+                }
             }
-            SwitchActive(dollsNum, false);
-            slotLoaded[slotNum] = true;
-        }
-        else
-        {
-            SwitchActive(previous, true);
-            slotLoaded[slotNum] = false;
-        }
-        slots[slotNum].image.sprite = poolManager.dolls[dollsNum].banner;
-    }
-
-    void SwitchActive(int dollsNum, bool state)
-    {
-        Transform temp = null;
-        for (int i = 0; i < spaceAnchor.transform.childCount; i++)
-        {
-            temp = spaceAnchor.transform.GetChild(i).transform.Find("Doll" + dollsNum);
-            if (temp != null)
-                temp.gameObject.SetActive(state);
-        }
-        temp = unitAnchor.transform.Find("Doll" + dollsNum);
-        if (temp != null)
-            temp.gameObject.SetActive(state);
-    }
-    
-    public void SelectedDone()
-    {
-        squadSave.dollsID = poolManager.dollsInputted;
-        SaveSquad();
-    }
-
-    void SaveSquad()
-    {
-        string datapath = Application.persistentDataPath;
-
-        var serializer = new XmlSerializer(typeof(SquadSave));
-        var stream = new FileStream(datapath + "/squadSetUp.save", FileMode.Create);
-        serializer.Serialize(stream, squadSave);
-
-        stream.Close();
-        Debug.Log("已保存");
-    }
-
-    public void LoadSquad()
-    {
-        string datapath = Application.persistentDataPath;
-        
-        if (File.Exists(datapath + "/squadSetUp.save"))
-        {
-            var serializer = new XmlSerializer(typeof(SquadSave));
-            var stream = new FileStream(datapath + "/squadSetUp.save", FileMode.Open);
-
-            squadSave = serializer.Deserialize(stream) as SquadSave;
-            stream.Close();
-
-            int j = 0;
-            foreach(int i in squadSave.dollsID)
+            catch
             {
-                SetSlotNum(j);
-                SelectedDolls(i);
-                j++;
+                continue;
             }
-
-            Debug.Log("加载完毕");
         }
+        i = 1;
     }
 }

@@ -98,7 +98,7 @@ public class BulletManager : MonoBehaviour
                         if (damageIndicate == "miss")
                         {
                             GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
-                            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+                            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.gray;
                             damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
                             Destroy(damageText, 1.5f);
                         }

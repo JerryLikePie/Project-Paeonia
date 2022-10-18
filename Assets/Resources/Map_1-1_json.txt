@@ -25,11 +25,11 @@
 			"waitTime": [25, 10, 13]
 		},
 		{
-			"spawnType": 2,
-			"spawnTile": "Map10_12",
+			"spawnType": 3,
+			"spawnTile": "Map10_11",
 			"spawnTime": 0,
-			"nextTile": ["Map10_11"],
-			"waitTime": [25]
+			"nextTile": [],
+			"waitTime": []
 		},
 		{
 			"spawnType": 2,

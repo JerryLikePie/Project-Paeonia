@@ -8,6 +8,7 @@ public class GameRelatedButton : MonoBehaviour
 {
     public string enteringStage;
     public string previousStage;
+    public InventoryManager inventory;
     private void Start()
     {
         if (previousStage != "none")
@@ -20,8 +21,18 @@ public class GameRelatedButton : MonoBehaviour
     }
     public void ToGame()
     {
-        PlayerPrefs.SetString("Stage_You_Should_Load", enteringStage);
-        SceneManager.LoadScene("Game1");
+        Debug.Log(inventory.itemsNum[2]);
+        if (inventory.itemsNum[2] >= 10)
+        {
+            inventory.DecreaseResource(2, 10);
+            PlayerPrefs.SetString("Stage_You_Should_Load", enteringStage);
+            SceneManager.LoadScene("Game1");
+        }
+        else
+        {
+            Debug.Log("Ã»ÓÐÓÍµÄÀ²");
+        }
+        
     }
     
 }

@@ -18,9 +18,12 @@ public class MapCreate : MonoBehaviour
     public GameObject HomePoint;
     float zOffset = 8.655f;//无痕：8.65f，有：9f
     float xOffset = 17.31f;//无痕：17.31f，有：17.75f
-    float hangOffset = -14.99f;//无痕：15f，有：15.35f
+    float hangOffset = 14.99f;//无痕：15f，有：15.35f
     public GameObject enemyList;
     public GameObject unitList;
+    int homeHang = 0;
+    int homeLie = 0;
+    public ScoreManager Score;
     long timeStart;
     bool gameStarted = false;
     bool gameEnded = false;
@@ -29,13 +32,8 @@ public class MapCreate : MonoBehaviour
     Hex RedPoint, BluePoint;
     int maxX, maxZ;
     public SquadSlot[] slots;
-
-    // 整张地图
-    List<List<GameObject>> mapTiles;
-
-    // @Inj MouseManager
-    public MouseManager mouseManager;
-
+    public SquadSelectionPage squadSelectionPage;
+    int dropID, dropAmount, dropRate;
 
     [System.Serializable]
     class EnemySpawnPoint
@@ -73,19 +71,25 @@ public class MapCreate : MonoBehaviour
     public void SpawnGameMap()
     {
         MapInfo mapInfo;
-        
+
         //首先，生成地图本体
         string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_2-1");
+        Debug.Log(mapToLoad);
         TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
         mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
+        Debug.Log("mapInfo:\n" + mapInfo);
+        timeLimit = mapInfo.timeLimit;
         maxZ = mapInfo.mapTiles.Length;
         maxX = mapInfo.mapTiles[0].Length;
+        this.dropID = mapInfo.dropID;
+        this.dropAmount = mapInfo.dropAmount;
+        this.dropRate = mapInfo.dropRate;
+        Debug.Log(mapInfo.dropID);
+        Debug.Log(mapInfo.dropAmount);
+        Debug.Log(mapInfo.dropRate);
 
-        GameObject homeTile = null;
-        mapTiles = new List<List<GameObject>>();
         for (int i = 0; i < maxZ; i++)
         {
-            List<GameObject> rowTiles = new List<GameObject>();
             for (int j = 0; j < maxX; j++)
             {
                 GameObject thisTile = tileTypes[7].tilePrefabType; //先默认为都生成虚空
@@ -120,6 +124,8 @@ public class MapCreate : MonoBehaviour
                 else if (mapInfo.mapTiles[i][j] == 'B')//如果文件说这里是我方的家
                 {
                     thisTile = tileTypes[8].tilePrefabType;
+                    homeHang = i;
+                    homeLie = j;
                 }
                 else if (mapInfo.mapTiles[i][j] == 'R')//如果文件说这里是敌方的家
                 {
@@ -127,7 +133,7 @@ public class MapCreate : MonoBehaviour
                 }
                 //虽然可以直接tileTypes[mapFromText[i][j]]但是因为要设定可到达还有移动点数，干脆全列出来算了
                 //有什么办法可以优化吗？
-                
+
                 if (i % 2 == 0)
                 {
                     thisTile = Instantiate(thisTile, new Vector3(j * xOffset, 0, i * hangOffset), Quaternion.identity);
@@ -138,56 +144,87 @@ public class MapCreate : MonoBehaviour
                 }
                 //给这个地图命名
                 thisTile.name = "Map" + i + "_" + j;
-                if (mapInfo.mapTiles[i][j] == 'B') //如果文件说这里是我方的家
-                {
-                    homeTile = thisTile;
-                }
                 try
                 {
                     //但命名只是给我们看的，程序也要知道
                     thisTile.GetComponent<Hex>().X = i;
                     thisTile.GetComponent<Hex>().Z = j;
                     thisTile.GetComponent<Hex>().render = false;
+                    if (mapInfo.mapTiles[i][j] == 'R')
+                    {
+                        RedPoint = thisTile.GetComponent<Hex>();
+                        RedPoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
+                        ObjectivePoint = thisTile;
+                    }
+                    if (mapInfo.mapTiles[i][j] == 'B')
+                    {
+                        BluePoint = thisTile.GetComponent<Hex>();
+                        BluePoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
+                        HomePoint = thisTile;
+                        Camera.main.transform.position = HomePoint.transform.position + 78 * Vector3.up + 40 * Vector3.left + -78 * Vector3.forward;
+                    }
                 }
                 catch
                 { continue; }
-                // 存入地图列表
-                rowTiles.Add(thisTile);
-                // 修改可见性
-                if (thisTile.transform.childCount > 0)
-                {
-                    thisTile.transform.GetChild(0).gameObject.SetActive(false);
-                }
                 //把所有地图块都装入一个地图文件夹里面
                 thisTile.transform.parent = this.gameObject.transform;
             }
-            mapTiles.Add(rowTiles);
         }
-        //mouseManager.setCameraLookAt(homeTile);
-        mouseManager.setMapInfo(maxZ, maxX, mapTiles);
+        InitialMapVision(homeHang, homeLie);
+        SpawnTheUnits(homeHang, homeLie);
         SpawnTheEnemy(mapInfo);
+        //Debug.Log("宽和长分别为" + maxX + "和" + maxZ);
         timeStart = System.DateTime.Now.Ticks;
         gameStarted = true;
     }
     void Start()
     {
-        SpawnGameMap();
-        // 初始化容器型变量
-        mapTiles = new List<List<GameObject>>();
+        Score = Object.FindObjectsOfType<ScoreManager>()[0];
+        Score.Initialize();
+        Score.stageName = PlayerPrefs.GetString("Stage_You_Should_Load", null);
     }
     // Update is called once per frame
     void Update()
     {
-        
+        if (ObjectivePoint != null && RedPoint.haveUnit == true)
+        {
+            Score.EnemyBaseCaptured();
+            gameEnded = true;
+            Invoke("GameEnd", 3);
+            //GameEnd();
+        }
+        if (HomePoint != null && BluePoint.haveEnemy == true)
+        {
+            Score.FriendlyBaseLost();
+            gameEnded = true;
+            Invoke("GameEnd", 3);
+        }
+        if (gameStarted && !gameEnded)
+        {
+            UpdateTime();
+        }
+
     }
     void UpdateTime()
     {
+        Score.SetTime((System.DateTime.Now.Ticks - timeStart) / 10000000f);
     }
     void GameEnd()
     {
+        Score.SetTimeLimit(timeLimit);
+        EndGameDrop();
+        Score.GameEnded();
+        SceneManager.LoadScene("GameEnd");
     }
     void EndGameDrop()
     {
+        Debug.Log(dropRate);
+        Debug.Log(dropAmount);
+        if (Random.Range(0, 100) < dropRate)
+        {
+            Score.dropID = dropID;
+            Score.dropAmmount = dropAmount;
+        }
     }
     void InitialMapVision(int home_hang, int home_lie)
     {
@@ -197,14 +234,12 @@ public class MapCreate : MonoBehaviour
             try
             {
                 Hex ToCancelFog = transform.GetChild(i).GetComponent<Hex>();
-                ToCancelFog.isInFog = 999;
-                ToCancelFog.render = true;
-                if (Vector3.Distance(Home.transform.position, ToCancelFog.transform.position) <= 17.5 * 999)
+                if (Vector3.Distance(Home.transform.position, ToCancelFog.transform.position) <= 17.5 * 2)
                 {
                     ToCancelFog.isInFog = 999;
                     ToCancelFog.render = true;
                 }
-                ToCancelFog.UpdateFogStatus();
+                //ToCancelFog.ChangeTheFog();
             }
             catch
             {
@@ -232,6 +267,7 @@ public class MapCreate : MonoBehaviour
             Hex nextHex = tiletoSpawn.GetComponent<Hex>();
             if (slots[i].spawnID != 0 && spawnSquad[slots[i].spawnID] != null)
             {
+                Score.SpawnDoll();
                 spawnedUnit = Instantiate(spawnSquad[slots[i].spawnID].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
                 Debug.Log("在" + tiletoSpawn.name + "生成了" + slots[i].spawnID + "号单位" + spawnSquad[slots[i].spawnID].name);
                 spawnedUnit.GetComponent<Unit>().hang = next_hang;
@@ -240,7 +276,7 @@ public class MapCreate : MonoBehaviour
                 spawnedUnit.GetComponent<DollsCombat>().allDolls = unitList;
                 spawnedUnit.GetComponent<DollsCombat>().thisUnit = spawnedUnit.GetComponent<Unit>();
                 spawnedUnit.GetComponent<DollsCombat>().map = this;
-                
+
                 //spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
                 nextHex.haveUnit = true;
                 spawnedUnit.transform.parent = unitList.transform;
@@ -264,6 +300,7 @@ public class MapCreate : MonoBehaviour
                 spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
             }
         }
+        squadSelectionPage.gameObject.SetActive(false);
     }
 
     void SpawnTheEnemy(MapInfo mapInfo)
@@ -272,6 +309,7 @@ public class MapCreate : MonoBehaviour
         {
             for (int i = 0; i < mapInfo.enemySpawnPoints.Length; i++)
             {
+                Score.SpawnEnemy();
                 GameObject spawnedEnemy;
                 GameObject tiletoSpawn = GameObject.Find(mapInfo.enemySpawnPoints[i].spawnTile);
                 Hex Hex = tiletoSpawn.GetComponent<Hex>();
@@ -422,7 +460,8 @@ public class MapCreate : MonoBehaviour
             }
             return blocked;
         }
-        catch{
+        catch
+        {
             return false;
         }
     }

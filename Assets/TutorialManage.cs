@@ -5,12 +5,10 @@ using UnityEngine;
 public class TutorialManage : MonoBehaviour
 {
     public GameObject T1, T2;
-    public AudioSource bgm;
     string stageName;
     // Start is called before the first frame update
     void Start()
     {
-        bgm.volume = PlayerPrefs.GetFloat("BGM_volume", 1f);
         stageName = PlayerPrefs.GetString("Stage_You_Should_Load","0");
         if (PlayerPrefs.GetInt(stageName, 0) == 0)
         {
