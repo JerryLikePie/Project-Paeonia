@@ -15,7 +15,7 @@ MonoBehaviour:
   story:
   - background: {fileID: 0}
     character: {fileID: 0}
-    name: "\u6709\u540D\u5B57"
+    name: "\u8FD9\u662F\u540D\u5B57"
     words: "\u7B2C\u4E00\u53E5\u8BDD"
     isChoice: 0
     branchNum: 0
@@ -30,30 +30,30 @@ MonoBehaviour:
     isChoice: 1
     branchNum: 0
     response:
-    - "\u9009\u98791"
-    - "\u9009\u98792"
+    - "\u66F4\u6539\u7ACB\u7ED8\u548C\u80CC\u666F"
+    - "\u9519\u8BEF\u7684\u7ACB\u7ED8\u548C\u80CC\u666F"
     - "\u9009\u98793"
   - background: {fileID: 21300000, guid: b8e5c445da841684496be47f71777239, type: 3}
     character: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
     name: 
-    words: "\u4F60\u9009\u4E86\u9009\u98791"
+    words: "\u4F60\u9009\u4E86\u9009\u98791\uFF0C\u7ACB\u7ED8\u548C\u80CC\u666F\u51FA\u73B0\u4E86"
     isChoice: 0
     branchNum: 1
     response:
     - 
     - 
     - 
-  - background: {fileID: 21300000, guid: b1c6e492dbbf3b44183da5bc24a9b638, type: 3}
-    character: {fileID: 0}
+  - background: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
+    character: {fileID: 21300000, guid: f8d71219ad86ad6409767db27aaf8fc0, type: 3}
     name: 
-    words: "\u4F60\u9009\u4E86\u9009\u98792"
+    words: "\u4F60\u9009\u4E86\u9009\u98792\uFF0C\u7ACB\u7ED8\u51FA\u73B0\u5728\u4E86\u80CC\u666F\u7684\u4F4D\u7F6E\uFF0C\u80CC\u666F\u51FA\u73B0\u5728\u4E86\u7ACB\u7ED8\u7684\u4F4D\u7F6E"
     isChoice: 0
     branchNum: 2
     response:
     - 
     - 
     - 
-  - background: {fileID: 21300000, guid: 8d7f05c445048644487ca89fa67bd50c, type: 3}
+  - background: {fileID: 0}
     character: {fileID: 0}
     name: 
     words: "\u4F60\u9009\u4E86\u9009\u98793"
@@ -66,7 +66,7 @@ MonoBehaviour:
   - background: {fileID: 0}
     character: {fileID: 0}
     name: 
-    words: "\u662F\u8DF3\u8FC7\u4E86\u5417"
+    words: "\u9009\u98793\u6709\u4E24\u53E5\u8BDD"
     isChoice: 0
     branchNum: 3
     response:
@@ -76,7 +76,7 @@ MonoBehaviour:
   - background: {fileID: 0}
     character: {fileID: 0}
     name: "\u540D\u5B57\u56DE\u6765\u4E86"
-    words: "\u7ED3\u675F"
+    words: "\u7ED3\u675F\u4E86\u4E09\u4E2A\u5206\u652F"
     isChoice: 0
     branchNum: 0
     response:
@@ -86,7 +86,7 @@ MonoBehaviour:
   - background: {fileID: 0}
     character: {fileID: 0}
     name: "\u540D\u5B57"
-    words: "\u63A5\u4E0B\u6765\u518D\u6765\u4E00\u4E2A\u9009\u9879"
+    words: "\u63A5\u4E0B\u6765\u518D\u6765\u4E00\u4E2A\u53EA\u6709\u4E24\u4E2A\u9009\u9879\u7684\u9009\u62E9\uFF0C\u5E94\u8BE5\u53EA\u51FA\u73B0\u4E24\u4E2A\u6309\u94AE"
     isChoice: 0
     branchNum: 0
     response:
@@ -104,9 +104,9 @@ MonoBehaviour:
     - "\u6CA1\u5F97\u9009\u2026\u2026"
     - 
   - background: {fileID: 0}
-    character: {fileID: 0}
+    character: {fileID: 21300000, guid: e16e8d3c04fbe594d98baaebfb433c28, type: 3}
     name: "\u597D\u54E6"
-    words: "\u597D\u54E6"
+    words: "\u597D\u54E6\uFF0C\u4F60\u9009\u4E861\uFF0C\u6D4B\u8BD5\u7ACB\u7ED8\u66F4\u6539"
     isChoice: 0
     branchNum: 1
     response:
@@ -125,8 +125,8 @@ MonoBehaviour:
     - 
   - background: {fileID: 0}
     character: {fileID: 0}
-    name: "\u597D\u54E6"
-    words: "\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C"
+    name: 2yb82bvvuwufy
+    words: "\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C\u8FD9\u662F\u4E00\u4E2A\u5F88\u957F\u7684\u53E5\u5B50\uFF0C"
     isChoice: 0
     branchNum: 0
     response:
@@ -136,7 +136,47 @@ MonoBehaviour:
   - background: {fileID: 0}
     character: {fileID: 0}
     name: "\u597D\u54E6"
-    words: "\u524D\u9762\u90A3\u4E2A\u6CA1\u6709\u653E\u5B8C\u7684\u8BDD\u5E94\u8BE5\u662F\u4E0D\u4F1A\u770B\u5230\u8FD9\u91CC\u7684\u5427"
+    words: "\u524D\u9762\u90A3\u4E2A\u6CA1\u6709\u653E\u5B8C\u7684\u8BDD\u5E94\u8BE5\u662F\u70B9\u4E0D\u4E86\u4E0B\u4E00\u53E5\u7684"
+    isChoice: 0
+    branchNum: 0
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: "\u4EBA"
+    words: "\u9996\u5148\u6709\u4EBA\u8BF4\u8BDD\uFF0C\u8BDD\u524D\u9762\u6709\u4EBA\u7684\u540D\u5B57"
+    isChoice: 0
+    branchNum: 0
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u7136\u540E\u662F\u6CA1\u4EBA\u7684\u72EC\u767D\uFF0C\u5C31\u53EA\u662F\u4E00\u53E5\u8BDD\u800C\u5DF2"
+    isChoice: 1
+    branchNum: 0
+    response:
+    - "\u65B9\u62EC\u53F7\u6269\u8D77\u4E86\u4F60\u7684\u9009\u9879"
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u90A3\u4E48\uFF0C\u73B0\u5728\u70B9\u5F00\u5DE6\u4E0A\u89D2\u7684\u8BB0\u5F55\u5C31\u80FD\u770B\u5230\u4E09\u79CD\u4E0D\u540C\u7684\u53E5\u5B50\u4E86"
+    isChoice: 0
+    branchNum: 0
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u597D\uFF0C\u7ED3\u675F\u6D4B\u8BD5"
     isChoice: 0
     branchNum: 0
     response:

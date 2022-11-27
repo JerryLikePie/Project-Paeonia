@@ -580,7 +580,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Introduction1
+          m_StringArgument: TestScript
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &12388924
@@ -29562,7 +29562,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: "V 0.0.21\u6D4B\u8BD5\u7248\n= \u66F4\u65B0\uFF1A\n - \u5267\u60C5\u7CFB\u7EDF"
+  m_Text: "V 0.0.21\u6D4B\u8BD5\u7248\n= \u66F4\u65B0\uFF1A\n - \u5267\u60C5\u7CFB\u7EDF\uFF0C\u5305\u62EC\u9996\u6B21\u8FDB\u5165\u6E38\u620F\u4F1A\u6709\u7684\u5267\u60C5\n
+    - \u63D0\u793A\n - \u6BD4\u5982\uFF0C\u5F53\u4F60\u6CA1\u670910\u6CB9\u7136\u540E\u8BD5\u7740\u8FDB\u5165\u5173\u5361\u65F6\uFF0C\u4F1A\u63D0\u793A\u4F60\u77F3\u6CB9\u4E0D\u8DB3"
 --- !u!222 &1340362094
 CanvasRenderer:
   m_ObjectHideFlags: 0
