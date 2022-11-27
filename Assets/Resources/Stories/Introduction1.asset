@@ -1,0 +1,265 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640772244b395af4085ef8c00ab79863, type: 3}
+  m_Name: Introduction1
+  m_EditorClassIdentifier: 
+  story:
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u2026\u2026"
+    isChoice: 0
+    branchNum: 0
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u611F\u8C22\u6E38\u73A9\u300A\u7070\u70EC\u6218\u7EBF\uFF1A\u4E5D\u9704\u5171\u548C\u300B\u3002\u672C\u4F5C\u767B\u573A\u7684\u4EBA\u7269\u3001\u7EC4\u7EC7\u3001\u56E2\u4F53\u7B49\u7EAF\u5C5E\u865A\u6784\uFF0C\u4E0E\u73B0\u5B9E\u4EBA\u7269\u3001\u7EC4\u7EC7\u3001\u56E2\u4F53\u3001\u56FD\u5BB6\u65E0\u5173\u3002"
+    isChoice: 0
+    branchNum: 0
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u672C\u6E38\u620F\u662F\u57FA\u4E8EEmberStudio\u4F59\u70EC\u7EC4\u5F00\u53D1\u7684\u300A\u7070\u70EC\u6218\u7EBF\u300B\u7A7A\u738B\u5EA7\u7BC7\u4E4B\u524D\u7684\u57FA\u7840\u8BBE\u5B9A\u548C\u4E16\u754C\u89C2\u7684\u540C\u4EBA\u6E38\u620F"
+    isChoice: 0
+    branchNum: 0
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u68C0\u6D4B\u5230\u60A8\u662F\u7B2C\u4E00\u6B21\u6253\u5F00\u6E38\u620F\uFF0C\u8BF7\u95EE\u6E38\u73A9\u8FC7\u300A\u7070\u70EC\u6218\u7EBF\u300B\uFF0C\u6216\u8005\u4E86\u89E3\u300A\u7070\u70EC\u6218\u7EBF\u300B\u7684\u80CC\u666F\u8BBE\u5B9A\u5417"
+    isChoice: 1
+    branchNum: 0
+    response:
+    - "\u4E0D\u7528\u4ECB\u7ECD\u4E86"
+    - "\u9700\u8981\u4ECB\u7ECD\u4E00\u4E0B"
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u597D\u7684\uFF0C\u65E2\u7136\u662Fdemo\uFF0C\u90A3\u4E48\u7B80\u5355\u4ECB\u7ECD\u4E00\u4E0B\u672C\u540C\u4EBA\u4F5C\u54C1\u7684\u8BBE\u5B9A\u5427"
+    isChoice: 0
+    branchNum: 1
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u597D\u7684\uFF0C\u9996\u5148\u7B80\u5355\u4ECB\u7ECD\u4E00\u4E0B\u300A\u7070\u70EC\u6218\u7EBF\u300B\u7684\u8BBE\u5B9A\u5427"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u5728\u7EA6200\u5E74\u524D\uFF0C\u51ED\u7A7A\u51FA\u73B0\u4E86\u4E00\u79CD\u77FF\u77F3\u72B6\u975E\u751F\u547D\u4F53\uFF0C\u201C\u707E\u517D\u201D"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u707E\u517D\u8868\u9762\u62E5\u6709\u7740\u4E00\u5C42\u7EDD\u7F18\u5C42\uFF0C\u4F7F\u5176\u514D\u75AB\u4EBA\u7C7B\u624B\u4E0A\u7684\u4EFB\u4F55\u6B66\u5668"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u707E\u517D\u8086\u8650\u5730\u7403\u4E24\u767E\u5E74\u540E\uFF0C\u4EBA\u7C7B\u6587\u660E\u5DF2\u7ECF\u9000\u5230\u4E86\u5730\u7403\u4E0A\u6700\u540E\u4E00\u4E2A\u5C45\u4F4F\u5730\uFF1A\u201CCITY\u201D"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u751F\u6B7B\u5B58\u4EA1\u4E4B\u9645\uFF0C\u88AB\u79F0\u4E3ADOLLS\u7684\u5C11\u5973\u59FF\u6001\u7684\u4EBA\u5F62\u5175\u5668\u964D\u4E34\u4E86"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "DOLLS\u9A7E\u9A76\u7740ARMS\u6218\u6597\uFF0CARMS\u914D\u5907\u7684\u5E72\u6D89\u6B66\u5668\u53EF\u4EE5\u4E2D\u548C\u707E\u517D\u7684\u7EDD\u7F18\u5C42"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u7531\u6B64\uFF0C\u4EBA\u7C7B\u83B7\u5F97\u4E86\u548C\u707E\u517D\u6297\u8861\u7684\u529B\u91CF\u3002"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "DOLLS\u4F5C\u4E3A\u4EBA\u5F62\u5175\u5668\uFF0C\u91CF\u4EA7\u540C\u4F4D\u4F53\u4E4B\u95F4\u53EF\u4EE5\u5171\u4EAB\u610F\u8BC6\uFF0C\u4E14\u4E0D\u5B58\u5728\u4EBA\u7C7B\u610F\u4E49\u4E0A\u7684\u6B7B\u4EA1"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u5177\u4F53\u6765\u8BF4\uFF0C\u4E00\u4E2A\u91CF\u4EA7\u540C\u4F4D\u4F53\u7684\u201C\u6B7B\u4EA1\u201D\uFF0C\u6216\u8005\u8BF4\u88AB\u6467\u6BC1\uFF0C\u4F1A\u4EE5\u8BB0\u5FC6\u7684\u5F62\u5F0F\u5171\u4EAB\u7ED9\u5176\u4ED6\u4E2A\u4F53"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u4E5F\u56E0\u4E3ADOLLS\u662F\u5175\u5668\uFF0C\u666E\u901A\u4EBA\u7C7B\u662F\u88AB\u7981\u6B62\u63A5\u89E6DOLLS\u7684\uFF0CDOLLS\u4E5F\u4E00\u822C\u65E0\u6CD5\u63A5\u89E6\u5230\u666E\u901A\u4EBA\u3002"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u6545\u4E8B\u7684\u6240\u5728\u5730\uFF0CCITY\uFF0C\u662F\u4E00\u4E2A\u7EF5\u5EF6\u8D85\u8FC7400\u516C\u91CC\u7684\u5DE8\u578B\u57CE\u5E02\uFF0C\u7531\u84B8\u6C7D\u706B\u8F66\u548C\u7A7A\u8FD0\u7A7A\u8247\u8FDE\u63A5\u8D77\u6765\u3002"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "CITY\u5185\u7684\u653F\u6CBB\u52BF\u529B\u88AB\u79F0\u4F5C\u201C\u5B66\u9662\u8054\u76DF\u201D\uFF0C\u5B83\u4EEC\u662FARMS\u7684\u5F00\u53D1\u548C\u5236\u9020\u8005\uFF0C\u8D1F\u8D23\u7BA1\u7406DOLLS"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u4E94\u5927\u5B66\u8054\u4EE5\u53CA\u4E0B\u5C5E\u7684\u5C0F\u5B66\u8054\u8054\u5408\u8D77\u6765\u521B\u9020\u4E86\u8BAE\u4F1A\uFF0C\u4F5C\u4E3ACITY\u7684\u7ACB\u6CD5\u673A\u6784"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u5728\u4E94\u5927\u5B66\u8054\u4E4B\u5916\u8FD8\u6709\u5360\u636E\u4E86CITY\u4E2D\u592E\u7684\u201D\u7070\u70EC\u6559\u4F1A\u201C\uFF0C\u65E0\u540D\u4E4B\u57CE\u7684\u5EFA\u7ACB\u8005\u4E0E\u6267\u653F\u8005\uFF0C\u540C\u65F6\u4E5F\u662FDOLLS\u7684\u5236\u9020\u8005\u3002"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u5728\u300A\u7070\u70EC\u6218\u7EBF\u300B\u4E2D\uFF0C\u73A9\u5BB6\u7684\u8EAB\u4EFD\u662F\u56E0CITY\u5185\u65E5\u76CA\u7D27\u5F20\u7684\u653F\u6CBB\u5C40\u52BF\u800C\u88AB\u5B66\u8054\u9009\u51FA\u7684\u201D\u4EE3\u7406\u4EBA\u201C"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u4EE3\u7406\u4EBA\u4E0D\u96B6\u5C5E\u4E8E\u4EFB\u4F55\u5B66\u8054\uFF0C\u4EE5\u4E2D\u7ACB\u3001\u7B2C\u4E09\u65B9\u7684\u8EAB\u4EFD\u5E26\u9886\u5404\u5B66\u8054\u7684DOLLS\u5BF9\u6297\u707E\u517D\u3002"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u8BF4\u4E86\u8FD9\u4E48\u591A\uFF0C\u65E2\u7136\u662Fdemo\uFF0C\u5927\u5BB6\u4F30\u8BA1\u4E5F\u6CA1\u65F6\u95F4\u6DF1\u5165\u4E86\u89E3\u4E00\u4E2A\u5199\u4E86\u4E00\u534A\u7684\u6545\u4E8B\u5427\uFF0C\u90A3\u4E48\u6765\u7B80\u5355\u4ECB\u7ECD\u4E00\u4E0B\u672C\u540C\u4EBA\u6E38\u620F\u7684\u8BBE\u5B9A\u5427\u3002"
+    isChoice: 0
+    branchNum: 2
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u672C\u6E38\u620F\u57FA\u7840\u8BBE\u5B9A\u5EF6\u7EED\u300A\u7070\u70EC\u6218\u7EBF\u300B\u8FB9\u5883\u5DE1\u56DE\u7BC7\uFF0C\u5E9F\u90FD\u6B8B\u54CD\u7BC7\u4EE5\u53CADOLLS\u7684\u4E2A\u4EBA\u5267\u60C5\uFF0C\u5207\u5165\u70B9\u6E90\u81EA\u5B98\u65B9\u5267\u60C5\u91CC\u7ED9\u51FA\u7684\u5728\u5B66\u8054\u91CC\u5DE5\u4F5C\u7684\u534E\u4EBA\u52B3\u5DE5"
+    isChoice: 0
+    branchNum: 0
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u73A9\u5BB6\u5C06\u626E\u6F14\u4E00\u4F4D\u6B63\u5728\u7EA2\u8272\u5341\u6708\u540C\u76DF\u519B\u4E8B\u9662\u6821\u8FDB\u4FEE\u7684\u534E\u4EBA\u7814\u7A76\u4EBA\u5458\uFF0C\u56E0\u53CB\u4EBA\u5F15\u8350\u6765\u5230\u65B0\u5174\u7684\u4E5D\u9704\u5171\u548C\u5B66\u9662\u8054\u76DF\uFF0C\u7B80\u79F0\u4E5D\u9704\u5B66\u8054\u3002"
+    isChoice: 0
+    branchNum: 0
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    name: 
+    words: "\u2026\u66F4\u591A\u8BBE\u5B9A\u5C31\u7531\u4F60\u5728\u6E38\u73A9\u4E2D\u53D1\u6398\u7F62\n\uFF08\u3002\uFF3E\u25BD\uFF3E\uFF09"
+    isChoice: 0
+    branchNum: 0
+    response:
+    - 
+    - 
+    - 

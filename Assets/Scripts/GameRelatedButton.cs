@@ -30,7 +30,9 @@ public class GameRelatedButton : MonoBehaviour
         }
         else
         {
-            Debug.Log("没有油的啦");
+            Camera.main.gameObject.GetComponent<CallNotification>().showNotification("石油不足哦 \n" +
+                "在测试版本里，可以在主页设置增加石油\n " +
+                "正式版本中则要手动获取资源");
         }
         
     }
