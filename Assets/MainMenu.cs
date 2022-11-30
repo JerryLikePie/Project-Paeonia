@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
 
     void IntroductionStory()
     {
+        Debug.Log(PlayerPrefs.GetInt("Introduction_Done", 0));
         if (PlayerPrefs.GetInt("Introduction_Done", 0) == 0)
         {
             if (storyPanel != null)
@@ -44,10 +45,9 @@ public class MainMenu : MonoBehaviour
     }
     public void resetProgress()
     {
-        PlayerPrefs.SetInt("Map_1-1", 0);
-        PlayerPrefs.SetInt("Map_1-2", 0);
-        PlayerPrefs.SetInt("Map_1-3", 0);
+        PlayerPrefs.DeleteAll();
     }
+
     public void allProgress()
     {
 

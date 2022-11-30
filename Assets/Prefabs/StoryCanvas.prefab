@@ -828,7 +828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fae6d85523dddd4f827ef0d3ee9661c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storyPanel: {fileID: 2926109232813172408}
+  storyPanel: {fileID: 2926109232813172412}
   logPanel: {fileID: 2034355730991323240}
   logText: {fileID: 8190734952524585483}
   character: {fileID: 1942719725603606407}

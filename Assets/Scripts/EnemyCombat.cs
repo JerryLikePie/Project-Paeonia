@@ -45,6 +45,8 @@ public class EnemyCombat : MonoBehaviour
     bool enemyInRange = false;
     public float aaAttackInterval;
 
+    bool firstTimeFound = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -115,7 +117,7 @@ public class EnemyCombat : MonoBehaviour
 
     void UpdateRoute()
     {
-        if (routeState == RSTATE_NODE)
+        if (routeState == RSTATE_NODE && targetHex != null)
         {
             // 路径起点
             if (targetHex.Count > 0)
@@ -442,15 +444,21 @@ public class EnemyCombat : MonoBehaviour
     }
     void WithDrawl()
     {
+        gameIntensifies(-1);
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
         descanMap();
         transform.gameObject.SetActive(false);
         transform.GetComponent<EnemyCombat>().enabled = false;
-        Destroy(gameObject);
+        Destroy(gameObject, 0.05f);
     }
     void UpdateHealthBar()
     {
         percentageHealth = health / enemy.enemy_max_hp;
+        if (health <= 0)
+        {
+            health = 0;
+            WithDrawl();
+        }
         if (healthLevel <= 0)
         {
             healthLevel = 0;
@@ -471,11 +479,7 @@ public class EnemyCombat : MonoBehaviour
         }
         healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 40f * Time.deltaTime);
         healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
-        if (health <= 0)
-        {
-            map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
-            WithDrawl();
-        }
+        
     }
     void FogOfWar()
     {
@@ -484,19 +488,53 @@ public class EnemyCombat : MonoBehaviour
         {
             enemy.enemy_visible = false;
             toHideTheEnemy.SetActive(false);
+            if (!firstTimeFound)
+            {
+                firstTimeFound = true;
+                gameIntensifies(-1);
+            }
+            
         }
         else
         {
-            enemy.enemy_visible = true  ;
+            enemy.enemy_visible = true;
             toHideTheEnemy.SetActive(true);
+            if (firstTimeFound)
+            {
+                firstTimeFound = false;
+                gameIntensifies(1);
+            }
         }
+    }
+    void gameIntensifies(int num)
+    {
+        try
+        {
+            GameObject.FindGameObjectWithTag("MiscScoreManager").GetComponent<ScoreManager>().foundEnemy(num);
+        } catch
+        {
+            Debug.LogError("Tried to alter BGM");
+        }
+        
     }
     void descanMap()
     {
-        while (deScanTheMap.Count != 0)
+        try
         {
-            deScanTheMap.Peek().EnemyLoseVisual();
-            deScanTheMap.Dequeue().UpdateFogStatus();
+            if (deScanTheMap == null)
+            {
+                return;
+            }
+            while (deScanTheMap.Count > 0)
+            {
+                deScanTheMap.Peek().EnemyLoseVisual();
+                deScanTheMap.Dequeue().UpdateFogStatus();
+            }
+        }
+        catch
+        {
+            Debug.LogError(gameObject.name + "抛出了一个错误");
+            Debug.LogError("deScanTheMap有" + deScanTheMap.Count + "个物体");
         }
     }
     void scanMap()

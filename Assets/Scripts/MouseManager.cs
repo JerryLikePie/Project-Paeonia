@@ -112,42 +112,48 @@ public class MouseManager : MonoBehaviour
 
     private void animateOnUpdate()
     {
+        //try
+        //{
+        //    // 处理地图格渐入渐出动画
+        //    foreach (TileAnimation anim in animatingTiles)
+        //    {
+        //        // 渐入
+        //        if (anim.target == TileAnimation.T_DOWN)
+        //        {
+        //            anim.obj.transform.position += Vector3.down * TILE_ANIM_SPEED * Time.deltaTime; // deltaTime 是频率的倒数
+        //            if (anim.obj.transform.position.y <= 0f)
+        //            {
+        //                // 复位，解决错位问题
+        //                anim.obj.transform.position = new Vector3(anim.obj.transform.position.x, 0, anim.obj.transform.position.z);
+        //                removeList.Add(anim);
+        //            }
+        //        }
+        //        // 渐隐
+        //        else if (anim.target == TileAnimation.T_UP)
+        //        {
+        //            anim.obj.transform.position += Vector3.up * TILE_ANIM_SPEED * Time.deltaTime;
+        //            if (anim.obj.transform.position.y >= TILE_ANIM_END_POS) // TILE_ANIM_END_POS 为动画结束位置
+        //            {
+        //                // 复位，解决错位问题
+        //                anim.obj.transform.position = new Vector3(anim.obj.transform.position.x, TILE_ANIM_END_POS, anim.obj.transform.position.z);
+        //                if (anim.obj.transform.childCount > 0)
+        //                {
+        //                    anim.obj.transform.GetChild(0).gameObject.SetActive(false);
+        //                }
+        //                removeList.Add(anim);
+        //            }
+        //        }
+        //    }
+        //    // 批量删除
+        //    foreach (TileAnimation anim in removeList)
+        //    {
+        //        animatingTiles.Remove(anim);
+        //    }
+        //}
+        //catch
+        //{
 
-        // 处理地图格渐入渐出动画
-        foreach (TileAnimation anim in animatingTiles)
-        {
-            // 渐入
-            if (anim.target == TileAnimation.T_DOWN)
-            {
-                anim.obj.transform.position += Vector3.down * TILE_ANIM_SPEED * Time.deltaTime; // deltaTime 是频率的倒数
-                if (anim.obj.transform.position.y <= 0f)
-                {
-                    // 复位，解决错位问题
-                    anim.obj.transform.position = new Vector3(anim.obj.transform.position.x, 0, anim.obj.transform.position.z);
-                    removeList.Add(anim);
-                }
-            }
-            // 渐隐
-            else if (anim.target == TileAnimation.T_UP)
-            {
-                anim.obj.transform.position += Vector3.up * TILE_ANIM_SPEED * Time.deltaTime;
-                if (anim.obj.transform.position.y >= TILE_ANIM_END_POS) // TILE_ANIM_END_POS 为动画结束位置
-                {
-                    // 复位，解决错位问题
-                    anim.obj.transform.position = new Vector3(anim.obj.transform.position.x, TILE_ANIM_END_POS, anim.obj.transform.position.z);
-                    if (anim.obj.transform.childCount > 0)
-                    {
-                        anim.obj.transform.GetChild(0).gameObject.SetActive(false);
-                    }
-                    removeList.Add(anim);
-                }
-            }
-        }
-        // 批量删除
-        foreach (TileAnimation anim in removeList)
-        {
-            animatingTiles.Remove(anim);
-        }
+        //}
     }
 
     // 初始化地图时设置相机位置

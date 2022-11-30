@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class StoryPlay : MonoBehaviour
 {
-    public GameObject storyPanel;
+    public Canvas storyPanel;
     public GameObject logPanel;
     public Text logText;
     public Image character, background;
@@ -21,19 +21,30 @@ public class StoryPlay : MonoBehaviour
     float textDelay = 0.015f;
 
     private void Start() {
-        storyPanel.SetActive(false);
+        Debug.Log("Starting Story Panel..");
+        if (scene == null)
+        {
+            Debug.Log("There is no story..");
+            unloadStory();
+        }
         haveToChoose = false;
     }
 
     public void loadStory(string storyName) {
         Debug.Log(storyName);
-        storyPanel.SetActive(true);
-        scene = (Storyscene)Resources.Load("Stories/" + storyName);
-        length = scene.story.Length;
-        i = 0;
-        choice = 0;
-        haveToChoose = false;
-        updateStory();
+        if (!string.IsNullOrEmpty(storyName))
+        {
+            Debug.Log("Enabling Story Panel..");
+            storyPanel.gameObject.SetActive(true);
+            storyPanel.enabled = true;
+            scene = (Storyscene)Resources.Load("Stories/" + storyName);
+            Debug.Log("ря╪сть");
+            length = scene.story.Length;
+            i = 0;
+            choice = 0;
+            haveToChoose = false;
+            updateStory();
+        }
     }
 
     public void skipStory()
@@ -81,17 +92,20 @@ public class StoryPlay : MonoBehaviour
 
     void unloadStory()
     {
+        Debug.Log("Unloading Story");
         logText.text = " ";
         scene = null;
         length = 0;
         i = 0;
         choice = 0;
-        storyPanel.SetActive(false);
+        storyPanel.enabled = false;
+        storyPanel.gameObject.SetActive(false);
     }
 
     void updateStory() {
         if (scene == null)
         {
+            Debug.Log("There is no story loaded, stopping update.");
             return;
         }
         if (scene.story[i].isChoice) {

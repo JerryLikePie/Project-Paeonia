@@ -446,14 +446,14 @@ MonoBehaviour:
   - 0.8
   - 0.7
   enemy_penetration: 100
-  enemy_sts_attack: 460
+  enemy_sts_attack: 240
   enemy_ata_attack: 0
   enemy_sta_attack: 0
   enemy_ats_attack: 0
   enemy_accuracy: 70
   enemy_dodge: 51
-  enemy_reload: 6
-  enemy_firerate: 6
+  enemy_reload: 8
+  enemy_firerate: 8
   enemy_armor_front: 46
   enemy_armor_side: 15
   enemy_armor_back: 15

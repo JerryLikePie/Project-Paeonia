@@ -18,7 +18,7 @@
 	],
 		"enemySpawnPoints": [
 		{
-			"spawnType": 1,
+			"spawnType": 2,
 			"spawnTile": "Map5_11",
 			"spawnTime": 0,
 			"nextTile": ["Map5_3", "Map3_3", "Map2_3"],
@@ -46,28 +46,28 @@
 			"waitTime": [12,15,12]
 		},
 		{
-			"spawnType": 1,
+			"spawnType": 2,
 			"spawnTile": "Map11_9",
 			"spawnTime": 20,
 			"nextTile": ["Map11_7", "Map9_5", "Map7_4", "Map5_5","Map6_9","Map2_3"],
 			"waitTime": [0, 0, 0, 0, 0, 0]
 		},
 		{
-			"spawnType": 1,
+			"spawnType": 2,
 			"spawnTile": "Map11_8",
 			"spawnTime": 20,
 			"nextTile": ["Map11_7", "Map11_2", "Map10_2", "Map6_4","Map2_3"],
 			"waitTime": [5, 5, 20, 20, 5]
 		},
 		{
-			"spawnType": 1,
+			"spawnType": 2,
 			"spawnTile": "Map7_13",
 			"spawnTime": 0,
 			"nextTile": ["Map6_8", "Map7_9", "Map4_3", "Map2_3"],
 			"waitTime": [0, 0, 0, 0]
 		},
 		{
-			"spawnType": 1,
+			"spawnType": 2,
 			"spawnTile": "Map7_12",
 			"spawnTime": 0,
 			"nextTile": ["Map6_7", "Map7_5", "Map4_3", "Map2_3"],

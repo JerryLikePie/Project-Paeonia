@@ -134,22 +134,40 @@ public class DollsCombat : MonoBehaviour
     }
     void SwitchTarget()
     {
-        for (int i = 0; i < enemyList.Count; i++)
+        try
         {
-            if (enemyList[i] != null)
+            for (int i = 0; i < enemyList.Count; i++)
             {
-                if (enemyList[i].enemy.enemy_visible == true && enemyList[i].gameObject.activeSelf)
+                if (enemyList[i] == null)
                 {
-                    if (FindDistance(transform.gameObject, enemyList[i].gameObject) <= 17.32 * (dolls.dolls_range + rangeBuff))
+                    continue;
+                }
+                if (!enemyList[i].gameObject.activeSelf)
+                {
+                    continue;
+                }
+                if (enemyList[i].name == "QuestionField(Clone)")
+                {
+                    continue;
+                }
+                if (!enemyList[i].enemy.enemy_visible)
+                {
+                    continue;
+                }
+                if (FindDistance(transform.gameObject, enemyList[i].gameObject) <= 17.32 * (dolls.dolls_range + rangeBuff))
+                {
+                    if (!map.IsBlocked(currentTile, enemyList[i].transform.position))
                     {
-                        if (!map.IsBlocked(currentTile, enemyList[i].transform.position))
-                        {
-                            setEnemy = enemyList[i];
-                        }
+                        setEnemy = enemyList[i];
                     }
                 }
             }
         }
+        catch
+        {
+            Debug.LogError("oops");
+        }
+        
     }
     void FireHowitzer()
     {

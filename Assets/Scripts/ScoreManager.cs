@@ -18,6 +18,8 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     public int dropID;
     public int dropAmmount;
+    public AudioSource bgmIntense, bgmNormal, bgmIntro;
+    public int enemyShown;
 
     private void Awake()
     {
@@ -30,6 +32,8 @@ public class ScoreManager : MonoBehaviour
             }
         }
     }
+
+
     public void GameEnded()
     {
         if (timeTook < timeLimit)
@@ -98,15 +102,53 @@ public class ScoreManager : MonoBehaviour
     }
     public void Initialize()
     {
-        HUD.SetActive(false);
-        killedEnemy = 0;
-        totalEnemy = 0;
-        killedDolls = 0;
-        totalDolls = 0;
-        timeTook = 0;
-        enemyBaseCaptured = false;
-        friendlyBaseCaptured = false;
-        killCount.SetText("0/0");
-        timeCount.SetText("0:00");
+        try
+        {
+            HUD.SetActive(false);
+            killedEnemy = 0;
+            totalEnemy = 0;
+            killedDolls = 0;
+            totalDolls = 0;
+            timeTook = 0;
+            enemyBaseCaptured = false;
+            friendlyBaseCaptured = false;
+            killCount.SetText("0/0");
+            timeCount.SetText("0:00");
+            enemyShown = 0;
+        } catch
+        {
+            Debug.LogError(gameObject.name + "抛出了一个错误");
+        }
+        
+    }
+    public void startBGM()
+    {
+        bgmIntro.Play();
+        float introLength = bgmIntro.clip.length;
+        if (!bgmIntense.isPlaying)
+        {
+            bgmIntense.PlayDelayed(introLength);
+        }
+        if (!bgmNormal.isPlaying)
+        {
+            bgmNormal.PlayDelayed(introLength);
+        }
+    }
+    public void foundEnemy(int num)
+    {
+        enemyShown += num;
+    }
+    private void Update()
+    {
+        if (bgmIntense != null && bgmNormal != null)
+        {
+            if (bgmIntense.volume < enemyShown / 3.0f)
+            {
+                bgmIntense.volume += 0.003f;
+            } else if (bgmIntense.volume > enemyShown / 3.0f)
+            {
+                bgmIntense.volume -= 0.001f;
+            }
+        }
     }
 }

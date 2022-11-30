@@ -16,20 +16,20 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 7b1423fdef181c44391561a4f5a52fb1, type: 2}
     amount: 0
   - item: {fileID: 11400000, guid: 1d9051512d5e94249b3b9b48d11c8c21, type: 2}
-    amount: 7
+    amount: 0
   - item: {fileID: 11400000, guid: e94c40da1786a0a47ab4a150eaaa36ea, type: 2}
-    amount: 3
+    amount: 31
   - item: {fileID: 11400000, guid: a2aab73111cbf844f9457ddef63efd52, type: 2}
-    amount: 1
+    amount: 0
   - item: {fileID: 11400000, guid: 5f39d56f180eb654f95bc77f0cbcc704, type: 2}
-    amount: 1
+    amount: 0
   - item: {fileID: 11400000, guid: f1e88263efc844f4c9aff7f23a4b62bc, type: 2}
-    amount: 400
+    amount: 0
   - item: {fileID: 11400000, guid: 8cf423200cfed4548abd7e95869fcbd7, type: 2}
-    amount: 400
+    amount: 0
   - item: {fileID: 11400000, guid: 5e508255fdd1b814d94adb19331151a5, type: 2}
-    amount: 100
+    amount: 0
   - item: {fileID: 11400000, guid: 4e159649d14592d4aaa9f72151ec69fb, type: 2}
-    amount: 5
+    amount: 0
   - item: {fileID: 11400000, guid: 9f661da5055294f4dbc9c4064dd6fe88, type: 2}
-    amount: 5
+    amount: 0

@@ -104,7 +104,7 @@ public class InventoryManager : MonoBehaviour
             for (int i = 0; i < menuInventory.container.Count; i++)
             {
                 name = menuInventory.container[i].item.itemName + "_num";
-                itemsNum[i] = PlayerPrefs.GetInt(name, 1);
+                itemsNum[i] = PlayerPrefs.GetInt(name, 0);
                 menuInventory.container[i].amount = itemsNum[i];
             }
         }

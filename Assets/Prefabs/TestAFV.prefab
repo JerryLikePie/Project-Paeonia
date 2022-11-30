@@ -371,7 +371,7 @@ MonoBehaviour:
   enemy_name: "\u6B65\u6218\u8F66\u9776\u6807"
   enemy_id: 3
   enemy_type: 1
-  enemy_range: 2
+  enemy_range: 1
   enemy_max_hp: 800
   enemy_damage_recieved_multiplier:
   - 1

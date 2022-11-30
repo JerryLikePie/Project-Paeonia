@@ -11,6 +11,7 @@ TagManager:
   - Bullet
   - ArtilleryReference
   - Inventory
+  - MiscScoreManager
   layers:
   - Default
   - TransparentFX
