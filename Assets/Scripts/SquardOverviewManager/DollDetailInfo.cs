@@ -8,13 +8,11 @@ namespace Assets.Scripts.SquardOverviewManager
     /// </summary>
     public class DollDetailInfo : MonoBehaviour
     {
-        // 角色名称
-        public string dollName;
         // 图鉴界面显示的角色立绘
         public Sprite dollOverviewImage;
         // 详情界面显示的角色立绘
         public Sprite dollDetailImage;
-        // 角色ID
-        public int ID;
+        // 角色数值和本体
+        public DollsProperty dollsDetail;
     }
 }

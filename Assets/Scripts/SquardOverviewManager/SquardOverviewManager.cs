@@ -23,6 +23,10 @@ public class SquardOverviewManager : MonoBehaviour
     // 详情界面的角色名称
     public GameObject sdp_TxtName;
 
+    // 详情界面的角色数值
+    public Text sdp_Nums1;
+    public Text sdp_Nums2;
+
     // 立绘不存在时的默认立绘
     public Sprite detailImageFallback;
 
@@ -118,7 +122,17 @@ public class SquardOverviewManager : MonoBehaviour
             sdp_DetailImage.GetComponent<Image>().sprite = detailInfo.dollDetailImage != null ? detailInfo.dollDetailImage : detailImageFallback;
             sdp_BtnPrev.SetActive(currentPageIndex > 0);
             sdp_BtnNext.SetActive(currentPageIndex < detailInfoList.Count - 1);
-            sdp_TxtName.GetComponent<Text>().text = detailInfo.dollName;
+            sdp_TxtName.GetComponent<Text>().text = detailInfo.dollsDetail.dolls_name;
+            sdp_Nums1.text = "生命值：" + detailInfo.dollsDetail.dolls_max_hp
+                + "\n装甲等效厚度：" + detailInfo.dollsDetail.dolls_armor_front + "mm"
+                + "/" + detailInfo.dollsDetail.dolls_armor_side + "mm"
+                + "/" + detailInfo.dollsDetail.dolls_armor_back + "mm"
+                + "\n主炮穿深：" + detailInfo.dollsDetail.dolls_penetration + "mm"
+                + "\n装填时间：" + detailInfo.dollsDetail.dolls_reload + "秒";
+            sdp_Nums2.text = "地对地：" + detailInfo.dollsDetail.dolls_sts_attack
+                + "\n空中地：" + detailInfo.dollsDetail.dolls_ats_attack
+                + "\n地对空：" + detailInfo.dollsDetail.dolls_sta_attack
+                + "\n空对空：" + detailInfo.dollsDetail.dolls_ata_attack;
         }
     }
 }

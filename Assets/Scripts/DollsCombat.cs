@@ -33,7 +33,7 @@ public class DollsCombat : MonoBehaviour
     public GameObject bullet;
     public AudioSource reloadStartSound, reloadEndSound;
     public int shotsInMag;
-    BulletManager shot = new BulletManager();
+    BulletManager shot;
     //public GameObject lineOfSight;
 
     [HideInInspector] public Vector3 planeVelocity;
@@ -138,15 +138,15 @@ public class DollsCombat : MonoBehaviour
         {
             for (int i = 0; i < enemyList.Count; i++)
             {
+                if (i >= enemyList.Count)
+                {
+                    break;
+                }
                 if (enemyList[i] == null)
                 {
                     continue;
                 }
                 if (!enemyList[i].gameObject.activeSelf)
-                {
-                    continue;
-                }
-                if (enemyList[i].name == "QuestionField(Clone)")
                 {
                     continue;
                 }

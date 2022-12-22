@@ -10,9 +10,18 @@ public class ClickAndMove : MonoBehaviour
     public bool TimeToGoDown;
     public Vector3 hereIsUp;
     public Vector3 hereIsDown;
+    [Tooltip("使用加法模式时，默认为up，摁一下变成down")]
+    public bool additionMode;
+    [Tooltip("使用加法模式时，going down是加上下面这个vector")]
+    public Vector3 hereIsChange;
     void Start()
     {
         NextPos = transform.localPosition;
+        if (additionMode)
+        {
+            hereIsUp = NextPos;
+            hereIsDown = NextPos + hereIsChange;
+        } 
     }
     void Update()
     {
@@ -20,12 +29,25 @@ public class ClickAndMove : MonoBehaviour
         //transform.Translate(Vector3.up * 30 * Time.deltaTime);
         if (TimeToGoUp)
         {
-            NextPos = hereIsUp;
+            if (additionMode)
+            {
+                NextPos = NextPos - hereIsChange;
+            }
+            else
+            {
+                NextPos = hereIsUp;
+            }
             TimeToGoUp = false;
         }
         if (TimeToGoDown)
         {
-            NextPos = hereIsDown;
+            if (additionMode)
+            {
+                NextPos = NextPos + hereIsChange;
+            } else
+            {
+                NextPos = hereIsDown;
+            }
             TimeToGoDown = false;
         }
         transform.localPosition = Vector3.Lerp(transform.localPosition, NextPos, 20.0f * Time.deltaTime);

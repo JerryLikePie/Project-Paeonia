@@ -43,6 +43,26 @@ MonoBehaviour:
     - 
     - 
     - 
+  - background: {fileID: 21300000, guid: b8e5c445da841684496be47f71777239, type: 3}
+    character: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
+    name: 
+    words: "\u9009\u98791\u6709\u4E24\u53E5\u8BDD\u6765\u6D4B\u8BD5\u80CC\u666F\u4F1A\u4E0D\u4F1A\u5728\u4E0D\u9700\u8981\u53D8\u7684\u65F6\u5019\u53D8"
+    isChoice: 0
+    branchNum: 1
+    response:
+    - 
+    - 
+    - 
+  - background: {fileID: 21300000, guid: 00401aa207b477849a4a1788c9256a71, type: 3}
+    character: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
+    name: 
+    words: "\u9A97\u4F60\u7684\uFF0C\u8FD8\u6709\u4E00\u53E5\u8BDD\uFF0C\u6765\u770B\u770B\u80CC\u666F\u7B80\u5355\u53D8\u5316"
+    isChoice: 0
+    branchNum: 1
+    response:
+    - 
+    - 
+    - 
   - background: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
     character: {fileID: 21300000, guid: f8d71219ad86ad6409767db27aaf8fc0, type: 3}
     name: 

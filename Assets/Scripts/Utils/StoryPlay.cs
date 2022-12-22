@@ -10,12 +10,13 @@ public class StoryPlay : MonoBehaviour
     public Text logText;
     public Image character, background;
     public Sprite defaultBackGround;
+    Sprite lastSprite;
     public Text textBox, nameBox;
     public Button[] responses;
     public Text[] answers;
     int choice;
     int i, length;
-    bool isDragging, haveToChoose, isInLogMode, isClickingUI, textIsGoing;
+    bool isDragging, haveToChoose, isInLogMode, isClickingUI, textIsGoing, imageUpdating;
     private Vector3 mouseDownPos1, mouseDownPos2;
     Storyscene scene;
     float textDelay = 0.015f;
@@ -43,6 +44,7 @@ public class StoryPlay : MonoBehaviour
             i = 0;
             choice = 0;
             haveToChoose = false;
+            character.color = new Color(1, 1, 1, 0);
             updateStory();
         }
     }
@@ -100,6 +102,14 @@ public class StoryPlay : MonoBehaviour
         choice = 0;
         storyPanel.enabled = false;
         storyPanel.gameObject.SetActive(false);
+        lastSprite = null;
+        isDragging = false;
+        haveToChoose = false;
+        isInLogMode = false;
+        isClickingUI = false;
+        textIsGoing = false;
+        imageUpdating = false;
+        character.color = new Color(1, 1, 1, 0);
     }
 
     void updateStory() {
@@ -119,20 +129,38 @@ public class StoryPlay : MonoBehaviour
             i++;
             updateStory();
         } else {
+            if (lastSprite != scene.story[i].background)
+            {
+                imageUpdating = true;
+            }
             if (scene.story[i].background == null)
             {
-                background.sprite = defaultBackGround;
+                if (imageUpdating)
+                {
+                    StartCoroutine(backgroundFadeChange(background, defaultBackGround));
+                } else
+                {
+                    background.sprite = defaultBackGround;
+                }
             } else
             {
-                background.sprite = scene.story[i].background;
+                if (imageUpdating)
+                {
+                    StartCoroutine(backgroundFadeChange(background, scene.story[i].background));
+                }
+                else
+                {
+                    background.sprite = scene.story[i].background;
+                }
             }
+            lastSprite = scene.story[i].background;
             if (scene.story[i].character == null)
             {
-                character.color = new Color(1f, 1f, 1f, 0f);
+                StartCoroutine(characterImageChange(true, character));
             } else
             {
-                character.color = new Color(1f, 1f, 1f, 1f);
                 character.sprite = scene.story[i].character;
+                StartCoroutine(characterImageChange(false, character));
             }
             if (string.IsNullOrEmpty(scene.story[i].name))
             {
@@ -190,7 +218,7 @@ public class StoryPlay : MonoBehaviour
             }
         }
         if (Input.GetMouseButtonUp(0)) {
-            if (!isDragging && !haveToChoose && !isInLogMode && !isClickingUI && !textIsGoing)
+            if (!isDragging && !haveToChoose && !isInLogMode && !isClickingUI && !textIsGoing && !imageUpdating)
             {
                 if (i >= length)
                 {
@@ -217,5 +245,50 @@ public class StoryPlay : MonoBehaviour
             yield return new WaitForSeconds(textDelay);
         }
         textIsGoing = false;
+    }
+
+    IEnumerator backgroundFadeChange(Image background, Sprite changeTo)
+    {
+        Debug.Log("±ä»¯ÖÐ");
+        for (float i = 1; i >= 0; i -= 4f * Time.deltaTime)
+        {
+            // set color with i as alpha
+            background.color = new Color(i, i, i, 1);
+            yield return null;
+        }
+        background.color = new Color(0, 0, 0, 1);
+        background.sprite = changeTo;
+        for (float i = 0; i <= 1; i += 4f * Time.deltaTime)
+        {
+            // set color with i as alpha
+            background.color = new Color(i, i, i, 1);
+            yield return null;
+        }
+        background.color = new Color(1, 1, 1, 1);
+        imageUpdating = false;
+    }
+
+    IEnumerator characterImageChange(bool fadeout, Image character)
+    {
+        if (fadeout)
+        {
+            for (float i = character.color.a; i >= 0; i -= 0.1f)
+            {
+                // set color with i as alpha
+                character.color = new Color(1, 1, 1, i);
+                yield return new WaitForSeconds(0.02f);
+            }
+            character.color = new Color(1, 1, 1, 0);
+        }
+        else
+        {
+            for (float i = character.color.a; i <= 1; i += 0.1f)
+            {
+                // set color with i as alpha
+                character.color = new Color(1, 1, 1, i);
+                yield return new WaitForSeconds(0.02f);
+            }
+            character.color = new Color(1, 1, 1, 1);
+        }
     }
 }

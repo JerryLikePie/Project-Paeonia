@@ -354,8 +354,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e2d4f205e3b44b342b7c26278043bbb7, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5626,8 +5626,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e2d4f205e3b44b342b7c26278043bbb7, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -16274,8 +16274,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e2d4f205e3b44b342b7c26278043bbb7, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -16849,7 +16849,7 @@ GameObject:
   - component: {fileID: 5026691034151611180}
   - component: {fileID: 4137196982756760085}
   m_Layer: 5
-  m_Name: Unit17
+  m_Name: Unit13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16989,24 +16989,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fd21d533f0aa74ab2ce281ae5fb90f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dolls_name: "\u201C\u590D\u5174\u201D\u7532"
+  dolls_name: "\u201C\u7814\u9A71\u201D\u4E00\u5F0F"
   dolls_ammount: 5
-  dolls_star: 1
-  dolls_id: 17
+  dolls_star: 2
+  dolls_id: 13
   dolls_type: 3
   dolls_range: 1
   dolls_view_range: 3
   dolls_unlocked: 0
-  dolls_max_hp: 1000
+  dolls_max_hp: 1300
   dolls_sts_attack: 0
-  dolls_ata_attack: 60
+  dolls_ata_attack: 640
   dolls_sta_attack: 0
-  dolls_ats_attack: 340
-  dolls_penetration: 99
+  dolls_ats_attack: 90
+  dolls_penetration: 32
   dolls_accuracy: 300
-  dolls_dodge: 202
-  dolls_reload: 25
-  dolls_firerate: 0.4
+  dolls_dodge: 180
+  dolls_reload: 15
+  dolls_firerate: 0.25
   dolls_armor_front: 0
   dolls_armor_side: 0
   dolls_armor_back: 0
@@ -17015,8 +17015,8 @@ MonoBehaviour:
   dolls_skill_point: 0
   dolls_skill_fullcharge: 1
   dolls_withdrew: 0
-  dolls_mag: 2
-  dolls_shell_speed: 1
+  dolls_mag: 15
+  dolls_shell_speed: 5400
 --- !u!1 &5925278500005358202
 GameObject:
   m_ObjectHideFlags: 0
@@ -17671,8 +17671,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e2d4f205e3b44b342b7c26278043bbb7, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -17930,8 +17930,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e2d4f205e3b44b342b7c26278043bbb7, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4

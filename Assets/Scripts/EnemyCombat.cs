@@ -16,7 +16,7 @@ public class EnemyCombat : MonoBehaviour
     public int lie;
     public GameObject map;
     public GameObject dollsList;
-    DollsCombat dolls = new DollsCombat(), setDolls;
+    DollsCombat dolls, setDolls;
     bool targetLocked = false;
     bool canFire = true;
     public Queue<Hex> targetHex;
@@ -35,7 +35,7 @@ public class EnemyCombat : MonoBehaviour
 
     public int shotsInMag;
     public GameObject bullet;
-    BulletManager shot = new BulletManager();
+    BulletManager shot;
     bool isFiring = false;
     public bool canMove;
     int counter;
@@ -89,9 +89,10 @@ public class EnemyCombat : MonoBehaviour
         {
             UpdateHealthBar();
             FogOfWar();
-            switch(enemy.enemy_type)
+            switch (enemy.enemy_type)
             {
-                case 1: case 3:
+                case 1:
+                case 3:
                     GroundCheckDolls();
                     break;
                 case 2:
@@ -102,14 +103,14 @@ public class EnemyCombat : MonoBehaviour
                     break;
 
             }
-            
+
         }
     }
 
     const int RSTATE_NODE = 0;
     const int RSTATE_MOVE = 1;
     const int RSTATE_WAIT = 2;
-    const int RSTATE_END  = 3;
+    const int RSTATE_END = 3;
     int routeState = RSTATE_NODE;
     float timeWaitStart;
     float timeToWait;
@@ -117,7 +118,7 @@ public class EnemyCombat : MonoBehaviour
 
     void UpdateRoute()
     {
-        if (routeState == RSTATE_NODE && targetHex != null)
+        if (routeState == RSTATE_NODE)
         {
             // 路径起点
             if (targetHex.Count > 0)
@@ -130,7 +131,8 @@ public class EnemyCombat : MonoBehaviour
                 routeState = RSTATE_END;
             }
         }
-        else if (routeState == RSTATE_MOVE) {
+        else if (routeState == RSTATE_MOVE)
+        {
             // 计算下一步要去的格子
             // 等待 moveSpeedWaitTime
             float minDistance = 9999f;
@@ -168,7 +170,7 @@ public class EnemyCombat : MonoBehaviour
                 descanMap();
                 //Debug.Log(this + "(" + hang + "," + lie + ")->(" + currentHex.hang + "," + currentHex.lie + ")\tTarget:" + nextTarget);
                 map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>().haveEnemy = false;
-                
+
                 destination = currentHex.transform.position;
                 // transform.position = currentHex.transform.position;
                 currentHex.haveEnemy = true;
@@ -176,12 +178,12 @@ public class EnemyCombat : MonoBehaviour
                 hang = currentHex.X; lie = currentHex.Z; height = currentHex.height;
                 dodge = enemy.enemy_dodge + currentHex.dodgeBuff;
                 rangeBuff = currentHex.rangeBuff;
-                
+
                 // 等待移动结束，如果是到达路径点上，则停留路径规划的时间
                 float randomMoveTime = (moveSpeedWaitTime) * currentHex.movecost + Random.Range(-2f, 5f);
                 timeToWait = (currentHex == nextTarget) ? moveWaitTime.Dequeue() : randomMoveTime;
                 timeWaitStart = Time.time;
-                routeState = RSTATE_WAIT;   
+                routeState = RSTATE_WAIT;
             }
         }
         else if (routeState == RSTATE_WAIT)
@@ -444,42 +446,30 @@ public class EnemyCombat : MonoBehaviour
     }
     void WithDrawl()
     {
-        gameIntensifies(-1);
+        map.GetComponent<MapCreate>().Score.EnemyKilled();
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
         descanMap();
         transform.gameObject.SetActive(false);
         transform.GetComponent<EnemyCombat>().enabled = false;
-        Destroy(gameObject, 0.05f);
+        //Destroy(gameObject);
     }
     void UpdateHealthBar()
     {
         percentageHealth = health / enemy.enemy_max_hp;
-        if (health <= 0)
-        {
-            health = 0;
-            WithDrawl();
-        }
-        if (healthLevel <= 0)
-        {
-            healthLevel = 0;
-        }
         if (health < healthRestrictLine[healthLevel])
         {
+            health = healthRestrictLine[healthLevel];
             enemyEntities[healthLevel].gameObject.SetActive(false);
             crewNum -= 1;
             healthLevel -= 1;
         }
-        if (percentageHealth >= 1f && healthBar.gameObject.activeSelf)
-        {
-            healthBar.gameObject.SetActive(false);
-        }
-        else if (percentageHealth < 1f && !healthBar.gameObject.activeSelf)
-        {
-            healthBar.gameObject.SetActive(true);
-        }
-        healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 40f * Time.deltaTime);
+        healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 20f * Time.deltaTime);
         healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
-        
+        if (health <= 0)
+        {
+            map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
+            WithDrawl();
+        }
     }
     void FogOfWar()
     {
@@ -493,7 +483,7 @@ public class EnemyCombat : MonoBehaviour
                 firstTimeFound = true;
                 gameIntensifies(-1);
             }
-            
+
         }
         else
         {
@@ -506,35 +496,12 @@ public class EnemyCombat : MonoBehaviour
             }
         }
     }
-    void gameIntensifies(int num)
-    {
-        try
-        {
-            GameObject.FindGameObjectWithTag("MiscScoreManager").GetComponent<ScoreManager>().foundEnemy(num);
-        } catch
-        {
-            Debug.LogError("Tried to alter BGM");
-        }
-        
-    }
     void descanMap()
     {
-        try
+        while (deScanTheMap.Count != 0)
         {
-            if (deScanTheMap == null)
-            {
-                return;
-            }
-            while (deScanTheMap.Count > 0)
-            {
-                deScanTheMap.Peek().EnemyLoseVisual();
-                deScanTheMap.Dequeue().UpdateFogStatus();
-            }
-        }
-        catch
-        {
-            Debug.LogError(gameObject.name + "抛出了一个错误");
-            Debug.LogError("deScanTheMap有" + deScanTheMap.Count + "个物体");
+            deScanTheMap.Peek().EnemyLoseVisual();
+            deScanTheMap.Dequeue().UpdateFogStatus();
         }
     }
     void scanMap()
@@ -545,7 +512,7 @@ public class EnemyCombat : MonoBehaviour
             try
             {
                 NextTile = map.transform.GetChild(i).GetComponent<Hex>();
-                if (NextTile != null && FindDistance(gameObject, NextTile.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff))
+                if (FindDistance(gameObject, NextTile.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff))
                 {
                     if (!BeingBlocked(gameObject, NextTile.gameObject))
                     {
@@ -561,6 +528,20 @@ public class EnemyCombat : MonoBehaviour
             }
         }
         //Debug.Log("一轮之后，队列里有" + deScanTheMap.Count + "个地块");
+    }
+
+    void gameIntensifies(int num)
+    {
+        try
+        {
+            GameObject.FindGameObjectWithTag("MiscScoreManager").GetComponent<ScoreManager>().foundEnemy(num);
+            Debug.Log("LoL");
+        }
+        catch
+        {
+            Debug.LogError("Tried to alter BGM");
+        }
+
     }
     bool BeingBlocked(GameObject x, GameObject y)
     {
