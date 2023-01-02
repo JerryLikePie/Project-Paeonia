@@ -27,6 +27,17 @@ public class SquardOverviewManager : MonoBehaviour
     public Text sdp_Nums1;
     public Text sdp_Nums2;
 
+    // 详情界面的角色SD
+    public Image charaSD;
+
+    // 详情界面的技能图标
+    public Image skillSD;
+    public Text skillDes;
+
+    // 详情界面的武器图标
+    public Image weaponSD;
+    public Text weaponDes;
+
     // 立绘不存在时的默认立绘
     public Sprite detailImageFallback;
 
@@ -127,12 +138,17 @@ public class SquardOverviewManager : MonoBehaviour
                 + "\n装甲等效厚度：" + detailInfo.dollsDetail.dolls_armor_front + "mm"
                 + "/" + detailInfo.dollsDetail.dolls_armor_side + "mm"
                 + "/" + detailInfo.dollsDetail.dolls_armor_back + "mm"
-                + "\n主炮穿深：" + detailInfo.dollsDetail.dolls_penetration + "mm"
+                + "\n主武器穿深：" + detailInfo.dollsDetail.dolls_penetration + "mm"
                 + "\n装填时间：" + detailInfo.dollsDetail.dolls_reload + "秒";
-            sdp_Nums2.text = "地对地：" + detailInfo.dollsDetail.dolls_sts_attack
-                + "\n空中地：" + detailInfo.dollsDetail.dolls_ats_attack
-                + "\n地对空：" + detailInfo.dollsDetail.dolls_sta_attack
-                + "\n空对空：" + detailInfo.dollsDetail.dolls_ata_attack;
+            sdp_Nums2.text = "地对地攻击力：" + detailInfo.dollsDetail.dolls_sts_attack
+                + "\n空中地攻击力：" + detailInfo.dollsDetail.dolls_ats_attack
+                + "\n地对空攻击力：" + detailInfo.dollsDetail.dolls_sta_attack
+                + "\n空对空攻击力：" + detailInfo.dollsDetail.dolls_ata_attack;
+            charaSD.sprite = detailInfo.SDDolls;
+            skillSD.sprite = detailInfo.SDSkill;
+            weaponSD.sprite = detailInfo.SDWeapon;
+            skillDes.text = detailInfo.skill_description;
+            weaponDes.text = detailInfo.weapon_description;
         }
     }
 }

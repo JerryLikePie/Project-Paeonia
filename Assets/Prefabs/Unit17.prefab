@@ -17002,7 +17002,7 @@ MonoBehaviour:
   dolls_ata_attack: 60
   dolls_sta_attack: 0
   dolls_ats_attack: 340
-  dolls_penetration: 99
+  dolls_penetration: 50
   dolls_accuracy: 300
   dolls_dodge: 202
   dolls_reload: 25
