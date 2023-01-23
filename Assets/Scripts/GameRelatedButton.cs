@@ -55,7 +55,7 @@ public class GameRelatedButton : MonoBehaviour
         {
             int num = PlayerPrefs.GetInt(enteringStage, 0);
             Debug.Log(enteringStage + " status: " + num);
-            if (num <= 3)
+            if (num <= 3 && num > 0)
             {
                 starLv1.SetActive(true);
                 starLv2.SetActive(false);
