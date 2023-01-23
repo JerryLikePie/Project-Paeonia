@@ -247,9 +247,9 @@ public class DollsCombat : MonoBehaviour
     {
         percentageHealth = health / newMaxHealth;
         
-        if (health <= healthRestrictLine[healthLevel + 1] && dolls.dolls_type == 3)
+        if (health <= healthRestrictLine[healthLevel + 1]) // a&& dolls.dolls_type == 3
         {
-            health = health + 0.15f; //我们取消了免费的维修套件和灭火器，现在只有空军有了
+            health = health + 0.1f; //我们取消了免费的维修套件和灭火器，现在只有空军有了
         }
         
         if (health < healthRestrictLine[healthLevel])
@@ -294,7 +294,11 @@ public class DollsCombat : MonoBehaviour
             try
             {
                 nextTile = map.transform.GetChild(i).GetComponent<Hex>();
-                if (nextTile != null && FindDistance(gameObject, nextTile.gameObject) <= 17.5 * (dolls.dolls_view_range + rangeBuff))
+                if (nextTile == null)
+                {
+                    continue;
+                }
+                if (FindDistance(gameObject, nextTile.gameObject) <= 17.5 * (dolls.dolls_view_range + rangeBuff))
                 {
                     if (!map.IsBlocked(currentTile, nextTile))
                     {
@@ -306,7 +310,7 @@ public class DollsCombat : MonoBehaviour
             }
             catch (System.Exception ex)
             {
-                Debug.LogError(ex);
+                //Debug.LogError("something went wrong:"+ nextTile.name + "/" + 17.5 * (dolls.dolls_view_range + rangeBuff) + "/" + ex);
             }
         }
         //Debug.Log("这次进入了" + j + "个地块，但是，k = " + k);

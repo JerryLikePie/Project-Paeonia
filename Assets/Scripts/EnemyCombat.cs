@@ -456,6 +456,12 @@ public class EnemyCombat : MonoBehaviour
     void UpdateHealthBar()
     {
         percentageHealth = health / enemy.enemy_max_hp;
+        if (healthLevel < 0 || healthLevel >= healthRestrictLine.Length)
+        {
+            //º¥À¿
+            healthLevel = 0;
+            health = -1;
+        }
         if (health < healthRestrictLine[healthLevel])
         {
             health = healthRestrictLine[healthLevel];

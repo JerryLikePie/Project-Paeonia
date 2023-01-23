@@ -1,0 +1,32 @@
+{
+	"timeLimit": 200,
+	"mapTiles": [
+		"WWWWWWWWW",
+		"W1111111W",
+		"W1111111W",
+		"W1111111W",
+		"WB11111RW",
+		"W1111111W",
+		"W1111111W",
+		"WWWWWWWWW"
+	],
+	"enemySpawnPoints": [
+		{
+			"spawnType": 2,
+			"spawnTile": "Map4_6",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map4_5",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		}
+	],
+	"dropID": 1,
+	"dropAmount": 15,
+	"dropRate":100
+}

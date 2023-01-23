@@ -9,6 +9,7 @@ public class storyNode
 {
     public Sprite background;
     public Sprite character;
+    public AudioClip backgroundMusic;
     public string name;
     [TextArea] public string words;
     public bool isChoice;

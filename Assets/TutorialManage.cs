@@ -4,26 +4,27 @@ using UnityEngine;
 
 public class TutorialManage : MonoBehaviour
 {
-    public GameObject T1, T2;
+    public GameObject tutorialPanel;
+    public TutorialButton[] tutorial;
     string stageName;
     // Start is called before the first frame update
     void Start()
     {
         stageName = PlayerPrefs.GetString("Stage_You_Should_Load","0");
-        if (PlayerPrefs.GetInt(stageName, 0) == 0)
+        switch (stageName)
         {
-            switch (stageName)
-            {
-                case "Map_T1-1":
-                    T1.SetActive(true);
-                    break;
-                case "Map_T1-2":
-                    T2.SetActive(true);
-                    break;
-                default:
-                    //do nothing
-                    break;
-            }
+            case "TR-1":
+                tutorial[0].gameObject.SetActive(true);
+                break;
+            case "TR-2":
+                tutorial[1].gameObject.SetActive(true);
+                break;
+            case "TR-3":
+                tutorial[2].gameObject.SetActive(true);
+                break;
+            default:
+                tutorialPanel.SetActive(false);
+                break;
         }
     }
 }

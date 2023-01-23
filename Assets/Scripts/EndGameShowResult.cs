@@ -14,7 +14,7 @@ public class EndGameShowResult : MonoBehaviour
     void Start()
     {
         scores = Object.FindObjectOfType<ScoreManager>().GetComponent<ScoreManager>();
-        inventory = Object.FindObjectOfType<InventoryManager>().GetComponent<InventoryManager>();
+        //inventory = Object.FindObjectOfType<InventoryManager>().GetComponent<InventoryManager>();
         Conditions();
         Final();
     }
@@ -78,7 +78,7 @@ public class EndGameShowResult : MonoBehaviour
     void Final()
     {
         Debug.Log(scores.dropAmmount);
-        inventory.menuInventory.AddItem(inventory.itemPool[scores.dropID].item, scores.dropAmmount);
+        //inventory.menuInventory.AddItem(inventory.itemPool[scores.dropID].item, scores.dropAmmount);
         int previousRun = PlayerPrefs.GetInt(scores.stageName, 0);
         if (howManyStars > previousRun)
         {

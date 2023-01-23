@@ -34,6 +34,7 @@ public class MapCreate : MonoBehaviour
     public SquadSlot[] slots;
     public SquadSelectionPage squadSelectionPage;
     int dropID, dropAmount, dropRate;
+    string mapToLoad;
 
     [System.Serializable]
     class EnemySpawnPoint
@@ -67,13 +68,40 @@ public class MapCreate : MonoBehaviour
             return str;
         }
     }
+    void Start()
+    {
+        mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_1-1");
+        if (Object.FindObjectsOfType<ScoreManager>().Length > 1)
+        {
+            Score = Object.FindObjectsOfType<ScoreManager>()[1];
+        }
+        else
+        {
+            Score = Object.FindObjectsOfType<ScoreManager>()[0];
+        }
+        Score.Initialize();
+        Score.stageName = mapToLoad;
+        //看看是不是教程关卡？
+        checkTutorial();
+    }
+
+    void checkTutorial()
+    {
+        if (mapToLoad == "TR-1" || mapToLoad == "TR-2" || mapToLoad == "TR-3")
+        {
+            SpawnUnitWithPreset(BluePoint, 1);
+            SpawnGameMap();
+            
+            Score.startBGM();
+            //Score.HUD.SetActive(true);
+        }
+    }
 
     public void SpawnGameMap()
     {
         MapInfo mapInfo;
 
         //首先，生成地图本体
-        string mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_2-1");
         Debug.Log(mapToLoad);
         TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
         mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
@@ -84,9 +112,9 @@ public class MapCreate : MonoBehaviour
         this.dropID = mapInfo.dropID;
         this.dropAmount = mapInfo.dropAmount;
         this.dropRate = mapInfo.dropRate;
-        Debug.Log(mapInfo.dropID);
-        Debug.Log(mapInfo.dropAmount);
-        Debug.Log(mapInfo.dropRate);
+        //Debug.Log(mapInfo.dropID);
+        //Debug.Log(mapInfo.dropAmount);
+        //Debug.Log(mapInfo.dropRate);
 
         for (int i = 0; i < maxZ; i++)
         {
@@ -177,12 +205,7 @@ public class MapCreate : MonoBehaviour
         timeStart = System.DateTime.Now.Ticks;
         gameStarted = true;
     }
-    void Start()
-    {
-        Score = Object.FindObjectsOfType<ScoreManager>()[0];
-        Score.Initialize();
-        Score.stageName = PlayerPrefs.GetString("Stage_You_Should_Load", null);
-    }
+    
     // Update is called once per frame
     void Update()
     {
@@ -247,6 +270,46 @@ public class MapCreate : MonoBehaviour
             }
         }
     }
+    public void SpawnUnitWithPreset(Hex blueBox, int UnitID)
+    {
+        slots[0].spawnID = 1;
+        //GameObject spawnedUnit;
+        //int tempCounter = 0;
+        //GameObject tiletoSpawn = GameObject.Find("Map" + blueBox.X + "_" + (blueBox.Z + 1));
+        //Hex nextHex = tiletoSpawn.GetComponent<Hex>();
+        //Score.SpawnDoll();
+        //spawnedUnit = Instantiate(spawnSquad[UnitID].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
+        //Debug.Log("在" + tiletoSpawn.name + "生成了" + UnitID + "号单位" + spawnSquad[UnitID].name);
+        //spawnedUnit.GetComponent<Unit>().hang = blueBox.X;
+        //spawnedUnit.GetComponent<Unit>().lie = (blueBox.Z + 1);
+        //spawnedUnit.GetComponent<DollsCombat>().allEnemy = enemyList;
+        //spawnedUnit.GetComponent<DollsCombat>().allDolls = unitList;
+        //spawnedUnit.GetComponent<DollsCombat>().thisUnit = spawnedUnit.GetComponent<Unit>();
+        //spawnedUnit.GetComponent<DollsCombat>().map = this;
+
+        ////spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
+        //nextHex.haveUnit = true;
+        //spawnedUnit.transform.parent = unitList.transform;
+        //Skills[UnitID].transform.SetParent(SkillSlot[tempCounter].transform);
+        //tempCounter++;
+        //Skills[UnitID].transform.localPosition = Vector3.zero;
+        //IDollsSkillBehavior skill1 = Skills[UnitID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>();
+        //skill1.unit = spawnedUnit.GetComponent<DollsCombat>();
+        //skill1.loadMap();
+        //if (skill1.secondSkill != null)
+        //{
+        //    skill1.secondSkill.unit = spawnedUnit.GetComponent<DollsCombat>();
+        //    skill1.secondSkill.loadMap();
+        //    if (skill1.secondSkill.secondSkill != null)
+        //    {
+        //        skill1.secondSkill.secondSkill.unit = spawnedUnit.GetComponent<DollsCombat>();
+        //        skill1.secondSkill.secondSkill.loadMap();
+        //    }
+        //}
+        //spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
+        //squadSelectionPage.gameObject.SetActive(false);
+    }
+
     public void SpawnTheUnits(int X, int Z)
     {
         GameObject spawnedUnit;
@@ -339,7 +402,7 @@ public class MapCreate : MonoBehaviour
         {
             Hex hex = null;
             bool blocked = false;
-            bool lastOne = false;
+            //bool lastOne = false;
             if (FindDistance(point.gameObject, target) < 17.5)
             {
                 return blocked;
@@ -396,7 +459,6 @@ public class MapCreate : MonoBehaviour
         }
         catch
         {
-            //Debug.Log(ex);
             return false;
         }
     }
@@ -415,7 +477,7 @@ public class MapCreate : MonoBehaviour
             Hex closestOne = null;
             int newX = point.X, newZ = point.Z;
             int k = 0;
-            while (k < 100)
+            while (k < 500)
             {
                 lastDistance = 9999f;
                 for (int i = 0; i < 6; i++)
@@ -462,7 +524,8 @@ public class MapCreate : MonoBehaviour
         }
         catch
         {
-            return false;
+            return true;
         }
+
     }
 }

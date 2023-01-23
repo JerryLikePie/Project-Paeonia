@@ -379,7 +379,7 @@ MonoBehaviour:
   X: 0
   Z: 0
   reachable: 1
-  movecost: 1.2
+  movecost: 1.4
   spawnNum: 0
   gameUtility: 0
   haveUnit: 0

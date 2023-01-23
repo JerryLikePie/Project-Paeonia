@@ -5,17 +5,19 @@ using UnityEngine.UI;
 
 public class StoryPlay : MonoBehaviour
 {
-    public Canvas storyPanel;
+    [SerializeField] private Canvas storyPanel;
+    [SerializeField] private AudioSource backgroundMusic;
+    [SerializeField] private AudioSource storyMusic;
     public GameObject logPanel;
     public Text logText;
-    public Image character, background;
-    public Sprite defaultBackGround;
-    Sprite lastSprite;
-    public Text textBox, nameBox;
-    public Button[] responses;
-    public Text[] answers;
+    [SerializeField] private Image character, background;
+    [SerializeField] private Sprite defaultBackGround;
+    private Sprite lastSprite;
+    [SerializeField] private Text textBox, nameBox;
+    [SerializeField] private Button[] responses;
+    [SerializeField] private Text[] answers;
     int choice;
-    int i, length;
+    int index, length;
     bool isDragging, haveToChoose, isInLogMode, isClickingUI, textIsGoing, imageUpdating;
     private Vector3 mouseDownPos1, mouseDownPos2;
     Storyscene scene;
@@ -41,11 +43,30 @@ public class StoryPlay : MonoBehaviour
             scene = (Storyscene)Resources.Load("Stories/" + storyName);
             Debug.Log("ря╪сть");
             length = scene.story.Length;
-            i = 0;
+            index = 0;
             choice = 0;
             haveToChoose = false;
             character.color = new Color(1, 1, 1, 0);
+            changeBGM(true);
             updateStory();
+        }
+    }
+
+    void changeBGM(bool goingIntoStory)
+    {
+        if (goingIntoStory)
+        {
+            backgroundMusic.Pause();
+            backgroundMusic.volume = 0f;
+            storyMusic.volume = 1f;
+        }
+        else
+        {
+            backgroundMusic.volume = 1f;
+            backgroundMusic.UnPause();
+            storyMusic.volume = 0f;
+            storyMusic.Pause();
+            storyMusic.clip = null;
         }
     }
 
@@ -98,7 +119,7 @@ public class StoryPlay : MonoBehaviour
         logText.text = " ";
         scene = null;
         length = 0;
-        i = 0;
+        index = 0;
         choice = 0;
         storyPanel.enabled = false;
         storyPanel.gameObject.SetActive(false);
@@ -110,6 +131,7 @@ public class StoryPlay : MonoBehaviour
         textIsGoing = false;
         imageUpdating = false;
         character.color = new Color(1, 1, 1, 0);
+        changeBGM(false);
     }
 
     void updateStory() {
@@ -118,22 +140,30 @@ public class StoryPlay : MonoBehaviour
             Debug.Log("There is no story loaded, stopping update.");
             return;
         }
-        if (scene.story[i].isChoice) {
+        if (scene.story[index].isChoice) {
             haveToChoose = true;
         }
         updateButton();
-        if (choice != 0 && scene.story[i].branchNum == 0) {
+        if (choice != 0 && scene.story[index].branchNum == 0) {
             choice = 0;
         }
-        if (choice != scene.story[i].branchNum) {
-            i++;
+        if (choice != scene.story[index].branchNum) {
+            index++;
             updateStory();
         } else {
-            if (lastSprite != scene.story[i].background)
+            if (scene.story[index].backgroundMusic != null)
+            {
+                storyMusic.clip = scene.story[index].backgroundMusic;
+                if (!storyMusic.isPlaying)
+                {
+                    storyMusic.Play();
+                }
+            }
+            if (lastSprite != scene.story[index].background)
             {
                 imageUpdating = true;
             }
-            if (scene.story[i].background == null)
+            if (scene.story[index].background == null)
             {
                 if (imageUpdating)
                 {
@@ -146,33 +176,33 @@ public class StoryPlay : MonoBehaviour
             {
                 if (imageUpdating)
                 {
-                    StartCoroutine(backgroundFadeChange(background, scene.story[i].background));
+                    StartCoroutine(backgroundFadeChange(background, scene.story[index].background));
                 }
                 else
                 {
-                    background.sprite = scene.story[i].background;
+                    background.sprite = scene.story[index].background;
                 }
             }
-            lastSprite = scene.story[i].background;
-            if (scene.story[i].character == null)
+            lastSprite = scene.story[index].background;
+            if (scene.story[index].character == null)
             {
                 StartCoroutine(characterImageChange(true, character));
             } else
             {
-                character.sprite = scene.story[i].character;
+                character.sprite = scene.story[index].character;
                 StartCoroutine(characterImageChange(false, character));
             }
-            if (string.IsNullOrEmpty(scene.story[i].name))
+            if (string.IsNullOrEmpty(scene.story[index].name))
             {
                 nameBox.text = " ";
-                record(2, " ", scene.story[i].words);
+                record(2, " ", scene.story[index].words);
             } else
             {
-                nameBox.text = scene.story[i].name;
-                record(1, scene.story[i].name, scene.story[i].words);
+                nameBox.text = scene.story[index].name;
+                record(1, scene.story[index].name, scene.story[index].words);
             }
-            StartCoroutine(showText(scene.story[i].words, textBox));
-            i++;
+            StartCoroutine(showText(scene.story[index].words, textBox));
+            index++;
         }
     }
 
@@ -191,14 +221,14 @@ public class StoryPlay : MonoBehaviour
         {
             for (int j = 0; j < 3; j++)
             {
-                if (string.IsNullOrEmpty(scene.story[i].response[j]))
+                if (string.IsNullOrEmpty(scene.story[index].response[j]))
                 {
                     responses[j].gameObject.SetActive(false);
                 }
                 else
                 {
                     responses[j].gameObject.SetActive(true);
-                    answers[j].text = scene.story[i].response[j];
+                    answers[j].text = scene.story[index].response[j];
                 }
             }
         }
@@ -220,7 +250,7 @@ public class StoryPlay : MonoBehaviour
         if (Input.GetMouseButtonUp(0)) {
             if (!isDragging && !haveToChoose && !isInLogMode && !isClickingUI && !textIsGoing && !imageUpdating)
             {
-                if (i >= length)
+                if (index >= length)
                 {
                     unloadStory();
                 }
@@ -280,7 +310,7 @@ public class StoryPlay : MonoBehaviour
             }
             character.color = new Color(1, 1, 1, 0);
         }
-        else
+        else // else it would be fading in
         {
             for (float i = character.color.a; i <= 1; i += 0.1f)
             {

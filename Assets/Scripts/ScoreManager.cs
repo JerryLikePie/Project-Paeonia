@@ -12,8 +12,8 @@ public class ScoreManager : MonoBehaviour
     public GameObject friendlyList;
     public bool captureObjective, noDeath, allDestroyed, inTime;
     public string stageName;
-    public TMPro.TextMeshPro killCount;
-    public TMPro.TextMeshPro timeCount;
+    public Text killCount;
+    public Text timeCount;
     public GameObject HUD;
     // Start is called before the first frame update
     public int dropID;
@@ -29,6 +29,7 @@ public class ScoreManager : MonoBehaviour
             if (Object.FindObjectsOfType<ScoreManager>()[i] != this)
             {
                 Destroy(Object.FindObjectsOfType<ScoreManager>()[i].gameObject);
+                //Destroy(this);
             }
         }
     }
@@ -56,7 +57,7 @@ public class ScoreManager : MonoBehaviour
     public void SetTime(float time)
     {
         this.timeTook = time;
-        timeCount.SetText(((int) time / 60) + ":" + ((int) time % 60).ToString("00"));
+        timeCount.text = ((int) time / 60) + ":" + ((int) time % 60).ToString("00");
     }
     public void SetTimeLimit(float time)
     {
@@ -73,7 +74,7 @@ public class ScoreManager : MonoBehaviour
     public void EnemyKilled()
     {
         this.killedEnemy++;
-        killCount.SetText(killedEnemy + "/" + totalEnemy);
+        killCount.text = killedEnemy + "/" + totalEnemy;
     }
     public void FriendlyDead()
     {
@@ -86,7 +87,7 @@ public class ScoreManager : MonoBehaviour
     public void SpawnEnemy()
     {
         this.totalEnemy++;
-        killCount.SetText(killedEnemy + "/" + totalEnemy);
+        killCount.text = killedEnemy + "/" + totalEnemy;
     }
     public void FriendlyBaseLost()
     {
@@ -112,8 +113,8 @@ public class ScoreManager : MonoBehaviour
             timeTook = 0;
             enemyBaseCaptured = false;
             friendlyBaseCaptured = false;
-            killCount.SetText("0/0");
-            timeCount.SetText("0:00");
+            killCount.text = "0/0";
+            timeCount.text = "0:00";
             enemyShown = 0;
         } catch
         {
@@ -123,15 +124,18 @@ public class ScoreManager : MonoBehaviour
     }
     public void startBGM()
     {
-        bgmIntro.Play();
-        float introLength = bgmIntro.clip.length;
-        if (!bgmIntense.isPlaying)
+        if (bgmIntense != null && bgmNormal != null)
         {
-            bgmIntense.PlayDelayed(introLength);
-        }
-        if (!bgmNormal.isPlaying)
-        {
-            bgmNormal.PlayDelayed(introLength);
+            bgmIntro.Play();
+            float introLength = bgmIntro.clip.length;
+            if (!bgmIntense.isPlaying)
+            {
+                bgmIntense.PlayDelayed(introLength);
+            }
+            if (!bgmNormal.isPlaying)
+            {
+                bgmNormal.PlayDelayed(introLength);
+            }
         }
     }
     public void foundEnemy(int num)

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TestSkadi
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 6cb72d2ed58318c489c8d8b6b887354b, type: 3}
-  itemType: 2
+  itemType: 5
   itemName: "\u65AF\u5361\u8482"
-  itemDescription: "\u662F\u4E2A\u65AF\u5361\u8482\uFF0C\u4F46\u662F\u6211\u4E5F\u4E0D\u77E5\u9053\u4E3A\u5565\u8981\u5199"
+  itemDescription: "\u968F\u4FBF\u5728\u7535\u8111\u4E0A\u627E\u7684\u4E00\u4E2A\u4F5C\u4E3A\u9ED8\u8BA4\u7269\u54C1\u7684\u8D34\u56FE\u3002"

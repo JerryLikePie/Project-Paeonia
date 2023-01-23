@@ -8,7 +8,7 @@ public class Unit : MonoBehaviour
 {
     Vector3 destination;
     Hex next;
-    [HideInInspector]
+    //[HideInInspector]
     public int hang,lie,tempHang,tempLie;
     public float movementCooldown;
     [HideInInspector]

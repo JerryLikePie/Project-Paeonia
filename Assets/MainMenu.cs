@@ -45,7 +45,14 @@ public class MainMenu : MonoBehaviour
     }
     public void resetProgress()
     {
-        PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteKey("Introduction_Done");
+        PlayerPrefs.DeleteKey("Stage_You_Should_Load");
+        PlayerPrefs.DeleteKey("SD-1");
+        PlayerPrefs.DeleteKey("TR-1");
+        PlayerPrefs.DeleteKey("TR-2");
+        PlayerPrefs.DeleteKey("TR-3");
+        PlayerPrefs.DeleteKey("Map_1-1");
+        PlayerPrefs.DeleteKey("Map_1-2");
     }
 
     public void allProgress()

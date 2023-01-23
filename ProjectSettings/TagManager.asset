@@ -12,6 +12,7 @@ TagManager:
   - ArtilleryReference
   - Inventory
   - MiscScoreManager
+  - StoryCanvas
   layers:
   - Default
   - TransparentFX
