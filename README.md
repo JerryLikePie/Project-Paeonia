@@ -171,7 +171,6 @@ The decision to develop a game came as I was accepted into Computer Science. I w
  - 加入了出生点和敌方基地
  - 增加了三六式头像背景和立绘草稿，画师塔塔肥 
  - 更改了应用图标
-<img src="https://user-images.githubusercontent.com/90075718/140990599-5db7cb70-763a-45d8-b053-8f0fc2574130.png" width="40%" height="40%">
 
 ### 0.0.07
  - 人物生成的方式为从右下角拖拽至地图上生成
