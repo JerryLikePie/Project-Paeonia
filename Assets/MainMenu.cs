@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public StoryPlay storyPanel;
+    public GameRelatedButton[] allGameEntries;
     private void Start()
     {
         Application.targetFrameRate = 60;
@@ -55,13 +56,28 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.DeleteKey("Map_1-2");
     }
 
-    public void allProgress()
+    public void skipAllProgress()
     {
-
+        PlayerPrefs.SetInt("Introduction_Done", 1);
+        PlayerPrefs.SetInt("SD-1", 3);
+        PlayerPrefs.SetInt("TR-1", 4);
+        PlayerPrefs.SetInt("TR-2", 4);
+        PlayerPrefs.SetInt("TR-3", 4);
+        PlayerPrefs.SetInt("Map_1-1", 4);
+        PlayerPrefs.SetInt("Map_1-2", 4);
     }
+
     public void LoadSavedProgress()
     {
 
+    }
+
+    public void updateButtons()
+    {
+        for (int i = 0; i < allGameEntries.Length; i++)
+        {
+            allGameEntries[i].updateStatus();
+        }
     }
 
 }

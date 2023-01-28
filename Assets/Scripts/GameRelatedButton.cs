@@ -13,27 +13,21 @@ public class GameRelatedButton : MonoBehaviour
     public StoryPlay storypanel;
     private void Start()
     {
+        updateStatus();
+    }
+    
+
+    public void updateStatus()
+    {
         checkAvailability();
         checkStar();
     }
-    public void readStory()
-    {
-        if (storypanel != null)
-        {
-            storypanel.loadStory(enteringStage);
-            PlayerPrefs.SetInt(enteringStage, 2);
-        } else
-        {
-            Camera.main.gameObject.GetComponent<CallNotification>().showNotification("出现了一个错误：抛出错误的是\n " + 
-                gameObject.name + "的" + enteringStage);
-        }
-    }
 
-    public void resetStory()
+    private void resetStory()
     {
         PlayerPrefs.DeleteKey(enteringStage);
     }
-    public void checkAvailability()
+    private void checkAvailability()
     {
         if (previousStage != "none")
         {
@@ -41,11 +35,11 @@ public class GameRelatedButton : MonoBehaviour
             {
                 this.gameObject.GetComponent<Button>().interactable = false;
 
-            }
-            else
-            {
+            } else {
                 this.gameObject.GetComponent<Button>().interactable = true;
             }
+        } else {
+            this.gameObject.GetComponent<Button>().interactable = true;
         }
     }
 
@@ -54,7 +48,7 @@ public class GameRelatedButton : MonoBehaviour
         if (enteringStage != "none")
         {
             int num = PlayerPrefs.GetInt(enteringStage, 0);
-            Debug.Log(enteringStage + " status: " + num);
+            //Debug.Log(enteringStage + " status: " + num);
             if (num <= 3 && num > 0)
             {
                 starLv1.SetActive(true);
@@ -89,5 +83,19 @@ public class GameRelatedButton : MonoBehaviour
         }
         
     }
-    
+
+    public void readStory()
+    {
+        if (storypanel != null)
+        {
+            storypanel.loadStory(enteringStage);
+            PlayerPrefs.SetInt(enteringStage, 3);
+        }
+        else
+        {
+            Camera.main.gameObject.GetComponent<CallNotification>().showNotification("出现了一个错误：抛出错误的是\n " +
+                gameObject.name + "的" + enteringStage);
+        }
+    }
+
 }

@@ -248,7 +248,7 @@ MonoBehaviour:
   enemy_id: 1
   enemy_type: 1
   enemy_range: 0
-  enemy_max_hp: 500
+  enemy_max_hp: 550
   enemy_damage_recieved_multiplier:
   - 1
   - 1

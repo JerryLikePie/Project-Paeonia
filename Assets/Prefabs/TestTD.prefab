@@ -436,7 +436,7 @@ MonoBehaviour:
   enemy_name: "\u9776\u6807"
   enemy_id: 1
   enemy_type: 1
-  enemy_range: 3
+  enemy_range: 4
   enemy_max_hp: 2600
   enemy_damage_recieved_multiplier:
   - 1.4
@@ -446,7 +446,7 @@ MonoBehaviour:
   - 0.8
   - 0.7
   enemy_penetration: 100
-  enemy_sts_attack: 240
+  enemy_sts_attack: 300
   enemy_ata_attack: 0
   enemy_sta_attack: 0
   enemy_ats_attack: 0
@@ -469,7 +469,7 @@ MonoBehaviour:
   enemy_withdrew: 0
   enemy_visible: 0
   enemy_mag: 1
-  enemy_shell_speed: 9500
+  enemy_shell_speed: 8000
 --- !u!1 &4951395500155458684
 GameObject:
   m_ObjectHideFlags: 0

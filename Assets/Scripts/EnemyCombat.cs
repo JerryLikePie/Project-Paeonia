@@ -228,35 +228,38 @@ public class EnemyCombat : MonoBehaviour
     }
     void FireBullet()
     {
-        enemy.enemy_visible = true;
-        toHideTheEnemy.SetActive(true);
-        StartCoroutine(SetInActiveAfterFire());
-        GameObject bulletThatWasShot = Instantiate(bullet, enemyEntities[counter].transform.position, Quaternion.identity);
-        bulletThatWasShot.SetActive(true);
-        bulletThatWasShot.transform.LookAt(setDolls.transform);
-        shot = bulletThatWasShot.GetComponent<BulletManager>();
-        shot.speed = enemy.enemy_shell_speed;
-        shot.WhereTheShotWillGo = setDolls.transform.position;
-        shot.damage = 0;//先设为0
-        shot.damageIndicate = "hit";
-        float randomPen = enemy.enemy_penetration + Random.Range(-5, 5f);
-        if (randomPen >= setDolls.dolls.dolls_armor_front)
+        if (gameObject.activeSelf == true)
         {
-            shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
-            //判定，如果可以击穿那就把伤害加上去，不然的话这发炮弹就是0伤害
-            shot.damageIndicate = shot.damage.ToString("F0");
-            if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
+            enemy.enemy_visible = true;
+            toHideTheEnemy.SetActive(true);
+            StartCoroutine(SetInActiveAfterFire());
+            GameObject bulletThatWasShot = Instantiate(bullet, enemyEntities[counter].transform.position, Quaternion.identity);
+            bulletThatWasShot.SetActive(true);
+            bulletThatWasShot.transform.LookAt(setDolls.transform);
+            shot = bulletThatWasShot.GetComponent<BulletManager>();
+            shot.speed = enemy.enemy_shell_speed;
+            shot.WhereTheShotWillGo = setDolls.transform.position;
+            shot.damage = 0;//先设为0
+            shot.damageIndicate = "hit";
+            float randomPen = enemy.enemy_penetration + Random.Range(-5, 5f);
+            if (randomPen >= setDolls.dolls.dolls_armor_front)
             {
-                shot.damage = 0;
-                //判定，被闪避了那就miss
-                shot.damageIndicate = "miss";
+                shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
+                //判定，如果可以击穿那就把伤害加上去，不然的话这发炮弹就是0伤害
+                shot.damageIndicate = shot.damage.ToString("F0");
+                if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
+                {
+                    shot.damage = 0;
+                    //判定，被闪避了那就miss
+                    shot.damageIndicate = "miss";
+                }
             }
+            shot.sender = enemyEntities[counter].gameObject;
+            shot.dollsList = dollsList;
+            shot.whoShotMe = "enemy";
+            shot.firstImpact = true;
+            counter++;
         }
-        shot.sender = enemyEntities[counter].gameObject;
-        shot.dollsList = dollsList;
-        shot.whoShotMe = "enemy";
-        shot.firstImpact = true;
-        counter++;
     }
     void FireSmallArty()
     {
@@ -449,6 +452,7 @@ public class EnemyCombat : MonoBehaviour
         map.GetComponent<MapCreate>().Score.EnemyKilled();
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
         descanMap();
+        canMove = false;
         transform.gameObject.SetActive(false);
         transform.GetComponent<EnemyCombat>().enabled = false;
         //Destroy(gameObject);
@@ -473,7 +477,6 @@ public class EnemyCombat : MonoBehaviour
         healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
         if (health <= 0)
         {
-            map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
             WithDrawl();
         }
     }
@@ -541,7 +544,6 @@ public class EnemyCombat : MonoBehaviour
         try
         {
             GameObject.FindGameObjectWithTag("MiscScoreManager").GetComponent<ScoreManager>().foundEnemy(num);
-            Debug.Log("LoL");
         }
         catch
         {

@@ -93,7 +93,12 @@ public class DollsCombat : MonoBehaviour
     }
     void FireBullet()
     {
-        if (setEnemy != null && setEnemy.gameObject.activeSelf == true && counter < crewNum)
+        if (setEnemy == null || setEnemy.gameObject.activeSelf == false)
+        {
+            counter++;
+            SwitchTarget();
+        }
+        else if (setEnemy != null && setEnemy.gameObject.activeSelf == true && counter < crewNum)
         {
             try
             {
@@ -121,15 +126,10 @@ public class DollsCombat : MonoBehaviour
                 shot.dollsList = allDolls;
                 shot.whoShotMe = "player";
                 shot.firstImpact = true;
-            } catch
+            } catch (System.Exception ex)
             {
-                Debug.LogError(counter);
+                Debug.LogError(ex);
             }
-        } else if (setEnemy == null || !setEnemy.gameObject.activeSelf)
-        {
-            SwitchTarget();
-            counter--;
-            FireBullet();
         }
     }
     void SwitchTarget()
@@ -138,10 +138,6 @@ public class DollsCombat : MonoBehaviour
         {
             for (int i = 0; i < enemyList.Count; i++)
             {
-                if (i >= enemyList.Count)
-                {
-                    break;
-                }
                 if (enemyList[i] == null)
                 {
                     continue;
@@ -159,9 +155,11 @@ public class DollsCombat : MonoBehaviour
                     if (!map.IsBlocked(currentTile, enemyList[i].transform.position))
                     {
                         setEnemy = enemyList[i];
+                        break;
                     }
                 }
             }
+            setEnemy = null;
         }
         catch
         {

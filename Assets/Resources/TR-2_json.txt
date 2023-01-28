@@ -20,7 +20,14 @@
 		},
 		{
 			"spawnType": 1,
-			"spawnTile": "Map4_5",
+			"spawnTile": "Map3_6",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 1,
+			"spawnTile": "Map5_6",
 			"spawnTime": 0,
 			"nextTile": [],
 			"waitTime": []
