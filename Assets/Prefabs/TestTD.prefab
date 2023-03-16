@@ -962,7 +962,7 @@ GameObject:
   - component: {fileID: 4951395501016189375}
   - component: {fileID: 4951395501016189373}
   - component: {fileID: 4951395501016189374}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: EnemyCollider
   m_TagString: Enemy
   m_Icon: {fileID: 0}

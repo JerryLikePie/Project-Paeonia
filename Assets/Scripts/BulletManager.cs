@@ -44,12 +44,16 @@ public class BulletManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         CheckIfHit();
     }
     void CheckIfHit()
     {
+        if (speed < 0)
+        {
+            transform.position += transform.forward * (-speed) * Time.deltaTime;
+        }
         if (transform.position.y <= 0 || Vector3Equal(transform.position, WhereTheShotWillGo))
         {
             bullet.SetActive(false);
@@ -79,7 +83,7 @@ public class BulletManager : MonoBehaviour
                 catch { }
                 
             }
-            Destroy(gameObject,0.5f);
+            Destroy(gameObject,0.05f);
         }
     }
     void HitPlayer()

@@ -6,7 +6,6 @@ using static Utilities;
 public class DollsPoolManager : MonoBehaviour
 {
     public int[] dollsInputted;
-    [SerializeField] private AudioSource touchSound;
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -17,17 +16,6 @@ public class DollsPoolManager : MonoBehaviour
                 Destroy(Object.FindObjectsOfType<DollsPoolManager>()[i].gameObject);
             }
         }
-    }
-    private void Update()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            touchSound.Play();
-        }
-    }
-    private void OnMouseDown()
-    {
-        touchSound.Play();
     }
 
     [SerializeField] public Charactor[] dolls;

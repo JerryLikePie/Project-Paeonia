@@ -40,7 +40,7 @@ public class DollsCombat : MonoBehaviour
     [HideInInspector] public float[] healthRestrictLine = { 0, 0, 0, 0, 0, 0 };
 
 
-    [HideInInspector] public bool canFire = true;
+    [HideInInspector] public bool canFire = true, outofAmmo = false;
     bool firstTime;
 
     [HideInInspector] public int counter, healthLevel, height, reloadStartTime;
@@ -107,7 +107,7 @@ public class DollsCombat : MonoBehaviour
                 bulletThatWasShot.transform.LookAt(setEnemy.transform);
                 shot = bulletThatWasShot.GetComponent<BulletManager>();
                 shot.shotType = dolls.dolls_ammo_type;
-                shot.speed = dolls.dolls_shell_speed;
+                shot.speed = -dolls.dolls_shell_speed;
                 shot.WhereTheShotWillGo = setEnemy.transform.position;
                 shot.damage = (dolls.dolls_sts_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
                 shot.damageIndicate = shot.damage.ToString("F0");
@@ -208,6 +208,38 @@ public class DollsCombat : MonoBehaviour
         //shot.GetComponent<Rigidbody>().velocity = planeVelocity * 70f;
     }
 
+    void GunRun()
+    {
+        GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
+        bulletThatWasShot.SetActive(true);
+        bulletThatWasShot.transform.LookAt(setEnemy.transform);
+        shot = bulletThatWasShot.GetComponent<BulletManager>();
+        shot.shotType = dolls.dolls_ammo_type;
+        shot.speed = dolls.dolls_shell_speed;
+        shot.WhereTheShotWillGo = setEnemy.transform.position;
+        shot.damage = (dolls.dolls_ats_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
+        shot.damageIndicate = shot.damage.ToString("F0");
+        float randomPen = dolls.dolls_penetration + Random.Range(-2f, 2f);
+        shot.penetration = randomPen;
+        if (Random.Range(0, 100) < setEnemy.dodge - (dolls.dolls_accuracy + accurancyBuff))
+        {
+            shot.damage = 0;
+            //判定，被闪避了那就miss
+            shot.damageIndicate = "miss";
+        }
+        shot.penetration = randomPen;
+        shot.sender = dollsEntities[counter].gameObject;
+        if (shot.sender == null)
+        {
+            shot.sender = gameObject;
+        }
+        counter++;
+        shot.enemyList = allEnemy;
+        shot.dollsList = allDolls;
+        shot.whoShotMe = "player";
+        shot.firstImpact = true;
+    }
+
     public void Attack()
     {
         StartCoroutine(SetInactiveAfterFire());
@@ -228,7 +260,18 @@ public class DollsCombat : MonoBehaviour
             }
         }
         counter = 0;
-
+    }
+    public void Strafe()
+    {
+        counter = 0;
+        for (int i = 0; i < crewNum; i++)
+        {
+            if (dolls.dolls_type == 3)
+            {
+                Invoke("GunRun", 0f);
+            }
+        }
+        counter = 0;
     }
     void ResetCord()
     {
@@ -357,6 +400,28 @@ public class DollsCombat : MonoBehaviour
         else
         {
             StartCoroutine(Reload());
+        }
+    }
+    public IEnumerator FireRate(float givenSecond, bool doReload)
+    {
+        canFire = false;
+        if (shotsInMag > 1)
+        {
+            yield return new WaitForSeconds(givenSecond);
+            shotsInMag -= 1;
+            canFire = true;
+        }
+        else
+        {
+            if (doReload)
+            {
+                StartCoroutine(Reload());
+            }
+            else
+            {
+                outofAmmo = true;
+            }
+            
         }
     }
     public void RecieveDamage(float num)

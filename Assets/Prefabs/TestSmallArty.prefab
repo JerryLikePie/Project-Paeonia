@@ -16080,7 +16080,7 @@ GameObject:
   - component: {fileID: 7215935892473389762}
   - component: {fileID: 7215935892473389760}
   - component: {fileID: 7215935892473389763}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: EnemyCollider
   m_TagString: Enemy
   m_Icon: {fileID: 0}
