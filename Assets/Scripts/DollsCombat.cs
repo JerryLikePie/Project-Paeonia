@@ -30,7 +30,7 @@ public class DollsCombat : MonoBehaviour
     public int crewNum;
     Hex nextTile;
     [HideInInspector] public Hex currentTile;
-    public GameObject bullet;
+    public GameObject bullet, gunCenter;
     public AudioSource reloadStartSound, reloadEndSound;
     public int shotsInMag;
     BulletManager shot;
@@ -46,6 +46,8 @@ public class DollsCombat : MonoBehaviour
     [HideInInspector] public int counter, healthLevel, height, reloadStartTime;
     public float resetTime;
     float newMaxHealth;
+
+    private Vector3 up = new Vector3(0, 1, 0);
 
     void Start()
     {
@@ -107,7 +109,7 @@ public class DollsCombat : MonoBehaviour
                 bulletThatWasShot.transform.LookAt(setEnemy.transform);
                 shot = bulletThatWasShot.GetComponent<BulletManager>();
                 shot.shotType = dolls.dolls_ammo_type;
-                shot.speed = -dolls.dolls_shell_speed;
+                shot.speed = dolls.dolls_shell_speed;
                 shot.WhereTheShotWillGo = setEnemy.transform.position;
                 shot.damage = (dolls.dolls_sts_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
                 shot.damageIndicate = shot.damage.ToString("F0");
@@ -212,11 +214,11 @@ public class DollsCombat : MonoBehaviour
     {
         GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
         bulletThatWasShot.SetActive(true);
-        bulletThatWasShot.transform.LookAt(setEnemy.transform);
+        bulletThatWasShot.transform.LookAt(gunCenter.transform);
         shot = bulletThatWasShot.GetComponent<BulletManager>();
         shot.shotType = dolls.dolls_ammo_type;
-        shot.speed = dolls.dolls_shell_speed;
-        shot.WhereTheShotWillGo = setEnemy.transform.position;
+        shot.speed = -dolls.dolls_shell_speed;
+        shot.WhereTheShotWillGo = gunCenter.transform.position;
         shot.damage = (dolls.dolls_ats_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
         shot.damageIndicate = shot.damage.ToString("F0");
         float randomPen = dolls.dolls_penetration + Random.Range(-2f, 2f);
@@ -268,7 +270,7 @@ public class DollsCombat : MonoBehaviour
         {
             if (dolls.dolls_type == 3)
             {
-                Invoke("GunRun", 0f);
+                Invoke("GunRun", Random.Range(0f,0f));
             }
         }
         counter = 0;

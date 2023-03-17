@@ -7,14 +7,14 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
 {
 
     private Queue<Hex> toCancelFog;
-    Vector3 airBase = new Vector3(-310, 50, 100);
+    Vector3 airBase = new Vector3(-500, 50, 100);
     Vector3 exitPoint = new Vector3(500, 80, 100);
     private Vector3 height = new Vector3(0, 1, 0);
     public float airSpeed;
     private long timenow;
     private float time;
     public bool canAttack;
-    public AudioSource gunning, gunEnd, gunBase;
+    public AudioSource gunning;
     public GameObject getTarget;
     private Vector3 target;
     GameObject setEnemy;
@@ -46,6 +46,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
 
     public override void CheckEnemy(DollsCombat context)
     {
+        flipSpriteOnDirection(context);
         if (context.outofAmmo)
         {
             Debug.Log("We are out of ammo!");
@@ -107,12 +108,8 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
         // Depending on the distance to the target, change the behavior
         if (setEnemy.activeSelf == false)
         {
-            Debug.Log("没有找到敌人");
-
-
             targetLocked = false;
             target = airBase;
-            
         }
         else
         {
@@ -181,11 +178,34 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
         return newPos;
     }
 
+    void flipSpriteOnDirection(DollsCombat context)
+    {
+        for (int i = 0; i < context.crewNum; i++)
+        {
+            context.dollsEntities[i].flip(isGoingRight());
+        }
+    }
+
+    bool isGoingRight()
+    {
+        Vector3 forward = transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
+        float relative = Vector3.Dot(forward, camRight);
+        if (relative > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     void AttackObjects(DollsCombat context)
     {
         RaycastHit hit;
         int layerMask = 1 << 11;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 140f, layerMask))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 180f, layerMask))
         {
             if (hit.collider.gameObject.tag == "Enemy")
             {
@@ -195,18 +215,12 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
                     context.planeVelocity = transform.forward * airSpeed * Time.deltaTime * 60;
                     context.counter = 0;
                     context.Strafe();
-                    if (!gunning.isPlaying)
-                    {
-                        //gunning.PlayOneShot(gunning.clip);
-                        //gunBase.PlayOneShot(gunBase.clip);
-                    }
                     StartCoroutine(context.FireRate(gunning.clip.length, false));
 
                 }
-                //Destroy(hit.collider.gameObject);
             }
-
         }
+
 
     }
 

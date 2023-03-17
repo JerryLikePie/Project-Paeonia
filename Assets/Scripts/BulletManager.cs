@@ -37,8 +37,12 @@ public class BulletManager : MonoBehaviour
         Rigidbody obj = gameObject.GetComponent<Rigidbody>();
         randomDisplacement = new Vector3(Random.Range(-randomRange, randomRange), Random.Range(-randomRange, randomRange), Random.Range(-randomRange, randomRange));
         WhereTheShotWillGo += randomDisplacement;
-        if (speed != 0) {
+        if (speed > 0) {
             obj.velocity = CalculateVelocity(WhereTheShotWillGo, sender, speed);
+        }
+        else if (speed < 0)
+        {
+            transform.Rotate(randomDisplacement);
         }
         Destroy(gameObject,9f);
     }
