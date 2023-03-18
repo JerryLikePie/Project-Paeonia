@@ -8,6 +8,7 @@ public class IDollsSkillBehavior : MonoBehaviour
     [HideInInspector] public long timeStart, timeElapsed;//记录技能开始时间和已经过去的时间
     [HideInInspector] public float percentageTime, timeleft;//已经过去的百分比，用于黑色overlay的长度，以及剩余多少时间
     [HideInInspector] public bool inCoolDown = false;//在不在技能冷却时间里面
+    [HideInInspector] public bool isInConstantUse = false;//在不在技能持续时间范围内
     [HideInInspector] public Hex[] allTiles;
     public IDollsSkillBehavior secondSkill;
 
@@ -52,13 +53,17 @@ public class IDollsSkillBehavior : MonoBehaviour
     {
         //被动
     }
-    
+
     public void CoolDownPanel()
     {
         //冷却时间的技能图标变黑以及倒数显示，所有技能通用，就放在这里
+        // 该技能是瞬间完成的
         if (inCoolDown)
         {
-            showTime.SetActive(true);
+            if (!showTime.activeSelf)
+            {
+                showTime.SetActive(true);
+            }
             timeElapsed = System.DateTime.Now.Ticks - timeStart; // 计算已经cd了多久
             percentageTime = timeElapsed / (cooldownTime * 10000000);
             cooldown.transform.localScale = new Vector3(1.05f * (1 - percentageTime), 1.05f, 1f);
@@ -69,6 +74,15 @@ public class IDollsSkillBehavior : MonoBehaviour
                 inCoolDown = false;
                 showTime.SetActive(false);
             }
+        }
+        else if (isInConstantUse)
+        {
+            if (!showTime.activeSelf)
+            {
+                showTime.SetActive(true);
+            }
+            cooldown.transform.localScale = new Vector3(1.05f, 1.05f, 1f);
+            showTime.GetComponent<Text>().text = "使用中";
         }
     }
 }

@@ -11,8 +11,9 @@ public class U17S1_AP1 : IDollsSkillBehavior
         timeStart = System.DateTime.Now.Ticks;
         unit.supportTargetCord = location;
         ((AttackerCombatBehavior)unit.combatBehaviour).flyEndCord = 2.5f * location.position - unit.transform.position;
-        unit.combatBehaviour.CheckEnemy(unit);
+        
         ((AttackerCombatBehavior)unit.combatBehaviour).canAttack = true;
+        unit.combatBehaviour.CheckEnemy(unit);
     }
     void Start()
     {

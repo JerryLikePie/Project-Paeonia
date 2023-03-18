@@ -6,7 +6,7 @@ public class EnemyProperty : MonoBehaviour
 {
     public string enemy_name;//名称
     public int enemy_id;//ID
-    public int enemy_type;//1陆军 2支援 3空军 4防空
+    public int enemy_type;//1陆军 2标点火炮 3非标点火炮 4防空 5飞机
     public int enemy_range;//攻击距离
     public float enemy_max_hp;//最大生命值
     public float[] enemy_damage_recieved_multiplier;//不同弹种的伤害不一样
@@ -41,4 +41,16 @@ public class EnemyProperty : MonoBehaviour
 
     public int enemy_mag;//弹夹数量，如果不是弹夹炮那就是1发
     public int enemy_shell_speed;//弹速
+
+
+    float storeAttack;
+    float storeReload;
+    float storePen;
+
+    void Start()
+    {
+        storeAttack = enemy_sts_attack;
+        storeReload = enemy_reload;
+        storePen = enemy_penetration;
+    }
 }

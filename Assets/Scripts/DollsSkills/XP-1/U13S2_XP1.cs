@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class U13S1_XP1 : IDollsSkillBehavior
+public class U13S2_XP1 : IDollsSkillBehavior
 {
-    //研驱1：对地
+    //研驱1：制空
     public override void activateSkill(Transform location)
     {
-        Debug.Log(location + " 研驱1使用1技能");
+        Debug.Log(location + " 研驱1使用2技能");
         ((FighterCombatBehavior)unit.combatBehaviour).newTask();
         isInConstantUse = true;
         unit.supportTargetCord = location;
-        ((FighterCombatBehavior)unit.combatBehaviour).canAttack = true;
+        ((FighterCombatBehavior)unit.combatBehaviour).canAttack = false;
         unit.combatBehaviour.CheckEnemy(unit);
-        //((FighterCombatBehavior)unit.combatBehaviour).canAttack = true;
     }
 
     void delayedCooldown()

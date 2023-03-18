@@ -29,6 +29,7 @@ public class BulletManager : MonoBehaviour
     public float DamageRange;
     Vector3 randomDisplacement;
     public float randomRange;
+    public bool onCollision;
 
     void Start()
     {
@@ -44,13 +45,20 @@ public class BulletManager : MonoBehaviour
         {
             transform.Rotate(randomDisplacement);
         }
-        Destroy(gameObject,9f);
+        Destroy(gameObject,8f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckIfHit();
+        if (onCollision)
+        {
+            CheckIfCollide();
+        }
+        else
+        {
+            CheckIfHit();
+        }
     }
     void CheckIfHit()
     {
@@ -90,6 +98,102 @@ public class BulletManager : MonoBehaviour
             Destroy(gameObject,0.05f);
         }
     }
+
+    void CheckIfCollide()
+    {
+        if (speed < 0)
+        {
+            transform.position += transform.forward * (-speed) * Time.deltaTime;
+        }
+        if (transform.position.y <= 0)
+        {
+            bullet.SetActive(false);
+            if (firstImpact == true)
+            {
+                try
+                {
+                    GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+                    Destroy(newSound, 5f);
+                    GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+                    Destroy(newVisual, 5f);
+                    firstImpact = false;
+                    if (whoShotMe == "player")
+                    {
+                        HitEnemy();
+                    }
+                    else if (whoShotMe == "enemy")
+                    {
+                        HitPlayer();
+                    }
+                    else if (whoShotMe == "hitAll")
+                    {
+                        HitEnemy();
+                        HitPlayer();
+                    }
+                }
+                catch { }
+
+            }
+            Destroy(gameObject, 0.05f);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        try
+        {
+            if (onCollision)
+            {
+                if (whoShotMe == "player")
+                {
+                    if (collision.gameObject.tag == "Enemy")
+                    {
+
+                        GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+                        Destroy(newSound, 5f);
+                        GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+                        Destroy(newVisual, 5f);
+                        firstImpact = false;
+                        HitEnemy(collision.collider);
+                        Destroy(gameObject, 0.05f);
+                    }
+                }
+                else if (whoShotMe == "enemy")
+                {
+                    if (collision.gameObject.tag == "Friendly")
+                    {
+                        GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+                        Destroy(newSound, 5f);
+                        GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+                        Destroy(newVisual, 5f);
+                        firstImpact = false;
+                        HitPlayer();
+                        Destroy(gameObject, 0.05f);
+                    }
+                }
+                else if (whoShotMe == "hitAll")
+                {
+                    if (collision.gameObject.tag == "Friendly" || collision.gameObject.tag == "Enemy")
+                    {
+                        GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+                        Destroy(newSound, 5f);
+                        GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+                        Destroy(newVisual, 5f);
+                        firstImpact = false;
+                        HitEnemy();
+                        HitPlayer();
+                        Destroy(gameObject, 0.05f);
+                    }
+                }
+            }
+        }
+        catch 
+        {
+            Debug.LogError("Well this bullet system is not done yet so.");
+        }
+        
+    }
+
     void HitPlayer()
     {
         for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
@@ -198,6 +302,53 @@ public class BulletManager : MonoBehaviour
                 }
             }
            
+        }
+    }
+
+    void HitEnemy(Collider col)
+    {
+        enemy = col.GetComponentInParent<EnemyCombat>();
+        if (shotType == 2 || shotType == 4)
+        {
+            damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType] * (1 / (Vector3.Distance(enemy.transform.position, transform.position) / 17.3f));
+        }
+        else
+        {
+            damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
+
+        }
+        randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
+
+        if (damageIndicate == "miss")
+        {
+            GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+        }
+        else if (enemy.enemy.enemy_armor_front > penetration)
+        {
+            GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+            damage = 0;
+            damageIndicate = "hit";
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+        }
+        else
+        {
+            GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+            if (shotType == 2 || shotType == 4)
+            {
+                enemy.RecieveExplosiveDamage(damage);
+            }
+            else
+            {
+                enemy.RecieveDamage(damage);
+            }
         }
     }
 

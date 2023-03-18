@@ -354,11 +354,11 @@ public class MapCreate : MonoBehaviour
                 {
                     skill1.secondSkill.unit = spawnedUnit.GetComponent<DollsCombat>();
                     skill1.secondSkill.loadMap();
-                    if (skill1.secondSkill.secondSkill != null)
-                    {
-                        skill1.secondSkill.secondSkill.unit = spawnedUnit.GetComponent<DollsCombat>();
-                        skill1.secondSkill.secondSkill.loadMap();
-                    }
+                    //if (skill1.secondSkill.secondSkill != null)
+                    //{
+                    //    skill1.secondSkill.secondSkill.unit = spawnedUnit.GetComponent<DollsCombat>();
+                    //    skill1.secondSkill.secondSkill.loadMap();
+                    //}
                 }
                 spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
             }

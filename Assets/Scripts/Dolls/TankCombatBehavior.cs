@@ -22,6 +22,14 @@ public class TankCombatBehavior : IDollsCombatBehaviour
             {
                 context.enemyList.RemoveAt(j);
                 j = 0;
+                continue;
+            }
+            if (context.enemyList[j].enemy.enemy_type == 3)
+            {
+                // ¿Õ¾ü²»¿¼ÂÇ
+                context.enemyList.RemoveAt(j);
+                j = 0;
+                continue;
             }
         }
         if (context.canFire)

@@ -44,8 +44,9 @@ public class EnemyCombat : MonoBehaviour
     public Transform artyTarget;
     bool enemyInRange = false;
     public float aaAttackInterval;
-
+    private Vector3 startPos, target; //临时
     bool firstTimeFound = true;
+    private Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
@@ -61,11 +62,22 @@ public class EnemyCombat : MonoBehaviour
         shotsInMag = enemy.enemy_mag;
         healthLevel = crewNum - 1;
         destination = transform.position;
+        if (enemy.enemy_type == 5)
+        {
+            //空军的话，飞起来
+            transform.position = transform.position + Vector3.up * 50;
+            map.transform.Find("Map" + hang + "_" + lie).transform.GetComponent<Hex>().haveEnemy = false;
+            rb = GetComponent<Rigidbody>();
+            // Disable the gravity
+            rb.useGravity = false;
+        }
         for (int i = 0; i <= crewNum; i++)
         {
             healthRestrictLine[i] = health * ((float)i / (float)crewNum);
         }
-    }
+        startPos = transform.position;
+        target = startPos;
+}
 
     // Update is called once per frame
     void Update()
@@ -100,6 +112,9 @@ public class EnemyCombat : MonoBehaviour
                     break;
                 case 4:
                     AntiAirCheckDolls();
+                    break;
+                case 5:
+                    AirCheckDolls();
                     break;
 
             }
@@ -349,6 +364,59 @@ public class EnemyCombat : MonoBehaviour
         {
         }
     }
+    public void AirCheckDolls()
+    {
+        // wander
+        try
+        {
+            bool inRange = false;
+            for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
+            {
+                dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
+
+                if (dolls.dolls.dolls_type != 3)
+                {
+                    continue;
+                }
+                if (FindDistance(transform.position, startPos) > 400)
+                {
+                    continue;
+                }
+                if (FindDistance(transform.gameObject, dolls.gameObject) <= 17.5 * (enemy.enemy_range + 20 + rangeBuff))
+                {
+                    inRange = true;
+                    target = dolls.transform.position;
+                }
+            }
+            if (!inRange)
+            {
+                target = startPos;
+            }
+        }
+        catch
+        {
+        }
+        moveToTarget();
+    }
+
+    void moveToTarget()
+    {
+        //临时用着吧
+        transform.position += transform.forward * 25 * Time.deltaTime;
+        Vector3 direction = (target - transform.position).normalized;
+        float angle = Vector3.Angle(transform.forward, direction);
+        //float distance = FindDistance(target, transform.position);
+
+        // If the angle is not zero, rotate towards the direction vector 
+        if (angle != 0)
+        {
+            // Calculate the cross product of the forward vector and the direction vector 
+            Vector3 cross = Vector3.Cross(transform.forward, direction);
+            var rotate = Quaternion.LookRotation(target - transform.position);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotate, 0.5f * Time.deltaTime);
+        }
+    }
+
     public void AntiAirCheckDolls()
     {
         try
@@ -482,6 +550,18 @@ public class EnemyCombat : MonoBehaviour
     }
     void FogOfWar()
     {
+        if (enemy.enemy_type == 5)
+        {
+            // 空军一直被点亮
+            enemy.enemy_visible = true;
+            toHideTheEnemy.SetActive(true);
+            if (firstTimeFound)
+            {
+                firstTimeFound = false;
+                gameIntensifies(1);
+            }
+            return;
+        }
         Hex hex = map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>();
         if (hex.isInFog <= 0 && isFiring == false)
         {

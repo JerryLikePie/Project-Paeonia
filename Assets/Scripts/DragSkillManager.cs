@@ -47,14 +47,23 @@ public class DragSkillManager: MonoBehaviour,IDragHandler,IEndDragHandler,IBegin
                 for (int i = rayinfo.Length - 1; i >= 0; i--)
                 {
                     GameObject targetObject = rayinfo[i].collider.transform.parent.gameObject;
-                    if (targetObject.GetComponent<Hex>() != null && !skill.inCoolDown)
+                    if (targetObject.GetComponent<Hex>() != null && !skill.inCoolDown && !skill.isInConstantUse)
                     {
+                        if (skill.secondSkill != null)
+                        {
+                            if (skill.secondSkill.inCoolDown || skill.secondSkill.isInConstantUse)
+                            {
+                                parent.GetComponent<ClickAndMove>().isUp = false;
+                                parent.GetComponent<ClickAndMove>().TimeToGoDown = true;
+                                continue;
+                            }
+                        }
                         tiletoSpawn = targetObject.GetComponent<Hex>();
                         if (Vector3.Distance(tiletoSpawn.transform.position, skill.unit.transform.position) < 17.5 * skill.range)
                         {
                             skill.unit.combatBehaviour.firstTime = true;
                             skill.activateSkill(tiletoSpawn.transform);
-                            skill.inCoolDown = true;
+                            //skill.inCoolDown = true;
                             skill.showTime.SetActive(true);
                         }
                     }

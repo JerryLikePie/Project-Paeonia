@@ -534,6 +534,7 @@ MonoBehaviour:
   percentageTime: 0
   timeleft: 0
   inCoolDown: 0
+  isInConstantUse: 0
   allTiles: []
   secondSkill: {fileID: 1079571242}
   cooldownTime: 35
@@ -699,7 +700,7 @@ GameObject:
   - component: {fileID: 42107392}
   - component: {fileID: 42107391}
   - component: {fileID: 42107390}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1037,6 +1038,7 @@ MonoBehaviour:
   percentageTime: 0
   timeleft: 0
   inCoolDown: 0
+  isInConstantUse: 0
   allTiles: []
   secondSkill: {fileID: 0}
   cooldownTime: 72
@@ -2408,7 +2410,7 @@ MonoBehaviour:
   isUp: 0
   isDown: 0
   TimeToGoDown: 0
-  hereIsUp: {x: 0, y: 140, z: 0}
+  hereIsUp: {x: 0, y: 280, z: 0}
   hereIsDown: {x: 0, y: 0, z: 0}
   additionMode: 0
   hereIsChange: {x: 0, y: 0, z: 0}
@@ -2424,6 +2426,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1312159054}
+  - {fileID: 1737482938}
   m_Father: {fileID: 46393820}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5340,6 +5343,7 @@ MonoBehaviour:
   percentageTime: 0
   timeleft: 0
   inCoolDown: 0
+  isInConstantUse: 0
   allTiles: []
   secondSkill: {fileID: 0}
   cooldownTime: 0
@@ -5504,7 +5508,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2c0714c78243efd4995440dc53f54a06, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4eb707d124a37734abe2cb73156531cd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5646,6 +5650,7 @@ MonoBehaviour:
   percentageTime: 0
   timeleft: 0
   inCoolDown: 0
+  isInConstantUse: 0
   allTiles: []
   secondSkill: {fileID: 0}
   cooldownTime: 16
@@ -7172,8 +7177,9 @@ MonoBehaviour:
   percentageTime: 0
   timeleft: 0
   inCoolDown: 0
+  isInConstantUse: 0
   allTiles: []
-  secondSkill: {fileID: 0}
+  secondSkill: {fileID: 35774729}
   cooldownTime: 28
   showTime: {fileID: 1904650807}
   cooldown: {fileID: 26783952}
@@ -8556,9 +8562,10 @@ MonoBehaviour:
   percentageTime: 0
   timeleft: 0
   inCoolDown: 0
+  isInConstantUse: 0
   allTiles: []
-  secondSkill: {fileID: 0}
-  cooldownTime: 50
+  secondSkill: {fileID: 1737482939}
+  cooldownTime: 20
   showTime: {fileID: 875781942}
   cooldown: {fileID: 292483543}
   range: 999
@@ -8601,7 +8608,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2c0714c78243efd4995440dc53f54a06, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7487d1977cf70ac4194b96290cf442c9, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -8923,6 +8930,7 @@ MonoBehaviour:
   percentageTime: 0
   timeleft: 0
   inCoolDown: 0
+  isInConstantUse: 0
   allTiles: []
   secondSkill: {fileID: 0}
   cooldownTime: 6
@@ -9108,7 +9116,11 @@ MonoBehaviour:
   - {fileID: 7215935891652757822, guid: 55e730855f4f9fd4faf69584cafab7c7, type: 3}
   - {fileID: 7215935891652757822, guid: d62cb9c8d4039e64ba2cce7522c29d59, type: 3}
   - {fileID: 7215935891652757822, guid: bf1fa73da5980d340867a767b1e707bd, type: 3}
-  - {fileID: 722467874009513314, guid: 56c5cf35a6036554fb4af7640f3a4824, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 3447162699093262835, guid: 5999bd9f569023744b891bd5f9898ee0, type: 3}
   SkillSlot:
   - {fileID: 1599607165}
   - {fileID: 860770850}
@@ -11345,6 +11357,126 @@ RectTransform:
   m_AnchoredPosition: {x: 225, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1737482937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1737482938}
+  - component: {fileID: 1737482942}
+  - component: {fileID: 1737482941}
+  - component: {fileID: 1737482940}
+  - component: {fileID: 1737482939}
+  m_Layer: 5
+  m_Name: Unit13SkillImage (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1737482938
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737482937}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00025081635}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 303935499}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -140}
+  m_SizeDelta: {x: 150, y: 150}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1737482939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737482937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e42c15252760f4589795f05bee98cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeStart: 0
+  timeElapsed: 0
+  percentageTime: 0
+  timeleft: 0
+  inCoolDown: 0
+  isInConstantUse: 0
+  allTiles: []
+  secondSkill: {fileID: 1312159055}
+  cooldownTime: 20
+  showTime: {fileID: 875781942}
+  cooldown: {fileID: 292483543}
+  range: 999
+  unit: {fileID: 0}
+  mapList: {fileID: 1408817938}
+--- !u!114 &1737482940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737482937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68c64711b26079d4ab083df93aaab2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Anchor: {fileID: 1015263955}
+  canSpawn: 0
+  isDragging: 0
+  skill: {fileID: 1737482939}
+  snapBack: {x: 0, y: -140, z: 0}
+--- !u!114 &1737482941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737482937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a3b5843cf7bd93b4a885ca8e7901dda8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1737482942
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737482937}
+  m_CullTransparentMesh: 1
 --- !u!1 &1757687357
 GameObject:
   m_ObjectHideFlags: 0
@@ -11382,6 +11514,7 @@ MonoBehaviour:
   percentageTime: 0
   timeleft: 0
   inCoolDown: 0
+  isInConstantUse: 0
   allTiles: []
   secondSkill: {fileID: 0}
   cooldownTime: 30

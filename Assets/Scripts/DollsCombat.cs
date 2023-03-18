@@ -48,6 +48,7 @@ public class DollsCombat : MonoBehaviour
     float newMaxHealth;
 
     private Vector3 up = new Vector3(0, 1, 0);
+    
 
     void Start()
     {
@@ -218,7 +219,7 @@ public class DollsCombat : MonoBehaviour
         shot = bulletThatWasShot.GetComponent<BulletManager>();
         shot.shotType = dolls.dolls_ammo_type;
         shot.speed = -dolls.dolls_shell_speed;
-        shot.WhereTheShotWillGo = gunCenter.transform.position;
+        shot.WhereTheShotWillGo = setEnemy.transform.position;
         shot.damage = (dolls.dolls_ats_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
         shot.damageIndicate = shot.damage.ToString("F0");
         float randomPen = dolls.dolls_penetration + Random.Range(-2f, 2f);
@@ -270,11 +271,12 @@ public class DollsCombat : MonoBehaviour
         {
             if (dolls.dolls_type == 3)
             {
-                Invoke("GunRun", Random.Range(0f,0f));
+                Invoke("GunRun", Random.Range(0f,0.03f));
             }
         }
         counter = 0;
     }
+
     void ResetCord()
     {
         supportTargetCord = null;
@@ -389,6 +391,7 @@ public class DollsCombat : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         shotsInMag = dolls.dolls_mag;
         canFire = true;
+        outofAmmo = false;
     }
     public IEnumerator FireRate()
     {
