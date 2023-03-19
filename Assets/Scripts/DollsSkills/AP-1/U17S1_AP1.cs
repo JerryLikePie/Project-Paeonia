@@ -7,14 +7,28 @@ public class U17S1_AP1 : IDollsSkillBehavior
     //复兴号 炸弹
     public override void activateSkill(Transform location)
     {
-        inCoolDown = true;
-        timeStart = System.DateTime.Now.Ticks;
+        Debug.Log(location + " 复兴甲使用1技能");
+        ((AttackerCombatBehavior)unit.combatBehaviour).newTask();
+        isInConstantUse = true;
         unit.supportTargetCord = location;
-        ((AttackerCombatBehavior)unit.combatBehaviour).flyEndCord = 2.5f * location.position - unit.transform.position;
-        
         ((AttackerCombatBehavior)unit.combatBehaviour).canAttack = true;
+        ((AttackerCombatBehavior)unit.combatBehaviour).useGun = false;
         unit.combatBehaviour.CheckEnemy(unit);
     }
+    void delayedCooldown()
+    {
+        if (isInConstantUse)
+        {
+            if (((AttackerCombatBehavior)unit.combatBehaviour).taskDone())
+            {
+                isInConstantUse = false;
+                inCoolDown = true;
+                timeStart = System.DateTime.Now.Ticks;
+            }
+        }
+        CoolDownPanel();
+    }
+
     void Start()
     {
         cooldown.transform.localScale = new Vector3(0, 1.05f, 1f);
@@ -27,9 +41,9 @@ public class U17S1_AP1 : IDollsSkillBehavior
             cooldown.transform.localScale = new Vector3(1.05f, 1.05f, 1f);
             inCoolDown = true;
         }
-        else
+        else if (unit != null)
         {
-            CoolDownPanel();
+            delayedCooldown();
         }
     }
 }

@@ -62,6 +62,7 @@ public class BulletManager : MonoBehaviour
     }
     void CheckIfHit()
     {
+        
         if (speed < 0)
         {
             transform.position += transform.forward * (-speed) * Time.deltaTime;
@@ -138,7 +139,7 @@ public class BulletManager : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         try
         {
@@ -154,7 +155,7 @@ public class BulletManager : MonoBehaviour
                         GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
                         Destroy(newVisual, 5f);
                         firstImpact = false;
-                        HitEnemy(collision.collider);
+                        HitEnemy(collision);
                         Destroy(gameObject, 0.05f);
                     }
                 }
@@ -167,7 +168,7 @@ public class BulletManager : MonoBehaviour
                         GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
                         Destroy(newVisual, 5f);
                         firstImpact = false;
-                        HitPlayer();
+                        HitPlayer(collision);
                         Destroy(gameObject, 0.05f);
                     }
                 }
@@ -229,7 +230,7 @@ public class BulletManager : MonoBehaviour
                             Destroy(damageText, 1.5f);
                             if (shotType == 2 || shotType == 4)
                             {
-                                Debug.Log("¸ß±¬µ¯");
+                                //Debug.Log("¸ß±¬µ¯");
                                 dolls.RecieveExplosiveDamage(damage);
                             }
                             else
@@ -247,6 +248,52 @@ public class BulletManager : MonoBehaviour
             }
         }
     }
+
+    void HitPlayer(Collider col)
+    {
+        dolls = col.GetComponentInParent<DollsCombat>();
+        if (dolls == null)
+        {
+            return;
+        }
+        if (!dolls.gameObject.activeSelf)
+        {
+            return;
+        }
+        randomDisplacement = new Vector3(Random.Range(-5f, 5f), Random.Range(-1f, 1f), Random.Range(-5f, 5f));
+        if (damageIndicate == "miss")
+        {
+            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.gray;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+        }
+        else if (damageIndicate == "hit")
+        {
+            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+        }
+        else
+        {
+            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+            if (shotType == 2 || shotType == 4)
+            {
+                Debug.Log("¸ß±¬µ¯");
+                dolls.RecieveExplosiveDamage(damage);
+            }
+            else
+            {
+                dolls.RecieveDamage(damage);
+            }
+
+        }
+    }
+
     void HitEnemy()
     {
         for (int i = 0; i <= enemyList.transform.childCount - 1; i++)
@@ -308,6 +355,14 @@ public class BulletManager : MonoBehaviour
     void HitEnemy(Collider col)
     {
         enemy = col.GetComponentInParent<EnemyCombat>();
+        if (enemy == null)
+        {
+            return;
+        }
+        if (!enemy.gameObject.activeSelf)
+        {
+            return;
+        }
         if (shotType == 2 || shotType == 4)
         {
             damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType] * (1 / (Vector3.Distance(enemy.transform.position, transform.position) / 17.3f));

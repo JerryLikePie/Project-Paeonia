@@ -30,13 +30,14 @@ public class DollsCombat : MonoBehaviour
     public int crewNum;
     Hex nextTile;
     [HideInInspector] public Hex currentTile;
-    public GameObject bullet, gunCenter;
+    public GameObject bullet, gunCenter, bomb;
     public AudioSource reloadStartSound, reloadEndSound;
     public int shotsInMag;
+    private int shotsInMag2;
     BulletManager shot;
     //public GameObject lineOfSight;
 
-    [HideInInspector] public Vector3 planeVelocity;
+    [HideInInspector] public float planeVelocity;
     [HideInInspector] public float[] healthRestrictLine = { 0, 0, 0, 0, 0, 0 };
 
 
@@ -64,6 +65,7 @@ public class DollsCombat : MonoBehaviour
         //crewNum = PlayerPrefs.GetInt(dolls.dolls_id + "_crewNum", 1);
         CheckCrewNumber();
         shotsInMag = dolls.dolls_mag;
+        shotsInMag2 = dolls.dolls_mag2;
         SetHealthGradient(healthGradient);
     }
     void CheckCrewNumber()
@@ -192,21 +194,23 @@ public class DollsCombat : MonoBehaviour
     }
     void ThrowBomb()
     {
-        Vector3 randomPoint = supportTargetCord.position + Random.Range(-17, 17) * Vector3.left + Random.Range(-17, 17) * Vector3.forward + 3 * Vector3.up;
-        GameObject bulletThatWasShot = Instantiate(bullet, randomPoint, Quaternion.identity);
+        Vector3 randomPoint = supportTargetCord.position + Random.Range(-5, 5) * Vector3.left + Random.Range(-5, 5) * Vector3.forward + 30 * Vector3.up;
+        GameObject bulletThatWasShot = Instantiate(bomb, dollsEntities[counter].transform.position, Quaternion.identity);
         bulletThatWasShot.SetActive(true);
         shot = bulletThatWasShot.GetComponent<BulletManager>();
-        shot.speed = 3000;
+        shot.speed = -planeVelocity;
         shot.WhereTheShotWillGo = randomPoint;
+        shot.transform.LookAt(transform.position + transform.forward * 100);
         shot.shotType = dolls.dolls_ammo_type;
         shot.damage = (dolls.dolls_ats_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
+        shot.damageIndicate = shot.damage.ToString("F0");
         float randomPen = dolls.dolls_penetration + Random.Range(-1f, 5f);
         shot.penetration = randomPen;
         shot.sender = dollsEntities[counter].gameObject;
         counter++;
         shot.enemyList = allEnemy;
         shot.dollsList = allDolls;
-        shot.whoShotMe = "player";
+        shot.whoShotMe = "hitAll";
         shot.firstImpact = true;
         //shot.GetComponent<Rigidbody>().velocity = planeVelocity * 70f;
     }
@@ -220,7 +224,7 @@ public class DollsCombat : MonoBehaviour
         shot.shotType = dolls.dolls_ammo_type;
         shot.speed = -dolls.dolls_shell_speed;
         shot.WhereTheShotWillGo = setEnemy.transform.position;
-        shot.damage = (dolls.dolls_ats_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
+        shot.damage = (dolls.dolls_ata_attack * dolls.dolls_damage_multiplier) * Random.Range(0.8f, 1.3f);
         shot.damageIndicate = shot.damage.ToString("F0");
         float randomPen = dolls.dolls_penetration + Random.Range(-2f, 2f);
         shot.penetration = randomPen;
@@ -259,7 +263,7 @@ public class DollsCombat : MonoBehaviour
             }
             else if (dolls.dolls_type == 3)
             {
-                Invoke("ThrowBomb", Random.Range(0f, 0.4f));
+                Invoke("ThrowBomb", Random.Range(0f, 0.5f));
             }
         }
         counter = 0;
@@ -271,7 +275,7 @@ public class DollsCombat : MonoBehaviour
         {
             if (dolls.dolls_type == 3)
             {
-                Invoke("GunRun", Random.Range(0f,0.03f));
+                Invoke("GunRun", Random.Range(0f, 0.09f));
             }
         }
         counter = 0;
@@ -292,7 +296,7 @@ public class DollsCombat : MonoBehaviour
     {
         percentageHealth = health / newMaxHealth;
         
-        if (health <= healthRestrictLine[healthLevel + 1]) // a&& dolls.dolls_type == 3
+        if (health <= healthRestrictLine[healthLevel + 1]) // && dolls.dolls_type == 3
         {
             health = health + 0.1f; //我们取消了免费的维修套件和灭火器，现在只有空军有了
         }
@@ -390,6 +394,7 @@ public class DollsCombat : MonoBehaviour
         reloadEndSound.Play();
         yield return new WaitForSeconds(2.5f);
         shotsInMag = dolls.dolls_mag;
+        shotsInMag2 = dolls.dolls_mag2;
         canFire = true;
         outofAmmo = false;
     }
@@ -429,6 +434,32 @@ public class DollsCombat : MonoBehaviour
             
         }
     }
+
+    public IEnumerator FireRate(float givenSecond, bool doReload, bool usingSecondArm, bool thisOneMatters)
+    {
+        canFire = false;
+        if (shotsInMag2 > 1)
+        {
+            yield return new WaitForSeconds(givenSecond);
+            shotsInMag2 -= 1;
+            canFire = true;
+        }
+        else
+        {
+            if (doReload)
+            {
+                StartCoroutine(Reload());
+            }
+            else
+            {
+                if (thisOneMatters)
+                {
+                    outofAmmo = true;
+                }
+            }
+        }
+    }
+
     public void RecieveDamage(float num)
     {
         if (healthLevel >= 0)

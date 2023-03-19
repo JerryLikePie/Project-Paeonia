@@ -13,6 +13,7 @@ TagManager:
   - Inventory
   - MiscScoreManager
   - StoryCanvas
+  - Ground
   layers:
   - Default
   - TransparentFX

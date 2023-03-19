@@ -53,9 +53,12 @@ public class DragSkillManager: MonoBehaviour,IDragHandler,IEndDragHandler,IBegin
                         {
                             if (skill.secondSkill.inCoolDown || skill.secondSkill.isInConstantUse)
                             {
-                                parent.GetComponent<ClickAndMove>().isUp = false;
-                                parent.GetComponent<ClickAndMove>().TimeToGoDown = true;
-                                continue;
+                                if (skill.secondSkill.secondSkill.inCoolDown || skill.secondSkill.secondSkill.isInConstantUse)
+                                {
+                                    parent.GetComponent<ClickAndMove>().isUp = false;
+                                    parent.GetComponent<ClickAndMove>().TimeToGoDown = true;
+                                    continue;
+                                }
                             }
                         }
                         tiletoSpawn = targetObject.GetComponent<Hex>();

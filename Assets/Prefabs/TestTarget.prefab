@@ -215,6 +215,7 @@ MonoBehaviour:
   dollsList: {fileID: 0}
   toHideTheEnemy: {fileID: 4951395500566556863}
   height: 1
+  isTarget: 1
   enemyEntities:
   - {fileID: 5539842265748656162}
   crewNum: 1

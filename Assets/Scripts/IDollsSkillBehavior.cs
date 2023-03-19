@@ -57,9 +57,16 @@ public class IDollsSkillBehavior : MonoBehaviour
     public void CoolDownPanel()
     {
         //冷却时间的技能图标变黑以及倒数显示，所有技能通用，就放在这里
-        // 该技能是瞬间完成的
+        if (unit != null)
+        {
+            if (!unit.gameObject.activeSelf)
+            {
+                showTime.SetActive(false);
+            }
+        }
         if (inCoolDown)
         {
+            // 该技能是瞬间完成的
             if (!showTime.activeSelf)
             {
                 showTime.SetActive(true);
@@ -77,6 +84,7 @@ public class IDollsSkillBehavior : MonoBehaviour
         }
         else if (isInConstantUse)
         {
+            // 仍在使用中
             if (!showTime.activeSelf)
             {
                 showTime.SetActive(true);

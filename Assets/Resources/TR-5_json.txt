@@ -1,0 +1,46 @@
+{
+	"timeLimit": 200,
+	"mapTiles": [
+		"WWWWWWWWWWW",
+		"W111111111W",
+		"W111111111W",
+		"W111111111W",
+		"W1B11111R1W",
+		"W111111111W",
+		"W111111111W",
+		"WWWWWWWWWWW"
+	],
+	"enemySpawnPoints": [
+		{
+			"spawnType": 10,
+			"spawnTile": "Map4_3",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 10,
+			"spawnTile": "Map4_7",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 10,
+			"spawnTile": "Map5_6",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		},
+		{
+			"spawnType": 10,
+			"spawnTile": "Map5_5",
+			"spawnTime": 0,
+			"nextTile": [],
+			"waitTime": []
+		}
+	],
+	"dropID": 1,
+	"dropAmount": 15,
+	"dropRate":100
+}

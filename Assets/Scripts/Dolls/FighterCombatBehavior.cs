@@ -12,18 +12,15 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
     private Vector3 height = new Vector3(0, 1, 0);
     private Vector3 takeoffdir = new Vector3(0, 90, 0);
     public float airSpeed, fireInterval;
-    private long timenow;
-    private float time;
     // if bombingRun == false -> guns
     public bool canAttack, bombingRun;
-    public AudioSource gunning;
+    public AudioSource gunning, engineNear;
     public GameObject getTarget;
     private Vector3 target;
     GameObject setEnemy;
     // 设定状态：锁敌，RTB，改出，油量
     bool targetLocked, returning, recovering, liftoff;
     public bool isDone;
-
 
     // The maximum angle of rotation for pitch and roll
     public float maxAngle;
@@ -70,6 +67,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
         {
             // attack ground
             context.thisUnit.engineSound.volume = 1f;
+            engineNear.volume = 1f;
             SetTarget(context.supportTargetCord.position, context);
             GroundStrike(context);
             AirRecon(context, 1);
@@ -83,6 +81,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
             // attack air
             // does not recon
             context.thisUnit.engineSound.volume = 1f;
+            engineNear.volume = 1f;
             SetTarget(context.supportTargetCord.position, context);
             AirSuppress(context);
             if (!liftoff)
@@ -94,6 +93,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
         else
         {
             context.thisUnit.engineSound.volume = 0f;
+            engineNear.volume = 0f;
             transform.position = airBase;
             transform.eulerAngles = takeoffdir;
             if (liftoff)
@@ -430,7 +430,6 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
 
     void AttackObjects(DollsCombat context)
     {
-        // Attack Ground targets
         RaycastHit hit;
         // Set layermask to 11 which is the enemy layer
         int layerMask = 1 << 11;
@@ -441,10 +440,11 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
                 //Debug.Log("An object has been attacked: " + hit.collider.gameObject.name);
                 if (context.canFire)
                 {
-                    context.planeVelocity = transform.forward * airSpeed * Time.deltaTime * 60;
+                    context.planeVelocity = airSpeed;
                     context.counter = 0;
                     context.Strafe();
                     //Debug.Log(gunning.clip.length);
+                    gunning.PlayOneShot(gunning.clip);
                     StartCoroutine(context.FireRate(fireInterval, false));
 
                 }

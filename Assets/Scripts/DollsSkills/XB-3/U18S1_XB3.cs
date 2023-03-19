@@ -7,12 +7,25 @@ public class U18S1_XB3 : IDollsSkillBehavior
     //研轰三 轰炸
     public override void activateSkill(Transform location)
     {
-        inCoolDown = true;
-        timeStart = System.DateTime.Now.Ticks;
+        Debug.Log(location + "XB-3释放1技能");
+        ((BomberCombatBehavior)unit.combatBehaviour).newTask();
+        isInConstantUse = true;
         unit.supportTargetCord = location;
-        ((AttackerCombatBehavior)unit.combatBehaviour).flyEndCord = 2.5f * location.position - unit.transform.position;
+        ((BomberCombatBehavior)unit.combatBehaviour).canAttack = true;
         unit.combatBehaviour.CheckEnemy(unit);
-        ((AttackerCombatBehavior)unit.combatBehaviour).canAttack = true;
+    }
+    void delayedCooldown()
+    {
+        if (isInConstantUse)
+        {
+            if (((BomberCombatBehavior)unit.combatBehaviour).taskDone())
+            {
+                isInConstantUse = false;
+                inCoolDown = true;
+                timeStart = System.DateTime.Now.Ticks;
+            }
+        }
+        CoolDownPanel();
     }
     void Start()
     {
@@ -26,9 +39,9 @@ public class U18S1_XB3 : IDollsSkillBehavior
             cooldown.transform.localScale = new Vector3(1.05f, 1.05f, 1f);
             inCoolDown = true;
         }
-        else
+        else if (unit != null)
         {
-            CoolDownPanel();
+            delayedCooldown();
         }
     }
 }

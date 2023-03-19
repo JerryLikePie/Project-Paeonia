@@ -54,6 +54,7 @@ public class SquardOverviewManager : MonoBehaviour
     /// 当前立绘页面的序号
     /// </summary>
     private int currentPageIndex = -1;
+    private int currentSkillIndex = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -141,14 +142,25 @@ public class SquardOverviewManager : MonoBehaviour
                 + "\n主武器穿深：" + detailInfo.dollsDetail.dolls_penetration + "mm"
                 + "\n装填时间：" + detailInfo.dollsDetail.dolls_reload + "秒";
             sdp_Nums2.text = "地对地攻击力：" + detailInfo.dollsDetail.dolls_sts_attack
-                + "\n空中地攻击力：" + detailInfo.dollsDetail.dolls_ats_attack
-                + "\n地对空攻击力：" + detailInfo.dollsDetail.dolls_sta_attack
-                + "\n空对空攻击力：" + detailInfo.dollsDetail.dolls_ata_attack;
+                + "\n空对地攻击力：" + detailInfo.dollsDetail.dolls_ats_attack
+                + "\n命中：" + detailInfo.dollsDetail.dolls_accuracy
+                + "\n闪避：" + detailInfo.dollsDetail.dolls_dodge;
             charaSD.sprite = detailInfo.SDDolls;
-            skillSD.sprite = detailInfo.SDSkill;
+            currentSkillIndex = 0;
+            skillSD.sprite = detailInfo.SDSkill[currentSkillIndex];
             weaponSD.sprite = detailInfo.SDWeapon;
-            skillDes.text = detailInfo.skill_description;
+            skillDes.text = detailInfo.skill_description[currentSkillIndex];
             weaponDes.text = detailInfo.weapon_description;
         }
+    }
+    public void clickSkill()
+    {
+        DollDetailInfo detailInfo = detailInfoList[currentPageIndex];
+        currentSkillIndex++;
+        currentSkillIndex = currentSkillIndex % detailInfo.SDSkill.Length;
+        skillSD.sprite = detailInfo.SDSkill[currentSkillIndex];
+        weaponSD.sprite = detailInfo.SDWeapon;
+        skillDes.text = detailInfo.skill_description[currentSkillIndex];
+        weaponDes.text = detailInfo.weapon_description;
     }
 }

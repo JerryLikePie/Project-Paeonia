@@ -39,6 +39,7 @@ public class DollsProperty : MonoBehaviour
 
     public int dolls_mag;//弹夹数量，如果不是弹夹炮那就是1发
     public int dolls_shell_speed;//弹速
+    public int dolls_mag2;//如果有副武器的话
 
     float storeAttack;
     float storeReload;

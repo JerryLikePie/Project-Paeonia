@@ -19,7 +19,7 @@ namespace Assets.Scripts.SquardOverviewManager
         // 武器和技能的图标和描述
         public Sprite SDWeapon;
         [TextArea(3, 5)] public string weapon_description;
-        public Sprite SDSkill;
-        [TextArea(3, 5)] public string skill_description;
+        public Sprite[] SDSkill;
+        [TextArea(3, 5)] public string[] skill_description;
     }
 }

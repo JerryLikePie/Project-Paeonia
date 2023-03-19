@@ -25,6 +25,7 @@ public class EnemyCombat : MonoBehaviour
     int nextWaitTime;
     public GameObject toHideTheEnemy;
     public int height = 1;
+    public bool isTarget;
     Vector3 destination;
 
     public UnitEntity[] enemyEntities;
@@ -238,7 +239,43 @@ public class EnemyCombat : MonoBehaviour
                 case 4:
                     StartCoroutine(FireAA());
                     break;
+                case 5:
+                    Invoke("Strafe", Random.Range(0, 0.05f));
+                    break;
+
             }
+        }
+    }
+    void Strafe()
+    {
+        if (gameObject.activeSelf == true)
+        {
+            GameObject bulletThatWasShot = Instantiate(bullet, enemyEntities[counter].transform.position, Quaternion.identity);
+            bulletThatWasShot.SetActive(true);
+            bulletThatWasShot.transform.LookAt(setDolls.transform);
+            shot = bulletThatWasShot.GetComponent<BulletManager>();
+            shot.speed = -enemy.enemy_shell_speed;
+            shot.WhereTheShotWillGo = setDolls.transform.position;
+            shot.damage = 0;//先设为0
+            shot.damageIndicate = "hit";
+            float randomPen = enemy.enemy_penetration + Random.Range(-5, 5f);
+            if (randomPen >= setDolls.dolls.dolls_armor_front)
+            {
+                shot.damage = (enemy.enemy_ata_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
+                //判定，如果可以击穿那就把伤害加上去，不然的话这发炮弹就是0伤害
+                shot.damageIndicate = shot.damage.ToString("F0");
+                if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
+                {
+                    shot.damage = 0;
+                    //判定，被闪避了那就miss
+                    shot.damageIndicate = "miss";
+                }
+            }
+            shot.sender = enemyEntities[counter].gameObject;
+            shot.dollsList = dollsList;
+            shot.whoShotMe = "enemy";
+            shot.firstImpact = true;
+            counter++;
         }
     }
     void FireBullet()
@@ -369,16 +406,28 @@ public class EnemyCombat : MonoBehaviour
         // wander
         try
         {
+            if (transform.position.y <= 0)
+            {
+                RecieveExplosiveDamage(health);
+            }
             bool inRange = false;
+            
             for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
             {
+                if (isTarget)
+                {
+                    continue;
+                }
                 dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
-
+                if (!dolls.gameObject.activeSelf)
+                {
+                    continue;
+                }
                 if (dolls.dolls.dolls_type != 3)
                 {
                     continue;
                 }
-                if (FindDistance(transform.position, startPos) > 400)
+                if (FindDistance(transform.position, startPos) > 250)
                 {
                     continue;
                 }
@@ -396,11 +445,60 @@ public class EnemyCombat : MonoBehaviour
         catch
         {
         }
+        for (int j = 0; j < crewNum; j++)
+        {
+            enemyEntities[j].flip(isGoingLeft());
+        }
         moveToTarget();
+        airAttack();
+    }
+    bool isGoingLeft()
+    {
+        // 用点乘测得飞机相对于摄像机视角是否在向右飞行
+        Vector3 forward = transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
+        float relative = Vector3.Dot(forward, camRight);
+        if (relative < 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void airAttack()
+    {
+        if (isTarget)
+        {
+            return;
+        }
+        RaycastHit hit;
+        // Set layermask to 11 which is the friendly layer
+        int layerMask = 1 << 10;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 150, layerMask))
+        {
+            if (hit.collider.gameObject.tag == "Friendly")
+            {
+                //Debug.Log("An object has been attacked: " + hit.collider.gameObject.name);
+                if (canFire)
+                {
+                    counter = 0;
+                    setDolls = dolls;
+                    Attack();
+                    StartCoroutine(FireRate());
+                }
+            }
+        }
     }
 
     void moveToTarget()
     {
+        if (isTarget)
+        {
+            return;
+        }
         //临时用着吧
         transform.position += transform.forward * 25 * Time.deltaTime;
         Vector3 direction = (target - transform.position).normalized;
@@ -587,11 +685,15 @@ public class EnemyCombat : MonoBehaviour
     }
     void descanMap()
     {
-        while (deScanTheMap.Count != 0)
-        {
-            deScanTheMap.Peek().EnemyLoseVisual();
-            deScanTheMap.Dequeue().UpdateFogStatus();
+        try {
+            while (deScanTheMap.Count != 0)
+            {
+                deScanTheMap.Peek().EnemyLoseVisual();
+                deScanTheMap.Dequeue().UpdateFogStatus();
+            }
         }
+        catch { }
+        
     }
     void scanMap()
     {
