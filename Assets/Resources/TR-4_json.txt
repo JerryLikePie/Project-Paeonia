@@ -12,21 +12,21 @@
 	],
 	"enemySpawnPoints": [
 		{
-			"spawnType": 0,
-			"spawnTile": "Map4_2",
+			"spawnType": 2,
+			"spawnTile": "Map4_4",
 			"spawnTime": 0,
 			"nextTile": [],
 			"waitTime": []
 		},
 		{
-			"spawnType": 0,
+			"spawnType": 2,
 			"spawnTile": "Map4_7",
 			"spawnTime": 0,
 			"nextTile": [],
 			"waitTime": []
 		},
 		{
-			"spawnType": 0,
+			"spawnType": 2,
 			"spawnTile": "Map5_6",
 			"spawnTime": 0,
 			"nextTile": [],

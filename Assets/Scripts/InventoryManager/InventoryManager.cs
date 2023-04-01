@@ -96,6 +96,12 @@ public class InventoryManager : MonoBehaviour
         UpdateInventory();
     }
 
+    public void Decrease500Resource(int id)
+    {
+        menuInventory.MinusItem(itemPool[id].item, 500);
+        UpdateInventory();
+    }
+
     public void LoadinValues()
     {
         try
