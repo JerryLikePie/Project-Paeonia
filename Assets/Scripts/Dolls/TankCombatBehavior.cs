@@ -6,12 +6,10 @@ using static Utilities;
 public class TankCombatBehavior : IDollsCombatBehaviour
 {
     private DollsCombat context;
-    private Queue<Hex> toCancelFog;
     int newRange;
 
     void Start()
     {
-        toCancelFog = new Queue<Hex>();
     }
 
     public override void CheckEnemy(DollsCombat context)

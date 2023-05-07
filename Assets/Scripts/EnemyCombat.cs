@@ -7,25 +7,27 @@ using static Utilities;
 
 public class EnemyCombat : MonoBehaviour
 {
-    public EnemyProperty enemy;
+    // 不同类型的敌人拥有不同的method
+    public IEnemyBehavior combatBehavior;
+    [HideInInspector] public EnemyProperty enemy;
     public float health, dodge, rangeBuff;
     public Slider healthBar;
     float percentageHealth;
     Gradient healthGradient;
-    public int hang;
-    public int lie;
+    [HideInInspector] public int hang;
+    [HideInInspector] public int lie;
     public GameObject map;
     public GameObject dollsList;
-    DollsCombat dolls, setDolls;
-    bool targetLocked = false;
-    bool canFire = true;
-    public Queue<Hex> targetHex;
+    [HideInInspector] public DollsCombat dolls, setDolls;
+    [HideInInspector] public bool targetLocked = false;
+    [HideInInspector] public bool canFire = true;
+    [HideInInspector] public Queue<Hex> targetHex;
     public Queue<int> moveWaitTime;
-    public Queue<Hex> deScanTheMap;
+    [HideInInspector] public Queue<Hex> deScanTheMap;
     int nextWaitTime;
     public GameObject toHideTheEnemy;
-    public int height = 1;
-    public bool isTarget;
+    [HideInInspector] public int height = 1;
+    [HideInInspector] public bool isTarget;
     Vector3 destination;
 
     public UnitEntity[] enemyEntities;
@@ -38,8 +40,8 @@ public class EnemyCombat : MonoBehaviour
     public GameObject bullet;
     BulletManager shot;
     bool isFiring = false;
-    public bool canMove;
-    int counter;
+    [HideInInspector] public bool canMove;
+    [HideInInspector] public int counter;
     public int moveSpeedWaitTime;
     Transform supportTargetCord;
     public Transform artyTarget;
@@ -101,6 +103,7 @@ public class EnemyCombat : MonoBehaviour
         if (gameObject.activeSelf)
         {
             UpdateHealthBar();
+            combatBehavior.CheckDolls(this);
             FogOfWar();
             switch (enemy.enemy_type)
             {
@@ -580,7 +583,7 @@ public class EnemyCombat : MonoBehaviour
         {
         }
     }
-    IEnumerator FireRate()
+    public IEnumerator FireRate()
     {
         canFire = false;
         if (shotsInMag > 1)

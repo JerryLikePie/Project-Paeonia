@@ -483,4 +483,10 @@ public class DollsCombat : MonoBehaviour
         health -= num;
     }
 
+    // other helper functions
+    public int getType()
+    {
+        return dolls.dolls_type;
+    }
+
 }
