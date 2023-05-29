@@ -159,6 +159,7 @@ MonoBehaviour:
   hitVisualEffect: {fileID: 2703164991556521808}
   DamageRange: 0.5
   randomRange: 0
+  onCollision: 0
 --- !u!54 &8199844059697909377
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -354,6 +355,7 @@ GameObject:
   - component: {fileID: 4951395499524743746}
   - component: {fileID: 4951395499524743772}
   - component: {fileID: 4951395499524743747}
+  - component: {fileID: 4828169074863290683}
   m_Layer: 9
   m_Name: TestTD
   m_TagString: Enemy
@@ -393,6 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105afcc99105f0c4481ad952317d2644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatBehavior: {fileID: 4828169074863290683}
   enemy: {fileID: 0}
   health: 0
   dodge: 0
@@ -402,8 +405,13 @@ MonoBehaviour:
   lie: 0
   map: {fileID: 0}
   dollsList: {fileID: 0}
+  dolls: {fileID: 0}
+  setDolls: {fileID: 0}
+  targetLocked: 0
+  canFire: 1
   toHideTheEnemy: {fileID: 4951395500566556863}
   height: 1
+  isTarget: 0
   enemyEntities:
   - {fileID: 4652926741915323562}
   crewNum: 1
@@ -418,6 +426,7 @@ MonoBehaviour:
   shotsInMag: 0
   bullet: {fileID: 2012459107164196893}
   canMove: 1
+  counter: 0
   moveSpeedWaitTime: 14
   artyTarget: {fileID: 0}
   aaAttackInterval: 0
@@ -470,6 +479,19 @@ MonoBehaviour:
   enemy_visible: 0
   enemy_mag: 1
   enemy_shell_speed: 8000
+--- !u!114 &4828169074863290683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4951395499524743745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d3545f834ce324fa28fd1794c7a9f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstTime: 1
 --- !u!1 &4951395500155458684
 GameObject:
   m_ObjectHideFlags: 0

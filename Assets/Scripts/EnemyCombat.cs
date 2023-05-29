@@ -47,7 +47,7 @@ public class EnemyCombat : MonoBehaviour
     public Transform artyTarget;
     bool enemyInRange = false;
     public float aaAttackInterval;
-    private Vector3 startPos, target; //¡Ÿ ±
+    [HideInInspector] public Vector3 startPos, target; //¡Ÿ ±
     bool firstTimeFound = true;
     private Rigidbody rb;
 
@@ -825,5 +825,11 @@ public class EnemyCombat : MonoBehaviour
     public void RecieveExplosiveDamage(float num)
     {
         health -= num;
+    }
+
+    //helper functions
+    public int getType()
+    {
+        return enemy.enemy_type;
     }
 }

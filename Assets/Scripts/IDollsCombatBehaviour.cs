@@ -13,4 +13,8 @@ public class IDollsCombatBehaviour : MonoBehaviour
         // lalala
     }
     
+    public virtual void WreckAfterDead(DollsCombat context, Transform location)
+    {
+        // nothing
+    }
 }

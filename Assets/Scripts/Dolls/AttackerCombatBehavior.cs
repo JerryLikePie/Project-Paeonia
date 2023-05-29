@@ -46,6 +46,23 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
         isDone = false;
     }
 
+    public override void WreckAfterDead(DollsCombat context, Transform deadbody)
+    {
+        if (context.wreckage == null)
+        {
+            Debug.Log("No wreckage?");
+            return;
+        }
+        GameObject body = Instantiate(context.wreckage, deadbody.position, Quaternion.identity);
+        body.SetActive(true);
+        Vector3 planefwd = context.gunCenter.transform.position - context.transform.position;
+        planefwd = planefwd.normalized;
+        planefwd = planefwd * airSpeed;
+        //body.GetComponent<Rigidbody>().AddRelativeForce(planefwd);
+        Debug.Log(planefwd);
+        body.GetComponent<Rigidbody>().velocity = planefwd;
+    }
+
     public override void CheckEnemy(DollsCombat context)
     {
         // 按帧索敌

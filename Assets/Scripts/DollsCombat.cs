@@ -30,7 +30,7 @@ public class DollsCombat : MonoBehaviour
     public int crewNum;
     Hex nextTile;
     [HideInInspector] public Hex currentTile;
-    public GameObject bullet, gunCenter, bomb;
+    public GameObject bullet, gunCenter, bomb, wreckage;
     public AudioSource reloadStartSound, reloadEndSound;
     public int shotsInMag;
     private int shotsInMag2;
@@ -304,6 +304,9 @@ public class DollsCombat : MonoBehaviour
         if (health < healthRestrictLine[healthLevel])
         {
             //health = healthRestrictLine[healthLevel];
+            //ÕóÍöÒ»Ãû
+            Debug.Log("checkpoint1");
+            combatBehaviour.WreckAfterDead(this, dollsEntities[healthLevel].transform);
             dollsEntities[healthLevel].gameObject.SetActive(false);
             crewNum -= 1;
             healthLevel -= 1;
@@ -481,6 +484,16 @@ public class DollsCombat : MonoBehaviour
     public void RecieveExplosiveDamage(float num)
     {
         health -= num;
+    }
+
+    void LoadWrechage(Transform deadbody)
+    {
+        if (wreckage == null)
+        {
+            return;
+        }
+        GameObject body = Instantiate(wreckage, deadbody.position, Quaternion.identity);
+        body.SetActive(true);
     }
 
     // other helper functions

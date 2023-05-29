@@ -12,6 +12,16 @@ public class TankCombatBehavior : IDollsCombatBehaviour
     {
     }
 
+    public override void WreckAfterDead(DollsCombat context, Transform deadbody)
+    {
+        if (context.wreckage == null)
+        {
+            return;
+        }
+        GameObject body = Instantiate(context.wreckage, deadbody.position, Quaternion.identity);
+        body.SetActive(true);
+    }
+
     public override void CheckEnemy(DollsCombat context)
     {
         for (int j = 0; j < context.enemyList.Count; j++)
@@ -22,7 +32,7 @@ public class TankCombatBehavior : IDollsCombatBehaviour
                 j = 0;
                 continue;
             }
-            if (context.enemyList[j].enemy.enemy_type == 5)
+            if (context.enemyList[j].getType() == 5)
             {
                 // ¿Õ¾ü²»¿¼ÂÇ
                 context.enemyList.RemoveAt(j);
