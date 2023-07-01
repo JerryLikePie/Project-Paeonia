@@ -31,7 +31,9 @@ public class SquadSelectionPage : MonoBehaviour
         GameObject slot = GameObject.Find("Slot" + slotnum);//首先获取当前人物是放到几号卡槽
         GameObject doll = EventSystem.current.currentSelectedGameObject;//然后获取当前人物
         int ID = doll.GetComponent<DollsProperty>().dolls_id;//获取当前这个人物的ID
+        string UID = doll.GetComponent<DollsProperty>().dolls_name;//获取当前这个人物的string UID
         slot.GetComponent<SquadSlot>().spawnID = ID;//把人物ID给到卡槽的生成ID上面去
+        slot.GetComponent<SquadSlot>().spawnUID = UID;//把人物ID给到卡槽的生成ID上面去
         doll.transform.SetParent(slot.transform);//给送到对应的卡槽里面
         doll.SetActive(false);//然后把这个人物隐藏掉避免按钮重合出问题
         slot.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/Unit" + ID + "Avatar");//把人物的图片给到图片上面去

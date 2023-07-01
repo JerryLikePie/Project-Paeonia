@@ -8,6 +8,7 @@ public class SquadSlot : MonoBehaviour
     public int slotType;
     public int slotNum;
     public GameObject SkillSlot;
-    public int spawnID;
+    public int spawnID; // Deprecated
+    public string spawnUID;
 }
 

@@ -876,6 +876,7 @@ MonoBehaviour:
   slotNum: 6
   SkillSlot: {fileID: 21260150}
   spawnID: 0
+  spawnUID: 
 --- !u!114 &63039861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2835,6 +2836,7 @@ MonoBehaviour:
   slotNum: 1
   SkillSlot: {fileID: 1599607165}
   spawnID: 0
+  spawnUID: 
 --- !u!114 &372102893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5992,6 +5994,7 @@ MonoBehaviour:
   slotNum: 5
   SkillSlot: {fileID: 1736224328}
   spawnID: 0
+  spawnUID: 
 --- !u!114 &869011392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7606,6 +7609,7 @@ MonoBehaviour:
   slotNum: 4
   SkillSlot: {fileID: 948128414}
   spawnID: 0
+  spawnUID: 
 --- !u!114 &1179272429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9114,6 +9118,32 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  spawnSquardA:
+    list:
+    - Key: "\u6CAA\u9020\u4E09\u516D\u5F0F\u5341\u8F6E\u88C5\u7532\u8F66"
+      Value: {fileID: 5195854790106076288, guid: 1e4bbfee9b8b17a41a401148f30d0089,
+        type: 3}
+    - Key: "\u96F7\u8BFAZB/47mm"
+      Value: {fileID: 5195854790106076288, guid: 74684a2c0d6975043a94f0d37b50c72c,
+        type: 3}
+    - Key: "T-34-85\u6539"
+      Value: {fileID: 5195854790106076288, guid: 7b0914181d5726148877c2726f5f84a2,
+        type: 3}
+    - Key: "M10\u201C\u72FC\u737E\u201D/105mm"
+      Value: {fileID: 536842292861836905, guid: 4efe4eec6ce5020418add2aaa72eeb6a,
+        type: 3}
+    - Key: "301\u9AD8\u70AE"
+      Value: {fileID: 536842292861836905, guid: 9f5d12e20708e9a4a89d584d1a478922,
+        type: 3}
+    - Key: "\u201C\u7814\u9A71\u201D-1"
+      Value: {fileID: 5925278499864462149, guid: 18943a0bccca49f4eb54bc4dcde0a2bf,
+        type: 3}
+    - Key: "\u201C\u590D\u5174\u201D\u7532"
+      Value: {fileID: 5925278499864462149, guid: 26c9ec14225749d478cf8fe33d659897,
+        type: 3}
+    - Key: "\u201C\u7814\u8F70\u201D3"
+      Value: {fileID: 5925278499864462149, guid: 9729b81f2a8a15f498880bbae986f015,
+        type: 3}
   spawnEnemy:
   - {fileID: 4951395499524743747, guid: 3dcc0fbeeca965f40be181acb6cb9fe5, type: 3}
   - {fileID: 722467874009513314, guid: 5d86548477a243849a2394ef9ba7d8f2, type: 3}
@@ -9499,6 +9529,7 @@ MonoBehaviour:
   slotNum: 2
   SkillSlot: {fileID: 860770850}
   spawnID: 0
+  spawnUID: 
 --- !u!114 &1459829222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12448,6 +12479,7 @@ MonoBehaviour:
   slotNum: 3
   SkillSlot: {fileID: 2088973828}
   spawnID: 0
+  spawnUID: 
 --- !u!114 &1827439276
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class MapCreate : MonoBehaviour
     //还是得喝水，但是水又没味道
     public List<TileType> tileTypes;
     public Unit[] spawnSquad = null;
+    public USerializableDictionary<string, Unit> spawnSquardA;
     public EnemyProperty[] spawnEnemy = null;
     public GameObject[] SkillSlot;
     public GameObject[] Skills;
@@ -328,11 +329,12 @@ public class MapCreate : MonoBehaviour
             }
             GameObject tiletoSpawn = GameObject.Find("Map" + next_hang + "_" + next_lie);
             Hex nextHex = tiletoSpawn.GetComponent<Hex>();
-            if (slots[i].spawnID != 0 && spawnSquad[slots[i].spawnID] != null)
+            Unit prefabUnit = null;
+            if (slots[i].spawnID != 0 && spawnSquardA.TryGetValue(slots[i].spawnUID, out prefabUnit))
             {
                 Score.SpawnDoll();
-                spawnedUnit = Instantiate(spawnSquad[slots[i].spawnID].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
-                Debug.Log("在" + tiletoSpawn.name + "生成了" + slots[i].spawnID + "号单位" + spawnSquad[slots[i].spawnID].name);
+                spawnedUnit = Instantiate(prefabUnit.gameObject, tiletoSpawn.transform.position, Quaternion.identity);
+                Debug.Log("在" + tiletoSpawn.name + "生成了" + slots[i].spawnUID + "号单位" + prefabUnit.name);
                 spawnedUnit.GetComponent<Unit>().hang = next_hang;
                 spawnedUnit.GetComponent<Unit>().lie = next_lie;
                 spawnedUnit.GetComponent<DollsCombat>().allEnemy = enemyList;
