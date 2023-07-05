@@ -1753,6 +1753,7 @@ GameObject:
   - component: {fileID: 6815548471661580418}
   - component: {fileID: 4316943497344552239}
   - component: {fileID: 2543396608900222416}
+  - component: {fileID: -6422524608394917271}
   m_Layer: 9
   m_Name: Unit1
   m_TagString: Untagged
@@ -1926,6 +1927,18 @@ MonoBehaviour:
   dolls_mag: 1
   dolls_shell_speed: 5400
   dolls_mag2: 0
+--- !u!114 &-6422524608394917271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195854790106076290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8335ddf6b103df54a830b55944947eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5195854790762086271
 GameObject:
   m_ObjectHideFlags: 0

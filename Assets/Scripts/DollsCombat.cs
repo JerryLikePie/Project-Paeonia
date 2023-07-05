@@ -1,3 +1,5 @@
+using Assets.Scripts.BuffSystem;
+using Assets.Scripts.BuffSystem.Impl;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +11,7 @@ public class DollsCombat : MonoBehaviour
 
     // Dolls不同的战斗行为
     public IDollsCombatBehaviour combatBehaviour;
-    [HideInInspector] public DollsProperty dolls;
+    [HideInInspector] public DollsPropertyBuffed dolls;
     [HideInInspector] public float accurancyBuff, rangeBuff, dodgeBuff;
     public float health;
     public Slider healthBar;
@@ -60,7 +62,16 @@ public class DollsCombat : MonoBehaviour
         {
             enemyList.Add(allEnemy.transform.GetChild(i).GetComponent<EnemyCombat>());
         }
-        dolls = transform.GetComponent<DollsProperty>();
+        var dollsRaw = transform.GetComponent<DollsProperty>();
+
+        // test
+        dolls = gameObject.AddComponent<DollsPropertyBuffed>();
+        dolls.getAndRegBuffedProperty(dollsRaw, GetComponent<BuffManager>());
+
+        // test buff
+        GetComponent<BuffManager>().addBuff(BuffFactory.createAdditionBuff(BuffConstants.BuffId.BUFF_VAL_ATK, 10f));
+        Debug.Log(dolls.dolls_sts_attack);
+
         thisUnit = transform.GetComponent<Unit>();
         //crewNum = PlayerPrefs.GetInt(dolls.dolls_id + "_crewNum", 1);
         CheckCrewNumber();

@@ -23,9 +23,6 @@ public class DollsProperty : MonoBehaviour
     public int dolls_accuracy;//命中
     public int dolls_dodge;//闪避
 
-    // todo example code
-    public BuffedAttr<int> dolls_atk = new BuffedAttr<int>(BuffConstants.BuffType.BUFF_ATK);
-
     public float dolls_reload;//装填
     public float dolls_firerate;//如果不是弹夹炮，那么这个开火时间就等于装填时间
 
