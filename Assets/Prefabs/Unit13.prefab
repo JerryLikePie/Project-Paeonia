@@ -2267,6 +2267,7 @@ GameObject:
   - component: {fileID: 3699799717459780511}
   - component: {fileID: 4137196982756760085}
   - component: {fileID: 4620951852141408886}
+  - component: {fileID: -435322911390902646}
   m_Layer: 5
   m_Name: Unit13
   m_TagString: Friendly
@@ -2366,6 +2367,7 @@ MonoBehaviour:
   bullet: {fileID: 853283026455007729}
   gunCenter: {fileID: 4570784468171080877}
   bomb: {fileID: 0}
+  wreckage: {fileID: 0}
   reloadStartSound: {fileID: 1281100019908995072}
   reloadEndSound: {fileID: 1281100019908995072}
   shotsInMag: 0
@@ -2463,6 +2465,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-435322911390902646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5925278499864462151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8335ddf6b103df54a830b55944947eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5925278500005358202
 GameObject:
   m_ObjectHideFlags: 0

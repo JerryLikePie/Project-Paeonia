@@ -1469,6 +1469,7 @@ GameObject:
   - component: {fileID: 6815548471661580418}
   - component: {fileID: 4316943497344552239}
   - component: {fileID: 2543396608900222416}
+  - component: {fileID: 3032140040936777921}
   m_Layer: 9
   m_Name: Unit5
   m_TagString: Untagged
@@ -1565,10 +1566,13 @@ MonoBehaviour:
   crewNum: 4
   currentTile: {fileID: 0}
   bullet: {fileID: 7899560838223106138}
+  gunCenter: {fileID: 0}
+  bomb: {fileID: 0}
+  wreckage: {fileID: 0}
   reloadStartSound: {fileID: 159986526877262149}
   reloadEndSound: {fileID: 7695236996059844643}
   shotsInMag: 0
-  planeVelocity: {x: 0, y: 0, z: 0}
+  planeVelocity: 0
   healthRestrictLine:
   - 0
   - 0
@@ -1577,6 +1581,7 @@ MonoBehaviour:
   - 0
   - 0
   canFire: 1
+  outofAmmo: 0
   counter: 0
   healthLevel: 0
   height: 0
@@ -1635,6 +1640,19 @@ MonoBehaviour:
   dolls_withdrew: 0
   dolls_mag: 1
   dolls_shell_speed: 6400
+  dolls_mag2: 0
+--- !u!114 &3032140040936777921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195854790106076290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8335ddf6b103df54a830b55944947eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5195854790762086271
 GameObject:
   m_ObjectHideFlags: 0
@@ -8333,6 +8351,7 @@ MonoBehaviour:
   hitVisualEffect: {fileID: 1830603396478309701}
   DamageRange: 0.5
   randomRange: 0
+  onCollision: 0
 --- !u!54 &831006166450370590
 Rigidbody:
   m_ObjectHideFlags: 0

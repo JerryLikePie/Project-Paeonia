@@ -1,5 +1,6 @@
 using Assets.Scripts.BuffSystem;
-using Assets.Scripts.BuffSystem.Impl;
+using Assets.Scripts.BuffSystem.BuffedImpl;
+using Assets.Scripts.BuffSystem.BuffImpl;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -64,13 +65,15 @@ public class DollsCombat : MonoBehaviour
         }
         var dollsRaw = transform.GetComponent<DollsProperty>();
 
-        // test
+        // buffed properties
         dolls = gameObject.AddComponent<DollsPropertyBuffed>();
         dolls.getAndRegBuffedProperty(dollsRaw, GetComponent<BuffManager>());
+        
+        // todo delete: val buff test code
+        GetComponent<BuffManager>().addBuff(new BuffSTSAttack());
 
-        // test buff
-        GetComponent<BuffManager>().addBuff(BuffFactory.createAdditionBuff(BuffConstants.BuffId.BUFF_VAL_ATK, 10f));
-        Debug.Log(dolls.dolls_sts_attack);
+        // todo delete: eot buff test code
+        GetComponent<BuffManager>().addBuff(new DebuffBleeding(interval: 3, bleedDamage: 5));
 
         thisUnit = transform.GetComponent<Unit>();
         //crewNum = PlayerPrefs.GetInt(dolls.dolls_id + "_crewNum", 1);

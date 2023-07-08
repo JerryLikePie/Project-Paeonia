@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using System.Reflection;
 
 // 工具类，存放各种静态工具方法
 public static class Utilities
@@ -97,6 +99,22 @@ public static class Utilities
         [SerializeField] public Sprite avatar; //小图头像，作战中需要用到
         [SerializeField] public DollsProperty stats; //人物的具体数据
         [SerializeField] public GameObject doll; //放在地图上的prefab
+    }
+
+
+    /// <summary>
+    /// 反射调用含泛型的方法
+    /// 简单来说就是调用 callee.methodName(args)
+    /// </summary>
+    /// <param name="callee">调用的类名</param>
+    /// <param name="methodName">需要调用的方法名</param>
+    /// <param name="genericTypes">需要封闭的泛型参数，注意只需要包含泛型参数，且与泛型参数数量和顺序保持一致</param>
+    /// <param name="args">方法参数</param>
+    public static object invokeTypedMethod(object callee, string methodName, Type[] genericTypes, params object[] args)
+	{
+        MethodInfo method = callee.GetType().GetMethod(methodName);
+        MethodInfo typedMethod = method.MakeGenericMethod(genericTypes);
+        return typedMethod.Invoke(callee, args);
     }
 
 }

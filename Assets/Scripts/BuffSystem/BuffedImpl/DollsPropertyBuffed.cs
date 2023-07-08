@@ -5,20 +5,20 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace Assets.Scripts.BuffSystem.Impl
+namespace Assets.Scripts.BuffSystem.BuffedImpl
 {
 	/// <summary>
 	/// 代理模式实现
 	/// 在 DollsProperty 和调用者中间的 Buff 代理层
 	/// </summary>
-	public class DollsPropertyBuffed : DollsProperty, BuffUpdateListener
+	public sealed class DollsPropertyBuffed : DollsProperty, BuffUpdateListener
     {
 		private DollsProperty dollsPropertyRaw;
 
 		private List<BuffConstants.BuffId> buffIds = new List<BuffConstants.BuffId>();
 
 		// todo (maybe) 一个 buff 影响多个 field
-		private Dictionary<BuffConstants.BuffId, FieldInfo> buffedFields = new Dictionary<BuffConstants.BuffId, FieldInfo>();
+		private Dictionary<BuffConstants.BuffId, FieldInfo> valBuffedFields = new Dictionary<BuffConstants.BuffId, FieldInfo>();
 
 		private BuffManager buffManager;
 
@@ -37,20 +37,9 @@ namespace Assets.Scripts.BuffSystem.Impl
                 field.SetValue(this, field.GetValue(dollsProperty));
 			}
 
-			// 反射检测注解，注册所有带 Buff 的属性
-			// 单独实现 listener 再调用 takeEffects 总感觉似乎点多余，但也更灵活了
-			// 
-			//var myFields = typeof(DollsPropertyBuffed).GetFields();
-			//foreach (var field in myFields)
-			//{
-			//	var annos = field.GetCustomAttributes<BuffedAttrAttribute>(false);
-			//	foreach (var anno in annos)
-			//	{
-			//		// buffIds.Add(anno.buffId);
-			//		buffedFields.Add(anno.buffId, field);
-			//	}
-			//}
-			buffedFields = BuffManager.getValueBuffedFields(GetType());
+			// 反射检测注解，获取所有带 Buff 的属性
+			// 实现 listener 再调用 takeEffects 总感觉似乎点多余，但也更灵活了。未来也可能会考虑全部放到 buffManager 里面实现
+			valBuffedFields = BuffManager.getBuffedFields(GetType(), BuffConstants.BuffType.BUFF_VAL);
 
 			// 注册监听器
 			buffManager.addListener(this);
@@ -58,7 +47,7 @@ namespace Assets.Scripts.BuffSystem.Impl
 
 		public HashSet<BuffConstants.BuffId> interestBuffIds()
 		{
-			return new HashSet<BuffConstants.BuffId>(buffedFields.Keys);
+			return new HashSet<BuffConstants.BuffId>(valBuffedFields.Keys);
 		}
 
 		public void onBuffUpdate(BuffConstants.BuffId buffId)
@@ -66,34 +55,17 @@ namespace Assets.Scripts.BuffSystem.Impl
 			if (buffManager != null)
 			{
 				FieldInfo field, myField;
-				if(buffedFields.TryGetValue(buffId, out myField))
+				if(valBuffedFields.TryGetValue(buffId, out myField))
 				{
-					// todo 这种写法属实有点丑陋 这泛型不如不用 (
 					field = typeof(DollsProperty).GetField(myField.Name);
-					if (field.FieldType == typeof(int))
-					{
-						var valRaw = (int)field.GetValue(dollsPropertyRaw);
-						var valBuffed = buffManager.takeEffects(valRaw, buffId);
-						myField.SetValue(this, valBuffed);
-					}
-					else if (field.FieldType == typeof(long))
-					{
-						var valRaw = (long)field.GetValue(dollsPropertyRaw);
-						var valBuffed = buffManager.takeEffects(valRaw, buffId);
-						myField.SetValue(this, valBuffed);
-					}
-					else if (field.FieldType == typeof(float))
-					{
-						var valRaw = (float)field.GetValue(dollsPropertyRaw);
-						var valBuffed = buffManager.takeEffects(valRaw, buffId);
-						myField.SetValue(this, valBuffed);
-					}
-					else if (field.FieldType == typeof(double))
-					{
-						var valRaw = (float)field.GetValue(dollsPropertyRaw);
-						var valBuffed = buffManager.takeEffects(valRaw, buffId);
-						myField.SetValue(this, valBuffed);
-					}
+					var originVal = field.GetValue(dollsPropertyRaw);
+					var buffedVal = Utilities.invokeTypedMethod(
+						buffManager, 
+						"takeEffects", 
+						new Type[] { myField.FieldType },
+						originVal, buffId) ;
+					myField.SetValue(this, buffedVal);
+					Debug.Log("buffed: " + originVal + "->" + buffedVal);
 				}
 			}
 			else
@@ -111,7 +83,7 @@ namespace Assets.Scripts.BuffSystem.Impl
 		//public int dolls_view_range;//视野
 		//public bool dolls_unlocked;//是否已解锁
 		//public float dolls_max_hp;//最大生命值
-		// example
+		// example: 需要 buff 什么属性就加上这样两个 Annotation
 		[NonSerialized]
 		[BuffedAttr(BuffConstants.BuffType.BUFF_VAL, BuffConstants.BuffId.BUFF_VAL_ATK)]
 		public new float dolls_sts_attack; //地对地攻击力
