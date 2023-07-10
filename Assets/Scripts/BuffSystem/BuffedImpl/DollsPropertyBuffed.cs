@@ -20,13 +20,10 @@ namespace Assets.Scripts.BuffSystem.BuffedImpl
 		// todo (maybe) 一个 buff 影响多个 field
 		private Dictionary<BuffConstants.BuffId, FieldInfo> valBuffedFields = new Dictionary<BuffConstants.BuffId, FieldInfo>();
 
-		private BuffManager buffManager;
-
 		// 通过反射调用拷贝一份 DollsProperty
 		public void getAndRegBuffedProperty(DollsProperty dollsProperty, BuffManager buffManager)
 		{
 			this.dollsPropertyRaw = dollsProperty;
-			this.buffManager = buffManager;
 
 			// 反射调用，拷贝被代理类所有成员
             var parentClass = typeof(DollsProperty);
@@ -39,7 +36,7 @@ namespace Assets.Scripts.BuffSystem.BuffedImpl
 
 			// 反射检测注解，获取所有带 Buff 的属性
 			// 实现 listener 再调用 takeEffects 总感觉似乎点多余，但也更灵活了。未来也可能会考虑全部放到 buffManager 里面实现
-			valBuffedFields = BuffManager.getBuffedFields(GetType(), BuffConstants.BuffType.BUFF_VAL);
+			valBuffedFields = BuffManager.getBuffedFields(GetType(), BuffConstants.BuffType.BUFF_ATTR);
 
 			// 注册监听器
 			buffManager.addListener(this);
@@ -50,27 +47,25 @@ namespace Assets.Scripts.BuffSystem.BuffedImpl
 			return new HashSet<BuffConstants.BuffId>(valBuffedFields.Keys);
 		}
 
-		public void onBuffUpdate(BuffConstants.BuffId buffId)
+		public void onBuffUpdate(BuffManager buffManager, Buff buff)
 		{
-			if (buffManager != null)
+			FieldInfo field, myField;
+			if (buff.buffType == BuffConstants.BuffType.BUFF_ATTR)
 			{
-				FieldInfo field, myField;
-				if(valBuffedFields.TryGetValue(buffId, out myField))
+				if (valBuffedFields.TryGetValue(buff.buffId, out myField))
 				{
 					field = typeof(DollsProperty).GetField(myField.Name);
-					var originVal = field.GetValue(dollsPropertyRaw);
+
+					object originVal = field.GetValue(dollsPropertyRaw); ;
+
 					var buffedVal = Utilities.invokeTypedMethod(
-						buffManager, 
-						"takeEffects", 
+						buffManager,
+						"takeEffects",
 						new Type[] { myField.FieldType },
-						originVal, buffId) ;
+						originVal, buff.buffId);
 					myField.SetValue(this, buffedVal);
 					Debug.Log("buffed: " + originVal + "->" + buffedVal);
 				}
-			}
-			else
-			{
-				Debug.LogError("buffManager is null");
 			}
 		}
 
@@ -85,7 +80,7 @@ namespace Assets.Scripts.BuffSystem.BuffedImpl
 		//public float dolls_max_hp;//最大生命值
 		// example: 需要 buff 什么属性就加上这样两个 Annotation
 		[NonSerialized]
-		[BuffedAttr(BuffConstants.BuffType.BUFF_VAL, BuffConstants.BuffId.BUFF_VAL_ATK)]
+		[BuffedAttr(BuffConstants.BuffType.BUFF_ATTR, BuffConstants.BuffId.BUFF_ATTR_ATK)]
 		public new float dolls_sts_attack; //地对地攻击力
 		//public float dolls_ata_attack;//空对空攻击力
 		//public float dolls_sta_attack;//地对空攻击力

@@ -10,9 +10,9 @@ namespace Assets.Scripts.BuffSystem
 	// BuffId 相当于一个频道，挂在这个频道上的 被Buff量 会受到同频道 Buff 影响
 	public abstract class Buff
 	{
-		public BuffConstants.BuffType buffType { get; }
+		public readonly BuffConstants.BuffType buffType;
 
-		public BuffConstants.BuffId buffId { get; }
+		public readonly BuffConstants.BuffId buffId;
 
 		public Buff(BuffConstants.BuffType type, BuffConstants.BuffId id)
 		{
@@ -22,15 +22,25 @@ namespace Assets.Scripts.BuffSystem
 
 	}
 
-	// todo 用组合代替继承！
+	// 用组合代替继承！
+	// buff 效果结算函数
 	public interface ITakeEffect<T>
 	{
 		public abstract T takeEffect(T val);
 	}
 
-	public abstract class ValueBuff<T> : Buff
+	// 用于需要设置和重置 cd 的 buff，例如 EOT-buff
+	public interface IBuffCD
 	{
-		public ValueBuff(BuffConstants.BuffId id) : base(BuffConstants.BuffType.BUFF_VAL, id)
+		public abstract void resetCD();
+
+		public abstract bool updateCD(float deltaTime);
+	}
+
+
+	public abstract class AttrBuff<T> : Buff, ITakeEffect<T>
+	{
+		public AttrBuff(BuffConstants.BuffId id) : base(BuffConstants.BuffType.BUFF_ATTR, id)
 		{
 			// no-op
 		}
@@ -40,14 +50,13 @@ namespace Assets.Scripts.BuffSystem
 			Debug.LogError("not this takeEffect!");
 			return default(T);
 		}
-
 	}
 
 	/// <summary>
 	/// 每过一段指定时间执行 takeEffect 函数
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class EffectOverTimeBuff<T> : Buff
+	public class EffectOverTimeBuff<T> : Buff, ITakeEffect<T>, IBuffCD
 	{
 		// buff 触发时间间隔
 		public float interval;
@@ -55,7 +64,7 @@ namespace Assets.Scripts.BuffSystem
 		// buff 触发倒计时
 		public float cd;
 
-		public EffectOverTimeBuff(BuffConstants.BuffId id, float interval) : base(BuffConstants.BuffType.BUFF_EOT, id)
+		public EffectOverTimeBuff(BuffConstants.BuffId id, float interval) : base(BuffConstants.BuffType.BUFF_VAL_EOT, id)
 		{
 			this.interval = interval;
 			// 是否在一开始重置 cd 决定了挂上 buff 的瞬间是否要触发一次 buff 效果
@@ -71,8 +80,9 @@ namespace Assets.Scripts.BuffSystem
 		public bool updateCD(float deltaTime)
 		{
 			cd -= deltaTime;
-			if (cd <= 0) resetCD();
-			return cd <= 0;
+			bool updated = (cd <= 0);
+			if (updated) resetCD();
+			return updated;
 		}
 
 		// 对要修改的 value 产生影响的函数
@@ -90,11 +100,11 @@ namespace Assets.Scripts.BuffSystem
 	/// <typeparam name="T"></typeparam>
 	// todo Obsolete
 	[Obsolete]
-	public class ValueBuffD<T> : ValueBuff<T>
+	public class AttrBuffD<T> : AttrBuff<T>
 	{
 		public new TakeEffectDelegate takeEffect;
 
-		public ValueBuffD(BuffConstants.BuffId id, TakeEffectDelegate effectFunc) : base(id)
+		public AttrBuffD(BuffConstants.BuffId id, TakeEffectDelegate effectFunc) : base(id)
 		{
 			takeEffect = effectFunc;
 		}
@@ -117,11 +127,11 @@ namespace Assets.Scripts.BuffSystem
 		/// <param name="buffType">buff类型</param>
 		/// <param name="inc">数值增量</param>
 		/// <returns>生成的 Buff</returns>
-		public static ValueBuffD<T> createSimpleAdditionBuff<T>(BuffConstants.BuffId id, T inc) where T : struct, IComparable
+		public static AttrBuffD<T> createSimpleAdditionBuff<T>(BuffConstants.BuffId id, T inc) where T : struct, IComparable
 		{ 
-			return new ValueBuffD<T>(id, (T value) =>
+			return new AttrBuffD<T>(id, (T value) =>
 			{
-				return Add(value, inc);
+				return Utilities.Add(value, inc);
 			});
 		}
 
@@ -134,93 +144,13 @@ namespace Assets.Scripts.BuffSystem
 		/// <param name="buffType">buff类型</param>
 		/// <param name="mux">数值乘子</param>
 		/// <returns>生成的 Buff</returns>
-		public static ValueBuffD<T> createSimpleMultiplicationBuff<T>(BuffConstants.BuffId id, T mux) where T : struct, IComparable
+		public static AttrBuffD<T> createSimpleMultiplicationBuff<T>(BuffConstants.BuffId id, T mux) where T : struct, IComparable
 		{
-			return new ValueBuffD<T>(id, (T value) =>
+			return new AttrBuffD<T>(id, (T value) =>
 			{
-				return Multiply(value, mux);
+				return Utilities.Multiply(value, mux);
 			});
 		}
 
-		private static T Add<T>(T num1, T num2) where T : struct, IComparable
-		{
-			if (typeof(T) == typeof(short))
-			{
-				short a = (short)Convert.ChangeType(num1, typeof(short));
-				short b = (short)Convert.ChangeType(num2, typeof(short));
-				short c = (short)(a + b);
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-			else if (typeof(T) == typeof(int))
-			{
-				int a = (int)Convert.ChangeType(num1, typeof(int));
-				int b = (int)Convert.ChangeType(num2, typeof(int));
-				int c = a + b;
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-			else if (typeof(T) == typeof(long))
-			{
-				long a = (long)Convert.ChangeType(num1, typeof(long));
-				long b = (long)Convert.ChangeType(num2, typeof(long));
-				long c = a + b;
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-			else if (typeof(T) == typeof(float))
-			{
-				float a = (float)Convert.ChangeType(num1, typeof(float));
-				float b = (float)Convert.ChangeType(num2, typeof(float));
-				float c = a + b;
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-			else if (typeof(T) == typeof(double))
-			{
-				double a = (double)Convert.ChangeType(num1, typeof(double));
-				double b = (double)Convert.ChangeType(num2, typeof(double));
-				double c = a + b;
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-			else if (typeof(T) == typeof(decimal))
-			{
-				decimal a = (decimal)Convert.ChangeType(num1, typeof(decimal));
-				decimal b = (decimal)Convert.ChangeType(num2, typeof(decimal));
-				decimal c = a + b;
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-
-			return default(T);
-		}
-		private static T Multiply<T>(T num1, T num2) where T : struct, IComparable
-		{
-			if (typeof(T) == typeof(int))
-			{
-				int a = (int)Convert.ChangeType(num1, typeof(int));
-				int b = (int)Convert.ChangeType(num2, typeof(int));
-				int c = a * b;
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-			else if (typeof(T) == typeof(float))
-			{
-				float a = (float)Convert.ChangeType(num1, typeof(float));
-				float b = (float)Convert.ChangeType(num2, typeof(float));
-				float c = a * b;
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-			else if (typeof(T) == typeof(double))
-			{
-				double a = (double)Convert.ChangeType(num1, typeof(double));
-				double b = (double)Convert.ChangeType(num2, typeof(double));
-				double c = a * b;
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-			else if (typeof(T) == typeof(decimal))
-			{
-				decimal a = (decimal)Convert.ChangeType(num1, typeof(decimal));
-				decimal b = (decimal)Convert.ChangeType(num2, typeof(decimal));
-				decimal c = a * b;
-				return (T)Convert.ChangeType(c, typeof(T));
-			}
-
-			return default(T);
-		}
 	}
 }

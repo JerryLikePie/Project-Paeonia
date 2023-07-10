@@ -16,7 +16,7 @@ namespace Assets.Scripts.BuffSystem {
         public void addBuff(Buff buff)
         {
             buffs.AddLast(buff);
-            if (buff.buffType == BuffConstants.BuffType.BUFF_VAL)
+            if (buff.buffType == BuffConstants.BuffType.BUFF_ATTR)
             {
                 invokeBuffUpdate(buff);
             }
@@ -25,7 +25,7 @@ namespace Assets.Scripts.BuffSystem {
         public void removeBuff(Buff buff)
         {
             buffs.Remove(buff);
-            if (buff.buffType == BuffConstants.BuffType.BUFF_VAL)
+            if (buff.buffType == BuffConstants.BuffType.BUFF_ATTR)
             {
                 invokeBuffUpdate(buff);
             }
@@ -44,14 +44,14 @@ namespace Assets.Scripts.BuffSystem {
         }
 
         // 添加、删除数值型 Buff 时，触发重新计算同 BuffId 的数值
-        // 
+        // 持续型 buff 每次结算时，触发重新计算同 BuffId 的数值
         public void invokeBuffUpdate(Buff buff)
         {
             foreach (BuffUpdateListener l in listeners)
             {
                 if (l.interestBuffIds() == null || l.interestBuffIds().Contains(buff.buffId))
                 {
-                    l.onBuffUpdate(buff.buffId);
+                    l.onBuffUpdate(this, buff);
                 }
             }
         }
@@ -65,16 +65,16 @@ namespace Assets.Scripts.BuffSystem {
             // 在该值上结算所有 buffId 相同的 buff
             foreach (Buff buff in buffs)
             {
-                if (buff.buffType == BuffConstants.BuffType.BUFF_VAL && buff.buffId == buffId)
+                if (buff.buffId == buffId)
                 {
-                    buffedValue = (buff as ValueBuff<T>).takeEffect(buffedValue);
+                    buffedValue = (buff as ITakeEffect<T>).takeEffect(buffedValue);
                 }
             }
             return buffedValue;
         }
 
         /// <summary>
-        /// 反射获取 clazz 类所有受 VAL Buff 影响的字段
+        /// 反射获取 clazz 类所有受 Attr Buff 影响的字段
         /// </summary>
         /// <param name="clazz">目标类</param>
         /// <returns></returns>
@@ -109,7 +109,7 @@ namespace Assets.Scripts.BuffSystem {
             var fields = clazz.GetFields();
             foreach (var f in fields)
             {
-                // todo 过滤 VAL 型 buff
+                // todo 过滤 Attr 型 buff
                 var annos = f.GetCustomAttributes<BuffedAttrAttribute>(false);
                 foreach (var anno in annos)
                 {
@@ -126,15 +126,15 @@ namespace Assets.Scripts.BuffSystem {
 
         public void Update()
         {
-            MethodInfo checkMethod;
             foreach (Buff buff in buffs)
             {
                 // 当 eot buff 倒计时结束时，进行一次 buff 更新
-                if (buff.buffType == BuffConstants.BuffType.BUFF_EOT)
+                if (buff.buffType == BuffConstants.BuffType.BUFF_VAL_EOT)
                 {
-                    checkMethod = buff.GetType().GetMethod("updateCD");
-                    
-                    invokeBuffUpdate(buff);
+                    if ((buff as IBuffCD).updateCD(Time.deltaTime))
+                    {
+                        invokeBuffUpdate(buff);
+                    }
                 }
             }
 		}

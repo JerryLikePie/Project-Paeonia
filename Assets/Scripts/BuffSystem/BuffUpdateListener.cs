@@ -18,6 +18,6 @@ namespace Assets.Scripts.BuffSystem
 		public abstract HashSet<BuffConstants.BuffId> interestBuffIds();
 
 		// 当某个 buff 发生更新时调用
-		public abstract void onBuffUpdate(BuffConstants.BuffId buffId);
+		public abstract void onBuffUpdate(BuffManager buffManager, Buff buff);
 	}
 }

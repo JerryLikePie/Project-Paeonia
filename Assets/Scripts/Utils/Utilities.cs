@@ -117,4 +117,183 @@ public static class Utilities
         return typedMethod.Invoke(callee, args);
     }
 
+    public static T Add<T>(T num1, T num2) where T : struct, IComparable
+    {
+        if (typeof(T) == typeof(short))
+        {
+            short a = (short)Convert.ChangeType(num1, typeof(short));
+            short b = (short)Convert.ChangeType(num2, typeof(short));
+            short c = (short)(a + b);
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(int))
+        {
+            int a = (int)Convert.ChangeType(num1, typeof(int));
+            int b = (int)Convert.ChangeType(num2, typeof(int));
+            int c = a + b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(long))
+        {
+            long a = (long)Convert.ChangeType(num1, typeof(long));
+            long b = (long)Convert.ChangeType(num2, typeof(long));
+            long c = a + b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(float))
+        {
+            float a = (float)Convert.ChangeType(num1, typeof(float));
+            float b = (float)Convert.ChangeType(num2, typeof(float));
+            float c = a + b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(double))
+        {
+            double a = (double)Convert.ChangeType(num1, typeof(double));
+            double b = (double)Convert.ChangeType(num2, typeof(double));
+            double c = a + b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(decimal))
+        {
+            decimal a = (decimal)Convert.ChangeType(num1, typeof(decimal));
+            decimal b = (decimal)Convert.ChangeType(num2, typeof(decimal));
+            decimal c = a + b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else
+        {
+            Debug.LogError("Invalid T type for Add: " + typeof(T));
+        }
+
+        return default(T);
+    }
+
+    public static T Sub<T>(T num1, T num2) where T : struct, IComparable
+    {
+        if (typeof(T) == typeof(short))
+        {
+            short a = (short)Convert.ChangeType(num1, typeof(short));
+            short b = (short)Convert.ChangeType(num2, typeof(short));
+            short c = (short)(a - b);
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(int))
+        {
+            int a = (int)Convert.ChangeType(num1, typeof(int));
+            int b = (int)Convert.ChangeType(num2, typeof(int));
+            int c = a - b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(long))
+        {
+            long a = (long)Convert.ChangeType(num1, typeof(long));
+            long b = (long)Convert.ChangeType(num2, typeof(long));
+            long c = a - b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(float))
+        {
+            float a = (float)Convert.ChangeType(num1, typeof(float));
+            float b = (float)Convert.ChangeType(num2, typeof(float));
+            float c = a - b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(double))
+        {
+            double a = (double)Convert.ChangeType(num1, typeof(double));
+            double b = (double)Convert.ChangeType(num2, typeof(double));
+            double c = a - b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(decimal))
+        {
+            decimal a = (decimal)Convert.ChangeType(num1, typeof(decimal));
+            decimal b = (decimal)Convert.ChangeType(num2, typeof(decimal));
+            decimal c = a - b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else
+        {
+            Debug.LogError("Invalid T type for Add: " + typeof(T));
+        }
+
+        return default(T);
+    }
+
+    public static T Multiply<T>(T num1, T num2) where T : struct, IComparable
+    {
+        if (typeof(T) == typeof(int))
+        {
+            int a = (int)Convert.ChangeType(num1, typeof(int));
+            int b = (int)Convert.ChangeType(num2, typeof(int));
+            int c = a * b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(float))
+        {
+            float a = (float)Convert.ChangeType(num1, typeof(float));
+            float b = (float)Convert.ChangeType(num2, typeof(float));
+            float c = a * b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(double))
+        {
+            double a = (double)Convert.ChangeType(num1, typeof(double));
+            double b = (double)Convert.ChangeType(num2, typeof(double));
+            double c = a * b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(decimal))
+        {
+            decimal a = (decimal)Convert.ChangeType(num1, typeof(decimal));
+            decimal b = (decimal)Convert.ChangeType(num2, typeof(decimal));
+            decimal c = a * b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else
+        {
+            Debug.LogError("Invalid T type for Multiply: " + typeof(T));
+        }
+
+        return default(T);
+    }
+
+    public static T Divide<T>(T num1, T num2) where T : struct, IComparable
+    {
+        if (typeof(T) == typeof(int))
+        {
+            int a = (int)Convert.ChangeType(num1, typeof(int));
+            int b = (int)Convert.ChangeType(num2, typeof(int));
+            int c = a / b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(float))
+        {
+            float a = (float)Convert.ChangeType(num1, typeof(float));
+            float b = (float)Convert.ChangeType(num2, typeof(float));
+            float c = a / b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(double))
+        {
+            double a = (double)Convert.ChangeType(num1, typeof(double));
+            double b = (double)Convert.ChangeType(num2, typeof(double));
+            double c = a / b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else if (typeof(T) == typeof(decimal))
+        {
+            decimal a = (decimal)Convert.ChangeType(num1, typeof(decimal));
+            decimal b = (decimal)Convert.ChangeType(num2, typeof(decimal));
+            decimal c = a / b;
+            return (T)Convert.ChangeType(c, typeof(T));
+        }
+        else
+        {
+            Debug.LogError("Invalid T type for Multiply: " + typeof(T));
+        }
+
+        return default(T);
+    }
 }

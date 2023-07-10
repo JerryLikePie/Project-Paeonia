@@ -7,7 +7,7 @@ namespace Assets.Scripts.BuffSystem.BuffImpl
 	{
 		private float bleedDamage;
 
-		public DebuffBleeding(float interval, float bleedDamage) : base(BuffConstants.BuffId.BUFF_EOT_BLEED, interval)
+		public DebuffBleeding(float interval, float bleedDamage) : base(BuffConstants.BuffId.BUFF_VAL_EOT_BLEED, interval)
 		{
 			this.bleedDamage = bleedDamage;
 		}

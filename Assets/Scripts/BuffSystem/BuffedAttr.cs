@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.BuffSystem
 {
+	/// <summary>
+	/// 用于注解实现
+	/// </summary>
 	// todo AllowMultiple=true
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	public class BuffedAttrAttribute : Attribute
@@ -25,22 +29,14 @@ namespace Assets.Scripts.BuffSystem
 	/// todo 暂时废弃，未来可能另作他用
 	/// </summary>
 	/// <typeparam name="T">内部数值类型，通常为 int float</typeparam>
-	public class BuffedAttr<T>
+	public class BuffedAttr<T> : BuffUpdateListener
 	{
 
-		public BuffConstants.BuffId buffId { get; }
+		public readonly BuffConstants.BuffId buffId;
 
-		private T value
-		{
-			get
-			{
-				return value;
-			}
-			set
-			{
-				this.value = value;
-			}
-		}
+		public T value;
+
+		public T buffedValue;
 
 		/// <summary>
 		/// 创建受Buff影响的属性
@@ -67,17 +63,24 @@ namespace Assets.Scripts.BuffSystem
 			return value;
 		}
 
-		public T getBuffedValue(BuffManager buffManager)
+		public T getBuffedValue()
 		{
-			if (buffManager != null)
-			{
-				return buffManager.takeEffects(value, buffId);
-			}
-			else
-			{
-				Debug.LogError("在获取被 buff 的数值时出现错误，buffManager 为 null");
-				return default(T);
-			}
+			return buffedValue;
+		}
+
+		public void registToBuffManager(BuffManager buffManager)
+		{
+			buffManager.addListener(this);
+		}
+
+		public HashSet<BuffConstants.BuffId> interestBuffIds()
+		{
+			return new HashSet<BuffConstants.BuffId>(new BuffConstants.BuffId[] { buffId });
+		}
+
+		public void onBuffUpdate(BuffManager buffManager, Buff buff)
+		{
+			buffedValue = buffManager.takeEffects<T>(value, buff.buffId);
 		}
 	}
 }

@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Assets.Scripts.BuffSystem.BuffImpl
 {
-	public class BuffSTSAttack : ValueBuff<float>
+	public class BuffSTSAttack : AttrBuff<float>
 	{
-		public BuffSTSAttack() : base(BuffConstants.BuffId.BUFF_VAL_ATK)
+		public BuffSTSAttack() : base(BuffConstants.BuffId.BUFF_ATTR_ATK)
 		{
 
 		}
 
 		public override float takeEffect(float val)
 		{
-			return val + 10;
+			return val + 50;
 		}
 	}
 }

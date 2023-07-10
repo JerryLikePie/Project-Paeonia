@@ -14,7 +14,8 @@ public class DollsCombat : MonoBehaviour
     public IDollsCombatBehaviour combatBehaviour;
     [HideInInspector] public DollsPropertyBuffed dolls;
     [HideInInspector] public float accurancyBuff, rangeBuff, dodgeBuff;
-    public float health;
+
+    public BuffedValue<float> health = new BuffedValue<float>(BuffConstants.BuffId.BUFF_VAL_EOT_BLEED);
     public Slider healthBar;
     float percentageHealth;
     Gradient healthGradient;
@@ -73,7 +74,7 @@ public class DollsCombat : MonoBehaviour
         GetComponent<BuffManager>().addBuff(new BuffSTSAttack());
 
         // todo delete: eot buff test code
-        GetComponent<BuffManager>().addBuff(new DebuffBleeding(interval: 3, bleedDamage: 5));
+        GetComponent<BuffManager>().addBuff(new DebuffBleeding(interval: 3, bleedDamage: 100));
 
         thisUnit = transform.GetComponent<Unit>();
         //crewNum = PlayerPrefs.GetInt(dolls.dolls_id + "_crewNum", 1);
@@ -81,6 +82,11 @@ public class DollsCombat : MonoBehaviour
         shotsInMag = dolls.dolls_mag;
         shotsInMag2 = dolls.dolls_mag2;
         SetHealthGradient(healthGradient);
+
+        // 所有的 BuffedValue 必须注册到 buffManager 才能使用
+        // 当然也可以像 DollsPropertyBuffed 那样在进行class级的统一反射扫描和注册
+        // register buffed values
+        health.registToBuffManager(GetComponent<BuffManager>());
     }
     void CheckCrewNumber()
     {
@@ -88,11 +94,11 @@ public class DollsCombat : MonoBehaviour
         int maxCrewNum = dolls.dolls_ammount;
         float crewPercentage = crewNum / (float)maxCrewNum;
         newMaxHealth = dolls.dolls_max_hp * crewPercentage;
-        health = newMaxHealth;
+        health.setValue(newMaxHealth);
         healthLevel = crewNum - 1;
         for (int i = 0; i <= crewNum; i++)
         {
-            healthRestrictLine[i] = health * ((float)i / (float)crewNum);
+            healthRestrictLine[i] = health * ((float)i / crewNum);
         }
         for (int j = crewNum; j < dolls.dolls_ammount; j++)
         {
@@ -312,7 +318,7 @@ public class DollsCombat : MonoBehaviour
         
         if (health <= healthRestrictLine[healthLevel + 1]) // && dolls.dolls_type == 3
         {
-            health = health + 0.1f; //我们取消了免费的维修套件和灭火器，现在只有空军有了
+            health.value = health + 0.1f; //我们取消了免费的维修套件和灭火器，现在只有空军有了
         }
         
         if (health < healthRestrictLine[healthLevel])
@@ -483,21 +489,21 @@ public class DollsCombat : MonoBehaviour
         {
             if ((health - num) < healthRestrictLine[healthLevel])
             {
-                health = healthRestrictLine[healthLevel] - 1;
+                health.value = healthRestrictLine[healthLevel] - 1;
             }
             else
             {
-                health -= num;
+                health.value -= num;
             }
         } else
         {
-            health -= num;
+            health.value -= num;
         }
         
     }
     public void RecieveExplosiveDamage(float num)
     {
-        health -= num;
+        health.value -= num;
     }
 
     void LoadWrechage(Transform deadbody)

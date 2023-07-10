@@ -20,14 +20,14 @@ namespace Assets.Scripts.BuffSystem
 		*/
 		public enum BuffType
 		{
-			BUFF_VAL, // 简单数值
-			BUFF_EOT  // 持续判定型
+			BUFF_ATTR,		// 附加在属性上的 buff, 只结算一次
+			BUFF_VAL_EOT	// 附加在数值上的 buff, 会持续修改数值
 		}
 
 		public enum BuffId
 		{
-			BUFF_VAL_ATK,
-			BUFF_EOT_BLEED
+			BUFF_ATTR_ATK,
+			BUFF_VAL_EOT_BLEED
 		}
 	}
 }
