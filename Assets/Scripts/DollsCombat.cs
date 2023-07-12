@@ -1,5 +1,5 @@
 using Assets.Scripts.BuffSystem;
-using Assets.Scripts.BuffSystem.BuffedImpl;
+using Assets.Scripts.BuffSystem.BuffeeImpl;
 using Assets.Scripts.BuffSystem.BuffImpl;
 using System.Collections;
 using System.Collections.Generic;
@@ -70,11 +70,11 @@ public class DollsCombat : MonoBehaviour
         dolls = gameObject.AddComponent<DollsPropertyBuffed>();
         dolls.getAndRegBuffedProperty(dollsRaw, GetComponent<BuffManager>());
         
-        // todo delete: val buff test code
-        GetComponent<BuffManager>().addBuff(new BuffSTSAttack());
+        // example code: attr buff test code
+        // GetComponent<BuffManager>().addBuff(new BuffSTSAttack());
 
-        // todo delete: eot buff test code
-        GetComponent<BuffManager>().addBuff(new DebuffBleeding(interval: 3, bleedDamage: 100));
+        // example code: eot buff test code
+        // GetComponent<BuffManager>().addBuff(new DebuffBleeding(interval: 3, bleedDamage: 100));
 
         thisUnit = transform.GetComponent<Unit>();
         //crewNum = PlayerPrefs.GetInt(dolls.dolls_id + "_crewNum", 1);
@@ -94,7 +94,7 @@ public class DollsCombat : MonoBehaviour
         int maxCrewNum = dolls.dolls_ammount;
         float crewPercentage = crewNum / (float)maxCrewNum;
         newMaxHealth = dolls.dolls_max_hp * crewPercentage;
-        health.setValue(newMaxHealth);
+        health.value = newMaxHealth;
         healthLevel = crewNum - 1;
         for (int i = 0; i <= crewNum; i++)
         {

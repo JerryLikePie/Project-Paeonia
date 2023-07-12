@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.BuffSystem
 {
 	/// <summary>
-	/// 用于注解实现
+	/// 用于注解实现 ATTR Buffee
 	/// </summary>
-	// todo AllowMultiple=true
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	public class BuffedAttrAttribute : Attribute
 	{
@@ -21,6 +21,32 @@ namespace Assets.Scripts.BuffSystem
 			this.buffType = buffType;
 			this.buffId = buffId;
 		}
+
+		/// <summary>
+		/// 反射获取 clazz 类所有被 [BuffedAttr] 注解的字段
+		/// </summary>
+		/// <param name="clazz">目标类</param>
+		/// <returns>被 [BuffedAttr] 注解的字段</returns>
+		public static Dictionary<BuffConstants.BuffId, FieldInfo> getBuffeFields(Type clazz)
+		{
+			Dictionary<BuffConstants.BuffId, FieldInfo> buffedAttrs = new Dictionary<BuffConstants.BuffId, FieldInfo>();
+
+			var fields = clazz.GetFields();
+			foreach (var field in fields)
+			{
+				var attrs = field.GetCustomAttributes<BuffedAttrAttribute>(false);
+				foreach (var attr in attrs)
+				{
+					if (attr.buffType == BuffConstants.BuffType.BUFF_ATTR)
+					{
+						buffedAttrs.Add(attr.buffId, field);
+					}
+				}
+			}
+
+			return buffedAttrs;
+		}
+
 	}
 
 	/// <summary>
@@ -34,9 +60,9 @@ namespace Assets.Scripts.BuffSystem
 
 		public readonly BuffConstants.BuffId buffId;
 
-		public T value;
+		public T rawValue;
 
-		public T buffedValue;
+		public T value;
 
 		/// <summary>
 		/// 创建受Buff影响的属性
@@ -45,6 +71,7 @@ namespace Assets.Scripts.BuffSystem
 		public BuffedAttr(BuffConstants.BuffId id)
 		{
 			this.buffId = id;
+			this.rawValue = default(T);
 		}
 
 		/// <summary>
@@ -55,17 +82,22 @@ namespace Assets.Scripts.BuffSystem
 		public BuffedAttr(BuffConstants.BuffId id, T value)
 		{
 			this.buffId = id;
-			this.value = value;
+			this.rawValue = value;
 		}
 		
 		public T getRawValue()
+		{
+			return rawValue;
+		}
+
+		public T getValue()
 		{
 			return value;
 		}
 
 		public T getBuffedValue()
 		{
-			return buffedValue;
+			return value;
 		}
 
 		public void registToBuffManager(BuffManager buffManager)
@@ -80,7 +112,7 @@ namespace Assets.Scripts.BuffSystem
 
 		public void onBuffUpdate(BuffManager buffManager, Buff buff)
 		{
-			buffedValue = buffManager.takeEffects<T>(value, buff.buffId);
+			value = buffManager.takeAllEffects<T>(rawValue, buff.buffId);
 		}
 	}
 }

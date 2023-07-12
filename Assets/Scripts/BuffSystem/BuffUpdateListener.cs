@@ -10,7 +10,7 @@ namespace Assets.Scripts.BuffSystem
 	/// 目前 Buff 系统的更新逻辑设计为：
 	///    buffManager 在满足条件时通知更新
 	///    -> Listener 收到更新
-	///    -> Listener 调用 buffManager 的方法修改自身状态
+	///    -> Listener 按需修改自身状态
 	/// </summary>
 	public interface BuffUpdateListener
 	{

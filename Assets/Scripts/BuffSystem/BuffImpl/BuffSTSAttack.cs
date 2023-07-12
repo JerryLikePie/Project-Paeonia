@@ -5,7 +5,7 @@ namespace Assets.Scripts.BuffSystem.BuffImpl
 {
 	public class BuffSTSAttack : AttrBuff<float>
 	{
-		public BuffSTSAttack() : base(BuffConstants.BuffId.BUFF_ATTR_ATK)
+		public BuffSTSAttack() : base(BuffConstants.BuffId.BUFF_ATTR_STS_ATK)
 		{
 
 		}

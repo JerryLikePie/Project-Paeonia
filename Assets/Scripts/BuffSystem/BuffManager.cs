@@ -5,6 +5,18 @@ using System.Reflection;
 using UnityEngine;
 
 namespace Assets.Scripts.BuffSystem {
+     
+    // buff 系统的核心模式为 Buffee - Buff Manager - Buff
+    // 即，Buffee 和 buff 通过松散的方式(BuffId)绑定到一起，由 Buff Manager 统一管理
+
+    // Buffee 为受 buff 影响的量，例如 BuffedAttr、BuffedValue
+
+    // Buff 为 buff 本身，从中可以派生出多种 buff 子类
+
+    // BuffManager 为管理类，挂载在可以拥有 buff 的单位上，为 Buff 提供容器，同时接受 Buffee 作为 BuffUpdateListener 注册
+    // BuffManager 可以监控所有 Buff 的状态，并按触发条件通知 Buffee 更新
+    // Buffee 对自身 buff 的值的更新方式是由 Buffee 决定的(在OnBuffUpdate()中)
+
     /// <summary>
     /// 作为我方、敌方单位挂载的 Component
     /// 作为容器类，管理和处理单位身上的 buff
@@ -38,28 +50,37 @@ namespace Assets.Scripts.BuffSystem {
             listeners.Add(listener);
         }
 
+        // 通常来说 listener 和 buffManager 的生命周期是一致的
+        // 如不一致，则需要调用 removeListener 将自己移除
         public void removeListener(BuffUpdateListener listener)
         {
             listeners.Remove(listener);
         }
 
-        // 添加、删除数值型 Buff 时，触发重新计算同 BuffId 的数值
-        // 持续型 buff 每次结算时，触发重新计算同 BuffId 的数值
+        /// 添加、删除 Attr Buff 时触发 <see cref="addBuff(Buff)"/><see cref="removeBuff(Buff)"/>
+        /// Val EOT Buff 每次 interval 到时结算时触发 <see cref="Update"/>
         public void invokeBuffUpdate(Buff buff)
         {
             foreach (BuffUpdateListener l in listeners)
             {
-                if (l.interestBuffIds() == null || l.interestBuffIds().Contains(buff.buffId))
+                if (l == null)
                 {
-                    l.onBuffUpdate(this, buff);
+                    Debug.LogError("listener should not be null, check its life cycle.");
+                }
+                else
+                {
+                    if (l.interestBuffIds() == null || l.interestBuffIds().Contains(buff.buffId))
+                    {
+                        l.onBuffUpdate(this, buff);
+                    }
                 }
             }
         }
 
-        // 计算受到 buff 影响之后的值
-        // 按顺序生效 buff
-        // todo buff 结算目前是按添加顺序结算，未来有需要可以加入 priority 并使用优先队列结算
-        public T takeEffects<T>(T val, BuffConstants.BuffId buffId)
+        // 计算受到所有同 buffId 的 buff 影响之后的值
+        // buff 按顺序生效
+        // todo: buff 结算目前是按添加顺序结算，未来有需要可以加入 priority 并使用优先队列结算
+        public T takeAllEffects<T>(T val, BuffConstants.BuffId buffId)
         {
             T buffedValue = val;
             // 在该值上结算所有 buffId 相同的 buff
@@ -72,57 +93,6 @@ namespace Assets.Scripts.BuffSystem {
             }
             return buffedValue;
         }
-
-        /// <summary>
-        /// 反射获取 clazz 类所有受 Attr Buff 影响的字段
-        /// </summary>
-        /// <param name="clazz">目标类</param>
-        /// <returns></returns>
-        public static Dictionary<BuffConstants.BuffId, FieldInfo> getBuffedFields(Type clazz)
-        {
-            Dictionary<BuffConstants.BuffId, FieldInfo> buffedFields = new Dictionary<BuffConstants.BuffId, FieldInfo>();
-
-            var fields = clazz.GetFields();
-            foreach (var f in fields)
-            {
-                // todo 过滤 VAL 型 buff
-                var annos = f.GetCustomAttributes<BuffedAttrAttribute>(false);
-                foreach (var anno in annos)
-                {
-                    buffedFields.Add(anno.buffId, f);
-                }
-            }
-
-            return buffedFields;
-        }
-
-        /// <summary>
-        /// 反射获取 clazz 类所有受 VAL Buff 影响的，指定 buffType 的字段
-        /// </summary>
-        /// <param name="clazz">目标类</param>
-        /// <param name="buffTypeSelector">过滤 buffType 类型</param>
-        /// <returns>受到 VAL Buff 影响的字段</returns>
-        public static Dictionary<BuffConstants.BuffId, FieldInfo> getBuffedFields(Type clazz, BuffConstants.BuffType buffTypeSelector)
-        {
-            Dictionary<BuffConstants.BuffId, FieldInfo> buffedFields = new Dictionary<BuffConstants.BuffId, FieldInfo>();
-
-            var fields = clazz.GetFields();
-            foreach (var f in fields)
-            {
-                // todo 过滤 Attr 型 buff
-                var annos = f.GetCustomAttributes<BuffedAttrAttribute>(false);
-                foreach (var anno in annos)
-                {
-                    if (anno.buffType == buffTypeSelector)
-                    {
-                        buffedFields.Add(anno.buffId, f);
-                    }
-                }
-            }
-
-            return buffedFields;
-        }
-
 
         public void Update()
         {

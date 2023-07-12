@@ -7,7 +7,8 @@ namespace Assets.Scripts.BuffSystem
 	// 所有 buff 的基类，buff 相关的全局属性可以放到这里
 
 	// BuffType 用来区分不同处理方式的 Buff
-	// BuffId 相当于一个频道，挂在这个频道上的 被Buff量 会受到同频道 Buff 影响
+	// BuffId 相当于一个频道，挂在这个频道上的 buffed量 会受到同频道 Buff 影响
+	// 详见 BuffConstants 相关说明
 	public abstract class Buff
 	{
 		public readonly BuffConstants.BuffType buffType;

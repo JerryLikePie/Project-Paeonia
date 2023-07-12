@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace Assets.Scripts.BuffSystem.BuffedImpl
+namespace Assets.Scripts.BuffSystem.BuffeeImpl
 {
 	/// <summary>
 	/// 代理模式实现
@@ -17,8 +17,8 @@ namespace Assets.Scripts.BuffSystem.BuffedImpl
 
 		private List<BuffConstants.BuffId> buffIds = new List<BuffConstants.BuffId>();
 
-		// todo (maybe) 一个 buff 影响多个 field
-		private Dictionary<BuffConstants.BuffId, FieldInfo> valBuffedFields = new Dictionary<BuffConstants.BuffId, FieldInfo>();
+		// 所有受到 attr-buff 影响的字段
+		private Dictionary<BuffConstants.BuffId, FieldInfo> dictBuffedFields = new Dictionary<BuffConstants.BuffId, FieldInfo>();
 
 		// 通过反射调用拷贝一份 DollsProperty
 		public void getAndRegBuffedProperty(DollsProperty dollsProperty, BuffManager buffManager)
@@ -35,8 +35,7 @@ namespace Assets.Scripts.BuffSystem.BuffedImpl
 			}
 
 			// 反射检测注解，获取所有带 Buff 的属性
-			// 实现 listener 再调用 takeEffects 总感觉似乎点多余，但也更灵活了。未来也可能会考虑全部放到 buffManager 里面实现
-			valBuffedFields = BuffManager.getBuffedFields(GetType(), BuffConstants.BuffType.BUFF_ATTR);
+			dictBuffedFields = BuffedAttrAttribute.getBuffeFields(GetType());
 
 			// 注册监听器
 			buffManager.addListener(this);
@@ -44,26 +43,28 @@ namespace Assets.Scripts.BuffSystem.BuffedImpl
 
 		public HashSet<BuffConstants.BuffId> interestBuffIds()
 		{
-			return new HashSet<BuffConstants.BuffId>(valBuffedFields.Keys);
+			return new HashSet<BuffConstants.BuffId>(dictBuffedFields.Keys);
 		}
 
+		// buff 更新时重新计算相应属性的值
 		public void onBuffUpdate(BuffManager buffManager, Buff buff)
 		{
 			FieldInfo field, myField;
 			if (buff.buffType == BuffConstants.BuffType.BUFF_ATTR)
 			{
-				if (valBuffedFields.TryGetValue(buff.buffId, out myField))
+				if (dictBuffedFields.TryGetValue(buff.buffId, out myField))
 				{
 					field = typeof(DollsProperty).GetField(myField.Name);
 
 					object originVal = field.GetValue(dollsPropertyRaw); ;
-
+					// 因为是反射获取的 object 型属性，没法注入到 T 中，只好使用反射方法调用
 					var buffedVal = Utilities.invokeTypedMethod(
 						buffManager,
 						"takeEffects",
 						new Type[] { myField.FieldType },
 						originVal, buff.buffId);
 					myField.SetValue(this, buffedVal);
+
 					Debug.Log("buffed: " + originVal + "->" + buffedVal);
 				}
 			}
@@ -78,19 +79,20 @@ namespace Assets.Scripts.BuffSystem.BuffedImpl
 		//public int dolls_view_range;//视野
 		//public bool dolls_unlocked;//是否已解锁
 		//public float dolls_max_hp;//最大生命值
-		// example: 需要 buff 什么属性就加上这样两个 Annotation
-		[NonSerialized]
-		[BuffedAttr(BuffConstants.BuffType.BUFF_ATTR, BuffConstants.BuffId.BUFF_ATTR_ATK)]
-		public new float dolls_sts_attack; //地对地攻击力
+
+		/* example code: 在本类中，需要 buff 什么属性就用new覆盖该属性，并加上这样两个 Annotation
+			[NonSerialized]
+			[BuffedAttr(BuffConstants.BuffType.BUFF_ATTR, BuffConstants.BuffId.BUFF_ATTR_ATK)]
+			public new float dolls_sts_attack; //地对地攻击力
+		*/
+
+		//public float dolls_sts_attack; //地对地攻击力
 		//public float dolls_ata_attack;//空对空攻击力
 		//public float dolls_sta_attack;//地对空攻击力
 		//public float dolls_ats_attack;//空对地攻击力
 		//public float dolls_penetration;//穿深
 		//public int dolls_accuracy;//命中
 		//public int dolls_dodge;//闪避
-
-		//// todo example code
-		//public buffedattr<int> dolls_atk = new buffedattr<int>(buffconstants.buffid.buff_val_atk);
 
 		//public float dolls_reload;//装填
 		//public float dolls_firerate;//如果不是弹夹炮，那么这个开火时间就等于装填时间

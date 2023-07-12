@@ -5,23 +5,26 @@ using UnityEngine;
 
 namespace Assets.Scripts.BuffSystem
 {
+	/// <summary>
+	/// 用于注解实现 VAL Effect-Of-Time Buffee
+	/// </summary>
 	[Serializable]
 	public class BuffedValue<T> : BuffUpdateListener where T : struct, IComparable
 	{
 
-		public readonly BuffConstants.BuffId buffId;
+		public readonly BuffConstants.BuffId[] buffIds;
 
 		public T value;
 
-		public BuffedValue(BuffConstants.BuffId id)
+		public BuffedValue(params BuffConstants.BuffId[] ids)
 		{
-			this.buffId = id;
+			this.buffIds = ids;
 			this.value = default(T);
 		}
 
-		public BuffedValue(BuffConstants.BuffId id, T value)
+		public BuffedValue(T value, BuffConstants.BuffId[] ids)
 		{
-			this.buffId = id;
+			this.buffIds = ids;
 			this.value = value;
 		}
 
@@ -42,23 +45,23 @@ namespace Assets.Scripts.BuffSystem
 
 		public HashSet<BuffConstants.BuffId> interestBuffIds()
 		{
-			return new HashSet<BuffConstants.BuffId>(new BuffConstants.BuffId[] { buffId });
+			return new HashSet<BuffConstants.BuffId>(buffIds);
 		}
 
 		public void onBuffUpdate(BuffManager buffManager, Buff buff)
 		{
-			value = buffManager.takeEffects<T>(value, buff.buffId);
+			value = (buff as ITakeEffect<T>).takeEffect(value);
 		}
 
 		public override bool Equals(object obj)
 		{
 			return obj is BuffedValue<T> value &&
-				   buffId == value.buffId;
+				   buffIds.Equals(value.buffIds); 
 		}
 
 		public override int GetHashCode()
 		{
-			return -747130871 + buffId.GetHashCode();
+			return -747130871 + buffIds.GetHashCode();
 		}
 
 		public override string ToString()
