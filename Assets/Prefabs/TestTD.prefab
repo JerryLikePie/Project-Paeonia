@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 4951395499524743772}
   - component: {fileID: 4951395499524743747}
   - component: {fileID: 4828169074863290683}
+  - component: {fileID: -2839039345502013883}
   m_Layer: 9
   m_Name: TestTD
   m_TagString: Enemy
@@ -430,6 +431,8 @@ MonoBehaviour:
   moveSpeedWaitTime: 14
   artyTarget: {fileID: 0}
   aaAttackInterval: 0
+  startPos: {x: 0, y: 0, z: 0}
+  target: {x: 0, y: 0, z: 0}
 --- !u!114 &4951395499524743747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,6 +495,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstTime: 1
+--- !u!114 &-2839039345502013883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4951395499524743745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 624a1c499d3527245aeb30467d7d17a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - lootType: 4
+    amount: 1000
+    probability: 1
+  - lootType: 0
+    amount: 100
+    probability: 0.692
+  - lootType: 3
+    amount: 100
+    probability: 0.706
+  - lootType: 2
+    amount: 1
+    probability: 0.059
 --- !u!1 &4951395500155458684
 GameObject:
   m_ObjectHideFlags: 0

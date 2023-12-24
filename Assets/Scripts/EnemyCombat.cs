@@ -622,6 +622,9 @@ public class EnemyCombat : MonoBehaviour
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
         descanMap();
         canMove = false;
+        // broadcast destroy event in this game object via Unity Event System
+        SendMessage("OnEnemyDestroy", null, SendMessageOptions.DontRequireReceiver);
+
         transform.gameObject.SetActive(false);
         transform.GetComponent<EnemyCombat>().enabled = false;
         //Destroy(gameObject);
