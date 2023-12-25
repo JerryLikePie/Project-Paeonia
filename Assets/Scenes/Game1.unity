@@ -4619,7 +4619,6 @@ GameObject:
   m_Component:
   - component: {fileID: 667696360}
   - component: {fileID: 667696361}
-  - component: {fileID: 667696362}
   m_Layer: 0
   m_Name: LootManager
   m_TagString: Untagged
@@ -4653,22 +4652,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f315b9fe6028e47ab433993a9af68b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &667696362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 667696359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a08eef4e283c8942a77741792fe1a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loots:
-    list:
-    - Key: 0
-      Value: []
 --- !u!1 &689499845
 GameObject:
   m_ObjectHideFlags: 0
@@ -9272,6 +9255,7 @@ MonoBehaviour:
   - {fileID: 869011391}
   - {fileID: 63039860}
   squadSelectionPage: {fileID: 721197088}
+  lootManager: {fileID: 667696361}
 --- !u!1 &1417660008
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,7 +37,9 @@ public class MapCreate : MonoBehaviour
     int dropID, dropAmount, dropRate;
     string mapToLoad;
 
-    [System.Serializable]
+    public LootManager lootManager;
+
+	[System.Serializable]
     class EnemySpawnPoint
     {
         public int spawnType;
@@ -239,6 +241,7 @@ public class MapCreate : MonoBehaviour
         EndGameDrop();
         Score.GameEnded();
         SceneManager.LoadScene("GameEnd");
+        lootManager.stopRecordLooting();
     }
     void EndGameDrop()
     {
