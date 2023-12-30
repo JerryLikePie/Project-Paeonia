@@ -10,7 +10,6 @@ public class ScoreManager : MonoBehaviour
     float finalPoints, killPoints, capturePoints, timePoints, casualtyPoints, timeTook, timeLimit;
     public GameObject enemyList;
     public GameObject friendlyList;
-    public bool captureObjective, noDeath, allDestroyed, inTime;
     public string stageName;
     public Text killCount;
     public Text timeCount;
@@ -21,69 +20,85 @@ public class ScoreManager : MonoBehaviour
     public AudioSource bgmIntense, bgmNormal, bgmIntro;
     public int enemyShown;
 
-    private void Awake()
+    public GameCore gameCore;
+
+    // 用于跨场景传递的数据包
+    public struct GameScoreInfo
     {
-        DontDestroyOnLoad(gameObject);
-        for (int i = 0; i < Object.FindObjectsOfType<ScoreManager>().Length; i++)
-        {
-            if (Object.FindObjectsOfType<ScoreManager>()[i] != this)
-            {
-                Destroy(Object.FindObjectsOfType<ScoreManager>()[i].gameObject);
-                //Destroy(this);
-            }
-        }
+		public bool inTime;             // 在限定时间内胜利
+        public bool captureObjective;   // 占领目标
+        public bool noDeath;            // 没有阵亡
+        public bool allDestroyed;       // 摧毁全部敌方单位
+        public bool lost;               // 是否失败
+
+        public float timeTook;          // 游戏时长
+        public float timeLimit;         // 关卡限定时长
+
+        public string stageName;        // 关卡ID
     }
 
-
-    public void GameEnded()
+    public void OnGameEnd()
     {
-        if (timeTook < timeLimit)
-        {
-            inTime = true;
-        }
-        if (enemyBaseCaptured)
-        {
-            captureObjective = true;
-        }
-        if (killedDolls < 1)
-        {
-            noDeath = true;
-        }
-        if (killedEnemy >= totalEnemy)
-        {
-            allDestroyed = true;
-        }
+        // 得分判定：
+        GameScoreInfo scores = new GameScoreInfo();
+        //   在限定时间内胜利
+        scores.inTime           = (timeTook < timeLimit);
+        //   占领目标
+        scores.captureObjective = enemyBaseCaptured;
+        //   没有阵亡
+        scores.noDeath          = (killedDolls < 1);
+        //   摧毁全部敌方单位
+		scores.allDestroyed     = (killedEnemy >= totalEnemy);
+        //   是否失败
+        scores.lost             = isLost();
+        //   游戏时长
+        scores.timeTook         = GetTime();
+        //   关卡限定时长
+        scores.timeLimit        = GetTimeLimit();
+        //   关卡ID
+        scores.stageName        = stageName;
+
+        // 跨场景保存数据
+        gameCore.sceneManager.SaveData("game1.scores", scores);
     }
+
     public void SetTime(float time)
     {
         this.timeTook = time;
         timeCount.text = ((int) time / 60) + ":" + ((int) time % 60).ToString("00");
     }
+
     public void SetTimeLimit(float time)
     {
         this.timeLimit = time;
     }
+
     public float GetTimeLimit()
     {
         return this.timeLimit;
     }
+
     public float GetTime()
     {
         return this.timeTook;
     }
+
     public void EnemyKilled()
     {
         this.killedEnemy++;
         killCount.text = killedEnemy + "/" + totalEnemy;
     }
+
     public void FriendlyDead()
     {
         this.killedDolls++;
     }
+
     public void SpawnDoll()
     {
         this.totalDolls++;
     }
+
     public void SpawnEnemy()
     {
         this.totalEnemy++;
@@ -97,7 +112,7 @@ public class ScoreManager : MonoBehaviour
     {
         this.enemyBaseCaptured = true;
     }
-    public bool Lost()
+    public bool isLost()
     {
         return friendlyBaseCaptured;
     }
@@ -138,10 +153,12 @@ public class ScoreManager : MonoBehaviour
             }
         }
     }
+
     public void foundEnemy(int num)
     {
         enemyShown += num;
     }
+
     private void Update()
     {
         if (bgmIntense != null && bgmNormal != null)

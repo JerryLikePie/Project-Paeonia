@@ -24,7 +24,6 @@ public class MapCreate : MonoBehaviour
     public GameObject unitList;
     int homeHang = 0;
     int homeLie = 0;
-    public ScoreManager Score;
     long timeStart;
     bool gameStarted = false;
     bool gameEnded = false;
@@ -37,7 +36,8 @@ public class MapCreate : MonoBehaviour
     int dropID, dropAmount, dropRate;
     string mapToLoad;
 
-    public LootManager lootManager;
+    // 游戏核心组件
+    public GameCore gameCore;
 
 	[System.Serializable]
     class EnemySpawnPoint
@@ -74,16 +74,9 @@ public class MapCreate : MonoBehaviour
     void Start()
     {
         mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_1-1");
-        if (Object.FindObjectsOfType<ScoreManager>().Length > 1)
-        {
-            Score = Object.FindObjectsOfType<ScoreManager>()[1];
-        }
-        else
-        {
-            Score = Object.FindObjectsOfType<ScoreManager>()[0];
-        }
-        Score.Initialize();
-        Score.stageName = mapToLoad;
+
+        gameCore.scoreManager.Initialize();
+        gameCore.scoreManager.stageName = mapToLoad;
         //看看是不是教程关卡？
         checkTutorial();
     }
@@ -93,14 +86,14 @@ public class MapCreate : MonoBehaviour
         if (mapToLoad == "TR-1" || mapToLoad == "TR-2" || mapToLoad == "TR-3")
         {
             SpawnUnitWithPreset(BluePoint, 1);
-            SpawnGameMap();
+            SpawnGame();
             
-            Score.startBGM();
+            gameCore.scoreManager.startBGM();
             //Score.HUD.SetActive(true);
         }
     }
 
-    public void SpawnGameMap()
+    public void SpawnGame()
     {
         MapInfo mapInfo;
 
@@ -214,14 +207,14 @@ public class MapCreate : MonoBehaviour
     {
         if (ObjectivePoint != null && RedPoint.haveUnit == true)
         {
-            Score.EnemyBaseCaptured();
+            gameCore.scoreManager.EnemyBaseCaptured();
             gameEnded = true;
             Invoke("GameEnd", 3);
             //GameEnd();
         }
         if (HomePoint != null && BluePoint.haveEnemy == true)
         {
-            Score.FriendlyBaseLost();
+            gameCore.scoreManager.FriendlyBaseLost();
             gameEnded = true;
             Invoke("GameEnd", 3);
         }
@@ -233,24 +226,25 @@ public class MapCreate : MonoBehaviour
     }
     void UpdateTime()
     {
-        Score.SetTime((System.DateTime.Now.Ticks - timeStart) / 10000000f);
+        gameCore.scoreManager.SetTime((System.DateTime.Now.Ticks - timeStart) / 10000000f);
     }
     void GameEnd()
     {
-        Score.SetTimeLimit(timeLimit);
-        EndGameDrop();
-        Score.GameEnded();
+        gameCore.scoreManager.SetTimeLimit(timeLimit);
+        gameCore.scoreManager.OnGameEnd();
         SceneManager.LoadScene("GameEnd");
-        lootManager.stopRecordLooting();
+        EndGameLoot();
+        // TODO game end
+        gameCore.lootManager.stopRecordLooting();
     }
-    void EndGameDrop()
+    void EndGameLoot()
     {
         Debug.Log(dropRate);
         Debug.Log(dropAmount);
         if (Random.Range(0, 100) < dropRate)
         {
-            Score.dropID = dropID;
-            Score.dropAmmount = dropAmount;
+            gameCore.scoreManager.dropID = dropID;
+            gameCore.scoreManager.dropAmmount = dropAmount;
         }
     }
     void InitialMapVision(int home_hang, int home_lie)
@@ -335,7 +329,7 @@ public class MapCreate : MonoBehaviour
             Unit prefabUnit = null;
             if (slots[i].spawnID != 0 && spawnSquardA.TryGetValue(slots[i].spawnUID, out prefabUnit))
             {
-                Score.SpawnDoll();
+                gameCore.scoreManager.SpawnDoll();
                 spawnedUnit = Instantiate(prefabUnit.gameObject, tiletoSpawn.transform.position, Quaternion.identity);
                 Debug.Log("在" + tiletoSpawn.name + "生成了" + slots[i].spawnUID + "号单位" + prefabUnit.name);
                 spawnedUnit.GetComponent<Unit>().hang = next_hang;
@@ -377,7 +371,7 @@ public class MapCreate : MonoBehaviour
         {
             for (int i = 0; i < mapInfo.enemySpawnPoints.Length; i++)
             {
-                Score.SpawnEnemy();
+                gameCore.scoreManager.SpawnEnemy();
                 GameObject spawnedEnemy;
                 GameObject tiletoSpawn = GameObject.Find(mapInfo.enemySpawnPoints[i].spawnTile);
                 Hex Hex = tiletoSpawn.GetComponent<Hex>();

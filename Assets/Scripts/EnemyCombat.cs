@@ -618,7 +618,8 @@ public class EnemyCombat : MonoBehaviour
     }
     void WithDrawl()
     {
-        map.GetComponent<MapCreate>().Score.EnemyKilled();
+        // TODO ÷ÿππ“¿¿µ
+        map.GetComponent<MapCreate>().gameCore.scoreManager.EnemyKilled();
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
         descanMap();
         canMove = false;

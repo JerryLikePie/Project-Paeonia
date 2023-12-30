@@ -9,18 +9,26 @@ public class EndGameShowResult : MonoBehaviour
     public GameObject Star1,Star2,Star3,Star4,Star4Special;
     public GameObject EndScore,EndWords;
     int howManyStars = 0;
-    public ScoreManager scores;
+    
     public InventoryManager inventory;
+
+    public SceneMgr sceneManager;
+
     void Start()
     {
-        scores = Object.FindObjectOfType<ScoreManager>().GetComponent<ScoreManager>();
         //inventory = Object.FindObjectOfType<InventoryManager>().GetComponent<InventoryManager>();
-        Conditions();
-        Final();
+
+        sceneManager = GameObject.Find("SceneMgr").GetComponent<SceneMgr>();
+
+        // 获取跨场景得分数据并解析
+        ScoreManager.GameScoreInfo scores = sceneManager.LoadData<ScoreManager.GameScoreInfo>("game1.scores");
+        CheckConditions(scores);
+        Final(scores);
     }
-    void Conditions()
+
+    void CheckConditions(ScoreManager.GameScoreInfo scores)
     {
-        if (scores.captureObjective && !scores.Lost())
+        if (scores.captureObjective && !scores.lost)
         {
             Condition1.GetComponent<Text>().text = "已占领该区域关键节点";
             Star1.SetActive(true);
@@ -31,7 +39,7 @@ public class EndGameShowResult : MonoBehaviour
             Condition1.GetComponent<Text>().text = "未能占领该区域";
             Star1.SetActive(false);
         }
-        if (scores.allDestroyed && !scores.Lost())
+        if (scores.allDestroyed && !scores.lost)
         {
             Condition2.GetComponent<Text>().text = "已清缴该区域全部目标";
             Star2.SetActive(true);
@@ -42,7 +50,7 @@ public class EndGameShowResult : MonoBehaviour
             Condition2.GetComponent<Text>().text = "未能清缴全部目标";
             Star2.SetActive(false);
         }
-        if (scores.noDeath && !scores.Lost())
+        if (scores.noDeath && !scores.lost)
         {
             Condition3.GetComponent<Text>().text = "DOLLS没有受到重大损失";
             Star3.SetActive(true);
@@ -53,9 +61,9 @@ public class EndGameShowResult : MonoBehaviour
             Condition3.GetComponent<Text>().text = "DOLLS遭受了重大损失";
             Star3.SetActive(false);
         }
-        if (scores.inTime && !scores.Lost())
+        if (scores.inTime && !scores.lost)
         {
-            Condition4.GetComponent<Text>().text = "作战时间" + scores.GetTime().ToString("F1")+"，规定时间为" + scores.GetTimeLimit().ToString("F0");
+            Condition4.GetComponent<Text>().text = "作战时间" + scores.timeTook.ToString("F1")+"，规定时间为" + scores.timeLimit.ToString("F0");
             if (howManyStars < 3)
             {
                 Star4.SetActive(true);
@@ -70,14 +78,14 @@ public class EndGameShowResult : MonoBehaviour
         }
         else 
         {
-            Condition4.GetComponent<Text>().text = "作战时间" + scores.GetTime().ToString("F1") + "，规定时间为" + scores.GetTimeLimit().ToString("F0");
+            Condition4.GetComponent<Text>().text = "作战时间" + scores.timeTook.ToString("F1") + "，规定时间为" + scores.timeLimit.ToString("F0");
             Star4.SetActive(false);
             Star4Special.SetActive(false);
         }
     }
-    void Final()
+
+    void Final(ScoreManager.GameScoreInfo scores)
     {
-        Debug.Log(scores.dropAmmount);
         //inventory.menuInventory.AddItem(inventory.itemPool[scores.dropID].item, scores.dropAmmount);
         int previousRun = PlayerPrefs.GetInt(scores.stageName, 0);
         if (howManyStars > previousRun)
@@ -85,7 +93,7 @@ public class EndGameShowResult : MonoBehaviour
             PlayerPrefs.SetInt(scores.stageName, howManyStars);
             PlayerPrefs.Save();
         }
-        if (scores.Lost())
+        if (scores.lost)
         {
             EndScore.GetComponent<Text>().text = "作战失败";
             //EndWords.GetComponent<Text>().text = "灾兽正在逼近前哨指挥所，请立即撤退。";
