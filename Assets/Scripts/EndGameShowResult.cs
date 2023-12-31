@@ -12,16 +12,17 @@ public class EndGameShowResult : MonoBehaviour
     
     public InventoryManager inventory;
 
-    public SceneMgr sceneManager;
+    public SceneMessager sceneManager;
 
     void Start()
     {
         //inventory = Object.FindObjectOfType<InventoryManager>().GetComponent<InventoryManager>();
 
-        sceneManager = GameObject.Find("SceneMgr").GetComponent<SceneMgr>();
+        sceneManager = GameObject.Find("SceneMessager").GetComponent<SceneMessager>();
 
-        // 获取跨场景得分数据并解析
+        // 获取跨场景得分数据
         ScoreManager.GameScoreInfo scores = sceneManager.LoadData<ScoreManager.GameScoreInfo>("game1.scores");
+        // 解析和显示
         CheckConditions(scores);
         Final(scores);
     }

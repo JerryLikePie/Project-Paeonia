@@ -14,7 +14,6 @@ public class ScoreManager : MonoBehaviour
     public Text killCount;
     public Text timeCount;
     public GameObject HUD;
-    // Start is called before the first frame update
     public int dropID;
     public int dropAmmount;
     public AudioSource bgmIntense, bgmNormal, bgmIntro;
@@ -42,7 +41,7 @@ public class ScoreManager : MonoBehaviour
         // 得分判定：
         GameScoreInfo scores = new GameScoreInfo();
         //   在限定时间内胜利
-        scores.inTime           = (timeTook < timeLimit);
+        scores.inTime           = (timeTook < GetTimeLimit());
         //   占领目标
         scores.captureObjective = enemyBaseCaptured;
         //   没有阵亡
@@ -59,23 +58,18 @@ public class ScoreManager : MonoBehaviour
         scores.stageName        = stageName;
 
         // 跨场景保存数据
-        gameCore.sceneManager.SaveData("game1.scores", scores);
+        gameCore.sceneMessager.SaveData("game1.scores", scores);
     }
 
-    public void SetTime(float time)
+    public void SetTimeTook(float time)
     {
         this.timeTook = time;
         timeCount.text = ((int) time / 60) + ":" + ((int) time % 60).ToString("00");
     }
 
-    public void SetTimeLimit(float time)
-    {
-        this.timeLimit = time;
-    }
-
     public float GetTimeLimit()
     {
-        return this.timeLimit;
+        return gameCore.mapCreator.timeLimit;
     }
 
     public float GetTime()
@@ -104,18 +98,22 @@ public class ScoreManager : MonoBehaviour
         this.totalEnemy++;
         killCount.text = killedEnemy + "/" + totalEnemy;
     }
+
     public void FriendlyBaseLost()
     {
         this.friendlyBaseCaptured = true;
     }
+
     public void EnemyBaseCaptured()
     {
         this.enemyBaseCaptured = true;
     }
+
     public bool isLost()
     {
         return friendlyBaseCaptured;
     }
+
     public void Initialize()
     {
         try
@@ -137,6 +135,7 @@ public class ScoreManager : MonoBehaviour
         }
         
     }
+
     public void startBGM()
     {
         if (bgmIntense != null && bgmNormal != null)
@@ -159,7 +158,7 @@ public class ScoreManager : MonoBehaviour
         enemyShown += num;
     }
 
-    private void Update()
+    void Update()
     {
         if (bgmIntense != null && bgmNormal != null)
         {
@@ -170,6 +169,11 @@ public class ScoreManager : MonoBehaviour
             {
                 bgmIntense.volume -= 0.001f;
             }
+        }
+        // 更新游戏流逝的时间
+        if (gameCore.IsGaming())
+		{
+            SetTimeTook((System.DateTime.Now.Ticks - gameCore.timeStart) / 10000000f);
         }
     }
 }

@@ -24,17 +24,13 @@ public class MapCreate : MonoBehaviour
     public GameObject unitList;
     int homeHang = 0;
     int homeLie = 0;
-    long timeStart;
-    bool gameStarted = false;
-    bool gameEnded = false;
     public float timeLimit;
-    float timeTook;
-    Hex RedPoint, BluePoint;
+
+    [HideInInspector] public Hex RedPoint, BluePoint;
     int maxX, maxZ;
     public SquadSlot[] slots;
-    public SquadSelectionPage squadSelectionPage;
     int dropID, dropAmount, dropRate;
-    string mapToLoad;
+    [HideInInspector] public string mapToLoad;
 
     // 游戏核心组件
     public GameCore gameCore;
@@ -74,24 +70,19 @@ public class MapCreate : MonoBehaviour
     void Start()
     {
         mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_1-1");
-
-        gameCore.scoreManager.Initialize();
-        gameCore.scoreManager.stageName = mapToLoad;
-        //看看是不是教程关卡？
-        checkTutorial();
     }
 
-    void checkTutorial()
+    public bool IsTutorial()
     {
-        if (mapToLoad == "TR-1" || mapToLoad == "TR-2" || mapToLoad == "TR-3")
-        {
-            SpawnUnitWithPreset(BluePoint, 1);
-            SpawnGame();
-            
-            gameCore.scoreManager.startBGM();
-            //Score.HUD.SetActive(true);
-        }
+        return (mapToLoad == "TR-1" || mapToLoad == "TR-2" || mapToLoad == "TR-3");
     }
+
+    // 如果是教程模式则使用预设
+    public void SpawnGameWithPreset()
+	{
+        FillUnitSlotWithPreset(BluePoint, 1);
+        SpawnGame();
+	}
 
     public void SpawnGame()
     {
@@ -198,45 +189,14 @@ public class MapCreate : MonoBehaviour
         SpawnTheUnits(homeHang, homeLie);
         SpawnTheEnemy(mapInfo);
         //Debug.Log("宽和长分别为" + maxX + "和" + maxZ);
-        timeStart = System.DateTime.Now.Ticks;
-        gameStarted = true;
     }
     
     // Update is called once per frame
     void Update()
     {
-        if (ObjectivePoint != null && RedPoint.haveUnit == true)
-        {
-            gameCore.scoreManager.EnemyBaseCaptured();
-            gameEnded = true;
-            Invoke("GameEnd", 3);
-            //GameEnd();
-        }
-        if (HomePoint != null && BluePoint.haveEnemy == true)
-        {
-            gameCore.scoreManager.FriendlyBaseLost();
-            gameEnded = true;
-            Invoke("GameEnd", 3);
-        }
-        if (gameStarted && !gameEnded)
-        {
-            UpdateTime();
-        }
 
     }
-    void UpdateTime()
-    {
-        gameCore.scoreManager.SetTime((System.DateTime.Now.Ticks - timeStart) / 10000000f);
-    }
-    void GameEnd()
-    {
-        gameCore.scoreManager.SetTimeLimit(timeLimit);
-        gameCore.scoreManager.OnGameEnd();
-        SceneManager.LoadScene("GameEnd");
-        EndGameLoot();
-        // TODO game end
-        gameCore.lootManager.stopRecordLooting();
-    }
+
     void EndGameLoot()
     {
         Debug.Log(dropRate);
@@ -247,6 +207,7 @@ public class MapCreate : MonoBehaviour
             gameCore.scoreManager.dropAmmount = dropAmount;
         }
     }
+
     void InitialMapVision(int home_hang, int home_lie)
     {
         Hex Home = GameObject.Find("Map" + home_hang + "_" + home_lie).GetComponent<Hex>();
@@ -268,7 +229,7 @@ public class MapCreate : MonoBehaviour
             }
         }
     }
-    public void SpawnUnitWithPreset(Hex blueBox, int UnitID)
+    public void FillUnitSlotWithPreset(Hex blueBox, int UnitID)
     {
         slots[0].spawnID = 1;
         //GameObject spawnedUnit;
@@ -305,7 +266,6 @@ public class MapCreate : MonoBehaviour
         //    }
         //}
         //spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
-        //squadSelectionPage.gameObject.SetActive(false);
     }
 
     public void SpawnTheUnits(int X, int Z)
@@ -362,7 +322,6 @@ public class MapCreate : MonoBehaviour
                 spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
             }
         }
-        squadSelectionPage.gameObject.SetActive(false);
     }
 
     void SpawnTheEnemy(MapInfo mapInfo)
@@ -461,6 +420,7 @@ public class MapCreate : MonoBehaviour
             return false;
         }
     }
+
     public bool IsBlocked(Hex point, Hex target)
     {
         try

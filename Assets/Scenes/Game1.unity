@@ -701,7 +701,7 @@ GameObject:
   - component: {fileID: 42107391}
   - component: {fileID: 42107390}
   m_Layer: 9
-  m_Name: Plane
+  m_Name: GroundPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1148,10 +1148,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyList: {fileID: 1009844445}
   friendlyList: {fileID: 1972306456}
-  captureObjective: 0
-  noDeath: 0
-  allDestroyed: 0
-  inTime: 0
   stageName: 
   killCount: {fileID: 758691792}
   timeCount: {fileID: 131310712}
@@ -2269,7 +2265,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &292483543
 GameObject:
@@ -4251,7 +4247,7 @@ GameObject:
   - component: {fileID: 547245756}
   - component: {fileID: 547245755}
   m_Layer: 0
-  m_Name: SceneMgr
+  m_Name: SceneMessager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4266,7 +4262,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 547245754}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a350e2720e2f568459711f845c6c460b, type: 3}
+  m_Script: {fileID: 11500000, guid: 20e8b7f244aaed2419c46c9d233c932c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &547245756
@@ -4614,7 +4610,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &662978163
 GameObject:
@@ -5456,7 +5452,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &786563157
 GameObject:
@@ -6846,6 +6842,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1006374472}
   - component: {fileID: 1006374471}
+  - component: {fileID: 1006374473}
   m_Layer: 0
   m_Name: GameCore
   m_TagString: Untagged
@@ -6868,7 +6865,10 @@ MonoBehaviour:
   lootManager: {fileID: 667696361}
   mapCreator: {fileID: 1408817940}
   scoreManager: {fileID: 118310997}
-  sceneManager: {fileID: 0}
+  sceneMessager: {fileID: 0}
+  eventSystem: {fileID: 1006374473}
+  uiSquadSelectionPage: {fileID: 721197088}
+  timeStart: 0
 --- !u!4 &1006374472
 Transform:
   m_ObjectHideFlags: 0
@@ -6885,6 +6885,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1006374473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006374470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d38471b1d086fa04c852f103ba619001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1009844445
 GameObject:
   m_ObjectHideFlags: 0
@@ -7168,7 +7180,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1006374471}
         m_TargetAssemblyTypeName: GameCore, Assembly-CSharp
-        m_MethodName: startBattle
+        m_MethodName: StartBattle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7671,7 +7683,7 @@ RectTransform:
   m_Children:
   - {fileID: 975405561}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9314,8 +9326,9 @@ MonoBehaviour:
   HomePoint: {fileID: 0}
   enemyList: {fileID: 1009844445}
   unitList: {fileID: 1972306456}
-  scoreManager: {fileID: 0}
   timeLimit: 180
+  RedPoint: {fileID: 0}
+  BluePoint: {fileID: 0}
   slots:
   - {fileID: 372102892}
   - {fileID: 1459829221}
@@ -9324,7 +9337,8 @@ MonoBehaviour:
   - {fileID: 869011391}
   - {fileID: 63039860}
   squadSelectionPage: {fileID: 721197088}
-  core: {fileID: 1006374471}
+  mapToLoad: 
+  gameCore: {fileID: 1006374471}
 --- !u!1 &1417660008
 GameObject:
   m_ObjectHideFlags: 0

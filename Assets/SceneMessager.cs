@@ -10,7 +10,7 @@ using UnityEngine;
 ///   在新场景中获取 SceneMgr 对象后，调用 LoadData() 读取保存的数据
 /// 
 /// </summary>
-public class SceneMgr : MonoBehaviour
+public class SceneMessager : MonoBehaviour
 {
     // 保证只有一个 SceneMgr 的实例存在
     public static bool hasInstance = false;
@@ -52,7 +52,7 @@ public class SceneMgr : MonoBehaviour
         if (key != null)
 		{
             savedData.Remove(key);
-		}
+		} 
 	}
 
     // 读取数据
