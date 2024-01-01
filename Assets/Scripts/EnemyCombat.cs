@@ -51,6 +51,8 @@ public class EnemyCombat : MonoBehaviour
     bool firstTimeFound = true;
     private Rigidbody rb;
 
+    GameCore gameCore;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +82,9 @@ public class EnemyCombat : MonoBehaviour
         }
         startPos = transform.position;
         target = startPos;
+
+        gameCore = GameObject.Find("GameCore").GetComponent<GameCore>();
+        Debug.Assert(gameCore != null);
 }
 
     // Update is called once per frame
@@ -619,12 +624,13 @@ public class EnemyCombat : MonoBehaviour
     void WithDrawl()
     {
         // TODO ÷ÿππ“¿¿µ
-        map.GetComponent<MapCreate>().gameCore.scoreManager.EnemyKilled();
+        gameCore.scoreManager.EnemyKilled();
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
         descanMap();
         canMove = false;
         // broadcast destroy event in this game object via Unity Event System
-        SendMessage("OnEnemyDestroy", null, SendMessageOptions.DontRequireReceiver);
+        // SendMessage("OnEnemyDestroy", null, SendMessageOptions.DontRequireReceiver);
+        gameCore.eventSystem.triggerEvent(GameEventSystem.EventType.Event_Enemy_Killed, new GameEventSystem.Event(this.gameObject));
 
         transform.gameObject.SetActive(false);
         transform.GetComponent<EnemyCombat>().enabled = false;

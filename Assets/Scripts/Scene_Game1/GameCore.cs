@@ -37,8 +37,12 @@ public class GameCore : MonoBehaviour
 	// 事件系统
 	public GameEventSystem eventSystem;
 
-	// 小队选择界面
+	// GUI-小队选择界面
 	public SquadSelectionPage uiSquadSelectionPage;
+
+	// BGMs
+	public AudioSource bgmIntense, bgmNormal, bgmIntro;
+
 
 	// 记录关卡开始的时间
 	[HideInInspector] public long timeStart; 
@@ -47,6 +51,7 @@ public class GameCore : MonoBehaviour
 	// 【【【 重要 】】】
 	// 当前在设置中 GameCore 晚于所有脚本加载
 	// 保证可以调用到其他脚本 Start 中加载的所有资源
+	// 同时这也意味着其他组件在 Start 的时候无法使用 GameCore 中的资源
     void Start()
 	{
 		Debug.Assert(lootManager != null);
@@ -83,6 +88,7 @@ public class GameCore : MonoBehaviour
 	// 检测游戏是否满足结束条件
 	void Update()
 	{
+
 		// 占领敌方目标点，游戏结束
 		if (mapCreator.ObjectivePoint != null && mapCreator.RedPoint.haveUnit)
 		{
@@ -130,10 +136,28 @@ public class GameCore : MonoBehaviour
 	// 进入游戏前需要初始化的变量
 	private void InitGame()
 	{
-		timeStart = System.DateTime.Now.Ticks;
 		uiSquadSelectionPage.gameObject.SetActive(false);
-		// TODO bgm 改到别的地方去
-		scoreManager.startBGM();
+
+		timeStart = System.DateTime.Now.Ticks;
+		StartBGM();
+		lootManager.startRecordLooting();
+	}
+
+	private void StartBGM()
+	{
+		if (bgmIntense != null && bgmNormal != null)
+		{
+			bgmIntro.Play();
+			float introLength = bgmIntro.clip.length;
+			if (!bgmIntense.isPlaying)
+			{
+				bgmIntense.PlayDelayed(introLength);
+			}
+			if (!bgmNormal.isPlaying)
+			{
+				bgmNormal.PlayDelayed(introLength);
+			}
+		}
 	}
 
 
@@ -151,4 +175,9 @@ public class GameCore : MonoBehaviour
 		return gameState == GameState.GS_Gaming;
 	}
 
+	// 设置遇敌 BGM 的音量
+	public void setBgmIntenseVolume(float volume)
+	{
+		bgmIntense.volume = volume;
+	}
 }

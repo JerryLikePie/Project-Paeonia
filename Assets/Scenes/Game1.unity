@@ -782,7 +782,7 @@ Transform:
   m_LocalScale: {x: 88.35, y: 0, z: 50}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46393819
 GameObject:
@@ -1154,9 +1154,6 @@ MonoBehaviour:
   HUD: {fileID: 1192339888}
   dropID: 0
   dropAmmount: 0
-  bgmIntense: {fileID: 1715702603}
-  bgmNormal: {fileID: 408932473}
-  bgmIntro: {fileID: 349352360}
   enemyShown: 0
   gameCore: {fileID: 1006374471}
 --- !u!1 &131310710
@@ -2265,7 +2262,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &292483543
 GameObject:
@@ -2526,7 +2523,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 44.058, y: 197.955, z: 173.494}
 --- !u!1 &339472694
 GameObject:
@@ -4277,7 +4274,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &563686716
 GameObject:
@@ -4562,7 +4559,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &650661650
 GameObject:
@@ -4610,7 +4607,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &662978163
 GameObject:
@@ -5190,7 +5187,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &771975075
 GameObject:
@@ -5452,7 +5449,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &786563157
 GameObject:
@@ -6519,7 +6516,6 @@ Transform:
   m_Children:
   - {fileID: 575314280}
   - {fileID: 7752668}
-  - {fileID: 1347760173}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 30, y: 30.257, z: 0.007}
@@ -6868,6 +6864,9 @@ MonoBehaviour:
   sceneMessager: {fileID: 0}
   eventSystem: {fileID: 1006374473}
   uiSquadSelectionPage: {fileID: 721197088}
+  bgmIntense: {fileID: 1715702603}
+  bgmNormal: {fileID: 408932473}
+  bgmIntro: {fileID: 349352360}
   timeStart: 0
 --- !u!4 &1006374472
 Transform:
@@ -6883,7 +6882,7 @@ Transform:
   - {fileID: 667696360}
   - {fileID: 118310996}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1006374473
 MonoBehaviour:
@@ -7683,7 +7682,7 @@ RectTransform:
   m_Children:
   - {fileID: 975405561}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8829,15 +8828,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1347760172}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.24986458, y: 0.25207666, z: -0.06749091, w: 0.9324538}
+  m_LocalPosition: {x: -12, y: 57.5, z: -42.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 349352361}
   - {fileID: 1715702604}
   - {fileID: 408932472}
-  m_Father: {fileID: 963194228}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1359477998
 GameObject:
@@ -9173,7 +9172,7 @@ Transform:
   - {fileID: 1972306457}
   - {fileID: 769155818}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1408817940
 MonoBehaviour:
@@ -9336,7 +9335,6 @@ MonoBehaviour:
   - {fileID: 1179272428}
   - {fileID: 869011391}
   - {fileID: 63039860}
-  squadSelectionPage: {fileID: 721197088}
   mapToLoad: 
   gameCore: {fileID: 1006374471}
 --- !u!1 &1417660008
@@ -10239,7 +10237,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1561078061
 GameObject:
@@ -11620,7 +11618,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1736224328
 GameObject:

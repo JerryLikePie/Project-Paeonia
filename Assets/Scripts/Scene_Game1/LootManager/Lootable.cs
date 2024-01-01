@@ -8,12 +8,14 @@ public class Lootable : MonoBehaviour
 {
 	[SerializeField] public List<Loot> loots;
 
+	protected GameCore gameCore;
 	protected LootManager lootManager;
 
 	// Use this for initialization
-	void Start()
+	protected virtual void Start()
 	{
-		lootManager = GameObject.Find("LootManager").GetComponent<LootManager>();
+		gameCore = GameObject.Find("GameCore").GetComponent<GameCore>();
+		lootManager = gameCore.lootManager;
 	}
 
 	// Update is called once per frame

@@ -16,7 +16,6 @@ public class ScoreManager : MonoBehaviour
     public GameObject HUD;
     public int dropID;
     public int dropAmmount;
-    public AudioSource bgmIntense, bgmNormal, bgmIntro;
     public int enemyShown;
 
     public GameCore gameCore;
@@ -136,23 +135,6 @@ public class ScoreManager : MonoBehaviour
         
     }
 
-    public void startBGM()
-    {
-        if (bgmIntense != null && bgmNormal != null)
-        {
-            bgmIntro.Play();
-            float introLength = bgmIntro.clip.length;
-            if (!bgmIntense.isPlaying)
-            {
-                bgmIntense.PlayDelayed(introLength);
-            }
-            if (!bgmNormal.isPlaying)
-            {
-                bgmNormal.PlayDelayed(introLength);
-            }
-        }
-    }
-
     public void foundEnemy(int num)
     {
         enemyShown += num;
@@ -160,16 +142,16 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        if (bgmIntense != null && bgmNormal != null)
+        // 根据敌人数量修改 bgm 音量
+        if (gameCore.bgmIntense.volume < enemyShown / 3.0f)
         {
-            if (bgmIntense.volume < enemyShown / 3.0f)
-            {
-                bgmIntense.volume += 0.003f;
-            } else if (bgmIntense.volume > enemyShown / 3.0f)
-            {
-                bgmIntense.volume -= 0.001f;
-            }
+            gameCore.setBgmIntenseVolume(gameCore.bgmIntense.volume + 0.003f);
         }
+        else if (gameCore.bgmIntense.volume > enemyShown / 3.0f)
+        {
+            gameCore.setBgmIntenseVolume(gameCore.bgmIntense.volume - 0.001f);
+        }
+
         // 更新游戏流逝的时间
         if (gameCore.IsGaming())
 		{
