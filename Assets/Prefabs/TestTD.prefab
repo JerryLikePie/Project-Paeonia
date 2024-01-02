@@ -504,22 +504,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4951395499524743745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 624a1c499d3527245aeb30467d7d17a7, type: 3}
+  m_Script: {fileID: 11500000, guid: 02eeae190cf560e458cd7b3c29c30dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   loots:
-  - lootType: 4
-    amount: 1000
-    probability: 1
   - lootType: 0
     amount: 100
-    probability: 0.692
-  - lootType: 3
-    amount: 100
-    probability: 0.706
+    probability: 0.665
   - lootType: 2
+    amount: 1000
+    probability: 0.665
+  - lootType: 1
     amount: 1
-    probability: 0.059
+    probability: 0.665
 --- !u!1 &4951395500155458684
 GameObject:
   m_ObjectHideFlags: 0

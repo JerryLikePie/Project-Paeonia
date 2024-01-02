@@ -165,7 +165,7 @@ public class GameCore : MonoBehaviour
 	{
 		gameState = GameState.GS_Game_End;
 		scoreManager.OnGameEnd();
-		lootManager.stopRecordLooting();
+		lootManager.StopRecordLooting();
 		// EndGameLoot
 		SceneManager.LoadScene("GameEnd");
 	}

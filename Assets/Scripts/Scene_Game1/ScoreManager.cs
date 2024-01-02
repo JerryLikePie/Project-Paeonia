@@ -35,7 +35,13 @@ public class ScoreManager : MonoBehaviour
         public string stageName;        // 关卡ID
     }
 
-    public void OnGameEnd()
+	void Start()
+	{
+        // 监听敌方单位被击杀事件
+        gameCore.eventSystem.RegistListener(GameEventSystem.EventType.Event_Enemy_Killed, OnEnemyKilled);
+	}
+
+	public void OnGameEnd()
     {
         // 得分判定：
         GameScoreInfo scores = new GameScoreInfo();
@@ -76,7 +82,8 @@ public class ScoreManager : MonoBehaviour
         return this.timeTook;
     }
 
-    public void EnemyKilled()
+    // 敌方单位被击杀时触发
+    public void OnEnemyKilled(GameEventSystem.EventData e)
     {
         this.killedEnemy++;
         killCount.text = killedEnemy + "/" + totalEnemy;

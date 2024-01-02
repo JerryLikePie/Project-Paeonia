@@ -5,31 +5,48 @@ using UnityEngine;
 // 用于处理敌人掉落物的 Mangaer
 public class LootManager : MonoBehaviour
 {
+    public GameCore gameCore;
+
     private bool isRecording = false;
 
     // 总计掉落了多少物品 
     // 类型 -> 数量
-    private Dictionary<ItemType, float> totalLoots = new Dictionary<ItemType, float>();
+    private Dictionary<ItemType, float> totalLoots;
 
-    // 一局游戏开始时调用，开始记录掉落物
-    // 初始化代码写在这里
-    public void startRecordLooting()
-	{;
+	private void Start()
+	{
+        totalLoots = new Dictionary<ItemType, float>();
+        // 监听敌方单位被击杀事件
+        gameCore.eventSystem.RegistListener(GameEventSystem.EventType.Event_Enemy_Killed, OnEnemyKilled);
+    }
+
+	// 一局游戏开始时调用，开始记录掉落物（清空数据）
+	// 初始化代码写在这里
+	public void startRecordLooting()
+	{
         totalLoots.Clear();
         isRecording = true;
 	}
 
-    // 从外部调用
-    // 判定并统计掉落物的数量
-    public void collectLoot(Lootable lootable)
+    // 敌方单位被击杀时触发
+    public void OnEnemyKilled(GameEventSystem.EventData e)
+	{
+        if (e.data is Lootable lootableInstance)
+		{
+            CollectLoot(lootableInstance);
+		}
+	}
+
+	// 判定并统计掉落物的数量
+	public void CollectLoot(Lootable lootableInstance)
 	{
         if (!isRecording)
 		{
-            Debug.LogWarning("尝试在没有记录掉落的情况下调用 collectLoot(). 请先调用 startRecordLooting() 开启掉落记录");
+            Debug.LogError("尝试在没有记录掉落的情况下调用 collectLoot(). 请先调用 startRecordLooting() 开启掉落记录");
             return;
 		}
 
-        foreach (Loot loot in lootable.loots)
+        foreach (Loot loot in lootableInstance.loots)
         {
             // 根据概率判定是否掉落物品
             // 并加入总数中
@@ -50,14 +67,13 @@ public class LootManager : MonoBehaviour
 	} 
 
     // 查询当前掉落数量
-    public Dictionary<ItemType, float> queryLoots()
+    public Dictionary<ItemType, float> QueryLoots()
 	{
         return new Dictionary<ItemType, float>(totalLoots);
 	}
 
     // 游戏结束时停止记录
-    // 清空掉落列表
-    public void stopRecordLooting()
+    public void StopRecordLooting()
     {
         isRecording = false;
 	}

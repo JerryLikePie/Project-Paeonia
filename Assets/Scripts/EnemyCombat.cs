@@ -623,14 +623,11 @@ public class EnemyCombat : MonoBehaviour
     }
     void WithDrawl()
     {
-        // TODO 重构依赖
-        gameCore.scoreManager.EnemyKilled();
         map.transform.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveEnemy = false;
         descanMap();
         canMove = false;
-        // broadcast destroy event in this game object via Unity Event System
-        // SendMessage("OnEnemyDestroy", null, SendMessageOptions.DontRequireReceiver);
-        gameCore.eventSystem.triggerEvent(GameEventSystem.EventType.Event_Enemy_Killed, new GameEventSystem.Event(this.gameObject));
+        // 广播单位击杀事件
+        gameCore.eventSystem.TriggerEvent(GameEventSystem.EventType.Event_Enemy_Killed, new GameEventSystem.EventData(this.gameObject));
 
         transform.gameObject.SetActive(false);
         transform.GetComponent<EnemyCombat>().enabled = false;

@@ -4591,10 +4591,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialPanel: {fileID: 771975075}
-  tutorial:
-  - {fileID: 1567793151}
-  - {fileID: 1799778606}
-  - {fileID: 1198721868}
+  tutorialMapping:
+    list:
+    - Key: TR-1
+      Value: {fileID: 1567793151}
+    - Key: TR-2
+      Value: {fileID: 1799778606}
+    - Key: TR-3
+      Value: {fileID: 1198721868}
 --- !u!4 &650661652
 Transform:
   m_ObjectHideFlags: 0
@@ -4689,6 +4693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f315b9fe6028e47ab433993a9af68b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCore: {fileID: 1006374471}
 --- !u!1 &689499845
 GameObject:
   m_ObjectHideFlags: 0
