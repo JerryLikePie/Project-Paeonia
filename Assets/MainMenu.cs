@@ -49,6 +49,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.DeleteKey("Introduction_Done");
         PlayerPrefs.DeleteKey("Stage_You_Should_Load");
         PlayerPrefs.DeleteKey("SD-1");
+        PlayerPrefs.DeleteKey("ST-1");
         PlayerPrefs.DeleteKey("TR-1");
         PlayerPrefs.DeleteKey("TR-2");
         PlayerPrefs.DeleteKey("TR-3");
@@ -59,7 +60,7 @@ public class MainMenu : MonoBehaviour
     public void skipAllProgress()
     {
         PlayerPrefs.SetInt("Introduction_Done", 1);
-        PlayerPrefs.SetInt("SD-1", 3);
+        PlayerPrefs.SetInt("ST-1", 4);
         PlayerPrefs.SetInt("TR-1", 4);
         PlayerPrefs.SetInt("TR-2", 4);
         PlayerPrefs.SetInt("TR-3", 4);

@@ -19,8 +19,11 @@ public class GameRelatedButton : MonoBehaviour
 
     public void updateStatus()
     {
-        checkAvailability();
-        checkStar();
+        if (gameObject.activeSelf)
+        {
+            checkAvailability();
+            checkStar();
+        }
     }
 
     private void resetStory()
@@ -56,7 +59,7 @@ public class GameRelatedButton : MonoBehaviour
             }
             else if (num > 3)
             {
-                starLv1.SetActive(false);
+                starLv1.SetActive(true);
                 starLv2.SetActive(true);
             }
             else
@@ -68,6 +71,8 @@ public class GameRelatedButton : MonoBehaviour
     }
     public void ToGame(int decreaseAmount)
     {
+        // 进入战斗或教程
+        // 在Inspector输入decreaseAmount扣除一定的油量
         Debug.Log(inventory.itemsNum[2]);
         if (inventory.itemsNum[2] >= decreaseAmount)
         {
@@ -86,10 +91,13 @@ public class GameRelatedButton : MonoBehaviour
 
     public void readStory()
     {
+        // 用来读剧情的
+        // 如果是剧情关卡，就调用这个就可以了
         if (storypanel != null)
         {
+            // 把剧情设为已读
             storypanel.loadStory(enteringStage);
-            PlayerPrefs.SetInt(enteringStage, 3);
+            PlayerPrefs.SetInt(enteringStage, 4);
         }
         else
         {
