@@ -232,6 +232,7 @@ public class MapCreate : MonoBehaviour
     public void FillUnitSlotWithPreset(Hex blueBox, int UnitID)
     {
         slots[0].spawnID = 1;
+        slots[0].spawnUID = "ÈýÁùÊ½";
         //GameObject spawnedUnit;
         //int tempCounter = 0;
         //GameObject tiletoSpawn = GameObject.Find("Map" + blueBox.X + "_" + (blueBox.Z + 1));

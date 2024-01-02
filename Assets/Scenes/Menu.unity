@@ -12063,7 +12063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &578376688
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13069,7 +13069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enteringStage: TR-1
-  previousStage: ST-1
+  previousStage: none
   inventory: {fileID: 524874587}
   starLv1: {fileID: 954150350}
   starLv2: {fileID: 747961610}
@@ -47896,7 +47896,7 @@ PrefabInstance:
     - target: {fileID: 370440443115613400, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 7881017
+      value: 7995038.5
       objectReference: {fileID: 0}
     - target: {fileID: 1609071878087577573, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}
