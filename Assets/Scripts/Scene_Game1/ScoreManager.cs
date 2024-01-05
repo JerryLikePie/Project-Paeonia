@@ -38,7 +38,7 @@ public class ScoreManager : MonoBehaviour
 	void Start()
 	{
         // 监听敌方单位被击杀事件
-        gameCore.eventSystem.RegistListener(GameEventSystem.EventType.Event_Enemy_Killed, OnEnemyKilled);
+        gameCore.eventSystem.RegistListener(GameEventType.Event_Enemy_Killed, OnEnemyKilled);
 	}
 
 	public void OnGameEnd()
@@ -83,7 +83,7 @@ public class ScoreManager : MonoBehaviour
     }
 
     // 敌方单位被击杀时触发
-    public void OnEnemyKilled(GameEventSystem.EventData e)
+    public void OnEnemyKilled(GameEventData e)
     {
         this.killedEnemy++;
         killCount.text = killedEnemy + "/" + totalEnemy;

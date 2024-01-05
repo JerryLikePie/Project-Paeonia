@@ -15,7 +15,7 @@ public class SceneMessager : MonoBehaviour
     // 保证只有一个 SceneMgr 的实例存在
     public static bool hasInstance = false;
 
-    // 用于保存跨场景数据
+    // 用于保存跨场景数据的 Dictionary
     private Dictionary<string, object> savedData;
 
     void Awake()
@@ -58,7 +58,14 @@ public class SceneMessager : MonoBehaviour
     // 读取数据
     public T LoadData<T>(string key)
     {
-        return (T)savedData[key];
+        if (savedData.ContainsKey(key))
+        {
+            return (T)savedData[key];
+        }
+        else
+		{
+            return default(T);
+		}
     }
 
     // 数据是否存在

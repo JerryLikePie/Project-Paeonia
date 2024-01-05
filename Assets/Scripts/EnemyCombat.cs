@@ -627,7 +627,7 @@ public class EnemyCombat : MonoBehaviour
         descanMap();
         canMove = false;
         // 广播单位击杀事件
-        gameCore.eventSystem.TriggerEvent(GameEventSystem.EventType.Event_Enemy_Killed, new GameEventSystem.EventData(this.gameObject));
+        gameCore.eventSystem.TriggerEvent(GameEventType.Event_Enemy_Killed, new GameEventData(this.gameObject));
 
         transform.gameObject.SetActive(false);
         transform.GetComponent<EnemyCombat>().enabled = false;

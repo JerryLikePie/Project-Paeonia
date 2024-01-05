@@ -17,7 +17,7 @@ public class LootManager : MonoBehaviour
 	{
         totalLoots = new Dictionary<ItemType, float>();
         // 监听敌方单位被击杀事件
-        gameCore.eventSystem.RegistListener(GameEventSystem.EventType.Event_Enemy_Killed, OnEnemyKilled);
+        gameCore.eventSystem.RegistListener(GameEventType.Event_Enemy_Killed, OnEnemyKilled);
     }
 
 	// 一局游戏开始时调用，开始记录掉落物（清空数据）
@@ -29,7 +29,7 @@ public class LootManager : MonoBehaviour
 	}
 
     // 敌方单位被击杀时触发
-    public void OnEnemyKilled(GameEventSystem.EventData e)
+    public void OnEnemyKilled(GameEventData e)
 	{
         if (e.data is Lootable lootableInstance)
 		{

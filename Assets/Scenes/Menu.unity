@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6940,6 +6940,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1626404022}
+        m_TargetAssemblyTypeName: Navigator, Assembly-CSharp
+        m_MethodName: NavExit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &287907856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8257,6 +8269,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377444600}
   m_CullTransparentMesh: 1
+--- !u!1 &391976922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 391976923}
+  - component: {fileID: 391976924}
+  m_Layer: 0
+  m_Name: SceneMessager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &391976923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391976922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.997105, y: 2.2990885, z: 131.71733}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &391976924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391976922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e8b7f244aaed2419c46c9d233c932c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &399847235
 GameObject:
   m_ObjectHideFlags: 0
@@ -13069,7 +13124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enteringStage: TR-1
-  previousStage: none
+  previousStage: ST-1
   inventory: {fileID: 524874587}
   starLv1: {fileID: 954150350}
   starLv2: {fileID: 747961610}
@@ -19946,6 +20001,7 @@ GameObject:
   - component: {fileID: 871751474}
   - component: {fileID: 871751476}
   - component: {fileID: 871751477}
+  - component: {fileID: 871751478}
   m_Layer: 5
   m_Name: btnOperation
   m_TagString: Untagged
@@ -20067,9 +20123,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1536969998}
-        m_TargetAssemblyTypeName: SquadSelectionPage, Assembly-CSharp
-        m_MethodName: LoadSquad
+      - m_Target: {fileID: 932564736}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20079,13 +20135,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 932564736}
+      - m_Target: {fileID: 1946671019}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1626404022}
+        m_TargetAssemblyTypeName: Navigator, Assembly-CSharp
+        m_MethodName: NavEnter
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 871751478}
+          m_ObjectArgumentAssemblyTypeName: NavTag, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -20103,6 +20171,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61ca4f69876246749a7fb300a7db2126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &871751478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871751472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a4b56532268574ab8ee01f07e371cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  page: 1
 --- !u!1 &873306702
 GameObject:
   m_ObjectHideFlags: 0
@@ -34860,6 +34941,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1626404020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1626404021}
+  - component: {fileID: 1626404022}
+  m_Layer: 0
+  m_Name: Navigator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1626404021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626404020}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -99.57077, y: -3.1317396, z: 148.45586}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1626404022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626404020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa494b3f1b0ecc545892227352351d81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootPage: 0
 --- !u!1 &1632415919
 GameObject:
   m_ObjectHideFlags: 0
@@ -47896,7 +48021,7 @@ PrefabInstance:
     - target: {fileID: 370440443115613400, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 7995038.5
+      value: 14348.656
       objectReference: {fileID: 0}
     - target: {fileID: 1609071878087577573, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}
