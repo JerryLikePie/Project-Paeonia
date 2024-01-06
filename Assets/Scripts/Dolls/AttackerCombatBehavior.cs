@@ -48,13 +48,16 @@ public class AttackerCombatBehavior : IDollsCombatBehaviour
 
     public override void WreckAfterDead(DollsCombat context, Transform deadbody)
     {
+        // 生成残骸
         if (context.wreckage == null)
         {
+            // 没有绑定残骸吗？那就不生成了
             Debug.Log("No wreckage?");
             return;
         }
         GameObject body = Instantiate(context.wreckage, deadbody.position, Quaternion.identity);
         body.SetActive(true);
+        // 把当前的motion vector给到残骸上面，残骸沿着这个方向抛物前进
         Vector3 planefwd = context.gunCenter.transform.position - context.transform.position;
         planefwd = planefwd.normalized;
         planefwd = planefwd * airSpeed;

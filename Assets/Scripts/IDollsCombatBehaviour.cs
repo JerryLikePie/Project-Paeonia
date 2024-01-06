@@ -16,5 +16,6 @@ public class IDollsCombatBehaviour : MonoBehaviour
     public virtual void WreckAfterDead(DollsCombat context, Transform location)
     {
         // nothing
+        // 统一的死后生成残骸行为，每个特定behavior里面override就可以了
     }
 }

@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class StoryPlay : MonoBehaviour
 {
+    /*
+     * Story Play
+     * 剧情演出的相关函数
+     */
     [SerializeField] private Canvas storyPanel;
     [SerializeField] private AudioSource backgroundMusic;
     [SerializeField] private AudioSource storyMusic;
@@ -34,6 +38,7 @@ public class StoryPlay : MonoBehaviour
     }
 
     public void loadStory(string storyName) {
+        // 根据输入的名称，加载一个剧情
         Debug.Log(storyName);
         if (!string.IsNullOrEmpty(storyName))
         {
@@ -96,6 +101,7 @@ public class StoryPlay : MonoBehaviour
 
     void record(int type, string name, string sentence)
     {
+        // 剧情log，相当于录进历史记录。
         switch (type)
         {
             case 1: //人说的话
@@ -115,6 +121,7 @@ public class StoryPlay : MonoBehaviour
 
     void unloadStory()
     {
+        // 结束后初始化一切设定
         Debug.Log("Unloading Story");
         logText.text = " ";
         scene = null;
@@ -135,6 +142,7 @@ public class StoryPlay : MonoBehaviour
     }
 
     void updateStory() {
+        // 翻页相关
         if (scene == null)
         {
             Debug.Log("There is no story loaded, stopping update.");
@@ -266,6 +274,7 @@ public class StoryPlay : MonoBehaviour
 
     IEnumerator showText(string fullText, Text output)
     {
+        // 一个一个字输出到文本框
         string currentText;
         textIsGoing = true;
         for (int k = 0; k <= fullText.Length; k++)
@@ -279,6 +288,7 @@ public class StoryPlay : MonoBehaviour
 
     IEnumerator backgroundFadeChange(Image background, Sprite changeTo)
     {
+        // 更改剧情背景图像
         Debug.Log("变化中");
         for (float i = 1; i >= 0; i -= 4f * Time.deltaTime)
         {
@@ -300,6 +310,7 @@ public class StoryPlay : MonoBehaviour
 
     IEnumerator characterImageChange(bool fadeout, Image character)
     {
+        // 更改人物图像
         if (fadeout)
         {
             for (float i = character.color.a; i >= 0; i -= 0.1f)

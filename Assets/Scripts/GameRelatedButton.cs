@@ -26,12 +26,17 @@ public class GameRelatedButton : MonoBehaviour
         }
     }
 
-    private void resetStory()
+    public void resetProg()
     {
         PlayerPrefs.DeleteKey(enteringStage);
     }
+    public void skipProg()
+    {
+        PlayerPrefs.SetInt(enteringStage, 4);
+    }
     private void checkAvailability()
     {
+        // 如果前一关卡不为none而且未完成，则该按钮不可互动
         if (previousStage != "none")
         {
             if (PlayerPrefs.GetInt(previousStage, 0) == 0)
@@ -72,7 +77,7 @@ public class GameRelatedButton : MonoBehaviour
     public void ToGame(int decreaseAmount)
     {
         // 进入战斗或教程
-        // 在Inspector输入decreaseAmount扣除一定的油量
+        // 在Inspector输入decreaseAmount来扣除一定的油量
         Debug.Log(inventory.itemsNum[2]);
         if (inventory.itemsNum[2] >= decreaseAmount)
         {

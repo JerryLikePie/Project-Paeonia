@@ -8,6 +8,10 @@ using UnityEngine.UI;
 
 public class SquadSelectionPage : MonoBehaviour
 {
+    /*
+     * Squad Selection Page
+     * 在进入关卡时选择编队的相关函数
+     */
     public bool[] selectedSlot = new bool[8];//这个slot是否已经有人了
     public GameObject lastSlot, allUnitsAnchor, squadSelection, SpacesAnchor;
     public int slotnum;

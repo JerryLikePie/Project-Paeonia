@@ -74,12 +74,13 @@ public class MapCreate : MonoBehaviour
 
     public bool IsTutorial()
     {
-        return (mapToLoad == "TR-1" || mapToLoad == "TR-2" || mapToLoad == "TR-3");
+        return mapToLoad.Contains("TR");
     }
 
-    // 如果是教程模式则使用预设
     public void SpawnGameWithPreset()
-	{
+    {
+        // 如果是教程模式则使用预设
+        // 这里要改一改，改成不同教程给不同预设
         FillUnitSlotWithPreset(BluePoint, 1);
         SpawnGame();
 	}

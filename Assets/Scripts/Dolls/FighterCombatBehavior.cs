@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class FighterCombatBehavior : IDollsCombatBehaviour
 {
-
+    /*
+     * Fighter Combat Behavior
+     * 用于战斗机的行为逻辑设定脚本
+     */
     private Queue<Hex> toCancelFog;
     Vector3 airBase = new Vector3(-500, 50, 100);
     Vector3 exitPoint = new Vector3(500, 80, 100);
@@ -18,7 +21,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
     public GameObject getTarget;
     private Vector3 target;
     GameObject setEnemy;
-    // 设定状态：锁敌，RTB，改出，油量
+    // 设定状态：是否锁敌，是否RTB，是否在改出，是否在空中
     bool targetLocked, returning, recovering, liftoff;
     public bool isDone;
 
@@ -49,13 +52,13 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
     public override void CheckEnemy(DollsCombat context)
     {
         // 按帧索敌
-        // Don't crash
+        // Don't crash，y轴小于0则坠机
         if (transform.position.y <= 0)
         {
             Debug.LogError("you crashed");
             // placeholder
         }
-        // If out of ammo rtb
+        // If out of ammo RTB
         if (context.outofAmmo)
         {
             returning = true;
@@ -63,9 +66,10 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
 
         // Check sprite direction
         flipSpriteOnDirection(context);
+        // 玩家是否已经释放了技能？释放了哪种技能？
         if (context.supportTargetCord != null && canAttack)
         {
-            // attack ground
+            // attack ground，对地，做相应设定
             context.thisUnit.engineSound.volume = 1f;
             engineNear.volume = 1f;
             SetTarget(context.supportTargetCord.position, context);
@@ -79,7 +83,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
         else if (context.supportTargetCord != null && !canAttack)
         {
             // attack air
-            // does not recon
+            // does not recon，对空，做相应设定
             context.thisUnit.engineSound.volume = 1f;
             engineNear.volume = 1f;
             SetTarget(context.supportTargetCord.position, context);
@@ -92,6 +96,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
         }
         else
         {
+            // 未释放技能，设定为在机场。
             context.thisUnit.engineSound.volume = 0f;
             engineNear.volume = 0f;
             transform.position = airBase;
@@ -106,10 +111,13 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
 
     void SetTarget(Vector3 center, DollsCombat context)
     {
+        // 设定路径点
         getTarget.transform.position = center;
         
         if (targetLocked)
         {
+            // 如果已经索敌，则敌人已经成为路径点
+            // 所以直接return。
             return;
         }
         for (int i = 0; i < context.enemyList.Count; i++)
@@ -154,6 +162,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
 
     void AirSuppress(DollsCombat context)
     {
+        // 制空相关
         if (returning)
         {
             returningToBase(context);
@@ -229,6 +238,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
 
     void GroundStrike(DollsCombat context)
     {
+        // 对地打击
         // Depending on the distance to the target, change the behavior
         if (returning)
         {
@@ -254,6 +264,7 @@ public class FighterCombatBehavior : IDollsCombatBehaviour
                 canAttack = false;
                 AirSuppress(context);
                 return;
+                // 可能以后会用的代码。先不删了
                 targetLocked = false;
                 float distance = FindDistance(context.supportTargetCord.position, transform.position);
                 if (!recovering)
