@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 // 页面标题（？）
 [System.Serializable]
 public enum NavPage
 {
-	Nav_Root_Main_Menu,	// 主菜单
-	Nav_Operation		// 行动界面
+	Nav_Root_Main_Menu,		// 主菜单
+	Nav_Battle,				// 主菜单-行动
+	Nav_Battle_Operation1,	// 主菜单-行动-远征
+	Nav_Battle_StoryCH0,	// 主菜单-行动-序章
+	Nav_Battle_StoryCH1,	// 主菜单-行动-第一章
+	Nav_Battle_Operation4	// 主菜单-行动-...
 }
 
 // 用于保存结构化导航数据的结构体
@@ -35,6 +40,11 @@ public class NavData
 	public NavPage GetCurrentPage()
 	{
 		return nav.Peek();
+	}
+
+	public void Clear()
+	{
+		nav.Clear();
 	}
 
 	private static StringBuilder sb = new StringBuilder();
@@ -65,17 +75,21 @@ public class Navigator : MonoBehaviour
 	// 当前脚本所处的 Scene 的根 page
 	public NavPage rootPage;
 
-	private SceneMessager sceneMessager;
+	// 进入某个页面对应的 button
+	public USerializableDictionary<NavPage, Button> navButtons;
+
+	private SceneMessager sceneMessager; 
 
 	private NavData nav;
 
 	void Start()
 	{
 		sceneMessager = GameObject.Find("SceneMessager").GetComponent<SceneMessager>();
-		ReloadNavigator();
+		LoadAndRestore();
 	}
 
-	public void ReloadNavigator()
+	// 加载保存的 nav，并将界面恢复到 nav 所描述的样子
+	public void LoadAndRestore()
 	{
 		nav = sceneMessager.LoadData<NavData>("Nav");
 
@@ -87,17 +101,27 @@ public class Navigator : MonoBehaviour
 			nav.NavEnter(rootPage);
 			sceneMessager.SaveData("Nav", nav);
 		}
-		// 否则看是否需要恢复到之前打开的界面，例如战役选择
+		// 已有 nav，判断是否需要恢复
 		else
 		{
-			switch (nav.GetCurrentPage())
+			NavPage currentPage = nav.GetCurrentPage();
+			switch (currentPage)
 			{
 				case NavPage.Nav_Root_Main_Menu:
-					// 上一次打开的是主界面，不用管
 					break;
-				case NavPage.Nav_Operation:
-					// 上一次打开的是战役选择
-
+				case NavPage.Nav_Battle:
+					// 目前不存在该情况
+					break;
+				case NavPage.Nav_Battle_Operation1:
+				case NavPage.Nav_Battle_StoryCH0:
+				case NavPage.Nav_Battle_StoryCH1:
+				case NavPage.Nav_Battle_Operation4:
+					nav.Clear();
+					nav.NavEnter(rootPage);
+					// 模拟“行动”按钮点击
+					navButtons[NavPage.Nav_Battle].onClick.Invoke();
+					// 模拟行动界面 行动选择按钮的点击
+					navButtons[currentPage].onClick.Invoke();
 					break;
 			}
 		}
@@ -110,6 +134,7 @@ public class Navigator : MonoBehaviour
 	}
 
 	// 无参方法，需要读取对象上的 NavTag
+	// see NavTag
 	public void NavEnter(NavTag tag)
 	{
 		Debug.Assert(tag != null);

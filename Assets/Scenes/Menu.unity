@@ -13763,6 +13763,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1626404022}
+        m_TargetAssemblyTypeName: Navigator, Assembly-CSharp
+        m_MethodName: NavExit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &637038453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24679,6 +24691,7 @@ GameObject:
   - component: {fileID: 1090693651}
   - component: {fileID: 1090693650}
   - component: {fileID: 1090693649}
+  - component: {fileID: 1090693652}
   m_Layer: 5
   m_Name: Operation1
   m_TagString: Untagged
@@ -24774,6 +24787,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1626404022}
+        m_TargetAssemblyTypeName: Navigator, Assembly-CSharp
+        m_MethodName: NavEnter
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1090693652}
+          m_ObjectArgumentAssemblyTypeName: NavTag, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1090693650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24812,6 +24837,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1090693647}
   m_CullTransparentMesh: 1
+--- !u!114 &1090693652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090693647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a4b56532268574ab8ee01f07e371cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  page: 2
 --- !u!1 &1096795703
 GameObject:
   m_ObjectHideFlags: 0
@@ -34326,6 +34364,7 @@ GameObject:
   - component: {fileID: 1606025203}
   - component: {fileID: 1606025202}
   - component: {fileID: 1606025201}
+  - component: {fileID: 1606025204}
   m_Layer: 5
   m_Name: StoryCH0
   m_TagString: Untagged
@@ -34421,6 +34460,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1626404022}
+        m_TargetAssemblyTypeName: Navigator, Assembly-CSharp
+        m_MethodName: NavEnter
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1606025204}
+          m_ObjectArgumentAssemblyTypeName: NavTag, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1606025202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34459,6 +34510,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1606025199}
   m_CullTransparentMesh: 1
+--- !u!114 &1606025204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606025199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a4b56532268574ab8ee01f07e371cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  page: 3
 --- !u!1 &1606546417
 GameObject:
   m_ObjectHideFlags: 0
@@ -34970,6 +35034,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rootPage: 0
+  navButtons:
+    list:
+    - Key: 1
+      Value: {fileID: 871751476}
+    - Key: 2
+      Value: {fileID: 1090693649}
+    - Key: 3
+      Value: {fileID: 1606025201}
+    - Key: 4
+      Value: {fileID: 1096795705}
+    - Key: 5
+      Value: {fileID: 55944009}
 --- !u!1 &1632415919
 GameObject:
   m_ObjectHideFlags: 0
@@ -39933,6 +40009,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1626404022}
+        m_TargetAssemblyTypeName: Navigator, Assembly-CSharp
+        m_MethodName: NavExit
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -46196,6 +46284,18 @@ MonoBehaviour:
       - m_Target: {fileID: 751560132}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1626404022}
+        m_TargetAssemblyTypeName: Navigator, Assembly-CSharp
+        m_MethodName: NavExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
