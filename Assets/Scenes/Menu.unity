@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -30542,7 +30542,6 @@ GameObject:
   - component: {fileID: 1403438526}
   - component: {fileID: 1403438528}
   - component: {fileID: 1403438529}
-  - component: {fileID: 1403438530}
   m_Layer: 5
   m_Name: btnActivity
   m_TagString: Untagged
@@ -30688,20 +30687,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61ca4f69876246749a7fb300a7db2126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1403438530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403438524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ce6fd33b4c3d34697f405342baf03a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  storyPanel: {fileID: 0}
-  allGameEntries: []
 --- !u!1 &1409241542
 GameObject:
   m_ObjectHideFlags: 0
@@ -48021,7 +48006,7 @@ PrefabInstance:
     - target: {fileID: 370440443115613400, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 14348.656
+      value: 0.00021700902
       objectReference: {fileID: 0}
     - target: {fileID: 1609071878087577573, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}
