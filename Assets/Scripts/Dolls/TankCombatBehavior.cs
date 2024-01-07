@@ -16,8 +16,11 @@ public class TankCombatBehavior : IDollsCombatBehaviour
     {
         if (context.wreckage == null)
         {
+            // 没有绑定残骸吗？那就不生成了
+            Debug.Log("No wreckage?");
             return;
         }
+        // TODO: 写一个陆地dolls的残骸脚本
         GameObject body = Instantiate(context.wreckage, deadbody.position, Quaternion.identity);
         body.SetActive(true);
     }

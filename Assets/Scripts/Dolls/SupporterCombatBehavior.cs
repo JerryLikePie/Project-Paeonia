@@ -15,6 +15,17 @@ public class SupporterCombatBehavior : IDollsCombatBehaviour
         toCancelFog = new Queue<Hex>();
     }
 
+    public override void WreckAfterDead(DollsCombat context, Transform deadbody)
+    {
+        // 生成残骸
+        if (context.wreckage == null)
+        {
+            // 没有绑定残骸吗？那就不生成了
+            Debug.Log("No wreckage?");
+            return;
+        }
+        // TODO: 写一个陆地dolls的残骸脚本
+    }
     public override void CheckEnemy(DollsCombat context)
     {
         if (context.supportTargetCord != null && context.canFire)
