@@ -11,7 +11,7 @@ public class Settings : MonoBehaviour
     void Start()
     {
         myName = gameObject.name;
-        gameObject.GetComponent<Slider>().value = PlayerPrefs.GetFloat(myName, 1.0f);
+        gameObject.GetComponent<Slider>().value = PlayerPrefs.GetFloat(myName, 0.5f);
     }
 
     public void setVolume(float sliderValue)

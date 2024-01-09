@@ -8,11 +8,21 @@ public class GameRelatedButton : MonoBehaviour
 {
     public string enteringStage;
     public string previousStage;
+    //public string showUntilFinished;
     public InventoryManager inventory;
     public GameObject starLv1, starLv2;
     public StoryPlay storypanel;
     private void Start()
     {
+        // 如果还没完成show until，则该按钮持续显示
+        //if (showUntilFinished != null)
+        //{
+        //    if (PlayerPrefs.GetInt(showUntilFinished, 0) == 0)
+        //    {
+        //        this.gameObject.SetActive(true);
+
+        //    }
+        //}
         updateStatus();
     }
     
@@ -53,6 +63,11 @@ public class GameRelatedButton : MonoBehaviour
 
     public void checkStar()
     {
+        if (starLv1 == null || starLv2 == null)
+        {
+            // 没有的话就不要check了
+            return;
+        }
         if (enteringStage != "none")
         {
             int num = PlayerPrefs.GetInt(enteringStage, 0);
