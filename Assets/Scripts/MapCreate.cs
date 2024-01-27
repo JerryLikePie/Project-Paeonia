@@ -334,6 +334,11 @@ public class MapCreate : MonoBehaviour
             {
                 gameCore.scoreManager.SpawnEnemy();
                 GameObject spawnedEnemy;
+                if (mapInfo.enemySpawnPoints[i].spawnTile == "none")
+                {
+                    // 如果是不需要生成的敌方单位，直接跳到下一个。
+                    continue;
+                }
                 GameObject tiletoSpawn = GameObject.Find(mapInfo.enemySpawnPoints[i].spawnTile);
                 Hex Hex = tiletoSpawn.GetComponent<Hex>();
                 spawnedEnemy = Instantiate(spawnEnemy[mapInfo.enemySpawnPoints[i].spawnType].gameObject, tiletoSpawn.transform.position, Quaternion.identity);

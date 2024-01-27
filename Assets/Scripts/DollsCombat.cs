@@ -314,7 +314,9 @@ public class DollsCombat : MonoBehaviour
     }
     void UpdateHealthBar()
     {
+        //Debug.Log(health + " | " + newMaxHealth + " | " + percentageHealth);
         percentageHealth = health / newMaxHealth;
+        
         
         if (health <= healthRestrictLine[healthLevel + 1]) // && dolls.dolls_type == 3
         {

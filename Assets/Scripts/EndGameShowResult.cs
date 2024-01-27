@@ -29,6 +29,10 @@ public class EndGameShowResult : MonoBehaviour
 
     void CheckConditions(ScoreManager.GameScoreInfo scores)
     {
+        // 结算时查看是否达成目标
+        // 如果是教程关则无视
+        // TODO 改一改整个判定系统
+
         if (scores.captureObjective && !scores.lost)
         {
             Condition1.GetComponent<Text>().text = "已占领该区域关键节点";
@@ -37,7 +41,7 @@ public class EndGameShowResult : MonoBehaviour
         }
         else
         {
-            Condition1.GetComponent<Text>().text = "未能占领该区域";
+            Condition1.GetComponent<Text>().text = " ";
             Star1.SetActive(false);
         }
         if (scores.allDestroyed && !scores.lost)
@@ -48,7 +52,7 @@ public class EndGameShowResult : MonoBehaviour
         }
         else
         {
-            Condition2.GetComponent<Text>().text = "未能清缴全部目标";
+            Condition2.GetComponent<Text>().text = " ";
             Star2.SetActive(false);
         }
         if (scores.noDeath && !scores.lost)
@@ -59,7 +63,7 @@ public class EndGameShowResult : MonoBehaviour
         }
         else
         {
-            Condition3.GetComponent<Text>().text = "DOLLS遭受了重大损失";
+            Condition3.GetComponent<Text>().text = " ";
             Star3.SetActive(false);
         }
         if (scores.inTime && !scores.lost)

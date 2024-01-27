@@ -86,7 +86,7 @@ namespace Assets.Scripts.BuffSystem
 
 		public static T operator /(BuffedValue<T> me, T div)
 		{
-			return Utilities.Multiply(me.value, div);
+			return Utilities.Divide(me.value, div);
 		}
 
 		public static bool operator >=(BuffedValue<T> me, T other)
