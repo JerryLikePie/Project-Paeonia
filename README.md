@@ -31,6 +31,7 @@ The decision to develop a game came as I was accepted into Computer Science. I w
 ### 0.0.60
 - 新增了新手教程
 - 修复了血条不显示的bug
+- 加入了残骸系统，我方收到损失后，在原地留下一个残骸。还未做贴图差分
   
 ### 0.0.50
 - 新增了7首剧情BGM
