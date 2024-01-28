@@ -28,6 +28,16 @@ The decision to develop a game came as I was accepted into Computer Science. I w
 
 
 ## Dev Blog
+### 0.0.60
+- 新增了新手教程
+  
+### 0.0.50
+- 新增了7首剧情BGM
+- 新增了剧情立绘和差分
+- 新增了4种剧情背景图
+- 更改了关卡选择界面
+- 新增了开屏剧情
+- 优化了剧情系统
 
 ### 0.0.40
 - 新增单位：研驱1式
