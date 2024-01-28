@@ -30,6 +30,7 @@ The decision to develop a game came as I was accepted into Computer Science. I w
 ## Dev Blog
 ### 0.0.60
 - 新增了新手教程
+- 修复了血条不显示的bug
   
 ### 0.0.50
 - 新增了7首剧情BGM
