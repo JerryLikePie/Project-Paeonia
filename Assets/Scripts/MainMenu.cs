@@ -29,7 +29,7 @@ public class MainMenu : MonoBehaviour
         {
             if (storyPanel != null)
             {
-                storyPanel.loadStory("Introduction1");
+                storyPanel.loadStory("Introduction2");
                 PlayerPrefs.SetInt("Introduction_Done", 1);
             }
         }
