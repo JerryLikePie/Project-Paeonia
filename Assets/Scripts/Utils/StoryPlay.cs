@@ -15,6 +15,7 @@ public class StoryPlay : MonoBehaviour
     [SerializeField] private AudioSource storyMusic;
     public GameObject logPanel;
     public Text logText;
+    public ClickAndMove loadingPage;
     [SerializeField] private Image character, background;
     [SerializeField] private Sprite defaultBackGround;
     private Sprite lastSprite;
@@ -38,7 +39,6 @@ public class StoryPlay : MonoBehaviour
             unloadStory();
         }
         haveToChoose = false;
-        endingStage = null;
     }
 
     public void loadStory(string storyName) {
@@ -137,7 +137,7 @@ public class StoryPlay : MonoBehaviour
         // 结束后初始化一切设定
         Debug.Log("Unloading Story");
         logText.text = " ";
-        scene = null;
+        
         length = 0;
         index = 0;
         choice = 0;
@@ -149,24 +149,34 @@ public class StoryPlay : MonoBehaviour
         textIsGoing = false;
         imageUpdating = false;
         character.color = new Color(1, 1, 1, 0);
+        scene = null;
         // If there is a stage to be loaded, load the stage.
         // the stage is linked directly using a button. So onClick does the job.
-        storyPanel.enabled = false;
-        storyPanel.gameObject.SetActive(false);
         if (endingStage != null)
         {
+            // there is a stage
             if (PlayerPrefs.GetInt(endingStage, 0) == 0)
             {
+                // the stage has not been done
+                loadingPage.Going_Up();
                 PlayerPrefs.SetString("Stage_You_Should_Load", endingStage);
-                SceneManager.LoadScene("Game1");
-                storyPanel.enabled = true;
-                storyPanel.gameObject.SetActive(true);
+                endingStage = null;
+                StartCoroutine(DelayEnterGame());
             }
+            else
+            {
+                changeBGM(false);
+                StartCoroutine(DelayEnd());
+            }
+            endingStage = null;
         } 
         else
         {
             changeBGM(false);
+            StartCoroutine(DelayEnd());
         }
+        
+        
     }
 
     void updateStory() {
@@ -263,17 +273,24 @@ public class StoryPlay : MonoBehaviour
     void updateButton()
     {
         if (scene != null)
-        {
+        { 
             for (int j = 0; j < 3; j++)
             {
-                if (string.IsNullOrEmpty(scene.story[index-1].response[j]))
+                if ( j < scene.story[index - 1].response.Length)
                 {
-                    responses[j].gameObject.SetActive(false);
+                    if (!string.IsNullOrEmpty(scene.story[index - 1].response[j]))
+                    {
+                        responses[j].gameObject.SetActive(true);
+                        answers[j].text = scene.story[index - 1].response[j];
+                    }
+                    else
+                    {
+                        responses[j].gameObject.SetActive(false);
+                    }
                 }
                 else
                 {
-                    responses[j].gameObject.SetActive(true);
-                    answers[j].text = scene.story[index-1].response[j];
+                    responses[j].gameObject.SetActive(false);
                 }
             }
         }
@@ -387,4 +404,20 @@ public class StoryPlay : MonoBehaviour
             character.color = new Color(1, 1, 1, 1);
         }
     }
+
+    IEnumerator DelayEnterGame()
+    {
+        yield return new WaitForSeconds(0.5f); // Wait 1 seconds
+
+        SceneManager.LoadScene("Game1");
+    }
+
+    IEnumerator DelayEnd()
+    {
+        yield return new WaitForSeconds(0.5f); // Wait 1 seconds
+        loadingPage.Going_Down();
+        storyPanel.enabled = false;
+        storyPanel.gameObject.SetActive(false);
+    }
 }
+

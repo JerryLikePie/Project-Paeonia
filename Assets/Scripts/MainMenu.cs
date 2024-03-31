@@ -33,6 +33,14 @@ public class MainMenu : MonoBehaviour
                 PlayerPrefs.SetInt("Introduction_Done", 1);
             }
         }
+        //else if (PlayerPrefs.GetInt("Introduction2_Done", 0) == 0)
+        //{
+        //    if (storyPanel != null)
+        //    {
+        //        storyPanel.loadStory("Introduction3");
+        //        PlayerPrefs.SetInt("Introduction2_Done", 1);
+        //    }
+        //}
     }
 
     public void ToGame(string enteringStage)
