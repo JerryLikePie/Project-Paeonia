@@ -29,18 +29,18 @@ public class MainMenu : MonoBehaviour
         {
             if (storyPanel != null)
             {
-                storyPanel.loadStory("Introduction2");
+                storyPanel.loadStory("Introduction1");
                 PlayerPrefs.SetInt("Introduction_Done", 1);
             }
         }
-        //else if (PlayerPrefs.GetInt("Introduction2_Done", 0) == 0)
-        //{
-        //    if (storyPanel != null)
-        //    {
-        //        storyPanel.loadStory("Introduction3");
-        //        PlayerPrefs.SetInt("Introduction2_Done", 1);
-        //    }
-        //}
+        else if (PlayerPrefs.GetInt("Introduction2_Done", 0) == 0)
+        {
+            if (storyPanel != null)
+            {
+                storyPanel.loadStory("Introduction2");
+                PlayerPrefs.SetInt("Introduction2_Done", 1);
+            }
+        }
     }
 
     public void ToGame(string enteringStage)
@@ -67,6 +67,7 @@ public class MainMenu : MonoBehaviour
     {
         // function that's used to clear progress. remember to update key if added.
         PlayerPrefs.DeleteKey("Introduction_Done");
+        PlayerPrefs.DeleteKey("Introduction2_Done");
         PlayerPrefs.DeleteKey("Stage_You_Should_Load");
         iterateResetStages();
     }
@@ -75,6 +76,7 @@ public class MainMenu : MonoBehaviour
     {
         // function that's used to complete all progress. remember to update key if added.
         PlayerPrefs.SetInt("Introduction_Done", 1);
+        PlayerPrefs.SetInt("Introduction2_Done", 1);
         iterateSkipStages();
     }
 

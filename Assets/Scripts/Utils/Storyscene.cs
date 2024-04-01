@@ -24,3 +24,13 @@ public class Storyscene : ScriptableObject
     public string alsoFinish;
     public storyNode[] story;
 }
+
+[CreateAssetMenu(fileName = "New Letter", menuName = "Story System/Create New Letter")]
+public class letterNode : ScriptableObject
+{
+    public string finishStory;
+    public Sprite photo;
+    public string title;
+    [TextArea(1,20)] public string words;
+    
+}
