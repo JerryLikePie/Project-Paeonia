@@ -24,13 +24,13 @@ public class MainMenu : MonoBehaviour
     void IntroductionStory()
     {
         // 在第一次进入游戏时加载开幕剧情
-        Debug.Log(PlayerPrefs.GetInt("Introduction_Done", 0));
-        if (PlayerPrefs.GetInt("Introduction_Done", 0) == 0)
+        Debug.Log(PlayerPrefs.GetInt("Introduction1_Done", 0));
+        if (PlayerPrefs.GetInt("Introduction1_Done", 0) == 0)
         {
             if (storyPanel != null)
             {
                 storyPanel.loadStory("Introduction1");
-                PlayerPrefs.SetInt("Introduction_Done", 1);
+                PlayerPrefs.SetInt("Introduction1_Done", 1);
             }
         }
         else if (PlayerPrefs.GetInt("Introduction2_Done", 0) == 0)
@@ -39,6 +39,14 @@ public class MainMenu : MonoBehaviour
             {
                 storyPanel.loadStory("Introduction2");
                 PlayerPrefs.SetInt("Introduction2_Done", 1);
+            }
+        }
+        else if (PlayerPrefs.GetInt("Introduction3_Done", 0) == 0)
+        {
+            if (storyPanel != null)
+            {
+                storyPanel.loadStory("Introduction3");
+                PlayerPrefs.SetInt("Introduction3_Done", 1);
             }
         }
     }
@@ -66,8 +74,9 @@ public class MainMenu : MonoBehaviour
     public void resetProgress()
     {
         // function that's used to clear progress. remember to update key if added.
-        PlayerPrefs.DeleteKey("Introduction_Done");
+        PlayerPrefs.DeleteKey("Introduction1_Done");
         PlayerPrefs.DeleteKey("Introduction2_Done");
+        PlayerPrefs.DeleteKey("Introduction3_Done");
         PlayerPrefs.DeleteKey("Stage_You_Should_Load");
         iterateResetStages();
     }
@@ -75,8 +84,9 @@ public class MainMenu : MonoBehaviour
     public void skipAllProgress()
     {
         // function that's used to complete all progress. remember to update key if added.
-        PlayerPrefs.SetInt("Introduction_Done", 1);
+        PlayerPrefs.SetInt("Introduction1_Done", 1);
         PlayerPrefs.SetInt("Introduction2_Done", 1);
+        PlayerPrefs.SetInt("Introduction3_Done", 1);
         iterateSkipStages();
     }
 

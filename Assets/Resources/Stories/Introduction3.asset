@@ -60,3 +60,21 @@ MonoBehaviour:
     isChoice: 0
     branchNum: 0
     response: []
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u7136\u540E\u7B2C\u4E09\u6BB5\u5927\u6982\u5C31\u662F\u4ECB\u7ECD\u7EF4\u4FEE\u4F1A\u5565\u7684"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u5C31\u5E26\u4F60\u5230\u4E3B\u754C\u9762\u4E86"
+    isChoice: 0
+    branchNum: 0
+    response: []
