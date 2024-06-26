@@ -232,7 +232,7 @@ public class MapCreate : MonoBehaviour
     public void FillUnitSlotWithPreset(Hex blueBox, int UnitID)
     {
         slots[0].spawnID = 1;
-        slots[0].spawnUID = "三六式";
+        slots[0].spawnUID = "沪造三六式十轮装甲车";
         //GameObject spawnedUnit;
         //int tempCounter = 0;
         //GameObject tiletoSpawn = GameObject.Find("Map" + blueBox.X + "_" + (blueBox.Z + 1));
@@ -288,9 +288,11 @@ public class MapCreate : MonoBehaviour
             GameObject tiletoSpawn = GameObject.Find("Map" + next_hang + "_" + next_lie);
             Hex nextHex = tiletoSpawn.GetComponent<Hex>();
             Unit prefabUnit = null;
+            Debug.Log(slots[i].spawnID);
             if (slots[i].spawnID != 0 && spawnSquardA.TryGetValue(slots[i].spawnUID, out prefabUnit))
             {
                 gameCore.scoreManager.SpawnDoll();
+                Debug.Log("test message1");
                 spawnedUnit = Instantiate(prefabUnit.gameObject, tiletoSpawn.transform.position, Quaternion.identity);
                 Debug.Log("在" + tiletoSpawn.name + "生成了" + slots[i].spawnUID + "号单位" + prefabUnit.name);
                 spawnedUnit.GetComponent<Unit>().hang = next_hang;

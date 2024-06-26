@@ -9848,7 +9848,7 @@ MonoBehaviour:
   - {fileID: 0}
   spawnSquardA:
     list:
-    - Key: "\u4E09\u516D\u5F0F"
+    - Key: "\u6CAA\u9020\u4E09\u516D\u5F0F\u5341\u8F6E\u88C5\u7532\u8F66"
       Value: {fileID: 5195854790106076288, guid: 1e4bbfee9b8b17a41a401148f30d0089,
         type: 3}
     - Key: "\u96F7\u8BFAZB/47mm"
