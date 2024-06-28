@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Reflection;
+using System.Collections.Generic;
 
 // 工具类，存放各种静态工具方法
 public static class Utilities
@@ -295,5 +296,32 @@ public static class Utilities
         }
 
         return default(T);
+    }
+
+    public class KeyValueData<K, V>
+    {
+        public K Key;
+        public V Value;
+    }
+
+    public static string SerializeDictionaryToJson<K, V> (Dictionary<K, V> dictionary)
+    {
+        List<KeyValueData<K, V>> dataList = new List<KeyValueData<K, V>>();
+        foreach (var kvp in dictionary)
+        {
+            dataList.Add(new KeyValueData<K, V> { Key = kvp.Key, Value = kvp.Value });
+        }
+        return JsonUtility.ToJson(dataList.ToArray());
+    }
+
+    public static Dictionary<K, V> DeserializeJsonToDictionary<K, V> (string json)
+    {
+        var dataList = JsonUtility.FromJson<KeyValueData<K, V>[]>(json);
+        var dictionary = new Dictionary<K, V>();
+        foreach (var data in dataList)
+        {
+            dictionary[data.Key] = data.Value;
+        }
+        return dictionary;
     }
 }

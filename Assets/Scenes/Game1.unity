@@ -7213,6 +7213,7 @@ GameObject:
   - component: {fileID: 1006374472}
   - component: {fileID: 1006374471}
   - component: {fileID: 1006374473}
+  - component: {fileID: 1006374474}
   m_Layer: 0
   m_Name: GameCore
   m_TagString: Untagged
@@ -7268,6 +7269,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d38471b1d086fa04c852f103ba619001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1006374474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006374470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e43c50978a54a80f73828e9650bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1009844445
