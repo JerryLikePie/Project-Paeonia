@@ -327,7 +327,6 @@ public class DollsCombat : MonoBehaviour
         {
             //health = healthRestrictLine[healthLevel];
             //ÕóÍöÒ»Ãû
-            Debug.Log("checkpoint1");
             combatBehaviour.WreckAfterDead(this, dollsEntities[healthLevel].transform);
             dollsEntities[healthLevel].gameObject.SetActive(false);
             crewNum -= 1;

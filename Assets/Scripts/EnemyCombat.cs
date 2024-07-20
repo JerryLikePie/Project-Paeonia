@@ -32,7 +32,7 @@ public class EnemyCombat : MonoBehaviour
 
     public UnitEntity[] enemyEntities;
     public int crewNum;
-    public float[] healthRestrictLine = { 0, 0, 0, 0, 0, 0 };
+    [HideInInspector] public float[] healthRestrictLine = { 0, 0, 0, 0, 0, 0 };
     public int healthLevel;
     bool firstTime;
 
@@ -43,8 +43,8 @@ public class EnemyCombat : MonoBehaviour
     [HideInInspector] public bool canMove;
     [HideInInspector] public int counter;
     public int moveSpeedWaitTime;
-    Transform supportTargetCord;
-    public Transform artyTarget;
+    [HideInInspector] public Transform supportTargetCord;
+    [HideInInspector] public Transform artyTarget;
     bool enemyInRange = false;
     public float aaAttackInterval;
     [HideInInspector] public Vector3 startPos, target; //¡Ÿ ±
@@ -110,23 +110,23 @@ public class EnemyCombat : MonoBehaviour
             UpdateHealthBar();
             combatBehavior.CheckDolls(this);
             FogOfWar();
-            switch (enemy.enemy_type)
-            {
-                case 1:
-                case 3:
-                    GroundCheckDolls();
-                    break;
-                case 2:
-                    SupportCheckDolls();
-                    break;
-                case 4:
-                    AntiAirCheckDolls();
-                    break;
-                case 5:
-                    AirCheckDolls();
-                    break;
+            //switch (enemy.enemy_type)
+            //{
+            //    case 1:
+            //    case 3:
+            //        GroundCheckDolls();
+            //        break;
+            //    case 2:
+            //        SupportCheckDolls();
+            //        break;
+            //    case 4:
+            //        AntiAirCheckDolls();
+            //        break;
+            //    case 5:
+            //        AirCheckDolls();
+            //        break;
 
-            }
+            //}
 
         }
     }

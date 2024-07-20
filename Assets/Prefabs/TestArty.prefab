@@ -15834,6 +15834,7 @@ GameObject:
   - component: {fileID: 7215935891652757793}
   - component: {fileID: 7215935891652757822}
   - component: {fileID: -4898678808061389701}
+  - component: {fileID: 7893318776561399321}
   m_Layer: 9
   m_Name: TestArty
   m_TagString: Enemy
@@ -15873,7 +15874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105afcc99105f0c4481ad952317d2644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatBehavior: {fileID: 0}
+  combatBehavior: {fileID: 7893318776561399321}
   enemy: {fileID: 0}
   health: 0
   dodge: 0
@@ -15907,6 +15908,7 @@ MonoBehaviour:
   canMove: 1
   counter: 0
   moveSpeedWaitTime: 14
+  supportTargetCord: {fileID: 0}
   artyTarget: {fileID: 6226237802915441925, guid: a41fa28958cfd384f8529687bc2e9ffc,
     type: 3}
   aaAttackInterval: 0
@@ -15974,6 +15976,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loots: []
+--- !u!114 &7893318776561399321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7215935891652757820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d6436769430af4449f2091507efd998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstTime: 1
 --- !u!1 &7215935891789943006
 GameObject:
   m_ObjectHideFlags: 0
