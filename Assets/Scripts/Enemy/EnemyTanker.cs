@@ -33,7 +33,7 @@ public class EnemyTanker : IEnemyBehavior
                 {
                     newRange = context.enemy.enemy_range;
                 }
-                for (int i = 0; i < context.dollsList.transform.childCount - 1; i++)
+                for (int i = 0; i < context.dollsList.transform.childCount; i++)
                 {
                     doll = context.dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
                     if (doll == null)

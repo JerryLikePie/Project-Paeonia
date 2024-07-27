@@ -27,6 +27,7 @@ public class DollsCombat : MonoBehaviour
     [HideInInspector] public bool beingSpotted = false;
 
     [HideInInspector] public Transform supportTargetCord;
+    public Transform aimingCircle;
     [HideInInspector] public Queue<Hex> toCancelFogQueue = new Queue<Hex>();
     [HideInInspector] public List<EnemyCombat> enemyList;
     public UnitEntity[] dollsEntities;
@@ -114,6 +115,7 @@ public class DollsCombat : MonoBehaviour
         {
             UpdateHealthBar();
             combatBehaviour.CheckEnemy(this);
+            FaceDirection();
         }
     }
     void FireBullet()
@@ -180,6 +182,8 @@ public class DollsCombat : MonoBehaviour
                     if (!map.IsBlocked(currentTile, enemyList[i].transform.position))
                     {
                         setEnemy = enemyList[i];
+
+                        
                         break;
                     }
                 }
@@ -305,6 +309,24 @@ public class DollsCombat : MonoBehaviour
     {
         supportTargetCord = null;
     }
+    void FaceDirection()
+    {
+        if (thisUnit.isMoving)
+        {
+            // 在移动的时候，override朝向为前进方向
+            turnTowards(thisUnit.facing.position);
+            
+        }
+        else if (setEnemy != null)
+        {
+            // 在没有移动的时候，朝向改为对敌
+            turnTowards(setEnemy.transform.position);
+        }
+        else
+        {
+            // 默认的时候，朝向不变
+        }
+    }
     void Withdrawl()
     {
         deFogOfWar();
@@ -320,7 +342,7 @@ public class DollsCombat : MonoBehaviour
         
         if (health <= healthRestrictLine[healthLevel + 1]) // && dolls.dolls_type == 3
         {
-            health.value = health + 0.1f; //我们取消了免费的维修套件和灭火器，现在只有空军有了
+            health.value = health + 0.1f; //我们又给了免费的维修套件
         }
         
         if (health < healthRestrictLine[healthLevel])
@@ -515,6 +537,11 @@ public class DollsCombat : MonoBehaviour
         }
         GameObject body = Instantiate(wreckage, deadbody.position, Quaternion.identity);
         body.SetActive(true);
+    }
+
+    void turnTowards(Vector3 target)
+    {
+        aimingCircle.LookAt(target - Vector3.up * target.y);
     }
 
     // other helper functions

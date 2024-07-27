@@ -14,6 +14,7 @@ public class EnemySniper : IEnemyBehavior
 
     public override void CheckDolls(EnemyCombat context)
     {
+        
         if (context.canFire)
         {
             try
@@ -21,6 +22,7 @@ public class EnemySniper : IEnemyBehavior
                 if (context.bullet == null)
                 {
                     // 子弹没准备好的话应该是出错了
+                    Debug.LogError("没有子弹");
                     return;
                 }
                 if (context.rangeBuff > 0)
@@ -31,7 +33,7 @@ public class EnemySniper : IEnemyBehavior
                 {
                     newRange = context.enemy.enemy_range;
                 }
-                for (int i = 0; i < context.dollsList.transform.childCount - 1; i++)
+                for (int i = 0; i < context.dollsList.transform.childCount; i++)
                 {
                     doll = context.dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
                     if (doll == null)
@@ -55,7 +57,7 @@ public class EnemySniper : IEnemyBehavior
             }
             catch
             {
-
+                Debug.LogError("无法识别到单位！！");
             }
         }
     }

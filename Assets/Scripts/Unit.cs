@@ -20,6 +20,9 @@ public class Unit : MonoBehaviour
     [HideInInspector]
     public bool canMove;
 
+    [HideInInspector]
+    public Transform facing;
+
     float percentageCDtime;
     GameObject doll;
     public GameObject tileSelectedGoldenHex;
@@ -51,10 +54,13 @@ public class Unit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (dolls.dolls_type != 3)
         {
+            // 只有地面单位需要移动
             if (path.Count != 0 && !Input.GetMouseButton(0) && !path.Peek().haveEnemy && !path.Peek().haveUnit)
             {
+                isMoving = true; // 如果移动队列里面有地块，则处在“移动”中
                 if (firstTime)
                 {
                     next = path.Peek();
@@ -72,6 +78,11 @@ public class Unit : MonoBehaviour
                     canMove = false;
                     firstTime2 = true;
                 }
+                if (next != null)
+                {
+                    facing = next.transform;
+                }
+                
             }
             if (!Vector3Equal(destination, transform.position))
             {
@@ -91,6 +102,10 @@ public class Unit : MonoBehaviour
                 combat.FogOfWar();
                 firstTime2 = false;
                 firstTime = true;
+            }
+            else if (path.Count == 0)
+            {
+                isMoving = false; // 如果队列里面没有地块了，则不在移动中
             }
             moveTimer.TimerUpdate();
             if (actionCDBar.value >= 1f)
@@ -122,6 +137,7 @@ public class Unit : MonoBehaviour
         moveTimer.timeStart = System.DateTime.Now.Ticks;
         moveTimer.TimeToWait = moveTime;
         moveTimer.unit = this;
+        
     }
 
 }
