@@ -23,8 +23,8 @@ public class EnemyProperty : MonoBehaviour
     public float enemy_firerate;//如果不是弹夹炮，那么这个开火时间就等于装填时间
 
     public float enemy_armor_front;//前装甲
-    public int enemy_armor_side;//侧装甲
-    public int enemy_armor_back;//后装甲
+    public float enemy_armor_side;//侧装甲
+    public float enemy_armor_back;//后装甲
     public float enemy_damage_multiplier;//伤害乘子
     public int enemy_ammo_type;//弹种 0穿甲弹 1高爆弹 2破甲弹 3APCBC等后效弹
 

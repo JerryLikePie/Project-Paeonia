@@ -324,4 +324,22 @@ public static class Utilities
         }
         return dictionary;
     }
+
+    public static float max(float a, float b)
+    {
+        if (a > b)
+        {
+            return a;
+        }
+        return b;
+    }
+
+    public static float abs(float a)
+    {
+        if (a < 0.0f)
+        {
+            return -a;
+        }
+        return a;
+    }
 }

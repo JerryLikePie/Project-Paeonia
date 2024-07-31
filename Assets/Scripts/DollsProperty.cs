@@ -27,8 +27,8 @@ public class DollsProperty : MonoBehaviour
     public float dolls_firerate;//如果不是弹夹炮，那么这个开火时间就等于装填时间
 
     public float dolls_armor_front;//前装甲
-    public int dolls_armor_side;//侧装甲
-    public int dolls_armor_back;//后装甲
+    public float dolls_armor_side;//侧装甲
+    public float dolls_armor_back;//后装甲
 
     public float dolls_damage_multiplier;//伤害乘子
     public int dolls_ammo_type;//弹种 0穿甲弹 1高爆弹 2破甲弹 3APCBC等后效弹 4航空炸弹 5尾翼稳定脱壳穿甲弹

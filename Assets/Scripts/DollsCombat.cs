@@ -118,47 +118,6 @@ public class DollsCombat : MonoBehaviour
             FaceDirection();
         }
     }
-    void FireBullet()
-    {
-        if (setEnemy == null || setEnemy.gameObject.activeSelf == false)
-        {
-            counter++;
-            SwitchTarget();
-        }
-        else if (setEnemy != null && setEnemy.gameObject.activeSelf == true && counter < crewNum)
-        {
-            try
-            {
-                GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
-                bulletThatWasShot.SetActive(true);
-                bulletThatWasShot.transform.LookAt(setEnemy.transform);
-                shot = bulletThatWasShot.GetComponent<BulletManager>();
-                shot.shotType = dolls.dolls_ammo_type;
-                shot.speed = dolls.dolls_shell_speed;
-                shot.WhereTheShotWillGo = setEnemy.transform.position;
-                shot.damage = (dolls.dolls_sts_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
-                shot.damageIndicate = shot.damage.ToString("F0");
-                float randomPen = dolls.dolls_penetration + Random.Range(-2f, 2f);
-                shot.penetration = randomPen;
-                if (Random.Range(0, 100) < setEnemy.dodge - (dolls.dolls_accuracy + accurancyBuff))
-                {
-                    shot.damage = 0;
-                    //判定，被闪避了那就miss
-                    shot.damageIndicate = "miss";
-                }
-                shot.penetration = randomPen;
-                shot.sender = dollsEntities[counter].gameObject;
-                counter++;
-                shot.enemyList = allEnemy;
-                shot.dollsList = allDolls;
-                shot.whoShotMe = "player";
-                shot.firstImpact = true;
-            } catch (System.Exception ex)
-            {
-                Debug.LogError(ex);
-            }
-        }
-    }
     void SwitchTarget()
     {
         try
@@ -183,7 +142,7 @@ public class DollsCombat : MonoBehaviour
                     {
                         setEnemy = enemyList[i];
 
-                        
+
                         break;
                     }
                 }
@@ -194,8 +153,56 @@ public class DollsCombat : MonoBehaviour
         {
             Debug.LogError("oops");
         }
-        
+
     }
+    void FireBullet()
+    {
+        if (setEnemy == null || setEnemy.gameObject.activeSelf == false)
+        {
+            // 如果开火的时候这个敌人已经死了就要切换目标
+            counter++;
+            SwitchTarget();
+        }
+        else if (setEnemy != null && setEnemy.gameObject.activeSelf == true && counter < crewNum)
+        {
+            try
+            {
+                // 生成一个炮弹实体
+                GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
+                bulletThatWasShot.SetActive(true);
+                bulletThatWasShot.transform.LookAt(setEnemy.transform);
+                shot = bulletThatWasShot.GetComponent<BulletManager>();
+                // 给这个炮弹定义炮弹种类
+                shot.shotType = dolls.dolls_ammo_type;
+                // 给这个炮弹定义初速
+                shot.speed = dolls.dolls_shell_speed;
+                // 给这个炮弹定义落点（弹道会依据落点来计算）
+                shot.WhereTheShotWillGo = setEnemy.transform.position;
+                // 先给一个基础伤害值
+                shot.damage = (dolls.dolls_sts_attack * dolls.dolls_damage_multiplier) * Random.Range(0.95f, 1.05f);
+                shot.damageIndicate = shot.damage.ToString("F0");
+                float randomPen = dolls.dolls_penetration + Random.Range(-2f, 2f);
+                // 先给一个基础穿甲值
+                shot.penetration = randomPen;
+                if (Random.Range(0, 100) < setEnemy.dodge - (dolls.dolls_accuracy + accurancyBuff))
+                {
+                    shot.damage = 0;
+                    //判定，被闪避了那就miss
+                    shot.damageIndicate = "miss";
+                }
+                shot.sender = dollsEntities[counter].gameObject;
+                counter++;
+                shot.enemyList = allEnemy;
+                shot.dollsList = allDolls;
+                shot.whoShotMe = "player";
+                shot.firstImpact = true;
+            } catch (System.Exception ex)
+            {
+                Debug.LogError(ex);
+            }
+        }
+    }
+    
     void FireHowitzer()
     {
         GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
@@ -311,6 +318,11 @@ public class DollsCombat : MonoBehaviour
     }
     void FaceDirection()
     {
+        if (aimingCircle == null)
+        {
+            // 如果没做这个功能就没有
+            return;
+        }
         if (thisUnit.isMoving)
         {
             // 在移动的时候，override朝向为前进方向

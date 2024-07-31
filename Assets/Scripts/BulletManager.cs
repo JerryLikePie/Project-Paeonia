@@ -62,13 +62,17 @@ public class BulletManager : MonoBehaviour
     }
     void CheckIfHit()
     {
-        
+        // 查看是否已经打到了目标（持续检查）
         if (speed < 0)
         {
+            // 如果初速度为0，给一个初速度
             transform.position += transform.forward * (-speed) * Time.deltaTime;
         }
         if (transform.position.y <= 0 || Vector3Equal(transform.position, WhereTheShotWillGo))
         {
+            // 1. 打到了地面（y轴小于0），或者2.到达了目标坐标
+            // 因为“锁敌人”的写法，如果在开炮的时候敌人移动，炮弹会追踪过去
+            // 所以炮弹不锁任何敌人，而是锁地面坐标，此时敌人移开了那就是miss了
             bullet.SetActive(false);
             if (firstImpact == true)
             {
@@ -81,14 +85,17 @@ public class BulletManager : MonoBehaviour
                     firstImpact = false;
                     if (whoShotMe == "player")
                     {
+                        // 玩家打敌人
                         HitEnemy();
                     }
                     else if (whoShotMe == "enemy")
                     {
+                        // 敌人打玩家
                         HitPlayer();
                     }
                     else if (whoShotMe == "hitAll")
                     {
+                        // 炸弹和榴弹是打所有人
                         HitEnemy();
                         HitPlayer();
                     }
@@ -96,12 +103,15 @@ public class BulletManager : MonoBehaviour
                 catch { }
                 
             }
+            // 删除该实体
+            // 虽然回收弹药是更好的实现方式，但是那样又要关闭光效和特效还有声效……算了。
             Destroy(gameObject,0.05f);
         }
     }
 
     void CheckIfCollide()
     {
+        // 这个是切换至collider来判定之后会使用的代码
         if (speed < 0)
         {
             transform.position += transform.forward * (-speed) * Time.deltaTime;
@@ -197,6 +207,9 @@ public class BulletManager : MonoBehaviour
 
     void HitPlayer()
     {
+        // 打我方单位
+        Vector3 origion = sender.transform.position;
+        origion.y = 0.0f;
         for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
         {
             try
@@ -206,7 +219,7 @@ public class BulletManager : MonoBehaviour
                 {
                     if (Vector3.Distance(dolls.transform.position, transform.position) < 17.4f * DamageRange && dolls.gameObject.activeSelf && dolls.gameObject != sender)
                     {
-                        
+                        // 如果：这个doll在这个位置且：dolls存在且：该炮弹不由此dolls发出
                         randomDisplacement = new Vector3(Random.Range(-5f, 5f), Random.Range(-1f, 1f), Random.Range(-5f, 5f));
                         if (damageIndicate == "miss")
                         {
@@ -214,8 +227,30 @@ public class BulletManager : MonoBehaviour
                             damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.gray;
                             damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
                             Destroy(damageText, 1.5f);
+                            continue;
                         }
-                        else if (damageIndicate == "hit")
+                        // 判定是否可以击穿
+                        // 首先给出dolls的朝向
+                        Vector3 dollfacing = dolls.aimingCircle.forward;
+                        // 然后给出入射角
+                        Vector3 senderangle = sender.transform.position - dolls.transform.position;
+                        senderangle.y = 0.0f;
+                        // 通过入射角计算装甲等效
+                        float angle = Vector3.Dot(dollfacing, Vector3.Normalize(senderangle));
+                        float frontArmorIndex = max(angle, 0.0f) * dolls.dolls.dolls_armor_front;
+                        float sideArmorIndex = max(1 - abs(angle), 0.0f) * dolls.dolls.dolls_armor_side;
+                        float rearArmorIndex = max(-angle, 0.0f) * dolls.dolls.dolls_armor_back;
+                        float armor = frontArmorIndex + sideArmorIndex + rearArmorIndex;
+                        // 是否击穿？
+                        if (penetration < armor)
+                        {
+                            // 未击穿！
+                            damageIndicate = "hit";
+                            damage = 0;
+                        }
+
+                        // 显示伤害
+                        if (damageIndicate == "hit")
                         {
                             GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
                             damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
@@ -228,9 +263,10 @@ public class BulletManager : MonoBehaviour
                             damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
                             damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
                             Destroy(damageText, 1.5f);
-                            if (shotType == 2 || shotType == 4)
+                            if (shotType == 1 || shotType == 4)
                             {
-                                //Debug.Log("高爆弹");
+                                // 1是高爆 4是炸弹
+                                // 高爆伤害不以射入角评判
                                 dolls.RecieveExplosiveDamage(damage);
                             }
                             else
