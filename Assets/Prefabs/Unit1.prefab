@@ -1941,7 +1941,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5195854790106076290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.75, y: 0, z: 15.35}
+  m_LocalPosition: {x: 0, y: 0, z: 15.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2307186590762663033}
@@ -2083,7 +2083,7 @@ MonoBehaviour:
   dolls_view_range: 3
   dolls_unlocked: 1
   dolls_max_hp: 1400
-  dolls_sts_attack: 150
+  dolls_sts_attack: 160
   dolls_ata_attack: 0
   dolls_sta_attack: 0
   dolls_ats_attack: 0
@@ -3435,17 +3435,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6134529826114234637}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.41488704, y: 0.5725983, z: -0.5725983, w: 0.41488704}
   m_LocalPosition: {x: 0, y: 0, z: 0.00000047683716}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7138944582711868830}
   m_Father: {fileID: 2307186590762663033}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 18.148, y: 90, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.1153846, y: -3.3461545}
+  m_AnchoredPosition: {x: -2.115491, y: -3.3462358}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6190952581707320184

@@ -1832,7 +1832,7 @@ MonoBehaviour:
   dolls_range: 4
   dolls_view_range: 3
   dolls_unlocked: 1
-  dolls_max_hp: 2500
+  dolls_max_hp: 2000
   dolls_sts_attack: 285
   dolls_ata_attack: 0
   dolls_sta_attack: 0
@@ -1843,7 +1843,7 @@ MonoBehaviour:
   dolls_reload: 8.7
   dolls_firerate: 8.7
   dolls_armor_front: 100
-  dolls_armor_side: 60
+  dolls_armor_side: 30
   dolls_armor_back: 30
   dolls_damage_multiplier: 1
   dolls_ammo_type: 3

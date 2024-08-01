@@ -149,67 +149,65 @@ public class BulletManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider collision)
-    {
-        try
-        {
-            if (onCollision)
-            {
-                if (whoShotMe == "player")
-                {
-                    if (collision.gameObject.tag == "Enemy")
-                    {
+    //private void OnTriggerEnter(Collider collision)
+    //{
+    //    try
+    //    {
+    //        if (onCollision)
+    //        {
+    //            if (whoShotMe == "player")
+    //            {
+    //                if (collision.gameObject.tag == "Enemy")
+    //                {
 
-                        GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
-                        Destroy(newSound, 5f);
-                        GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
-                        Destroy(newVisual, 5f);
-                        firstImpact = false;
-                        HitEnemy(collision);
-                        Destroy(gameObject, 0.05f);
-                    }
-                }
-                else if (whoShotMe == "enemy")
-                {
-                    if (collision.gameObject.tag == "Friendly")
-                    {
-                        GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
-                        Destroy(newSound, 5f);
-                        GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
-                        Destroy(newVisual, 5f);
-                        firstImpact = false;
-                        HitPlayer(collision);
-                        Destroy(gameObject, 0.05f);
-                    }
-                }
-                else if (whoShotMe == "hitAll")
-                {
-                    if (collision.gameObject.tag == "Friendly" || collision.gameObject.tag == "Enemy")
-                    {
-                        GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
-                        Destroy(newSound, 5f);
-                        GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
-                        Destroy(newVisual, 5f);
-                        firstImpact = false;
-                        HitEnemy();
-                        HitPlayer();
-                        Destroy(gameObject, 0.05f);
-                    }
-                }
-            }
-        }
-        catch 
-        {
-            Debug.LogError("Well this bullet system is not done yet so.");
-        }
+    //                    GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+    //                    Destroy(newSound, 5f);
+    //                    GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+    //                    Destroy(newVisual, 5f);
+    //                    firstImpact = false;
+    //                    HitEnemy(collision);
+    //                    Destroy(gameObject, 0.05f);
+    //                }
+    //            }
+    //            else if (whoShotMe == "enemy")
+    //            {
+    //                if (collision.gameObject.tag == "Friendly")
+    //                {
+    //                    GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+    //                    Destroy(newSound, 5f);
+    //                    GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+    //                    Destroy(newVisual, 5f);
+    //                    firstImpact = false;
+    //                    HitPlayer(collision);
+    //                    Destroy(gameObject, 0.05f);
+    //                }
+    //            }
+    //            else if (whoShotMe == "hitAll")
+    //            {
+    //                if (collision.gameObject.tag == "Friendly" || collision.gameObject.tag == "Enemy")
+    //                {
+    //                    GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+    //                    Destroy(newSound, 5f);
+    //                    GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+    //                    Destroy(newVisual, 5f);
+    //                    firstImpact = false;
+    //                    HitEnemy();
+    //                    HitPlayer();
+    //                    Destroy(gameObject, 0.05f);
+    //                }
+    //            }
+    //        }
+    //    }
+    //    catch 
+    //    {
+    //        Debug.LogError("Well this bullet system is not done yet so.");
+    //    }
         
-    }
+    //}
 
     void HitPlayer()
     {
         // 打我方单位
-        Vector3 origion = sender.transform.position;
-        origion.y = 0.0f;
         for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
         {
             try
@@ -230,25 +228,29 @@ public class BulletManager : MonoBehaviour
                             continue;
                         }
                         // 判定是否可以击穿
-                        // 首先给出dolls的朝向
-                        Vector3 dollfacing = dolls.aimingCircle.forward;
-                        // 然后给出入射角
+                        // 先给出入射角
                         Vector3 senderangle = sender.transform.position - dolls.transform.position;
                         senderangle.y = 0.0f;
-                        // 通过入射角计算装甲等效
-                        float angle = Vector3.Dot(dollfacing, Vector3.Normalize(senderangle));
-                        float frontArmorIndex = max(angle, 0.0f) * dolls.dolls.dolls_armor_front;
-                        float sideArmorIndex = max(1 - abs(angle), 0.0f) * dolls.dolls.dolls_armor_side;
-                        float rearArmorIndex = max(-angle, 0.0f) * dolls.dolls.dolls_armor_back;
-                        float armor = frontArmorIndex + sideArmorIndex + rearArmorIndex;
-                        // 是否击穿？
-                        if (penetration < armor)
+                        float armor = 0.0f;
+                        if (Vector3.Magnitude(senderangle) < 1.0f)
                         {
-                            // 未击穿！
-                            damageIndicate = "hit";
-                            damage = 0;
+                            // 因为会有双方同时进入一个地块的情况出现，在同一地块上发起的攻击视为白刃战，无视护甲且伤害翻倍
+                            damage *= 2;
                         }
-
+                        else
+                        {
+                            // 通过入射角计算装甲等效
+                            armor = dolls.CalculateArmorVal(senderangle);
+                            //Debug.Log(penetration + ", " + armor);
+                            // 是否击穿？
+                            if (penetration < armor)
+                            {
+                                // 未击穿！
+                                damageIndicate = "hit";
+                                damage = 0;
+                            }
+                        }
+                        
                         // 显示伤害
                         if (damageIndicate == "hit")
                         {
@@ -285,53 +287,54 @@ public class BulletManager : MonoBehaviour
         }
     }
 
-    void HitPlayer(Collider col)
-    {
-        dolls = col.GetComponentInParent<DollsCombat>();
-        if (dolls == null)
-        {
-            return;
-        }
-        if (!dolls.gameObject.activeSelf)
-        {
-            return;
-        }
-        randomDisplacement = new Vector3(Random.Range(-5f, 5f), Random.Range(-1f, 1f), Random.Range(-5f, 5f));
-        if (damageIndicate == "miss")
-        {
-            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.gray;
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-            Destroy(damageText, 1.5f);
-        }
-        else if (damageIndicate == "hit")
-        {
-            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-            Destroy(damageText, 1.5f);
-        }
-        else
-        {
-            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-            Destroy(damageText, 1.5f);
-            if (shotType == 2 || shotType == 4)
-            {
-                Debug.Log("高爆弹");
-                dolls.RecieveExplosiveDamage(damage);
-            }
-            else
-            {
-                dolls.RecieveDamage(damage);
-            }
+    //void HitPlayer(Collider col)
+    //{
+    //    dolls = col.GetComponentInParent<DollsCombat>();
+    //    if (dolls == null)
+    //    {
+    //        return;
+    //    }
+    //    if (!dolls.gameObject.activeSelf)
+    //    {
+    //        return;
+    //    }
+    //    randomDisplacement = new Vector3(Random.Range(-5f, 5f), Random.Range(-1f, 1f), Random.Range(-5f, 5f));
+    //    if (damageIndicate == "miss")
+    //    {
+    //        GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.gray;
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+    //        Destroy(damageText, 1.5f);
+    //    }
+    //    else if (damageIndicate == "hit")
+    //    {
+    //        GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+    //        Destroy(damageText, 1.5f);
+    //    }
+    //    else
+    //    {
+    //        GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+    //        Destroy(damageText, 1.5f);
+    //        if (shotType == 2 || shotType == 4)
+    //        {
+    //            Debug.Log("高爆弹");
+    //            dolls.RecieveExplosiveDamage(damage);
+    //        }
+    //        else
+    //        {
+    //            dolls.RecieveDamage(damage);
+    //        }
 
-        }
-    }
+    //    }
+    //}
 
     void HitEnemy()
     {
+        // 我方打敌人
         for (int i = 0; i <= enemyList.transform.childCount - 1; i++)
         {
             enemy = enemyList.transform.GetChild(i).GetComponent<EnemyCombat>();
@@ -339,28 +342,44 @@ public class BulletManager : MonoBehaviour
             {
                 if (Vector3.Distance(enemy.transform.position, transform.position) < 17.4f * DamageRange && enemy.gameObject.activeSelf)
                 {
-                    if (shotType == 2 || shotType == 4)
+                    if (shotType == 1 || shotType == 4)
                     {
+                        // 1为高爆 4为炸弹，高爆伤害会因为距离衰减
                         damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType] * (1 / (Vector3.Distance(enemy.transform.position, transform.position) / 17.3f));
                     } else
                     {
+                        // 根据不同弹种的乘区来计算伤害
                         damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
-
                     }
+
+                    // 计算敌方的装甲等效
+                    // 先给出入射角
+                    Vector3 senderangle = sender.transform.position - enemy.transform.position;
+                    senderangle.y = 0.0f;
+                    float armor = 0.0f;
+                    if (Vector3.Magnitude(senderangle) < 1.0f)
+                    {
+                        // 因为会有双方同时进入一个地块的情况出现，在同一地块上发起的攻击视为白刃战，无视护甲且伤害翻倍
+                        damage *= 2;
+                    }
+                    else
+                    {
+                        // 通过入射角计算装甲等效
+                        armor = enemy.CalculateArmorVal(senderangle);
+                        // 是否击穿？
+                        if (penetration < armor)
+                        {
+                            // 未击穿！
+                            damageIndicate = "hit";
+                            damage = 0;
+                        }
+                    }
+
                     randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
                     
                     if (damageIndicate == "miss")
                     {
                         GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-                        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-                        Destroy(damageText, 1.5f);
-                    }
-                    else if (enemy.enemy.enemy_armor_front > penetration)
-                    {
-                        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-                        damage = 0;
-                        damageIndicate = "hit";
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
                         Destroy(damageText, 1.5f);
@@ -371,8 +390,9 @@ public class BulletManager : MonoBehaviour
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
                         damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
                         Destroy(damageText, 1.5f);
-                        if (shotType == 2 || shotType == 4)
+                        if (shotType == 1 || shotType == 4)
                         {
+                            // 1是高爆弹 4是航空炸弹
                             enemy.RecieveExplosiveDamage(damage);
                         }
                         else
@@ -388,60 +408,60 @@ public class BulletManager : MonoBehaviour
         }
     }
 
-    void HitEnemy(Collider col)
-    {
-        enemy = col.GetComponentInParent<EnemyCombat>();
-        if (enemy == null)
-        {
-            return;
-        }
-        if (!enemy.gameObject.activeSelf)
-        {
-            return;
-        }
-        if (shotType == 2 || shotType == 4)
-        {
-            damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType] * (1 / (Vector3.Distance(enemy.transform.position, transform.position) / 17.3f));
-        }
-        else
-        {
-            damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
+    //void HitEnemy(Collider col)
+    //{
+    //    enemy = col.GetComponentInParent<EnemyCombat>();
+    //    if (enemy == null)
+    //    {
+    //        return;
+    //    }
+    //    if (!enemy.gameObject.activeSelf)
+    //    {
+    //        return;
+    //    }
+    //    if (shotType == 2 || shotType == 4)
+    //    {
+    //        damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType] * (1 / (Vector3.Distance(enemy.transform.position, transform.position) / 17.3f));
+    //    }
+    //    else
+    //    {
+    //        damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
 
-        }
-        randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
+    //    }
+    //    randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
 
-        if (damageIndicate == "miss")
-        {
-            GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-            Destroy(damageText, 1.5f);
-        }
-        else if (enemy.enemy.enemy_armor_front > penetration)
-        {
-            GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-            damage = 0;
-            damageIndicate = "hit";
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-            Destroy(damageText, 1.5f);
-        }
-        else
-        {
-            GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-            Destroy(damageText, 1.5f);
-            if (shotType == 2 || shotType == 4)
-            {
-                enemy.RecieveExplosiveDamage(damage);
-            }
-            else
-            {
-                enemy.RecieveDamage(damage);
-            }
-        }
-    }
+    //    if (damageIndicate == "miss")
+    //    {
+    //        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+    //        Destroy(damageText, 1.5f);
+    //    }
+    //    else if (enemy.enemy.enemy_armor_front > penetration)
+    //    {
+    //        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+    //        damage = 0;
+    //        damageIndicate = "hit";
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+    //        Destroy(damageText, 1.5f);
+    //    }
+    //    else
+    //    {
+    //        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+    //        Destroy(damageText, 1.5f);
+    //        if (shotType == 2 || shotType == 4)
+    //        {
+    //            enemy.RecieveExplosiveDamage(damage);
+    //        }
+    //        else
+    //        {
+    //            enemy.RecieveDamage(damage);
+    //        }
+    //    }
+    //}
 
     Vector3 CalculateVelocity(Vector3 target, GameObject sender, float speed)
     {

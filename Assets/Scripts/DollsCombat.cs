@@ -3,6 +3,7 @@ using Assets.Scripts.BuffSystem.BuffeeImpl;
 using Assets.Scripts.BuffSystem.BuffImpl;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 using static Utilities;
@@ -334,6 +335,11 @@ public class DollsCombat : MonoBehaviour
             // 在没有移动的时候，朝向改为对敌
             turnTowards(setEnemy.transform.position);
         }
+        else if (supportTargetCord != null)
+        {
+            // 在进行火炮打击的时候，朝向改为对坐标
+            turnTowards(supportTargetCord.position);
+        }
         else
         {
             // 默认的时候，朝向不变
@@ -516,6 +522,19 @@ public class DollsCombat : MonoBehaviour
                 }
             }
         }
+    }
+
+    public float CalculateArmorVal(Vector3 from)
+    {
+        if (aimingCircle != null)
+        {
+            float angle = Vector3.Dot(aimingCircle.forward, Vector3.Normalize(from));
+            return max(angle, 0.0f) * dolls.dolls_armor_front
+            + max(1 - abs(angle), 0.0f) * dolls.dolls_armor_side
+            + max(-angle, 0.0f) * dolls.dolls_armor_back;
+        }
+        // 如果没做朝向那就是类似标靶那种没有朝向的东西，直接取前装甲
+        return dolls.dolls_armor_front;
     }
 
     public void RecieveDamage(float num)

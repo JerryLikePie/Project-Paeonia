@@ -29,6 +29,7 @@ public class EnemyCombat : MonoBehaviour
     [HideInInspector] public int height = 1;
     [HideInInspector] public bool isTarget;
     Vector3 destination;
+    public Transform aimingCircle;
 
     public UnitEntity[] enemyEntities;
     public int crewNum;
@@ -110,24 +111,7 @@ public class EnemyCombat : MonoBehaviour
             UpdateHealthBar();
             combatBehavior.CheckDolls(this);
             FogOfWar();
-            //switch (enemy.enemy_type)
-            //{
-            //    case 1:
-            //    case 3:
-            //        GroundCheckDolls();
-            //        break;
-            //    case 2:
-            //        SupportCheckDolls();
-            //        break;
-            //    case 4:
-            //        AntiAirCheckDolls();
-            //        break;
-            //    case 5:
-            //        AirCheckDolls();
-            //        break;
-
-            //}
-
+            FaceDirection();
         }
     }
 
@@ -202,7 +186,7 @@ public class EnemyCombat : MonoBehaviour
                 hang = currentHex.X; lie = currentHex.Z; height = currentHex.height;
                 dodge = enemy.enemy_dodge + currentHex.dodgeBuff;
                 rangeBuff = currentHex.rangeBuff;
-
+                turnTowards(destination - transform.position + transform.position);
                 // 等待移动结束，如果是到达路径点上，则停留路径规划的时间
                 float randomMoveTime = (moveSpeedWaitTime) * currentHex.movecost + Random.Range(-2f, 5f);
                 timeToWait = (currentHex == nextTarget) ? moveWaitTime.Dequeue() : randomMoveTime;
@@ -264,20 +248,14 @@ public class EnemyCombat : MonoBehaviour
             shot = bulletThatWasShot.GetComponent<BulletManager>();
             shot.speed = -enemy.enemy_shell_speed;
             shot.WhereTheShotWillGo = setDolls.transform.position;
-            shot.damage = 0;//先设为0
-            shot.damageIndicate = "hit";
-            float randomPen = enemy.enemy_penetration + Random.Range(-5, 5f);
-            if (randomPen >= setDolls.dolls.dolls_armor_front)
+            shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
+            shot.damageIndicate = shot.damage.ToString("F0");
+            shot.penetration = enemy.enemy_penetration + Random.Range(-5, 5f);
+            if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
             {
-                shot.damage = (enemy.enemy_ata_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
-                //判定，如果可以击穿那就把伤害加上去，不然的话这发炮弹就是0伤害
-                shot.damageIndicate = shot.damage.ToString("F0");
-                if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
-                {
-                    shot.damage = 0;
-                    //判定，被闪避了那就miss
-                    shot.damageIndicate = "miss";
-                }
+                shot.damage = 0;
+                //判定，被闪避了那就miss
+                shot.damageIndicate = "miss";
             }
             shot.sender = enemyEntities[counter].gameObject;
             shot.dollsList = dollsList;
@@ -299,20 +277,14 @@ public class EnemyCombat : MonoBehaviour
             shot = bulletThatWasShot.GetComponent<BulletManager>();
             shot.speed = enemy.enemy_shell_speed;
             shot.WhereTheShotWillGo = setDolls.transform.position;
-            shot.damage = 0;//先设为0
-            shot.damageIndicate = "hit";
-            float randomPen = enemy.enemy_penetration + Random.Range(-5, 5f);
-            if (randomPen >= setDolls.dolls.dolls_armor_front)
+            shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
+            shot.damageIndicate = shot.damage.ToString("F0");
+            shot.penetration = enemy.enemy_penetration + Random.Range(-5, 5f);
+            if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
             {
-                shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
-                //判定，如果可以击穿那就把伤害加上去，不然的话这发炮弹就是0伤害
-                shot.damageIndicate = shot.damage.ToString("F0");
-                if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
-                {
-                    shot.damage = 0;
-                    //判定，被闪避了那就miss
-                    shot.damageIndicate = "miss";
-                }
+                shot.damage = 0;
+                //判定，被闪避了那就miss
+                shot.damageIndicate = "miss";
             }
             shot.sender = enemyEntities[counter].gameObject;
             shot.dollsList = dollsList;
@@ -332,20 +304,14 @@ public class EnemyCombat : MonoBehaviour
         shot = bulletThatWasShot.GetComponent<BulletManager>();
         shot.speed = enemy.enemy_shell_speed;
         shot.WhereTheShotWillGo = setDolls.transform.position + Random.Range(-17, 17f) * Vector3.left + Random.Range(-17, 17f) * Vector3.forward;
-        shot.damage = 0;//先设为0
-        shot.damageIndicate = "hit";
-        float randomPen = enemy.enemy_penetration + Random.Range(-5, 5f);
-        if (randomPen >= setDolls.dolls.dolls_armor_front)
+        shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
+        shot.damageIndicate = shot.damage.ToString("F0");
+        shot.penetration = enemy.enemy_penetration + Random.Range(-5, 5f);
+        if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
         {
-            shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
-            //判定，如果可以击穿那就把伤害加上去，不然的话这发炮弹就是0伤害
-            shot.damageIndicate = shot.damage.ToString("F0");
-            if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)
-            {
-                shot.damage = 0;
-                //判定，被闪避了那就miss
-                shot.damageIndicate = "miss";
-            }
+            shot.damage = 0;
+            //判定，被闪避了那就miss
+            shot.damageIndicate = "miss";
         }
         shot.sender = enemyEntities[counter].gameObject;
         shot.dollsList = dollsList;
@@ -633,6 +599,33 @@ public class EnemyCombat : MonoBehaviour
         transform.GetComponent<EnemyCombat>().enabled = false;
         //Destroy(gameObject);
     }
+
+    void FaceDirection()
+    {
+        if (aimingCircle == null)
+        {
+            // 如果没做这个功能就没有
+            return;
+        }
+        if (setDolls != null && routeState != RSTATE_WAIT)
+        {
+            // 在没有移动的时候，朝向改为对敌
+            turnTowards(setDolls.transform.position);
+        }
+        else if (supportTargetCord != null)
+        {
+            turnTowards(supportTargetCord.position);
+        }
+        else
+        {
+            // 默认的时候，朝向不变
+        }
+    }
+    void turnTowards(Vector3 target)
+    {
+        aimingCircle.LookAt(target - Vector3.up * target.y);
+    }
+
     void UpdateHealthBar()
     {
         percentageHealth = health / enemy.enemy_max_hp;
@@ -675,6 +668,10 @@ public class EnemyCombat : MonoBehaviour
         {
             enemy.enemy_visible = false;
             toHideTheEnemy.SetActive(false);
+            if (aimingCircle != null)
+            {
+                aimingCircle.gameObject.SetActive(false);
+            }
             if (!firstTimeFound)
             {
                 firstTimeFound = true;
@@ -686,6 +683,10 @@ public class EnemyCombat : MonoBehaviour
         {
             enemy.enemy_visible = true;
             toHideTheEnemy.SetActive(true);
+            if (aimingCircle != null)
+            {
+                aimingCircle.gameObject.SetActive(true);
+            }
             if (firstTimeFound)
             {
                 firstTimeFound = false;
@@ -811,6 +812,20 @@ public class EnemyCombat : MonoBehaviour
         }
         return blocked;
     }
+
+    public float CalculateArmorVal(Vector3 from)
+    {
+        if (aimingCircle != null)
+        {
+            float angle = Vector3.Dot(aimingCircle.forward, Vector3.Normalize(from));
+            return max(angle, 0.0f) * enemy.enemy_armor_front
+            + max(1 - abs(angle), 0.0f) * enemy.enemy_armor_side
+            + max(-angle, 0.0f) * enemy.enemy_armor_back;
+        }
+        // 如果没做朝向那就是类似标靶那种没有朝向的东西，直接取前装甲
+        return enemy.enemy_armor_front;
+    }
+
     public void RecieveDamage(float num)
     {
         if (healthLevel >= 0)
