@@ -230,6 +230,12 @@ public class BulletManager : MonoBehaviour
                         // 判定是否可以击穿
                         // 先给出入射角
                         Vector3 senderangle = sender.transform.position - dolls.transform.position;
+                        if (shotType == 1 || shotType == 4)
+                        {
+                            // 如果是高爆和炸弹的话，计算角度则由爆炸点到敌人位置
+                            senderangle = transform.position - dolls.transform.position;
+
+                        }
                         senderangle.y = 0.0f;
                         float armor = 0.0f;
                         if (Vector3.Magnitude(senderangle) < 1.0f)
@@ -355,6 +361,12 @@ public class BulletManager : MonoBehaviour
                     // 计算敌方的装甲等效
                     // 先给出入射角
                     Vector3 senderangle = sender.transform.position - enemy.transform.position;
+                    if (shotType == 1 || shotType == 4)
+                    {
+                        // 如果是高爆和炸弹的话，计算角度则由爆炸点到敌人位置
+                        senderangle = transform.position - enemy.transform.position;
+
+                    }
                     senderangle.y = 0.0f;
                     float armor = 0.0f;
                     if (Vector3.Magnitude(senderangle) < 1.0f)
@@ -393,6 +405,7 @@ public class BulletManager : MonoBehaviour
                         if (shotType == 1 || shotType == 4)
                         {
                             // 1是高爆弹 4是航空炸弹
+                            // 高爆无视我方和敌方的数量
                             enemy.RecieveExplosiveDamage(damage);
                         }
                         else
