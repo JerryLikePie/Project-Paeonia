@@ -10,17 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 640772244b395af4085ef8c00ab79863, type: 3}
-  m_Name: Introduction3
+  m_Name: ST-3
   m_EditorClassIdentifier: 
-  endingStage: TR-7
-  alsoFinish: ST-3
-  story:
-  - background: {fileID: 0}
-    character: {fileID: 0}
-    backgroundMusic: {fileID: 0}
-    startMute: 0
-    name: 
-    words: 
-    isChoice: 0
-    branchNum: 0
-    response: []
+  endingStage: 
+  alsoFinish: 
+  story: []

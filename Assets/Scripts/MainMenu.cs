@@ -24,7 +24,7 @@ public class MainMenu : MonoBehaviour
     void IntroductionStory()
     {
         // 在第一次进入游戏时加载开幕剧情
-        Debug.Log(PlayerPrefs.GetInt("Introduction1_Done", 0));
+        //Debug.Log(PlayerPrefs.GetInt("Introduction1_Done", 0));
         if (PlayerPrefs.GetInt("Introduction1_Done", 0) == 0)
         {
             if (storyPanel != null)
@@ -47,6 +47,14 @@ public class MainMenu : MonoBehaviour
             {
                 storyPanel.loadStory("Introduction3");
                 PlayerPrefs.SetInt("Introduction3_Done", 1);
+            }
+        }
+        else if (PlayerPrefs.GetInt("Introduction4_Done", 0) == 0)
+        {
+            if (storyPanel != null)
+            {
+                storyPanel.loadStory("Introduction4");
+                PlayerPrefs.SetInt("Introduction4_Done", 1);
             }
         }
     }

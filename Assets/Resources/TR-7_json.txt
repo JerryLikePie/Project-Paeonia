@@ -2,18 +2,18 @@
 	"timeLimit": 200,
 	"mapTiles": [
 		"WWWWWWWWW",
-		"W1111111W",
-		"W1111111W",
-		"W1111111W",
-		"WB11111RW",
-		"W1111111W",
+		"W1100000W",
+		"WB111011W",
+		"W11000R1W",
+		"W1000001W",
+		"W1000001W",
 		"W1111111W",
 		"WWWWWWWWW"
 	],
 	"enemySpawnPoints": [
 		{
-			"spawnType": 0,
-			"spawnTile": "Map4_7",
+			"spawnType": 3,
+			"spawnTile": "Map3_6",
 			"spawnTime": 0,
 			"nextTile": [],
 			"waitTime": []

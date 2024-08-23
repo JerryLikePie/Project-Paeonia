@@ -10,17 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 640772244b395af4085ef8c00ab79863, type: 3}
-  m_Name: Introduction3
+  m_Name: Introduction4
   m_EditorClassIdentifier: 
-  endingStage: TR-7
-  alsoFinish: ST-3
+  endingStage: 
+  alsoFinish: ST-4
   story:
   - background: {fileID: 0}
     character: {fileID: 0}
     backgroundMusic: {fileID: 0}
     startMute: 0
     name: 
-    words: 
+    words: "\u7B2C\u4E09\u4E2A\u6559\u7A0B\u5267\u60C5"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u5F53\u7136\u8FD9\u6BB5\u5267\u60C5\u8FD8\u6CA1\u5199\u597D"
     isChoice: 0
     branchNum: 0
     response: []
