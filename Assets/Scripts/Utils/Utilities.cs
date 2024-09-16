@@ -19,7 +19,7 @@ public static class Utilities
         colorKey = new GradientColorKey[2];
         colorKey[0].color = Color.red;
         colorKey[0].time = 0.0f;
-        colorKey[1].color = Color.green;
+        colorKey[1].color = new Color(55.0f/255.0f, 125.0f/255.0f, 60.0f/255.0f);
         colorKey[1].time = 1.0f;
 
         alphaKey = new GradientAlphaKey[2];
