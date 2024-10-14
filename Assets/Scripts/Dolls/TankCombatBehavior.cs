@@ -29,17 +29,24 @@ public class TankCombatBehavior : IDollsCombatBehaviour
     {
         for (int j = 0; j < context.enemyList.Count; j++)
         {
-            if (context.enemyList[j] == null)
+            try
             {
-                context.enemyList.RemoveAt(j);
-                j = 0;
-                continue;
+                if (context.enemyList[j] == null)
+                {
+                    context.enemyList.RemoveAt(j);
+                    j = 0;
+                    continue;
+                }
+                if (context.enemyList[j].getType() == 5)
+                {
+                    // 空军不考虑
+                    context.enemyList.RemoveAt(j);
+                    j = 0;
+                    continue;
+                }
             }
-            if (context.enemyList[j].getType() == 5)
+            catch
             {
-                // 空军不考虑
-                context.enemyList.RemoveAt(j);
-                j = 0;
                 continue;
             }
         }

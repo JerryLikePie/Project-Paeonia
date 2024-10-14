@@ -24,13 +24,6 @@
 			"spawnTime": 0,
 			"nextTile": [],
 			"waitTime": []
-		},
-		{
-			"spawnType": 2,
-			"spawnTile": "Map5_6",
-			"spawnTime": 0,
-			"nextTile": [],
-			"waitTime": []
 		}
 	],
 	"dropID": 1,

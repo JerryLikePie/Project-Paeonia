@@ -9,5 +9,10 @@ public class Letterscene : ScriptableObject
     public Sprite photo;
     public string title;
     [TextArea(1, 20)] public string words;
+    public string answer;
+    public bool choice;
+    public string answer2;
+    public int effectEvent1;
+    public int effectEvent2;
 
 }
