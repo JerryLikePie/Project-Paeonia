@@ -15,6 +15,12 @@ public class MainMenu : MonoBehaviour
     {
         // 设游戏为60帧
         Application.targetFrameRate = 60;
+        // 如果是新版本直接reload
+        if (PlayerPrefs.GetFloat("Last_Version", 0.0f) != 0.09f)
+        {
+            resetProgress();
+            PlayerPrefs.SetFloat("Last_Version", 0.09f);
+        }
         // 载入存档（这个出正式版之前要改！）
         LoadSavedProgress();
         // 检查开幕剧情
@@ -57,6 +63,14 @@ public class MainMenu : MonoBehaviour
                 PlayerPrefs.SetInt("Introduction4_Done", 1);
             }
         }
+        else if (PlayerPrefs.GetInt("Introduction5_Done", 0) == 0)
+        {
+            if (storyPanel != null)
+            {
+                storyPanel.loadStory("Introduction5");
+                PlayerPrefs.SetInt("Introduction5_Done", 1);
+            }
+        }
     }
 
     public void ToGame(string enteringStage)
@@ -85,6 +99,8 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.DeleteKey("Introduction1_Done");
         PlayerPrefs.DeleteKey("Introduction2_Done");
         PlayerPrefs.DeleteKey("Introduction3_Done");
+        PlayerPrefs.DeleteKey("Introduction4_Done");
+        PlayerPrefs.DeleteKey("Introduction5_Done");
         PlayerPrefs.DeleteKey("Stage_You_Should_Load");
         iterateResetStages();
     }
@@ -95,6 +111,8 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("Introduction1_Done", 1);
         PlayerPrefs.SetInt("Introduction2_Done", 1);
         PlayerPrefs.SetInt("Introduction3_Done", 1);
+        PlayerPrefs.SetInt("Introduction4_Done", 1);
+        PlayerPrefs.SetInt("Introduction5_Done", 1);
         iterateSkipStages();
     }
 

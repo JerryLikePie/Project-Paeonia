@@ -20,60 +20,6 @@ MonoBehaviour:
     backgroundMusic: {fileID: 0}
     startMute: 0
     name: 
-    words: "\u611F\u8C22\u6E38\u73A9\u300A\u7070\u70EC\u6218\u7EBF\uFF1A\u4E5D\u9704\u5171\u548C\u300B0.1.0\u8BD5\u73A9\u7248\u672C\u3002\u672C\u4F5C\u767B\u573A\u7684\u4EBA\u7269\u3001\u7EC4\u7EC7\u3001\u56E2\u4F53\u7B49\u7EAF\u5C5E\u865A\u6784\uFF0C\u4E0E\u73B0\u5B9E\u4EBA\u7269\u3001\u7EC4\u7EC7\u3001\u56E2\u4F53\u3001\u56FD\u5BB6\u65E0\u5173\u3002"
-    isChoice: 0
-    branchNum: 0
-    response: []
-  - background: {fileID: 0}
-    character: {fileID: 0}
-    backgroundMusic: {fileID: 0}
-    startMute: 0
-    name: 
-    words: "\u672C\u6E38\u620F\u662F\u57FA\u4E8EEmberStudio\u4F59\u70EC\u7EC4\u5F00\u53D1\u7684\u300A\u7070\u70EC\u6218\u7EBF\u300B\u7684\u57FA\u7840\u8BBE\u5B9A\u548C\u4E16\u754C\u89C2\u7684\u540C\u4EBA\u6E38\u620F\u3002"
-    isChoice: 0
-    branchNum: 0
-    response: []
-  - background: {fileID: 0}
-    character: {fileID: 0}
-    backgroundMusic: {fileID: 0}
-    startMute: 0
-    name: 
-    words: "\u5F53\u524D\u8BD5\u73A9\u7248\u672C\u91CD\u505A\u4E86\u4E00\u4E9BUI\uFF0C\u4EE5\u53CA\u66F4\u65B0\u4E86\u5E8F\u7AE0\u7684\u6E38\u620F\u5267\u60C5\u3002"
-    isChoice: 0
-    branchNum: 0
-    response: []
-  - background: {fileID: 0}
-    character: {fileID: 0}
-    backgroundMusic: {fileID: 0}
-    startMute: 0
-    name: 
-    words: "\u5177\u4F53\u7684\u66F4\u65B0\u53EF\u4EE5\u5728\u65E5\u5FD7\u4E2D\u67E5\u770B\u3002\u6E38\u620F\u5267\u60C5\u76EE\u524D\u4E0D\u662F\u6700\u7EC8\u7248\u672C\uFF0C\u800C\u4E14\u7531\u7A0B\u5E8F\u5458\u8D1F\u8D23\uFF08\u6CA1\u627E\u5230\u5199\u624B\uFF09\uFF0C\u8D28\u91CF\u8FD8\u8BF7\u89C1\u8C05\u3002"
-    isChoice: 0
-    branchNum: 0
-    response: []
-  - background: {fileID: 0}
-    character: {fileID: 0}
-    backgroundMusic: {fileID: 0}
-    startMute: 0
-    name: 
-    words: "\u90A3\u4E48\uFF0C\u795D\u597D\u4F53\u9A8C"
-    isChoice: 0
-    branchNum: 0
-    response: []
-  - background: {fileID: 0}
-    character: {fileID: 0}
-    backgroundMusic: {fileID: 0}
-    startMute: 0
-    name: 
-    words: "\uFF08\u6B63\u5F0F\u7248\u4F1A\u5220\u9664\u6B64\u6BB5\u8BF4\u660E\u6587\u5B57\uFF0C\u76F4\u63A5\u8FDB\u5165\u5F00\u573A\u767D\uFF09"
-    isChoice: 0
-    branchNum: 0
-    response: []
-  - background: {fileID: 0}
-    character: {fileID: 0}
-    backgroundMusic: {fileID: 0}
-    startMute: 0
-    name: 
     words: "\u2026"
     isChoice: 0
     branchNum: 0

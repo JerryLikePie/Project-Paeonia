@@ -66,11 +66,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: c4805412c751f8340abe1bd4bd1f8cfe, type: 3}
-    m_FontSize: 26
+    m_Font: {fileID: 12800000, guid: a3ae2ccf9089bde47bb98cf36294c8ac, type: 3}
+    m_FontSize: 21
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 2
+    m_MinSize: 1
     m_MaxSize: 52
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -356,6 +356,8 @@ MonoBehaviour:
   photo: {fileID: 3083042269814635110}
   answer1: {fileID: 1452783213587397408}
   answer2: {fileID: 5706927687377518693}
+  answerW1: {fileID: 1452783213232507627}
+  answerW2: {fileID: 6908988849725535519}
 --- !u!1 &1452783213587397406
 GameObject:
   m_ObjectHideFlags: 0

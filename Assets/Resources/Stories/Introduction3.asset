@@ -12,15 +12,239 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 640772244b395af4085ef8c00ab79863, type: 3}
   m_Name: Introduction3
   m_EditorClassIdentifier: 
-  endingStage: TR-7
+  endingStage: TR-5
   alsoFinish: ST-3
   story:
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 8300000, guid: 9d4c885ed67753a428b15df429597250, type: 3}
+    startMute: 0
+    name: 
+    words: "\u6BD4\u9686\u9686\u70AE\u58F0\u66F4\u5FEB\u4F20\u5230\u6307\u6325\u5BA4\u7684\uFF0C\u662F\u5C4F\u5E55\u4E0A\u51E0\u4E2A\u7EA2\u70B9\u7684\u95EA\u70C1\uFF0C\u800C\u540E\u7184\u706D\u3002\r\n"
+    isChoice: 1
+    branchNum: 0
+    response:
+    - "\u6709\u6548\u547D\u4E2D"
+    - 
+    - 
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 540c532666078d045a9f28ca668f1361, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\u4E09\u516D\u5F0F"
+    words: "\u6536\u5230\uFF0C\u660E\u767D\uFF01\r\n\n"
+    isChoice: 1
+    branchNum: 0
+    response:
+    - "\u4F60\u8BF4\u8FD9\u4E48\u597D\u7684\u73A9\u610F\u513F"
+    - 
+    - 
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 540c532666078d045a9f28ca668f1361, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: '
+
+'
+    isChoice: 1
+    branchNum: 0
+    response:
+    - "\u548B\u6CA1\u5728\u5176\u4ED6\u5B66\u8054\u90A3\u91CC\u542C\u5230\u98CE\u58F0"
+    - 
+    - 
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\uFF1F"
+    words: "\u786C\u8981\u8BF4\u7684\u8BDD\uFF0C\u8FD9\u79CD\u60C5\u51B5\u633A\u5E38\u89C1\u7684\u3002"
+    isChoice: 0
+    branchNum: 1
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\uFF1F"
+    words: "\u867D\u7136\u5B66\u8054\u8D1F\u8D23DOLLS\u7684\u5175\u88C5\uFF0C\u4E5F\u5C31\u662FARMS\u7684\u5F00\u53D1\uFF0C\u4F46\u5176\u4ED6\u7684\u5927\u90E8\u5206\u6280\u672F\u90FD\u662F\u5148\u5728\u7EF4\u4FEE\u4F1A\u6295\u5165\u4F7F\u7528\u3002"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\uFF1F"
+    words: "\u8FD9\u4E5F\u5F88\u5408\u7406\u3002\u6BD5\u7ADF\u9664\u4E86\u5B66\u8054\u7684\u5B9E\u9A8C\u5BA4\uFF0C\u63A5\u89E6DOLLS\u7684\u7B2C\u4E00\u7EBF\u4EBA\u5458\u5C31\u662F\u7EF4\u4FEE\u4F1A\u7684\u5DE5\u4EBA\u4E86\uFF0C\u53CD\u5012\u4E0D\u662F\u5404\u5927\u5B66\u8054\u7684\u90E8\u961F\u3002\u8FD8\u4E0D\u8BF4\u5B9E\u9645\u638C\u63A7DOLLS\u76F8\u5173\u6570\u636E\u7684\u662F\u6559\u4F1A\u800C\u4E0D\u662F\u5404\u5927\u5B66\u8054\u3002"
+    isChoice: 1
+    branchNum: 0
+    response:
+    - "\uFF08\u65CB\u8F6C\u65CB\u94AE\uFF09"
+    - 
+    - 
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\uFF1F"
+    words: "\u800C\u76F8\u6BD4\u8D77\u767D\u7EB8\u4E0A\u8BA1\u7B97\u51FA\u7684\u7406\u8BBA\u6570\u636E\uFF0C\u6218\u573A\u4E0A\u78E8\u5408\u51FA\u7684\u7ECF\u9A8C\u80FD\u66F4\u7CBE\u51C6\u548C\u53CA\u65F6\u5730\u53CD\u6620\u51FADOLLS\u548CARMS\u52A0\u5728\u4E00\u8D77\u7684\u7279\u70B9\u3002"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 00318f6296f57724cbb93bb801528f88, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\uFF1F"
+    words: "\u51B5\u4E14\u7EF4\u4FEE\u4F1A\u6CA1\u6709\u5B66\u8054\u90A3\u79CD\u5C42\u5C42\u4E0A\u62A5\u7684\u5B98\u50DA\u7CFB\u7EDF\u3002\u6240\u4EE5\u8981\u662F\u7EDF\u8BA1\u4E00\u4E0BARMS\u7684\u6539\u88C5\u5347\u7EA7\uFF0C\u8BF4\u4E0D\u5B9A\u4E00\u5927\u534A\u90FD\u6E90\u81EA\u7EF4\u4FEE\u4F1A\u548C\u524D\u7EBF\u90E8\u961F\u7684\u6218\u5730\u6539\u88C5\u3002"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 00318f6296f57724cbb93bb801528f88, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\uFF1F"
+    words: "\u800C\u6211\u4EEC\u8054\u5408\u7814\u7A76\u9662\u5728\u8FD9\u65B9\u9762\u5C31\u66F4\u6709\u4F18\u52BF\u4E86\uFF0C\u5C31\u6BD4\u5982\u8FD9\u4E2A\u2026"
+    isChoice: 1
+    branchNum: 0
+    response:
+    - "\u8FD9\u662F\u8BBE\u5907\u51FA\u95EE\u9898\u4E86\u5417\uFF1F"
+    - 
+    - 
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 37d4d03a25c19724c984622851ee8425, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\uFF1F"
+    words: "\u2026\u55EF\uFF1F"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 1
+    name: 
+    words: "\u628A\u7279\u5B9A\u6447\u6746\u5411\u5DE6\u62E8\u52A8\uFF0C\u968F\u7740\u4E00\u6B21\u5237\u65B0\uFF0C\u5C4F\u5E55\u4E0A\u663E\u793A\u7684\u4E00\u4E2A\u4E2A\u5C0F\u70B9\u90FD\u5411\u53F3\u79FB\u52A8\u4E86\u4E00\u683C\u3002"
+    isChoice: 0
+    branchNum: 0
+    response: []
   - background: {fileID: 0}
     character: {fileID: 0}
     backgroundMusic: {fileID: 0}
     startMute: 0
     name: 
-    words: 
+    words: "\u76F8\u8F83\u4E8E\u5851\u9020\u4E86\u5F62\u72B6\u5C31\u56FA\u5B9A\u4E86\u8303\u56F4\u7684\u6C99\u76D2\u5730\u56FE\uFF0C\u8FD9\u79CD\u5728\u4E00\u4E2A\u673A\u5668\u4E0A\u901A\u8FC7\u53EF\u53D8\u7684\u660E\u548C\u6697\u6765\u52A8\u6001\u4F53\u73B0\u6218\u573A\u73AF\u5883\u7684\u65B9\u5F0F\u5BF9\u4F60\u6765\u8BF4\u5F88\u65B0\u9C9C\uFF0C\u50CF\u662F\u4FEF\u77B0\u7740\u6218\u573A\uFF0C\u7136\u540E\u5411\u897F\u8D70\u4E86\u4E00\u6B65\u3002\r"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u673A\u5668\u5728\u8FD9\u4E0A\u9762\u5E76\u6CA1\u6709\u51FA\u4EC0\u4E48\u5DEE\u9519\uFF0C\u53EA\u4E0D\u8FC7\u5728\u5C4F\u5E55\u7684\u6700\u5DE6\u4FA7\uFF0C\u539F\u5148\u5904\u4E8E\u663E\u793A\u5668\u4E4B\u5916\u7684\u5730\u65B9\uFF0C\u53C8\u51FA\u73B0\u4E86\u51E0\u4E2A\u7EA2\u70B9\u3002\r"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 0}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u2026\u800C\u4F60\u6E05\u6670\u8BB0\u5F97\u90A3\u4E2A\u65B9\u5411\u901A\u5F80\u5C45\u6C11\u533A\uFF0C\u6F14\u4E60\u7528\u7684\u6807\u9776\u4E5F\u6CA1\u6709\u653E\u5728\u90A3\u91CC\u3002\r"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: 6375c9ac660ce2f4c866ab0fae75bbba, type: 3}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u2026"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: 6375c9ac660ce2f4c866ab0fae75bbba, type: 3}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u4E09\u516D\u5F0F\u6709\u4E9B\u6000\u5FF5\u4E4B\u524D\u7684ARMS\u3002\r"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: 6375c9ac660ce2f4c866ab0fae75bbba, type: 3}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u5012\u4E0D\u662F\u56E0\u4E3A\u73B0\u5728\u8FD9\u5957\u4E0D\u597D\uFF0C\u800C\u662F\u90A3\u79CD\u66F4\u52A0\u8F7B\u76C8\u7684\u6846\u67B6\uFF0C\u7075\u6D3B\u5230\u50CF\u662F\u53CC\u811A\u5EF6\u4F38\u7684\u60AC\u6302\uFF0C\u6CA1\u6709\u56DB\u5468\u94C1\u76AE\u6321\u7740\u7684\u89C6\u91CE\uFF0C\u548C\u80CC\u540E\u8F8E\u91CD\u6846\u5185\u7269\u8D44\u968F\u7740\u9053\u8DEF\u98A0\u7C38\u800C\u53D1\u51FA\u7684\u54CD\u58F0\uFF0C\u624D\u662F\u5979\u66F4\u52A0\u4E60\u60EF\u7684\u6837\u5B50\u3002"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: 6375c9ac660ce2f4c866ab0fae75bbba, type: 3}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 8300000, guid: d09954d11a4b4f04f91c788f1c63b615, type: 3}
+    startMute: 0
+    name: 
+    words: "\u4E00\u4E0B\u95EA\u70C1\uFF0C\u7D27\u63A5\u7740\u662F\u5FEB\u901F\u98DE\u6765\u7684\u5149\u8292\u3002\u4E09\u516D\u5F0F\u4E0B\u610F\u8BC6\u8EAB\u4F53\u4E00\u6B6A\uFF0C\u4E00\u5757\u88C5\u7532\u788E\u7247\u64E6\u7740\u8116\u5B50\u53F3\u4FA7\u98DE\u5411\u4E86\u540E\u65B9\uFF0C\u773C\u524D\u7684\u88C5\u7532\u677F\u8D6B\u7136\u7F3A\u4E86\u4E00\u4E2A\u5C0F\u6D1E\uFF0C\u4E0A\u9762\u4F9D\u7136\u7559\u6709\u80FD\u91CF\u67F1\u8F70\u51FB\u7684\u4F59\u6E29\u3002\r"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 540c532666078d045a9f28ca668f1361, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\u4E09\u516D\u5F0F"
+    words: "\u597D\u9669\u2014\u2014"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u81EA\u7136\uFF0C\u4E4B\u524D\u7684\u751F\u6D3B\u4E5F\u4E0D\u5305\u62EC\u8DEF\u65C1\u7684\u707E\u517D\u3002\r\n"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u52A0\u539A\u7684\u53CC\u5C42\u8F6E\u80CE\u5728\u6CE5\u571F\u4E0A\u6253\u4E86\u51E0\u4E2A\u6ED1\uFF0C\u8EAB\u540E\u7684\u8F8E\u91CD\u680F\u4F20\u6765\u719F\u6089\u7684\u7269\u4EF6\u78B0\u649E\u58F0\u3002\u4E0D\u8FC7\u73B0\u5728\u90A3\u91CC\u53EB\u505A\u5F39\u836F\u67B6\u4E86\u3002\r\n"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 540c532666078d045a9f28ca668f1361, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\u4E09\u516D\u5F0F"
+    words: "\u8BB0\u4F4F\u4F60\u7684\u8BAD\u7EC3\u2026\u4E09\u516D\u5F0F\u2026"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 0}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: 
+    words: "\u62BD\u51FA\u4E00\u53D1\uFF0C\u5BF9\u51C6\u63A8\u5165\uFF0C\u70AE\u95E9\u95ED\u9501\u3002\u95ED\u4E0A\u5DE6\u773C\uFF0C\u5341\u5B57\u5DF2\u7ECF\u5BF9\u51C6\u4E86\u524D\u65B9\u7684\u9ED1\u5F71\u3002\r\n"
+    isChoice: 0
+    branchNum: 0
+    response: []
+  - background: {fileID: 21300000, guid: d1f0170c8647f694694ed19d40f88f5e, type: 3}
+    character: {fileID: 21300000, guid: 540c532666078d045a9f28ca668f1361, type: 3}
+    backgroundMusic: {fileID: 0}
+    startMute: 0
+    name: "\u4E09\u516D\u5F0F"
+    words: "\u2026\u8BB0\u4F4F\u4F60\u7684\u8BAD\u7EC3\u3002"
     isChoice: 0
     branchNum: 0
     response: []

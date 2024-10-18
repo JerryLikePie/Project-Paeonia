@@ -24,9 +24,9 @@ public class StoryPlay : MonoBehaviour
     [SerializeField] private Text[] answers;
     private string endingStage;
     private string alsoFinish;
-    int choice;
-    int index, length;
-    bool isDragging, haveToChoose, isInLogMode, isClickingUI, textIsGoing, imageUpdating;
+    [SerializeField] int choice;
+    [SerializeField] int index, length;
+    [SerializeField] bool isDragging, haveToChoose, isInLogMode, isClickingUI, textIsGoing, imageUpdating;
     private Vector3 mouseDownPos1, mouseDownPos2;
     Storyscene scene;
     float textDelay = 0.015f;
@@ -194,9 +194,11 @@ public class StoryPlay : MonoBehaviour
             choice = 0;
         }
         if (choice != scene.story[index].branchNum) {
+            
             index++;
             updateStory();
         } else {
+            haveToChoose = scene.story[index].isChoice;
             if (scene.story[index].backgroundMusic != null)
             {
                 storyMusic.clip = scene.story[index].backgroundMusic;
