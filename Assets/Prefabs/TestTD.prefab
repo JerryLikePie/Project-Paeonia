@@ -660,7 +660,7 @@ MonoBehaviour:
   enemy_id: 1
   enemy_type: 1
   enemy_range: 4
-  enemy_max_hp: 2600
+  enemy_max_hp: 4600
   enemy_damage_recieved_multiplier:
   - 1.4
   - 0.7
@@ -675,8 +675,8 @@ MonoBehaviour:
   enemy_ats_attack: 0
   enemy_accuracy: 70
   enemy_dodge: 51
-  enemy_reload: 8
-  enemy_firerate: 8
+  enemy_reload: 1
+  enemy_firerate: 1
   enemy_armor_front: 46
   enemy_armor_side: 15
   enemy_armor_back: 15

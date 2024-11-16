@@ -51,6 +51,27 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Debris
+    uniqueID: 3165676775
+    locked: 0
+  - name: Doll5
+    uniqueID: 1392805287
+    locked: 0
+  - name: Doll4
+    uniqueID: 718154299
+    locked: 0
+  - name: Doll3
+    uniqueID: 2378162169
+    locked: 0
+  - name: Doll2
+    uniqueID: 3343125791
+    locked: 0
+  - name: Doll1
+    uniqueID: 2001896063
+    locked: 0
+  - name: Enemy
+    uniqueID: 3406957973
+    locked: 0
   - name: UI
     uniqueID: 3879653151
     locked: 0

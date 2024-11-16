@@ -57,32 +57,40 @@ public class TankCombatBehavior : IDollsCombatBehaviour
             int number = -1;
             for (int i = 0; i < context.enemyList.Count; i++)
             {
-                if (context.enemyList[i] != null)
+                try
                 {
-                    if (context.enemyList[i].enemy.enemy_visible == true && context.enemyList[i].gameObject.activeSelf)
+                    if (context.enemyList[i] != null)
                     {
-                        if (context.rangeBuff > 0)
+                        if (context.enemyList[i].enemy.enemy_visible == true && context.enemyList[i].gameObject.activeSelf)
                         {
-                            newRange = context.dolls.dolls_range;
-                        }
-                        else
-                        {
-                            newRange = context.dolls.dolls_range + (int)context.rangeBuff;
-                        }
-                        distance = FindDistance(transform.gameObject, context.enemyList[i].gameObject);
-                        if (distance <= 17.32 * newRange)
-                        {
-                            if (!context.map.IsBlocked(context.currentTile, context.enemyList[i].transform.position))
+                            if (context.rangeBuff > 0)
                             {
-                                if (distance < nearest)
+                                newRange = context.dolls.dolls_range;
+                            }
+                            else
+                            {
+                                newRange = context.dolls.dolls_range + (int)context.rangeBuff;
+                            }
+                            distance = FindDistance(transform.gameObject, context.enemyList[i].gameObject);
+                            if (distance <= 17.32 * newRange)
+                            {
+                                if (!context.map.IsBlocked(context.currentTile, context.enemyList[i].transform.position))
                                 {
-                                    number = i;
-                                    nearest = distance;
+                                    if (distance < nearest)
+                                    {
+                                        number = i;
+                                        nearest = distance;
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                catch
+                {
+                    continue;
+                }
+                
             }
             if (number >= 0)
             {

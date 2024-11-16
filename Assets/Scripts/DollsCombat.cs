@@ -32,6 +32,7 @@ public class DollsCombat : MonoBehaviour
     [HideInInspector] public Queue<Hex> toCancelFogQueue = new Queue<Hex>();
     [HideInInspector] public List<EnemyCombat> enemyList;
     public UnitEntity[] dollsEntities;
+    public Animator[] dollsAnimation;
 
     public int crewNum;
     Hex nextTile;
@@ -168,6 +169,8 @@ public class DollsCombat : MonoBehaviour
         {
             try
             {
+                // 播放开火的动画
+                dollsEntities[counter].transform.GetChild(0).GetComponent<Animator>().SetTrigger("Fire");
                 // 生成一个炮弹实体
                 GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
                 bulletThatWasShot.SetActive(true);

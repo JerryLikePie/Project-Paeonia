@@ -12,7 +12,7 @@
 	],
 	"enemySpawnPoints": [
 		{
-			"spawnType": 3,
+			"spawnType": 2,
 			"spawnTile": "Map3_6",
 			"spawnTime": 0,
 			"nextTile": [],
