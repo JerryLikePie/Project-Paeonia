@@ -91,7 +91,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cb38cccad6f2d31449b8a5712cab1bfa, type: 2}
+  - {fileID: 2100000, guid: 8f1e15362539aa74f96216026077cb72, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -176,8 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0f25d1947537a42bd82da1c9403e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hang: 0
-  lie: 0
+  X: 0
+  Z: 0
   reachable: 0
   movecost: 0
   spawnNum: 0
@@ -192,3 +192,5 @@ MonoBehaviour:
   dodgeBuff: 0
   rangeBuff: 0
   fogOfWarDarken: {fileID: 5152554879104226990}
+  hexBase: {fileID: 0}
+  render: 1
