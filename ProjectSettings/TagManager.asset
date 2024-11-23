@@ -54,6 +54,9 @@ TagManager:
   - name: Debris
     uniqueID: 3165676775
     locked: 0
+  - name: Ground Effects
+    uniqueID: 1313556085
+    locked: 0
   - name: Doll5
     uniqueID: 1392805287
     locked: 0
@@ -71,6 +74,9 @@ TagManager:
     locked: 0
   - name: Enemy
     uniqueID: 3406957973
+    locked: 0
+  - name: Effects
+    uniqueID: 1350666591
     locked: 0
   - name: UI
     uniqueID: 3879653151
