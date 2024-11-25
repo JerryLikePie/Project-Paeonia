@@ -170,7 +170,7 @@ public class DollsCombat : MonoBehaviour
             try
             {
                 // 播放开火的动画
-                dollsEntities[counter].transform.GetChild(0).GetComponent<Animator>().SetTrigger("Fire");
+                FireAnimation();
                 // 生成一个炮弹实体
                 GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
                 bulletThatWasShot.SetActive(true);
@@ -209,6 +209,7 @@ public class DollsCombat : MonoBehaviour
     
     void FireHowitzer()
     {
+        FireAnimation();
         GameObject bulletThatWasShot = Instantiate(bullet, dollsEntities[counter].transform.position, Quaternion.identity);
         bulletThatWasShot.SetActive(true);
         bulletThatWasShot.transform.LookAt(supportTargetCord);
@@ -573,6 +574,11 @@ public class DollsCombat : MonoBehaviour
         body.SetActive(true);
     }
 
+    void FireAnimation()
+    {
+        dollsEntities[counter].transform.GetChild(0).GetComponent<Animator>().SetTrigger("Fire");
+    }
+
     void turnTowards(Vector3 target)
     {
         aimingCircle.LookAt(target - Vector3.up * target.y);
@@ -583,5 +589,7 @@ public class DollsCombat : MonoBehaviour
     {
         return dolls.dolls_type;
     }
+
+   
 
 }

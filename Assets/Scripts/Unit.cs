@@ -109,7 +109,7 @@ public class Unit : MonoBehaviour
             }
             moveTimer.TimerUpdate();
             if (actionCDBar.value >= 1f)
-                CDBarCanvas.SetActive(false);
+                CDBarCanvas.SetActive(combat.healthBar.gameObject.activeSelf);
             else
                 CDBarCanvas.SetActive(true);
             if (unitSelection)

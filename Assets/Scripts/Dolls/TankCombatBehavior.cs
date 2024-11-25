@@ -20,7 +20,7 @@ public class TankCombatBehavior : IDollsCombatBehaviour
             Debug.Log("No wreckage?");
             return;
         }
-        // TODO: 写一个陆地dolls的残骸脚本
+        
         GameObject body = Instantiate(context.wreckage, deadbody.position, Quaternion.identity);
         body.SetActive(true);
     }
