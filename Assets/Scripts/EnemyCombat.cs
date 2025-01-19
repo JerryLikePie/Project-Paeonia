@@ -248,7 +248,7 @@ public class EnemyCombat : MonoBehaviour
             shot = bulletThatWasShot.GetComponent<BulletManager>();
             shot.speed = -enemy.enemy_shell_speed;
             shot.WhereTheShotWillGo = setDolls.transform.position;
-            shot.damage = (enemy.enemy_sts_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
+            shot.damage = (enemy.enemy_ata_attack * enemy.enemy_damage_multiplier) * Random.Range(0.95f, 1.05f);
             shot.damageIndicate = shot.damage.ToString("F0");
             shot.penetration = enemy.enemy_penetration + Random.Range(-5, 5f);
             if (Random.Range(0, 100) < setDolls.dolls.dolls_dodge + setDolls.dodgeBuff - enemy.enemy_accuracy)

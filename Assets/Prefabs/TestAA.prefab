@@ -16131,6 +16131,7 @@ MonoBehaviour:
   toHideTheEnemy: {fileID: 7215935892692343746}
   height: 1
   isTarget: 0
+  aimingCircle: {fileID: 0}
   enemyEntities:
   - {fileID: 6917600182994528215}
   - {fileID: 4021407167494665351}
@@ -16151,6 +16152,7 @@ MonoBehaviour:
   canMove: 1
   counter: 0
   moveSpeedWaitTime: 14
+  supportTargetCord: {fileID: 0}
   artyTarget: {fileID: 6226237802915441925, guid: a41fa28958cfd384f8529687bc2e9ffc,
     type: 3}
   aaAttackInterval: 0.1
@@ -16169,7 +16171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy_name: "\u6D4B\u8BD5\u9632\u7A7A\u70AE"
-  enemy_id: 3
+  enemy_id: 5
   enemy_type: 4
   enemy_range: 6
   enemy_max_hp: 1900

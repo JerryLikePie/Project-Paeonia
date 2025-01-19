@@ -30222,7 +30222,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: 'Demo v0.0.9
+  m_Text: 'Demo v0.0.92
 
 '
 --- !u!222 &1102853266
@@ -35638,8 +35638,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: "V 0.0.90\u6D4B\u8BD5\u7248\n= \u66F4\u65B0\uFF1A\n- \u65B0\u589E\u4E86\u51E0\u79CD\u8D34\u56FE\n-
-    \u66F4\u6539\u4E86\u5267\u60C5\u7247\u6BB5\u7684\u8868\u8FBE\u65B9\u5F0F\n- \u5F55\u5165\u4E86\u5E8F\u7AE0\u7684\u5267\u60C5"
+  m_Text: "V 0.0.92\u6D4B\u8BD5\u7248\n= \u66F4\u65B0\uFF1A\n- \u65B0\u589E\u4E86\u51E0\u79CD\u8D34\u56FE\n-
+    \u66F4\u6539\u4E86\u5267\u60C5\u7247\u6BB5\u7684\u8868\u8FBE\u65B9\u5F0F\n- \u5F55\u5165\u4E86\u5E8F\u7AE0\u7684\u5267\u60C5\n\n-
+    \u66F4\u65B0\u4E86\u4E09\u516D\u5F0F\u7684SD\u5C0F\u4EBA\n- \u66F4\u65B0\u4E86M10/105\u7684SD\u5C0F\u4EBA"
 --- !u!222 &1340362094
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -57812,7 +57813,7 @@ PrefabInstance:
     - target: {fileID: 370440443115613400, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 657319.6
+      value: 15487358
       objectReference: {fileID: 0}
     - target: {fileID: 422092602320150898, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}

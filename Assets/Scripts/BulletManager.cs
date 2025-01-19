@@ -149,61 +149,62 @@ public class BulletManager : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter(Collider collision)
-    //{
-    //    try
-    //    {
-    //        if (onCollision)
-    //        {
-    //            if (whoShotMe == "player")
-    //            {
-    //                if (collision.gameObject.tag == "Enemy")
-    //                {
+    private void OnTriggerEnter(Collider collision)
+    {
+        // 这一部分代码用于空战！
+        try
+        {
+            if (onCollision)
+            {
+                if (whoShotMe == "player")
+                {
+                    if (collision.gameObject.tag == "Enemy")
+                    {
 
-    //                    GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
-    //                    Destroy(newSound, 5f);
-    //                    GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
-    //                    Destroy(newVisual, 5f);
-    //                    firstImpact = false;
-    //                    HitEnemy(collision);
-    //                    Destroy(gameObject, 0.05f);
-    //                }
-    //            }
-    //            else if (whoShotMe == "enemy")
-    //            {
-    //                if (collision.gameObject.tag == "Friendly")
-    //                {
-    //                    GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
-    //                    Destroy(newSound, 5f);
-    //                    GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
-    //                    Destroy(newVisual, 5f);
-    //                    firstImpact = false;
-    //                    HitPlayer(collision);
-    //                    Destroy(gameObject, 0.05f);
-    //                }
-    //            }
-    //            else if (whoShotMe == "hitAll")
-    //            {
-    //                if (collision.gameObject.tag == "Friendly" || collision.gameObject.tag == "Enemy")
-    //                {
-    //                    GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
-    //                    Destroy(newSound, 5f);
-    //                    GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
-    //                    Destroy(newVisual, 5f);
-    //                    firstImpact = false;
-    //                    HitEnemy();
-    //                    HitPlayer();
-    //                    Destroy(gameObject, 0.05f);
-    //                }
-    //            }
-    //        }
-    //    }
-    //    catch 
-    //    {
-    //        Debug.LogError("Well this bullet system is not done yet so.");
-    //    }
-        
-    //}
+                        GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+                        Destroy(newSound, 5f);
+                        GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+                        Destroy(newVisual, 5f);
+                        firstImpact = false;
+                        HitEnemy(collision);
+                        Destroy(gameObject, 0.05f);
+                    }
+                }
+                else if (whoShotMe == "enemy")
+                {
+                    if (collision.gameObject.tag == "Friendly")
+                    {
+                        GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+                        Destroy(newSound, 5f);
+                        GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+                        Destroy(newVisual, 5f);
+                        firstImpact = false;
+                        HitPlayer(collision);
+                        Destroy(gameObject, 0.05f);
+                    }
+                }
+                else if (whoShotMe == "hitAll")
+                {
+                    if (collision.gameObject.tag == "Friendly" || collision.gameObject.tag == "Enemy")
+                    {
+                        GameObject newSound = Instantiate(hitSoundEffect, transform.position, Quaternion.identity);
+                        Destroy(newSound, 5f);
+                        GameObject newVisual = Instantiate(hitVisualEffect, transform.position, Quaternion.identity);
+                        Destroy(newVisual, 5f);
+                        firstImpact = false;
+                        HitEnemy();
+                        HitPlayer();
+                        Destroy(gameObject, 0.05f);
+                    }
+                }
+            }
+        }
+        catch
+        {
+            Debug.LogError("Well this bullet system is not done yet so.");
+        }
+
+    }
 
     void HitPlayer()
     {
@@ -273,6 +274,7 @@ public class BulletManager : MonoBehaviour
                             Destroy(damageText, 1.5f);
                             if (shotType == 1 || shotType == 4)
                             {
+                                Debug.Log("1,4");
                                 // 1是高爆 4是炸弹
                                 // 高爆伤害不以射入角评判
                                 dolls.RecieveExplosiveDamage(damage);
@@ -293,50 +295,51 @@ public class BulletManager : MonoBehaviour
         }
     }
 
-    //void HitPlayer(Collider col)
-    //{
-    //    dolls = col.GetComponentInParent<DollsCombat>();
-    //    if (dolls == null)
-    //    {
-    //        return;
-    //    }
-    //    if (!dolls.gameObject.activeSelf)
-    //    {
-    //        return;
-    //    }
-    //    randomDisplacement = new Vector3(Random.Range(-5f, 5f), Random.Range(-1f, 1f), Random.Range(-5f, 5f));
-    //    if (damageIndicate == "miss")
-    //    {
-    //        GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.gray;
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-    //        Destroy(damageText, 1.5f);
-    //    }
-    //    else if (damageIndicate == "hit")
-    //    {
-    //        GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-    //        Destroy(damageText, 1.5f);
-    //    }
-    //    else
-    //    {
-    //        GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-    //        Destroy(damageText, 1.5f);
-    //        if (shotType == 2 || shotType == 4)
-    //        {
-    //            Debug.Log("高爆弹");
-    //            dolls.RecieveExplosiveDamage(damage);
-    //        }
-    //        else
-    //        {
-    //            dolls.RecieveDamage(damage);
-    //        }
+    void HitPlayer(Collider col)
+    {
+        // 这是空战命中判定！
+        dolls = col.GetComponentInParent<DollsCombat>();
+        if (dolls == null)
+        {
+            return;
+        }
+        if (!dolls.gameObject.activeSelf)
+        {
+            return;
+        }
+        randomDisplacement = new Vector3(Random.Range(-5f, 5f), Random.Range(-1f, 1f), Random.Range(-5f, 5f));
+        if (damageIndicate == "miss")
+        {
+            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.gray;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+        }
+        else if (damageIndicate == "hit")
+        {
+            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+        }
+        else
+        {
+            GameObject damageText = Instantiate(DamageIndicator, dolls.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+            if (shotType == 2 || shotType == 4)
+            {
+                Debug.Log("高爆弹");
+                dolls.RecieveExplosiveDamage(damage);
+            }
+            else
+            {
+                dolls.RecieveDamage(damage);
+            }
 
-    //    }
-    //}
+        }
+    }
 
     void HitEnemy()
     {
@@ -421,60 +424,61 @@ public class BulletManager : MonoBehaviour
         }
     }
 
-    //void HitEnemy(Collider col)
-    //{
-    //    enemy = col.GetComponentInParent<EnemyCombat>();
-    //    if (enemy == null)
-    //    {
-    //        return;
-    //    }
-    //    if (!enemy.gameObject.activeSelf)
-    //    {
-    //        return;
-    //    }
-    //    if (shotType == 2 || shotType == 4)
-    //    {
-    //        damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType] * (1 / (Vector3.Distance(enemy.transform.position, transform.position) / 17.3f));
-    //    }
-    //    else
-    //    {
-    //        damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
+    void HitEnemy(Collider col)
+    {
+        // 这是空战命中判定！
+        enemy = col.GetComponentInParent<EnemyCombat>();
+        if (enemy == null)
+        {
+            return;
+        }
+        if (!enemy.gameObject.activeSelf)
+        {
+            return;
+        }
+        if (shotType == 2 || shotType == 4)
+        {
+            damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType] * (1 / (Vector3.Distance(enemy.transform.position, transform.position) / 17.3f));
+        }
+        else
+        {
+            damage = damage * enemy.enemy.enemy_damage_recieved_multiplier[shotType];
 
-    //    }
-    //    randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
+        }
+        randomDisplacement = new Vector3(Random.Range(-3f, 3f), Random.Range(-1f, 1f), Random.Range(-3f, 3f));
 
-    //    if (damageIndicate == "miss")
-    //    {
-    //        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-    //        Destroy(damageText, 1.5f);
-    //    }
-    //    else if (enemy.enemy.enemy_armor_front > penetration)
-    //    {
-    //        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-    //        damage = 0;
-    //        damageIndicate = "hit";
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-    //        Destroy(damageText, 1.5f);
-    //    }
-    //    else
-    //    {
-    //        GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
-    //        damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
-    //        Destroy(damageText, 1.5f);
-    //        if (shotType == 2 || shotType == 4)
-    //        {
-    //            enemy.RecieveExplosiveDamage(damage);
-    //        }
-    //        else
-    //        {
-    //            enemy.RecieveDamage(damage);
-    //        }
-    //    }
-    //}
+        if (damageIndicate == "miss")
+        {
+            GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+        }
+        else if (enemy.enemy.enemy_armor_front > penetration)
+        {
+            GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+            damage = 0;
+            damageIndicate = "hit";
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+        }
+        else
+        {
+            GameObject damageText = Instantiate(DamageIndicator, enemy.transform.position + randomDisplacement, Quaternion.identity);
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().color = Color.white;
+            damageText.GetComponentInChildren<TMPro.TextMeshPro>().text = damageIndicate;
+            Destroy(damageText, 1.5f);
+            if (shotType == 2 || shotType == 4)
+            {
+                enemy.RecieveExplosiveDamage(damage);
+            }
+            else
+            {
+                enemy.RecieveDamage(damage);
+            }
+        }
+    }
 
     Vector3 CalculateVelocity(Vector3 target, GameObject sender, float speed)
     {

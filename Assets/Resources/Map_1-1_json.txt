@@ -32,7 +32,7 @@
 			"waitTime": []
 		},
 		{
-			"spawnType": 1,
+			"spawnType": 3,
 			"spawnTile": "Map8_6",
 			"spawnTime": 5,
 			"nextTile": ["Map8_7", "Map8_8", "Map8_7"],

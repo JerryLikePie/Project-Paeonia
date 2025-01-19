@@ -387,8 +387,9 @@ public class MouseManager : MonoBehaviour
     {
         if (!isDraggingUI && !EventSystem.current.IsPointerOverGameObject() && !isOnSelectedUnit)//如果不在UI上
         {
-            if (Input.touchSupported)//如果是触屏
+            if (!Input.mousePresent)//如果是触屏
             {
+                Debug.Log("移动中");
                 if (Input.touchCount == 1)//如果只有一个手指
                 {
                     if (Input.GetMouseButton(0))//那么一个手指就是拖动
@@ -443,6 +444,7 @@ public class MouseManager : MonoBehaviour
             }
             else//如果不是触屏
             {
+                
                 if (Input.GetMouseButton(0))//那就直接拖动吧
                 {
                     Difference = (Camera.main.ScreenToWorldPoint(Input.mousePosition)) - Camera.main.transform.position;
