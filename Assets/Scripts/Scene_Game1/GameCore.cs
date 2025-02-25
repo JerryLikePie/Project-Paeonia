@@ -72,7 +72,7 @@ public class GameCore : MonoBehaviour
 		if (mapCreator.IsTutorial())
 		{
 			gameState = GameState.GS_Game_Loading;
-			LoadGame(withPreset: true);
+			LoadGame(BattleType.Tutorial);
 
 			gameState = GameState.GS_Gaming;
 			InitGame();
@@ -110,26 +110,42 @@ public class GameCore : MonoBehaviour
 		Debug.Assert(gameState == GameState.GS_Squad_Selection);
 		
 		// (阻塞)加载游戏
-		gameState = GameState.GS_Game_Loading;	// 这个状态先留着，以后可以做状态显示
-		LoadGame();
+		gameState = GameState.GS_Game_Loading;  // 这个状态先留着，以后可以做状态显示
+		if (mapCreator.IsOperation())
+		{
+			LoadGame(BattleType.Operation);
+		}
+		else
+		{
+			LoadGame(BattleType.Normal);
+		}
 
 		// 加载完毕，开始关卡战役
 		gameState = GameState.GS_Gaming;
 		InitGame();
 	}
 
+	public enum BattleType { 
+		Tutorial,	// 教程关卡
+		Normal,		// 普通战斗关卡
+		Operation	// 远征关卡
+	}
+
 
 	// 加载游戏中需要的资源
-	private void LoadGame(bool withPreset = false)
+	private void LoadGame(BattleType gameType)
 	{
-		// 加载地图
-		if (withPreset)
+		switch (gameType)
 		{
-			mapCreator.SpawnGameWithPreset();
-		}
-		else
-		{
-			mapCreator.SpawnGame();
+			case BattleType.Tutorial:
+				mapCreator.SpawnGameWithPreset();
+				break;
+			case BattleType.Normal:
+				mapCreator.SpawnGame();
+				break;
+			case BattleType.Operation:
+				mapCreator.SpawnGame(generateRandomMap: true);
+				break;
 		}
 	}
 

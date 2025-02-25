@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Utilities;
 
+// todo 感觉应该改名叫 LevelCreator 之类的（
 public class MapCreate : MonoBehaviour
 {
     //我好tm渴啊，真的，喝牛奶是真的不解渴
@@ -43,10 +45,17 @@ public class MapCreate : MonoBehaviour
         public string[] nextTile;
         public int[] waitTime;
     }
+    // 可以持续生成敌人的生成点
+    class EnemyContinuousSpawnPoint
+	{
+        public string baseSpawnTile;
+        public Queue<int> spawnPool;
+	}
     class MapInfo
     {
         public string[] mapTiles;
         public EnemySpawnPoint[] enemySpawnPoints;
+        public EnemyContinuousSpawnPoint[] enemyConinuousSpawnPoints;
         public int timeLimit;
         public int dropID;
         public int dropAmount;
@@ -73,8 +82,13 @@ public class MapCreate : MonoBehaviour
 
     public bool IsTutorial()
     {
-        return mapToLoad.Contains("TR");
+        return mapToLoad.StartsWith("TR");
     }
+
+    public bool IsOperation()
+	{
+        return mapToLoad.StartsWith("OP");
+	}
 
     public void SpawnGameWithPreset()
     {
@@ -84,18 +98,25 @@ public class MapCreate : MonoBehaviour
         SpawnGame();
 	}
 
-    public void SpawnGame()
+    public void SpawnGame(bool generateRandomMap = false)
     {
         MapInfo mapInfo;
 
         //首先，生成地图本体
-        Debug.Log(mapToLoad);
-        TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
-        mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
+        Debug.Log("map to load is: " + mapToLoad);
+        if (!generateRandomMap)
+        {
+            TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
+            mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
+        }
+        else
+		{
+            mapInfo = GetGeneratedRandomMapInfo();
+		}
         Debug.Log("mapInfo:\n" + mapInfo);
-        timeLimit = mapInfo.timeLimit;
-        maxZ = mapInfo.mapTiles.Length;
-        maxX = mapInfo.mapTiles[0].Length;
+        this.timeLimit = mapInfo.timeLimit;
+        this.maxZ = mapInfo.mapTiles.Length;
+        this.maxX = mapInfo.mapTiles[0].Length;
         this.dropID = mapInfo.dropID;
         this.dropAmount = mapInfo.dropAmount;
         this.dropRate = mapInfo.dropRate;
@@ -139,8 +160,8 @@ public class MapCreate : MonoBehaviour
                 else if (mapInfo.mapTiles[i][j] == 'B')//如果文件说这里是我方的家
                 {
                     thisTile = tileTypes[8].tilePrefabType;
-                    homeHang = i;
-                    homeLie = j;
+                    this.homeHang = i;
+                    this.homeLie = j;
                 }
                 else if (mapInfo.mapTiles[i][j] == 'R')//如果文件说这里是敌方的家
                 {
@@ -157,7 +178,7 @@ public class MapCreate : MonoBehaviour
                 {
                     thisTile = Instantiate(thisTile, new Vector3((j * xOffset) - zOffset, 0, i * hangOffset), Quaternion.identity);
                 }
-                //给这个地图命名
+                //给这个地图块命名
                 thisTile.name = "Map" + i + "_" + j;
                 try
                 {
@@ -167,15 +188,15 @@ public class MapCreate : MonoBehaviour
                     thisTile.GetComponent<Hex>().render = false;
                     if (mapInfo.mapTiles[i][j] == 'R')
                     {
-                        RedPoint = thisTile.GetComponent<Hex>();
-                        RedPoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
-                        ObjectivePoint = thisTile;
+                        this.RedPoint = thisTile.GetComponent<Hex>();
+                        this.RedPoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
+                        this.ObjectivePoint = thisTile;
                     }
                     if (mapInfo.mapTiles[i][j] == 'B')
                     {
-                        BluePoint = thisTile.GetComponent<Hex>();
-                        BluePoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
-                        HomePoint = thisTile;
+                        this.BluePoint = thisTile.GetComponent<Hex>();
+                        this.BluePoint.endGame = true;//如果是红点的话，相当于踩到这个点就游戏结束
+                        this.HomePoint = thisTile;
                         Camera.main.transform.position = HomePoint.transform.position + 78 * Vector3.up + 40 * Vector3.left + -78 * Vector3.forward;
                     }
                 }
@@ -191,6 +212,34 @@ public class MapCreate : MonoBehaviour
         //Debug.Log("宽和长分别为" + maxX + "和" + maxZ);
     }
     
+    private MapInfo GetGeneratedRandomMapInfo()
+	{
+        MapInfo mapInfo = new MapInfo();
+
+        // todo 地图生成参数设置
+        MapGenerator mapGen = new MapGenerator();
+        mapGen.setGenre(MapGenerator.MapGenre.Grassland).enableRiver(false);
+        // 生成地图
+        mapInfo.mapTiles = mapGen.generate(50, 50);
+
+        // todo 测试持续生成点
+        EnemyContinuousSpawnPoint continuousSpawnPoint = new EnemyContinuousSpawnPoint();
+        continuousSpawnPoint.baseSpawnTile = "Map5_18";
+        continuousSpawnPoint.spawnPool = new Queue<int>();
+        continuousSpawnPoint.spawnPool.Enqueue(1);
+
+        // todo 检测随机生成的地图的可达性
+
+        mapInfo.enemySpawnPoints = new EnemySpawnPoint[0];
+        mapInfo.enemyConinuousSpawnPoints = new EnemyContinuousSpawnPoint[1];
+        mapInfo.timeLimit = 1200;
+        mapInfo.dropID = 1;
+        mapInfo.dropAmount = 15;
+        mapInfo.dropRate = 100;
+
+        return mapInfo;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -494,5 +543,101 @@ public class MapCreate : MonoBehaviour
             return true;
         }
 
+    }
+
+
+
+    class MapGenerator
+    {
+        // generator parameters
+        private MapGenre genre = MapGenre.Grassland;
+        private bool riverEnabled = false;
+        //
+        private char[,] tiles = new char[0, 0];
+
+        public MapGenerator() { }
+
+        public enum MapGenre
+		{
+            Grassland
+		}
+
+        public string[] generate(int lenHang, int lenLie)
+		{
+            this.tiles = new char[lenHang, lenLie];
+
+            MyNoise myNoise = new MyNoise();
+
+            // （只是一个随机生成demo 目前还丑的要死）
+            if (genre == MapGenre.Grassland)
+			{
+                // 首先填充草地
+                fillWith('1');  // 1 - 草地
+
+                // 随机生成部分山脉
+                // 随机噪音，+从中心到四周的gradient mask，x方向上拉伸采样
+                float[,] noiseMap = myNoise.GetNoiseMap2D(lenLie + 2, lenHang + 2);
+                float[,] tilesVal = myNoise.HexSample(noiseMap, new Rect(0, 0, lenLie / 3, lenHang), lenHang, lenLie);
+                // 前12%是高地，前5%是山脉
+                float[,] tile5 = MyNoise.TopPercentageOf(tilesVal, 0.12f);
+                float[,] tile6 = MyNoise.TopPercentageOf(tilesVal, 0.05f);
+                for (int i = 0; i < lenHang; i++)
+				{
+                    for (int j = 0; j < lenLie; j++)
+                    {
+                        if (tile6[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '6'; // 6 - 山脉
+                        }
+                        else if (tile5[i, j] > 0f)
+						{
+                            this.tiles[i, j] = '5'; // 5 - 高地
+						}
+					}
+				}
+			}
+
+			// 设置蓝色出生点
+			this.tiles[5, 5] = 'B';
+
+            // 填充 mapTiles
+			// char[,] -> string[]
+			string[] mapTiles = new string[lenHang];
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < lenHang; i++)
+            {
+                sb.Clear();
+                for (int j = 0; j < lenLie; j++)
+				{
+                    sb.Append(tiles[i, j]);
+				}
+                mapTiles[i] = sb.ToString();
+            }
+            return mapTiles;
+        }
+
+        private void fillWith(char ch)
+		{
+            for(int i = 0; i < this.tiles.GetLength(0); i++)
+			{
+				for(int j = 0; j < this.tiles.GetLength(1); j++)
+				{
+                    this.tiles[i, j] = ch;
+				}
+			}
+
+		}
+
+        public MapGenerator setGenre(MapGenre genre)
+		{
+            this.genre = genre;
+            return this;
+		}
+
+        public MapGenerator enableRiver(bool enabled)
+		{
+            this.riverEnabled = enabled;
+            return this;
+		}
     }
 }

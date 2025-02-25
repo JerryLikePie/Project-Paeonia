@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
 
 // 工具类，存放各种静态工具方法
 public static class Utilities
@@ -342,4 +343,122 @@ public static class Utilities
         }
         return a;
     }
+
+
+    public class MyNoise
+	{
+		System.Random random;
+
+        public MyNoise()
+        {
+            random = new System.Random();
+        }
+
+        public float[,] GetNoiseMap2D(int height, int width)
+		{
+            float[,] noiseMap = new float[height, width];
+            for (int i = 0; i < height; i++)
+			{
+                for (int j = 0; j < width; j++)
+				{
+                    noiseMap[i, j] = (float) random.NextDouble();
+				}
+			}
+            return noiseMap;
+		}
+
+        public static float[,] Threshold(float[,] arr, float thresh)
+        {
+            int height = arr.GetLength(0);
+            int width = arr.GetLength(1);
+            float[,] newArr = new float[width, height];
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    newArr[i, j] = arr[i, j] > thresh ? 1.0f : 0.0f;
+                }
+            }
+            return newArr;
+        }
+
+        // 前 k% 的元素 → 1
+        // 其它元素     → 0
+        public static float[,] TopPercentageOf(float[,] arr, float percent)
+		{
+            Debug.Assert(percent >= 0 && percent <= 1);
+            float[] flattenArr = arr.Cast<float>().ToArray();
+            Array.Sort(flattenArr);
+            int thresholdIndex = Mathf.CeilToInt((1-percent) * flattenArr.Length) - 1;
+            float threshold = flattenArr[thresholdIndex];
+            return Threshold(arr, threshold);
+        }
+
+
+        /// <summary>
+        /// 地图块是六边形的
+        /// 但生成的地形是平直的二维图像（noise map）
+        /// 所以需要根据地图块的中心点位置进行采样（2D noise map → HEX tiles）
+        /// </summary>
+        /// <param name="noiseMap">生成的地形图（基本上就是噪点图</param>
+        /// <param name="boundingBox">在地形图上采样的范围（窗口），根据窗口尺寸可能会有拉伸</param>
+        /// <param name="numTilesLie">地图（tiles）的宽度</param>
+        /// <param name="numTilesHang">地图（tiles）的高度</param>
+        /// <returns></returns>
+        /// 
+        public float[,] HexSample(float[,] noiseMap, Rect boundingBox, int numTilesHang, int numTilesLie)
+        {
+            Debug.Assert(numTilesLie > 0 && numTilesHang > 0);
+            float[,] tileVals = new float[numTilesLie, numTilesHang];
+
+            // 偶数层横坐标偏移
+            float unitXOff = 0.5f;
+
+            float w = noiseMap.GetLength(0);
+            float h = noiseMap.GetLength(1);
+            Debug.Assert(boundingBox.x >= 0 && boundingBox.y >= 0);
+            Debug.Assert(boundingBox.xMax <= w - 1 && boundingBox.yMax <= h - 1);
+
+            float sampleX;  // tile 在 noiseMap 上对应采样点的空间坐标 X
+            float sampleY;  // tile 在 noiseMap 上对应采样点的空间坐标 Y
+            Vector2Int p00 = new Vector2Int(); 
+            float dx = boundingBox.width / (numTilesLie - 1 + unitXOff);
+            float dy = boundingBox.height / (numTilesHang - 1);
+            float dxOff = dx * unitXOff;
+
+            sampleY = 0f;
+            for (int i = 0; i < numTilesHang; i++)
+			{
+                sampleX = 0;
+                for (int j = 0; j < numTilesLie; j++)
+				{
+                    // 奇数行
+                    if (i % 2 == 0)
+					{
+                        p00.x = Mathf.FloorToInt(sampleX);
+                        p00.y = Mathf.FloorToInt(sampleY);
+                    }
+                    // 偶数行
+                    else
+                    {
+                        p00.x = Mathf.FloorToInt(sampleX + dxOff);
+                        p00.y = Mathf.FloorToInt(sampleY);
+                    }
+                    // 双线性插值
+                    float px = sampleX - p00.x;
+                    float py = sampleY - p00.y;
+                    float s_x0 = Mathf.Lerp(noiseMap[p00.x, p00.y], noiseMap[p00.x + 1, p00.y], px);
+                    float s_x1 = Mathf.Lerp(noiseMap[p00.x, p00.y + 1], noiseMap[p00.x + 1, p00.y + 1], px);
+                    float s_xy = Mathf.Lerp(s_x0, s_x1, py);
+                    // 存入矩阵
+                    tileVals[i, j] = s_xy;
+
+                    sampleX += dx;
+				}
+                sampleY += dy;
+			}
+
+            return tileVals;
+        }
+	}
 }
