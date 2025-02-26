@@ -16,7 +16,6 @@ public class ScoreManager : MonoBehaviour
     public GameObject HUD;
     public int dropID;
     public int dropAmmount;
-    public int enemyShown;
 
     public GameCore gameCore;
 
@@ -134,7 +133,6 @@ public class ScoreManager : MonoBehaviour
             friendlyBaseCaptured = false;
             killCount.text = "0/0";
             timeCount.text = "0:00";
-            enemyShown = 0;
         } catch
         {
             Debug.LogError(gameObject.name + "抛出了一个错误");
@@ -142,23 +140,8 @@ public class ScoreManager : MonoBehaviour
         
     }
 
-    public void foundEnemy(int num)
-    {
-        enemyShown += num;
-    }
-
     void Update()
     {
-        // 根据敌人数量修改 bgm 音量
-        if (gameCore.bgmIntense.volume < enemyShown / 3.0f)
-        {
-            gameCore.setBgmIntenseVolume(gameCore.bgmIntense.volume + 0.003f);
-        }
-        else if (gameCore.bgmIntense.volume > enemyShown / 3.0f)
-        {
-            gameCore.setBgmIntenseVolume(gameCore.bgmIntense.volume - 0.001f);
-        }
-
         // 更新游戏流逝的时间
         if (gameCore.IsGaming())
 		{

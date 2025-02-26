@@ -736,7 +736,7 @@ public class EnemyCombat : MonoBehaviour
     {
         try
         {
-            GameObject.FindGameObjectWithTag("MiscScoreManager").GetComponent<ScoreManager>().foundEnemy(num);
+            gameCore.foundEnemy(num);
         }
         catch
         {

@@ -80,6 +80,12 @@ public class MapCreate : MonoBehaviour
         mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_1-1");
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
     public bool IsTutorial()
     {
         return mapToLoad.StartsWith("TR");
@@ -106,11 +112,13 @@ public class MapCreate : MonoBehaviour
         Debug.Log("map to load is: " + mapToLoad);
         if (!generateRandomMap)
         {
+            // 加载地图文件
             TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
             mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
         }
         else
 		{
+            // 生成随机地图
             mapInfo = GetGeneratedRandomMapInfo();
 		}
         Debug.Log("mapInfo:\n" + mapInfo);
@@ -180,6 +188,11 @@ public class MapCreate : MonoBehaviour
                 }
                 //给这个地图块命名
                 thisTile.name = "Map" + i + "_" + j;
+                // todo 性能测试: 禁用地图块的动画
+                foreach(var anim in thisTile.GetComponentsInChildren<Animator>())
+				{
+                    anim.enabled = false;
+				}
                 try
                 {
                     //但命名只是给我们看的，程序也要知道
@@ -238,12 +251,6 @@ public class MapCreate : MonoBehaviour
         mapInfo.dropRate = 100;
 
         return mapInfo;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     void EndGameLoot()

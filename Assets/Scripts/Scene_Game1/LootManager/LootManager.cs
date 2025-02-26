@@ -31,8 +31,8 @@ public class LootManager : MonoBehaviour
     // 敌方单位被击杀时触发
     public void OnEnemyKilled(GameEventData e)
 	{
-        if (e.data is Lootable lootableInstance)
-		{
+        Lootable lootableInstance = e.source.GetComponent<Lootable>();
+        if (lootableInstance != null) {
             CollectLoot(lootableInstance);
 		}
 	}

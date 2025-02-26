@@ -42,6 +42,8 @@ public class GameCore : MonoBehaviour
 
 	// BGMs
 	public AudioSource bgmIntense, bgmNormal, bgmIntro;
+	// 发现的敌人数量，用于控制音效音量
+	private int enemyShown;
 
 
 	// 记录关卡开始的时间
@@ -57,7 +59,7 @@ public class GameCore : MonoBehaviour
 		Debug.Assert(lootManager != null);
 		Debug.Assert(mapCreator != null);
 		Debug.Assert(scoreManager != null);
-
+		// SceneMessager 是跨场景对象，动态绑定
 		sceneMessager = GameObject.Find("SceneMessager").GetComponent<SceneMessager>();
 		Debug.Assert(sceneMessager != null);
 		Debug.Assert(eventSystem != null);
@@ -82,6 +84,7 @@ public class GameCore : MonoBehaviour
 		{
 			gameState = GameState.GS_Squad_Selection;
 		}
+
 	}
 
 	// 更新游戏状态
@@ -102,6 +105,20 @@ public class GameCore : MonoBehaviour
 			scoreManager.FriendlyBaseLost();
 			Invoke("EndGame", 3);
 		}
+
+		// 持续生成敌人
+
+
+		// 根据敌人数量修改 bgm 音量
+		if (bgmIntense.volume < enemyShown / 3.0f)
+		{
+			setBgmIntenseVolume(bgmIntense.volume + 0.003f);
+		}
+		else if (bgmIntense.volume > enemyShown / 3.0f)
+		{
+			setBgmIntenseVolume(bgmIntense.volume - 0.001f);
+		}
+
 	}
 
 	// 小队选择完毕进入战斗
@@ -156,6 +173,7 @@ public class GameCore : MonoBehaviour
 
 		timeStart = System.DateTime.Now.Ticks;
 		StartBGM();
+		enemyShown = 0;
 		lootManager.startRecordLooting();
 	}
 
@@ -176,7 +194,6 @@ public class GameCore : MonoBehaviour
 		}
 	}
 
-
 	public void EndGame()
 	{
 		gameState = GameState.GS_Game_End;
@@ -196,4 +213,10 @@ public class GameCore : MonoBehaviour
 	{
 		bgmIntense.volume = volume;
 	}
+
+	public void foundEnemy(int num)
+	{
+		enemyShown += num;
+	}
+
 }
