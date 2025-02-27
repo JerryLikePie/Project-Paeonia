@@ -75,8 +75,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0f25d1947537a42bd82da1c9403e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hang: 0
-  lie: 0
+  X: 0
+  Z: 0
   reachable: 0
   movecost: 0
   spawnNum: 0
@@ -91,6 +91,8 @@ MonoBehaviour:
   dodgeBuff: 0
   rangeBuff: 0
   fogOfWarDarken: {fileID: 4780122984139675763}
+  hexBase: {fileID: 0}
+  render: 1
 --- !u!1 &4780122984139675763
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4780122984139675763}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.05, z: -0}
+  m_LocalPosition: {x: -0, y: -0.1, z: -0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 3581535914689298926}
@@ -181,7 +183,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4780122984139675763}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 8a91d15f217fa8d4b948d23e027a6b18, type: 3}
   m_Controller: {fileID: 0}
   m_CullingMode: 0

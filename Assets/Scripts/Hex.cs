@@ -21,6 +21,7 @@ public class Hex : MonoBehaviour
     public GameObject fogOfWarDarken;
     public GameObject hexBase;
     public bool render = true;
+    bool checkupdate = false;
 
     Color originalColor;
     Color maskedColor;
@@ -33,6 +34,7 @@ public class Hex : MonoBehaviour
             maskedColor = new Color(originalColor.r - 0.5f, originalColor.g - 0.5f, originalColor.b - 0.5f);
             highlightColor = new Color(originalColor.r + 0.1f, originalColor.g + 0.5f, originalColor.b + 0.1f);
         }
+        checkupdate = true;
         UpdateFogStatus();
     }
     void Update()
@@ -41,6 +43,7 @@ public class Hex : MonoBehaviour
     }
     public void GainVisual()
     {
+        checkupdate = true;
         if (!render)
         {
             render = true;
@@ -49,18 +52,25 @@ public class Hex : MonoBehaviour
     }
     public void LoseVisual()
     {
+        checkupdate = true;
         this.isInFog--;
     }
     public void EnemySpot()
     {
+        checkupdate = true;
         this.isSpotted++;
     }
     public void EnemyLoseVisual()
     {
+        checkupdate = true;
         this.isSpotted--;
     }
     public void UpdateFogStatus()
     {
+        if (!checkupdate)
+        {
+            return;
+        }
         if (fogOfWarDarken != null)
         {
             if (isInFog == 0)//0ÊÇÓÐÎí
@@ -104,5 +114,6 @@ public class Hex : MonoBehaviour
                 fogOfWarDarken.GetComponent<MeshRenderer>().enabled = false;
             }
         }
+        checkupdate = false;
     }
 }

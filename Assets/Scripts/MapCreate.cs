@@ -137,6 +137,7 @@ public class MapCreate : MonoBehaviour
             for (int j = 0; j < maxX; j++)
             {
                 GameObject thisTile = tileTypes[7].tilePrefabType; //先默认为都生成虚空
+                
                 if (mapInfo.mapTiles[i][j] == '0')//如果文件说这里是水
                 {
                     thisTile = tileTypes[0].tilePrefabType;
@@ -181,10 +182,12 @@ public class MapCreate : MonoBehaviour
                 if (i % 2 == 0)
                 {
                     thisTile = Instantiate(thisTile, new Vector3(j * xOffset, 0, i * hangOffset), Quaternion.identity);
+                    thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 3f));
                 }
                 else
                 {
                     thisTile = Instantiate(thisTile, new Vector3((j * xOffset) - zOffset, 0, i * hangOffset), Quaternion.identity);
+                    thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 3f));
                 }
                 //给这个地图块命名
                 thisTile.name = "Map" + i + "_" + j;
