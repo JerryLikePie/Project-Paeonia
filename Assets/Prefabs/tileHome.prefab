@@ -281,7 +281,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0971ddc3dcc3f514bb964d389799c7dc, type: 2}
+  - {fileID: 2100000, guid: a38f7dadf92f5e546970ea52d2f2cd35, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -483,5 +483,7 @@ MonoBehaviour:
   dodgeBuff: 0
   rangeBuff: 0
   fogOfWarDarken: {fileID: 7813683644894044397}
-  hexBase: {fileID: 7813743110302967309}
+  NeedsHidden:
+  - {fileID: 2050152842844577338}
+  - {fileID: 7799021250539060239}
   render: 0

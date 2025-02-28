@@ -19,7 +19,7 @@ public class Hex : MonoBehaviour
     public int isSpotted = 0;//0为没有被点亮（对于我方来说
     public float dodgeBuff,rangeBuff;
     public GameObject fogOfWarDarken;
-    public GameObject hexBase;
+    public MeshRenderer[] NeedsHidden;
     public bool render = true;
     bool checkupdate = false;
 
@@ -30,9 +30,13 @@ public class Hex : MonoBehaviour
     {
         if (fogOfWarDarken != null)
         {
-            originalColor = fogOfWarDarken.GetComponent<Renderer>().material.color;
-            maskedColor = new Color(originalColor.r - 0.5f, originalColor.g - 0.5f, originalColor.b - 0.5f);
-            highlightColor = new Color(originalColor.r + 0.1f, originalColor.g + 0.5f, originalColor.b + 0.1f);
+            if (height >= 0)
+            {
+                originalColor = fogOfWarDarken.GetComponent<Renderer>().material.color;
+                maskedColor = new Color(originalColor.r - 0.5f, originalColor.g - 0.5f, originalColor.b - 0.5f);
+                highlightColor = new Color(originalColor.r + 0.1f, originalColor.g + 0.5f, originalColor.b + 0.1f);
+            }
+            
         }
         checkupdate = true;
         UpdateFogStatus();
@@ -91,10 +95,9 @@ public class Hex : MonoBehaviour
 
         if (render)
         {
-
-            if (hexBase != null)
+            foreach (MeshRenderer item in NeedsHidden)
             {
-                hexBase.GetComponent<MeshRenderer>().enabled = true;
+                item.enabled = true;
             }
             if (fogOfWarDarken != null)
             {
@@ -103,11 +106,9 @@ public class Hex : MonoBehaviour
         }
         else
         {
-
-            if (hexBase != null)
+            foreach (MeshRenderer item in NeedsHidden)
             {
-                hexBase.GetComponent<MeshRenderer>().enabled = false;
-
+                item.enabled = false;
             }
             if (fogOfWarDarken != null)
             {

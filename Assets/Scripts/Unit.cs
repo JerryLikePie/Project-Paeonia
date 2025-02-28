@@ -72,8 +72,8 @@ public class Unit : MonoBehaviour
                 }
                 if (canMove)
                 {
-                    GameObject.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveUnit = false;
-                    destination = next.transform.position;
+                    GameObject.Find("Map" + hang + "_" + lie).GetComponent<Hex>().haveUnit = false; //TODO 把这个find改成直接获取
+                    destination = next.transform.position + Vector3.up * (next.height - 1f);
                     path.Dequeue();
                     canMove = false;
                     firstTime2 = true;

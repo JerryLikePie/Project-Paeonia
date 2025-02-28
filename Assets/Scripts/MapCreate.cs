@@ -182,12 +182,12 @@ public class MapCreate : MonoBehaviour
                 if (i % 2 == 0)
                 {
                     thisTile = Instantiate(thisTile, new Vector3(j * xOffset, 0, i * hangOffset), Quaternion.identity);
-                    thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 3f));
+                    thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 4f));
                 }
                 else
                 {
                     thisTile = Instantiate(thisTile, new Vector3((j * xOffset) - zOffset, 0, i * hangOffset), Quaternion.identity);
-                    thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 3f));
+                    thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 4f));
                 }
                 //给这个地图块命名
                 thisTile.name = "Map" + i + "_" + j;

@@ -200,7 +200,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cd138b609b29d7047b3ec506bb553493, type: 2}
+  - {fileID: 2100000, guid: 0e0194c6325a0104591a99b7bbddec4f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -301,7 +301,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7978f5d45cf7f5a4bb08b49f4e2339b6, type: 2}
+  - {fileID: 2100000, guid: c3bb7d53eea5af54b94ac631c59cd236, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -402,7 +402,9 @@ MonoBehaviour:
   dodgeBuff: -10
   rangeBuff: 0
   fogOfWarDarken: {fileID: 5004621378688596546}
-  hexBase: {fileID: 5004562092552682658}
+  NeedsHidden:
+  - {fileID: 7870061224623237698}
+  - {fileID: 4983105174343329440}
   render: 0
 --- !u!1 &7884860300301981380
 GameObject:

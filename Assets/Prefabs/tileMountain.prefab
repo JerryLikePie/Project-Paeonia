@@ -135,14 +135,15 @@ MonoBehaviour:
   haveUnit: 0
   haveEnemy: 0
   endGame: 0
-  height: 3
+  height: 4
   blockVision: 0
   isInFog: 0
   isSpotted: 0
   dodgeBuff: 25
   rangeBuff: 1
   fogOfWarDarken: {fileID: 6936256128989578971}
-  hexBase: {fileID: 6936213531766485365}
+  NeedsHidden:
+  - {fileID: 6922696399169825373}
   render: 0
 --- !u!1 &6936213531766485365
 GameObject:
@@ -272,8 +273,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6936256128989578971}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children:
   - {fileID: 8334991739239501064}
   m_Father: {fileID: 6938293734239982863}
@@ -286,7 +287,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6936256128989578971}
-  m_Mesh: {fileID: 4300000, guid: 88fa36ad37969f74888c5017f75468b7, type: 3}
+  m_Mesh: {fileID: 4300000, guid: e27847ed6b4fb8b40a46d6da4458be31, type: 3}
 --- !u!23 &6922924142879484649
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -306,7 +307,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 691b82c52251d2d4cb287496a97a252c, type: 2}
+  - {fileID: 2100000, guid: c61ce4736936cf44a84ed1555957eee3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

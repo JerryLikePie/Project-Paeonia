@@ -91,7 +91,7 @@ MonoBehaviour:
   dodgeBuff: 0
   rangeBuff: 0
   fogOfWarDarken: {fileID: 4780122984139675763}
-  hexBase: {fileID: 0}
+  NeedsHidden: []
   render: 1
 --- !u!1 &4780122984139675763
 GameObject:
@@ -153,7 +153,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 21c0c0be28c34444c87edc16f8d6fd08, type: 2}
+  - {fileID: 2100000, guid: 4f28033d7c5cd8b4b9af3766f0ff1281, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
