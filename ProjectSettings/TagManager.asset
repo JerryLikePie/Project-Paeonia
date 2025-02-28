@@ -51,11 +51,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: DollsHighlight
+    uniqueID: 466714173
+    locked: 0
   - name: Debris
     uniqueID: 3165676775
     locked: 0
   - name: Ground Effects
     uniqueID: 1313556085
+    locked: 0
+  - name: DefaultDolls
+    uniqueID: 1498713333
     locked: 0
   - name: Doll5
     uniqueID: 1392805287

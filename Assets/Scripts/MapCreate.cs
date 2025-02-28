@@ -182,20 +182,30 @@ public class MapCreate : MonoBehaviour
                 if (i % 2 == 0)
                 {
                     thisTile = Instantiate(thisTile, new Vector3(j * xOffset, 0, i * hangOffset), Quaternion.identity);
-                    thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 4f));
+                    try
+                    {
+                        thisTile.GetComponent<Hex>().fogOfWarDarken.GetComponent<Renderer>().material.mainTextureOffset
+                        = Vector2.up * (Random.value * 2f - 0.5f) + Vector2.right * (Random.value * 2f - 0.5f);
+                    } catch{}
+                    //thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 0.5f));
                 }
                 else
                 {
                     thisTile = Instantiate(thisTile, new Vector3((j * xOffset) - zOffset, 0, i * hangOffset), Quaternion.identity);
-                    thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 4f));
+                    try
+                    {
+                        thisTile.GetComponent<Hex>().fogOfWarDarken.GetComponent<Renderer>().material.mainTextureOffset
+                        = Vector2.up * (Random.value * 2f - 0.5f) + Vector2.right * (Random.value * 2f - 0.5f);
+                    } catch { }
+                    //thisTile.transform.Rotate(Vector3.up * 60f * Mathf.Floor(Random.value * 0.5f));
                 }
                 //给这个地图块命名
                 thisTile.name = "Map" + i + "_" + j;
                 // todo 性能测试: 禁用地图块的动画
-                foreach(var anim in thisTile.GetComponentsInChildren<Animator>())
-				{
-                    anim.enabled = false;
-				}
+    //            foreach(var anim in thisTile.GetComponentsInChildren<Animator>())
+				//{
+    //                anim.enabled = false;
+				//}
                 try
                 {
                     //但命名只是给我们看的，程序也要知道

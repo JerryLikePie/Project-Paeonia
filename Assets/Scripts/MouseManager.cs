@@ -568,14 +568,14 @@ public class MouseManager : MonoBehaviour
         }
         if (selectedUnit != null)
         {
+            selectedUnit.Select(false);
             selectedUnit.unitSelection = false;
-            selectedUnit.selectionBox.SetActive(false);
             selectedUnit = null;
         }
     }
     void MouseClickMap(GameObject targetObject)
     {
-        lastSelectedUnit.selectionBox.SetActive(false);
+        lastSelectedUnit.Select(false);
         lastSelectedUnit = selectedUnit;
         Debug.Log(selectedTile.name);
         if (selectedUnit != null)
@@ -583,9 +583,9 @@ public class MouseManager : MonoBehaviour
             if (selectedUnit.unitSelection)
             {
                 lastSelectedUnit.unitSelection = false;
-                if (IsAround(selectedUnit, selectedTile) && selectedUnit.canMove)//这个tile是在这个unit的六周之内吗？
-                {
-                }
+                //if (IsAround(selectedUnit, selectedTile) && selectedUnit.canMove)//这个tile是在这个unit的六周之内吗？
+                //{
+                //}
             }
         }
     }
@@ -602,7 +602,7 @@ public class MouseManager : MonoBehaviour
             if (lastSelectedUnit != null && selectedUnit != lastSelectedUnit)
             {
                 lastSelectedUnit.unitSelection = false;
-                lastSelectedUnit.selectionBox.SetActive(false);
+                lastSelectedUnit.Select(false);
                 lastSelectedUnit = selectedUnit;
             }
             else
@@ -612,11 +612,11 @@ public class MouseManager : MonoBehaviour
             
             if (selectedUnit.unitSelection == true)//颜色控制，如果是选中就变红不然就是白色
             {
-                selectedUnit.selectionBox.SetActive(true);
+                selectedUnit.Select(true);
             }
             else
             {
-                selectedUnit.selectionBox.SetActive(false);
+                selectedUnit.Select(false);
                 selectedUnit = null;
             }
         }

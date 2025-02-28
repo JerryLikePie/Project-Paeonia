@@ -29,7 +29,7 @@ public class Unit : MonoBehaviour
     public bool unitSelection, isMoving = false;
     public Slider actionCDBar;
     public GameObject CDBarCanvas;
-    public GameObject selectionBox;
+    public GameObject[] selectionHighlights;
     public GameObject skillBox;
     public bool unitInMoveCooldown = false;
     public AudioSource engineSound;
@@ -45,7 +45,6 @@ public class Unit : MonoBehaviour
         dolls = this.GetComponent<DollsProperty>();
         combat = GetComponent<DollsCombat>();
         canMove = false;
-        selectionBox.SetActive(false);
         destination = transform.position;
         unitSelection = false;
         moveTimer.IsCounting = false;
@@ -138,6 +137,14 @@ public class Unit : MonoBehaviour
         moveTimer.TimeToWait = moveTime;
         moveTimer.unit = this;
         
+    }
+
+    public void Select(bool isSelected)
+    {
+        foreach (GameObject light in selectionHighlights)
+        {
+            light.SetActive(isSelected);
+        }
     }
 
 }
