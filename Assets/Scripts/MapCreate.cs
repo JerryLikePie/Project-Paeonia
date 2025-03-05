@@ -579,7 +579,12 @@ public class MapCreate : MonoBehaviour
 
         public enum MapGenre
 		{
-            Grassland
+            Grassland,
+            Desert,
+            Snowfield,
+            Forest,
+            Muddy,
+            Vocanic
 		}
 
         public string[] generate(int lenHang, int lenLie)
@@ -588,37 +593,78 @@ public class MapCreate : MonoBehaviour
 
             MyNoise myNoise = new MyNoise();
 
-            // （只是一个随机生成demo 目前还丑的要死）
+            // 使用Perlin Noise的实验生成
+            float[,] noiseMap = myNoise.Perlin2D(lenLie + 2, lenHang + 2);
+            float[,] tilesVal = myNoise.HexSample(noiseMap, new Rect(0, 0, lenLie / 3, lenHang), lenHang, lenLie);
+
+            // 然后根据不同的preset来微调
             if (genre == MapGenre.Grassland)
-			{
+            {
                 // 首先填充草地
                 fillWith('1');  // 1 - 草地
 
-                // 随机生成部分山脉
-                // 随机噪音，+从中心到四周的gradient mask，x方向上拉伸采样
-                float[,] noiseMap = myNoise.GetNoiseMap2D(lenLie + 2, lenHang + 2);
-                float[,] tilesVal = myNoise.HexSample(noiseMap, new Rect(0, 0, lenLie / 3, lenHang), lenHang, lenLie);
-                // 前12%是高地，前5%是山脉
-                float[,] tile5 = MyNoise.TopPercentageOf(tilesVal, 0.12f);
-                float[,] tile6 = MyNoise.TopPercentageOf(tilesVal, 0.05f);
+                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.4f); // 4 - forest
+                float[,] hills = MyNoise.TopPercentageOf(tilesVal, 0.2f); // 5 - hills
+                float[,] mountain = MyNoise.TopPercentageOf(tilesVal, 0.08f); // 6 - hills
+
+                //填充其他地形
                 for (int i = 0; i < lenHang; i++)
-				{
+                {
                     for (int j = 0; j < lenLie; j++)
                     {
-                        if (tile6[i, j] > 0f)
+                        if (false)
                         {
-                            this.tiles[i, j] = '6'; // 6 - 山脉
+                            //nothing
                         }
-                        else if (tile5[i, j] > 0f)
-						{
-                            this.tiles[i, j] = '5'; // 5 - 高地
-						}
-					}
-				}
-			}
+                        else if (mountain[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '6';
+                        }
+                        else if (hills[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '5';
+                        }
+                        else if (forest[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '4';
+                        }
+                    }
+                }
+            }
 
-			// 设置蓝色出生点
-			this.tiles[5, 5] = 'B';
+
+
+            // （只是一个随机生成demo 目前还丑的要死）
+            //         if (genre == MapGenre.Grassland)
+            //{
+            //             // 首先填充草地
+            //             fillWith('1');  // 1 - 草地
+
+            //             // 随机生成部分山脉
+            //             // 随机噪音，+从中心到四周的gradient mask，x方向上拉伸采样
+            //             float[,] noiseMap = myNoise.GetNoiseMap2D(lenLie + 2, lenHang + 2);
+            //             float[,] tilesVal = myNoise.HexSample(noiseMap, new Rect(0, 0, lenLie / 3, lenHang), lenHang, lenLie);
+            //             // 前12%是高地，前5%是山脉
+            //             float[,] tile5 = MyNoise.TopPercentageOf(tilesVal, 0.12f);
+            //             float[,] tile6 = MyNoise.TopPercentageOf(tilesVal, 0.05f);
+            //             for (int i = 0; i < lenHang; i++)
+            //	{
+            //                 for (int j = 0; j < lenLie; j++)
+            //                 {
+            //                     if (tile6[i, j] > 0f)
+            //                     {
+            //                         this.tiles[i, j] = '6'; // 6 - 山脉
+            //                     }
+            //                     else if (tile5[i, j] > 0f)
+            //			{
+            //                         this.tiles[i, j] = '5'; // 5 - 高地
+            //			}
+            //		}
+            //	}
+            //}
+
+            // 设置蓝色出生点
+            this.tiles[5, 5] = 'B';
 
             // 填充 mapTiles
 			// char[,] -> string[]

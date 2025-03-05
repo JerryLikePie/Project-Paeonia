@@ -367,6 +367,26 @@ public static class Utilities
             return noiseMap;
 		}
 
+        public float[,] Perlin2D(int height, int width)
+        {
+            float newX, newY;
+            float[,] noiseMap = new float[height, width];
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    newX = i / 5f;
+                    newY = j / 5f;
+
+                    noiseMap[i, j] = Mathf.PerlinNoise(newX , newY) 
+                        + 0.5f * Mathf.PerlinNoise(2f * newX, 2f * newY) 
+                        + 0.25f * Mathf.PerlinNoise(4f * newX, 4f * newY);
+                    Debug.Log(noiseMap[i, j]);
+                }
+            }
+            return noiseMap;
+        }
+
         public static float[,] Threshold(float[,] arr, float thresh)
         {
             int height = arr.GetLength(0);
