@@ -367,7 +367,7 @@ public static class Utilities
             return noiseMap;
 		}
 
-        public float[,] Perlin2D(int height, int width)
+        public float[,] Perlin2D(int height, int width, float scale)
         {
             float newX, newY;
             float[,] noiseMap = new float[height, width];
@@ -375,13 +375,12 @@ public static class Utilities
             {
                 for (int j = 0; j < width; j++)
                 {
-                    newX = i / 5f;
-                    newY = j / 5f;
+                    newX = i / scale;
+                    newY = j / scale;
 
                     noiseMap[i, j] = Mathf.PerlinNoise(newX , newY) 
                         + 0.5f * Mathf.PerlinNoise(2f * newX, 2f * newY) 
                         + 0.25f * Mathf.PerlinNoise(4f * newX, 4f * newY);
-                    Debug.Log(noiseMap[i, j]);
                 }
             }
             return noiseMap;
@@ -480,5 +479,206 @@ public static class Utilities
 
             return tileVals;
         }
-	}
+
+        /// <summary>
+        /// 生成水体
+        /// </summary>
+        /// <param name="tilesVal">就是把地图高度数据传过来</param>
+        /// <param name="lake">如果false，会衍生出合流，true则会只考虑湖泊</param>
+        /// <param name="num">地图上要多少个水体</param>
+        /// <returns></returns>
+        /// 
+        public static float[,] GenerateRiver(float[,] tilesVal, bool lake, int num)
+        {
+            
+            int width = tilesVal.GetLength(0);
+            int height = tilesVal.GetLength(1);
+            float[,] riverMap = new float[width, height];
+
+            // Random starting point
+
+            int safeguard = 0;
+
+            // Generate one or two rivers
+            for (int riverCount = 0; riverCount < num; riverCount++)
+            {
+                int x = UnityEngine.Random.Range(0, width);
+                int y = UnityEngine.Random.Range(0, height);
+
+                // River generation loop
+                safeguard = 0;
+                while (true)
+                {
+                    // Mark the current position as part of the river
+                    riverMap[x, y] = 1;
+                    AddRiverWidth(riverMap, x, y);
+                    // Check adjacent tiles for lower height
+                    Vector2Int nextTile = FindLowerAdjacentTile(tilesVal, x, y);
+                    if (nextTile == Vector2Int.zero) // No valid lower tile found
+                    {
+                        break;
+                    }
+
+                    // Move to the next tile
+                    x = nextTile.x;
+                    y = nextTile.y;
+                    safeguard++;
+
+                    if (safeguard > 100)
+                    {
+                        break;
+                    }
+                }
+
+                // Generate Upstream
+                if (!lake)
+                {
+                    Vector2Int nextTile = Vector2Int.zero;
+                    float dir = UnityEngine.Random.value * 4f;
+                    Debug.LogWarning("=Random Direction=: " + dir);
+                    safeguard = 0;
+                    while (true)
+                    {
+                        // Mark the current position as part of the river
+                        riverMap[x, y] = 1;
+                        // Go a certain direction
+                        if (dir <= 1)
+                        {
+                            int[] directions = { 0, 2, 4 };
+                            nextTile = FollowDirection(tilesVal, riverMap, x, y, directions);
+                        }
+                        else if (dir <= 2)
+                        {
+                            int[] directions = { 0,1, 2, 3 };
+                            nextTile = FollowDirection(tilesVal, riverMap, x, y, directions);
+                        }
+                        else if (dir <= 3)
+                        {
+                            int[] directions = { 0, 1, 4, 5 };
+                            nextTile = FollowDirection(tilesVal, riverMap, x, y, directions);
+                        }
+                        else
+                        {
+                            int[] directions = { 1, 3, 5 };
+                            nextTile = FollowDirection(tilesVal, riverMap, x, y, directions);
+                        }
+
+                        if (nextTile == Vector2Int.zero)
+                        {
+                            break;
+                        }
+
+                        // Move to the next tile
+                        x = nextTile.x;
+                        y = nextTile.y;
+                        safeguard++;
+
+                        if (safeguard > 100)
+                        {
+                            break;
+                        }
+                    }
+                }
+                
+            }
+
+            return riverMap;
+        }
+
+        private static Vector2Int FindLowerAdjacentTile(float[,] tilesVal, int x, int y)
+        {
+            int width = tilesVal.GetLength(0);
+            int height = tilesVal.GetLength(1);
+            float currentHeight = tilesVal[x, y];
+            Vector2Int lowestTile = Vector2Int.zero;
+            float lowestHeight = currentHeight;
+
+            for (int i = 0; i < 6; i++)//查看左0右1，上左2上右3，下左4下右5，周围的六个格子
+            {
+                int newX = x + changeX[i];
+                int newY;
+                if (x % 2 == 0)
+                {
+                    newY = y + changeZ[i];
+                }
+                else
+                {
+                    newY = y + changeZ[i + 6];
+                }
+                // Check bounds
+                if (newX >= 0 && newX < width && newY >= 0 && newY < height)
+                {
+                    if (tilesVal[newX, newY] < lowestHeight)
+                    {
+                        lowestHeight = tilesVal[newX, newY];
+                        lowestTile = new Vector2Int(newX, newY);
+                    }
+                }
+            }
+            return lowestTile;
+        }
+
+        private static Vector2Int FollowDirection(float[,] tilesVal, float[,] riverMap, int x, int y, int[] directions)
+        {
+            int width = tilesVal.GetLength(0);
+            int height = tilesVal.GetLength(1);
+            float maxChange = 999f;
+            float currentHeight = tilesVal[x, y];
+            Vector2Int nextTile = Vector2Int.zero;
+
+            foreach (int i in directions)
+            {
+                int newX = x + changeX[i];
+                int newY;
+                if (x % 2 == 0)
+                {
+                    newY = y + changeZ[i];
+                }
+                else
+                {
+                    newY = y + changeZ[i + 6];
+                }
+                // Check bounds
+                if (newX >= 0 && newX < width && newY >= 0 && newY < height)
+                {
+                    if (riverMap[newX, newY] > 0f)
+                    {
+                        // 如果已经是水体了就继续走
+                        nextTile = new Vector2Int(newX, newY);
+                    }
+                    else if (abs(currentHeight - tilesVal[newX, newY]) < maxChange)
+                    {
+                        maxChange = abs(currentHeight - tilesVal[newX, newY]);
+                        nextTile = new Vector2Int(newX, newY);
+                    }
+                }
+            }
+            return nextTile;
+        }
+
+        private static void AddRiverWidth(float[,] riverMap, int x, int y)
+        {
+            int width = riverMap.GetLength(0);
+            int height = riverMap.GetLength(1);
+
+            // Width of 2, apply to adjacent tiles
+            int[] dx = { 0, 1, -1 };
+            int[] dy = { 0, 1, -1 };
+
+            foreach (int i in dx)
+            {
+                foreach (int j in dy)
+                {
+                    int newX = x + i;
+                    int newY = y + j;
+
+                    // Check bounds and avoid center tile
+                    if (newX >= 0 && newX < width && newY >= 0 && newY < height && !(i == 0 && j == 0))
+                    {
+                        riverMap[newX, newY] = 1;
+                    }
+                }
+            }
+        }
+    }
 }

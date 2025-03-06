@@ -26,6 +26,7 @@ public class MapCreate : MonoBehaviour
     int homeHang = 0;
     int homeLie = 0;
     public float timeLimit;
+    public int randomMapLimit;
 
     [HideInInspector] public Hex RedPoint, BluePoint;
     int maxX, maxZ;
@@ -176,6 +177,10 @@ public class MapCreate : MonoBehaviour
                 {
                     thisTile = tileTypes[9].tilePrefabType;
                 }
+                else if (mapInfo.mapTiles[i][j] == 'L')//大战场的特殊地块，散降点
+                {
+                    thisTile = tileTypes[10].tilePrefabType;
+                }
                 //虽然可以直接tileTypes[mapFromText[i][j]]但是因为要设定可到达还有移动点数，干脆全列出来算了
                 //有什么办法可以优化吗？
 
@@ -201,11 +206,6 @@ public class MapCreate : MonoBehaviour
                 }
                 //给这个地图块命名
                 thisTile.name = "Map" + i + "_" + j;
-                // todo 性能测试: 禁用地图块的动画
-    //            foreach(var anim in thisTile.GetComponentsInChildren<Animator>())
-				//{
-    //                anim.enabled = false;
-				//}
                 try
                 {
                     //但命名只是给我们看的，程序也要知道
@@ -244,9 +244,10 @@ public class MapCreate : MonoBehaviour
 
         // todo 地图生成参数设置
         MapGenerator mapGen = new MapGenerator();
-        mapGen.setGenre(MapGenerator.MapGenre.Grassland).enableRiver(false);
+        mapGen.setGenre(MapGenerator.MapGenre.Forest).enableRiver(false);
+        mapGen.setSize(randomMapLimit);
         // 生成地图
-        mapInfo.mapTiles = mapGen.generate(50, 50);
+        mapInfo.mapTiles = mapGen.generate();
 
         // todo 测试持续生成点
         EnemyContinuousSpawnPoint continuousSpawnPoint = new EnemyContinuousSpawnPoint();
@@ -290,7 +291,8 @@ public class MapCreate : MonoBehaviour
                     ToCancelFog.isInFog = 999;
                     ToCancelFog.render = true;
                 }
-                //ToCancelFog.ChangeTheFog();
+                ToCancelFog.isInFog = 999; //调试用，直接显示所有地图
+                ToCancelFog.render = true; //调试用，直接显示所有地图
             }
             catch
             {
@@ -300,42 +302,8 @@ public class MapCreate : MonoBehaviour
     }
     public void FillUnitSlotWithPreset(Hex blueBox, int UnitID)
     {
-        slots[0].spawnID = 1;
+        slots[0].spawnID = UnitID;
         slots[0].spawnUID = "沪造三六式十轮装甲车";
-        //GameObject spawnedUnit;
-        //int tempCounter = 0;
-        //GameObject tiletoSpawn = GameObject.Find("Map" + blueBox.X + "_" + (blueBox.Z + 1));
-        //Hex nextHex = tiletoSpawn.GetComponent<Hex>();
-        //Score.SpawnDoll();
-        //spawnedUnit = Instantiate(spawnSquad[UnitID].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
-        //Debug.Log("在" + tiletoSpawn.name + "生成了" + UnitID + "号单位" + spawnSquad[UnitID].name);
-        //spawnedUnit.GetComponent<Unit>().hang = blueBox.X;
-        //spawnedUnit.GetComponent<Unit>().lie = (blueBox.Z + 1);
-        //spawnedUnit.GetComponent<DollsCombat>().allEnemy = enemyList;
-        //spawnedUnit.GetComponent<DollsCombat>().allDolls = unitList;
-        //spawnedUnit.GetComponent<DollsCombat>().thisUnit = spawnedUnit.GetComponent<Unit>();
-        //spawnedUnit.GetComponent<DollsCombat>().map = this;
-
-        ////spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
-        //nextHex.haveUnit = true;
-        //spawnedUnit.transform.parent = unitList.transform;
-        //Skills[UnitID].transform.SetParent(SkillSlot[tempCounter].transform);
-        //tempCounter++;
-        //Skills[UnitID].transform.localPosition = Vector3.zero;
-        //IDollsSkillBehavior skill1 = Skills[UnitID].transform.GetChild(0).GetComponentInChildren<IDollsSkillBehavior>();
-        //skill1.unit = spawnedUnit.GetComponent<DollsCombat>();
-        //skill1.loadMap();
-        //if (skill1.secondSkill != null)
-        //{
-        //    skill1.secondSkill.unit = spawnedUnit.GetComponent<DollsCombat>();
-        //    skill1.secondSkill.loadMap();
-        //    if (skill1.secondSkill.secondSkill != null)
-        //    {
-        //        skill1.secondSkill.secondSkill.unit = spawnedUnit.GetComponent<DollsCombat>();
-        //        skill1.secondSkill.secondSkill.loadMap();
-        //    }
-        //}
-        //spawnedUnit.GetComponent<DollsCombat>().CheckStatus();
     }
 
     public void SpawnTheUnits(int X, int Z)
@@ -572,6 +540,7 @@ public class MapCreate : MonoBehaviour
         // generator parameters
         private MapGenre genre = MapGenre.Grassland;
         private bool riverEnabled = false;
+        private int size = 30;
         //
         private char[,] tiles = new char[0, 0];
 
@@ -587,34 +556,42 @@ public class MapCreate : MonoBehaviour
             Vocanic
 		}
 
-        public string[] generate(int lenHang, int lenLie)
+        public string[] generate()
 		{
-            this.tiles = new char[lenHang, lenLie];
+            char basicTile = '1';
+            this.tiles = new char[size, size];
 
             MyNoise myNoise = new MyNoise();
 
             // 使用Perlin Noise的实验生成
-            float[,] noiseMap = myNoise.Perlin2D(lenLie + 2, lenHang + 2);
-            float[,] tilesVal = myNoise.HexSample(noiseMap, new Rect(0, 0, lenLie / 3, lenHang), lenHang, lenLie);
+            float[,] noiseMap = myNoise.Perlin2D(size + 2, size + 2, 3f);
+            float[,] tilesVal = myNoise.HexSample(noiseMap, new Rect(0, 0, size, size), size, size);
 
             // 然后根据不同的preset来微调
             if (genre == MapGenre.Grassland)
             {
+                // 草原：
                 // 首先填充草地
-                fillWith('1');  // 1 - 草地
+                basicTile = '1'; // 1 - 草地
+                fillWith(basicTile);
 
-                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.4f); // 4 - forest
-                float[,] hills = MyNoise.TopPercentageOf(tilesVal, 0.2f); // 5 - hills
-                float[,] mountain = MyNoise.TopPercentageOf(tilesVal, 0.08f); // 6 - hills
+                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.5f); // 4 - forest
+                float[,] hills = MyNoise.TopPercentageOf(tilesVal, 0.15f); // 5 - hills
+                float[,] mountain = MyNoise.TopPercentageOf(tilesVal, 0.03f); // 6 - mountain
+                float[,] river = MyNoise.GenerateRiver(tilesVal, false, 2); // 河流
 
                 //填充其他地形
-                for (int i = 0; i < lenHang; i++)
+                for (int i = 0; i < size; i++)
                 {
-                    for (int j = 0; j < lenLie; j++)
+                    for (int j = 0; j < size; j++)
                     {
                         if (false)
                         {
                             //nothing
+                        }
+                        else if (river[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '0';
                         }
                         else if (mountain[i, j] > 0f)
                         {
@@ -630,50 +607,111 @@ public class MapCreate : MonoBehaviour
                         }
                     }
                 }
+            } 
+            else if (genre == MapGenre.Desert)
+            {
+                // 沙漠：
+                basicTile = '2'; // 2 - 沙地
+                fillWith(basicTile);
+
+                float[,] hills = MyNoise.TopPercentageOf(tilesVal, 0.2f); // 5 - hills
+                float[,] mountain = MyNoise.TopPercentageOf(tilesVal, 0.03f); // 6 - mountains
+                float[,] river = MyNoise.GenerateRiver(tilesVal, false, 1); // 河流
+
+                //填充其他地形
+                for (int i = 0; i < size; i++)
+                {
+                    for (int j = 0; j < size; j++)
+                    {
+                        if (false)
+                        {
+                            //nothing
+                        }
+                        else if (river[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '0';
+                        }
+                        else if (mountain[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '6';
+                        }
+                        else if (hills[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '5';
+                        }
+                    }
+                }
+            } 
+            else if (genre == MapGenre.Muddy)
+            {
+                // 沼泽：
+                basicTile = '3'; // 3 - 沼泽地
+                fillWith(basicTile);
+
+                float[,] land = MyNoise.TopPercentageOf(tilesVal, 0.85f); // all lower are water
+                float[,] grass = MyNoise.TopPercentageOf(tilesVal, 0.5f); // 4 - grass
+                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.1f); // 4 - forest
+                float[,] river = MyNoise.GenerateRiver(tilesVal, false, 1); // 河流
+
+                //填充其他地形
+                for (int i = 0; i < size; i++)
+                {
+                    for (int j = 0; j < size; j++)
+                    {
+                        if (false)
+                        {
+                            //nothing
+                        }
+                        else if (river[i, j] > 0f)
+                        {
+                            //this.tiles[i, j] = '0';
+                        }
+                        else if (forest[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '4';
+                        }
+                        else if (grass[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '1';
+                        }
+                        else if (land[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '3';
+                        }
+                        else
+                        {
+                            this.tiles[i, j] = '0';
+                        }
+                    }
+                }
             }
 
 
-
-            // （只是一个随机生成demo 目前还丑的要死）
-            //         if (genre == MapGenre.Grassland)
-            //{
-            //             // 首先填充草地
-            //             fillWith('1');  // 1 - 草地
-
-            //             // 随机生成部分山脉
-            //             // 随机噪音，+从中心到四周的gradient mask，x方向上拉伸采样
-            //             float[,] noiseMap = myNoise.GetNoiseMap2D(lenLie + 2, lenHang + 2);
-            //             float[,] tilesVal = myNoise.HexSample(noiseMap, new Rect(0, 0, lenLie / 3, lenHang), lenHang, lenLie);
-            //             // 前12%是高地，前5%是山脉
-            //             float[,] tile5 = MyNoise.TopPercentageOf(tilesVal, 0.12f);
-            //             float[,] tile6 = MyNoise.TopPercentageOf(tilesVal, 0.05f);
-            //             for (int i = 0; i < lenHang; i++)
-            //	{
-            //                 for (int j = 0; j < lenLie; j++)
-            //                 {
-            //                     if (tile6[i, j] > 0f)
-            //                     {
-            //                         this.tiles[i, j] = '6'; // 6 - 山脉
-            //                     }
-            //                     else if (tile5[i, j] > 0f)
-            //			{
-            //                         this.tiles[i, j] = '5'; // 5 - 高地
-            //			}
-            //		}
-            //	}
-            //}
-
             // 设置蓝色出生点
-            this.tiles[5, 5] = 'B';
+            this.tiles[size / 2, size / 2] = 'B';
+            for (int i = 0; i < 6; i++)//查看左右，上左上右，下左下右，周围的六个格子
+            {
+                int next_hang = size / 2 + changeX[i];
+                int next_lie;
+                if ((size / 2) % 2 == 0)
+                {
+                    next_lie = (size / 2) + changeZ[i];
+                }
+                else
+                {
+                    next_lie = (size / 2) + changeZ[i + 6];
+                }
+                this.tiles[next_hang, next_lie] = basicTile; // 改成这个设定下的基础地块
+            }
 
             // 填充 mapTiles
-			// char[,] -> string[]
-			string[] mapTiles = new string[lenHang];
+            // char[,] -> string[]
+            string[] mapTiles = new string[size];
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < lenHang; i++)
+            for (int i = 0; i < size; i++)
             {
                 sb.Clear();
-                for (int j = 0; j < lenLie; j++)
+                for (int j = 0; j < size; j++)
 				{
                     sb.Append(tiles[i, j]);
 				}
@@ -693,6 +731,12 @@ public class MapCreate : MonoBehaviour
 			}
 
 		}
+
+        public MapGenerator setSize(int size)
+        {
+            this.size = size;
+            return this;
+        }
 
         public MapGenerator setGenre(MapGenre genre)
 		{
