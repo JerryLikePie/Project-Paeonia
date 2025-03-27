@@ -44,6 +44,8 @@ public class GameCore : MonoBehaviour
 	public AudioSource bgmIntense, bgmNormal, bgmIntro;
 	// 发现的敌人数量，用于控制音效音量
 	private int enemyShown;
+	// 活性化值，用于在远征关卡里面生成敌人
+	public float enemyProb;
 
 
 	// 记录关卡开始的时间
@@ -68,10 +70,13 @@ public class GameCore : MonoBehaviour
 		scoreManager.Initialize();
 		scoreManager.stageName = mapCreator.mapToLoad;
 
+		// 初始化活性化为0
+		enemyProb = 0;
 
-		// 如果是教程关卡则跳过小队选择
-		// 直接进入游戏
-		if (mapCreator.IsTutorial())
+
+        // 如果是教程关卡则跳过小队选择
+        // 直接进入游戏
+        if (mapCreator.IsTutorial())
 		{
 			gameState = GameState.GS_Game_Loading;
 			LoadGame(BattleType.Tutorial);

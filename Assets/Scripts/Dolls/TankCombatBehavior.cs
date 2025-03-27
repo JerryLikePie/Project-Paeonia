@@ -44,6 +44,13 @@ public class TankCombatBehavior : IDollsCombatBehaviour
                     j = 0;
                     continue;
                 }
+                if (context.enemyList[j].getType() == 6)
+                {
+                    // ¿óÎï²»¿¼ÂÇ
+                    context.enemyList.RemoveAt(j);
+                    j = 0;
+                    continue;
+                }
             }
             catch
             {

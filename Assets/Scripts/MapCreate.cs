@@ -65,14 +65,20 @@ public class MapCreate : MonoBehaviour
         public override string ToString()
         {
             string str = "";
-            foreach (EnemySpawnPoint e in enemySpawnPoints)
+            try
             {
-                str += "spawnTile: " + e.spawnTile + "\n";
-                foreach (string s in e.nextTile)
+                foreach (EnemySpawnPoint e in enemySpawnPoints)
                 {
-                    str += "  nextTile: " + s + "\n";
+                    str += "spawnTile: " + e.spawnTile + "\n";
+                    foreach (string s in e.nextTile)
+                    {
+                        str += "  nextTile: " + s + "\n";
+                    }
                 }
             }
+            catch { }
+            
+            
             return str;
         }
     }
@@ -138,7 +144,7 @@ public class MapCreate : MonoBehaviour
             for (int j = 0; j < maxX; j++)
             {
                 GameObject thisTile = tileTypes[7].tilePrefabType; //先默认为都生成虚空
-                
+                //Debug.Log(mapInfo.mapTiles[i][j]);
                 if (mapInfo.mapTiles[i][j] == '0')//如果文件说这里是水
                 {
                     thisTile = tileTypes[0].tilePrefabType;
@@ -257,7 +263,18 @@ public class MapCreate : MonoBehaviour
 
         // todo 检测随机生成的地图的可达性
 
-        mapInfo.enemySpawnPoints = new EnemySpawnPoint[0];
+        // 生成矿物
+        // todo 先做一个定点生成的吧
+        mapInfo.enemySpawnPoints = new EnemySpawnPoint[1];
+        mapInfo.enemySpawnPoints[0] = new EnemySpawnPoint();
+        mapInfo.enemySpawnPoints[0].spawnTile = "Map18_18";
+        mapInfo.enemySpawnPoints[0].spawnType = 40;
+        mapInfo.enemySpawnPoints[0].nextTile = new string[0];
+        mapInfo.enemySpawnPoints[0].spawnTime = 0;
+        mapInfo.enemySpawnPoints[0].waitTime = new int[0];
+
+        // 生成敌人
+        //mapInfo.enemySpawnPoints = new EnemySpawnPoint[0];
         mapInfo.enemyConinuousSpawnPoints = new EnemyContinuousSpawnPoint[1];
         mapInfo.timeLimit = 1200;
         mapInfo.dropID = 1;
@@ -575,10 +592,10 @@ public class MapCreate : MonoBehaviour
                 basicTile = '1'; // 1 - 草地
                 fillWith(basicTile);
 
-                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.5f); // 4 - forest
+                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.35f); // 4 - forest
                 float[,] hills = MyNoise.TopPercentageOf(tilesVal, 0.15f); // 5 - hills
                 float[,] mountain = MyNoise.TopPercentageOf(tilesVal, 0.03f); // 6 - mountain
-                float[,] river = MyNoise.GenerateRiver(tilesVal, false, 2); // 河流
+                float[,] river = MyNoise.GenerateRiver(tilesVal, false, 1); // 河流
 
                 //填充其他地形
                 for (int i = 0; i < size; i++)
@@ -587,7 +604,7 @@ public class MapCreate : MonoBehaviour
                     {
                         if (false)
                         {
-                            //nothing
+                            Debug.LogError("why are you here?");
                         }
                         else if (river[i, j] > 0f)
                         {
@@ -616,7 +633,7 @@ public class MapCreate : MonoBehaviour
 
                 float[,] hills = MyNoise.TopPercentageOf(tilesVal, 0.2f); // 5 - hills
                 float[,] mountain = MyNoise.TopPercentageOf(tilesVal, 0.03f); // 6 - mountains
-                float[,] river = MyNoise.GenerateRiver(tilesVal, false, 1); // 河流
+                float[,] river = MyNoise.GenerateRiver(tilesVal, true, 1); // 河流
 
                 //填充其他地形
                 for (int i = 0; i < size; i++)
@@ -651,7 +668,7 @@ public class MapCreate : MonoBehaviour
                 float[,] land = MyNoise.TopPercentageOf(tilesVal, 0.85f); // all lower are water
                 float[,] grass = MyNoise.TopPercentageOf(tilesVal, 0.5f); // 4 - grass
                 float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.1f); // 4 - forest
-                float[,] river = MyNoise.GenerateRiver(tilesVal, false, 1); // 河流
+                float[,] river = MyNoise.GenerateRiver(tilesVal, true, 1); // 河流
 
                 //填充其他地形
                 for (int i = 0; i < size; i++)
@@ -681,6 +698,46 @@ public class MapCreate : MonoBehaviour
                         else
                         {
                             this.tiles[i, j] = '0';
+                        }
+                    }
+                }
+            }
+            else if (genre == MapGenre.Forest)
+            {
+                // 树林：
+                // 首先填充草地
+                basicTile = '1'; // 1 - 草地
+                fillWith(basicTile);
+
+                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.8f); // 4 - forest
+                float[,] hills = MyNoise.TopPercentageOf(tilesVal, 0.1f); // 5 - hills
+                float[,] mountain = MyNoise.TopPercentageOf(tilesVal, 0.03f); // 6 - mountain
+                float[,] river = MyNoise.GenerateRiver(tilesVal, false, 1); // 河流
+
+                //填充其他地形
+                for (int i = 0; i < size; i++)
+                {
+                    for (int j = 0; j < size; j++)
+                    {
+                        if (false)
+                        {
+                            Debug.LogError("why are you here?");
+                        }
+                        else if (river[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '0';
+                        }
+                        else if (mountain[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '6';
+                        }
+                        else if (hills[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '5';
+                        }
+                        else if (forest[i, j] > 0f)
+                        {
+                            this.tiles[i, j] = '4';
                         }
                     }
                 }

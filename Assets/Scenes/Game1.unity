@@ -7364,6 +7364,7 @@ MonoBehaviour:
   bgmIntense: {fileID: 1715702603}
   bgmNormal: {fileID: 408932473}
   bgmIntro: {fileID: 349352360}
+  enemyProb: 0
   timeStart: 0
 --- !u!4 &1006374472
 Transform:
@@ -10127,6 +10128,44 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 7430277036753244896, guid: ebe207bf792bb6e41820eb03abd247c0, type: 3}
   - {fileID: 3447162699093262835, guid: 5999bd9f569023744b891bd5f9898ee0, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 4951395499524743747, guid: cec46ea065b3f894abffc3fe602cc950, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   SkillSlot:
   - {fileID: 1599607165}
   - {fileID: 860770850}
