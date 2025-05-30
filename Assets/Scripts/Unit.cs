@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour
     [HideInInspector]
     public float moveTime, nextTileMovecost;
     [HideInInspector]
-    public long timeStart; // 进入cd的时刻
+    public long timeStart; // 进入cd的时刻 //test github update
     [HideInInspector]
     public bool canBeSelected;
     [HideInInspector]
