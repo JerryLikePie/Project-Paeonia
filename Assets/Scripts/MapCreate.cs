@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,14 +50,15 @@ public class MapCreate : MonoBehaviour
     // 可以持续生成敌人的生成点
     class EnemyContinuousSpawnPoint
 	{
-        public string baseSpawnTile;
+        public string[] map;
+        public float intensity;
         public Queue<int> spawnPool;
 	}
     class MapInfo
     {
         public string[] mapTiles;
-        public EnemySpawnPoint[] enemySpawnPoints;
-        public EnemyContinuousSpawnPoint[] enemyConinuousSpawnPoints;
+        public Queue<EnemySpawnPoint> enemySpawnPoints;
+        public EnemyContinuousSpawnPoint enemyConinuousSpawnPoints;
         public int timeLimit;
         public int dropID;
         public int dropAmount;
@@ -82,6 +84,38 @@ public class MapCreate : MonoBehaviour
             return str;
         }
     }
+
+    class MapInfoLegacy
+    {
+        public string[] mapTiles;
+        public EnemySpawnPoint[] enemySpawnPoints;
+        public EnemyContinuousSpawnPoint enemyConinuousSpawnPoints;
+        public int timeLimit;
+        public int dropID;
+        public int dropAmount;
+        public int dropRate;
+
+        public override string ToString()
+        {
+            string str = "";
+            try
+            {
+                foreach (EnemySpawnPoint e in enemySpawnPoints)
+                {
+                    str += "spawnTile: " + e.spawnTile + "\n";
+                    foreach (string s in e.nextTile)
+                    {
+                        str += "  nextTile: " + s + "\n";
+                    }
+                }
+            }
+            catch { }
+
+
+            return str;
+        }
+    }
+
     void Start()
     {
         mapToLoad = PlayerPrefs.GetString("Stage_You_Should_Load", "Map_1-1");
@@ -252,34 +286,44 @@ public class MapCreate : MonoBehaviour
         MapGenerator mapGen = new MapGenerator();
         mapGen.setGenre(MapGenerator.MapGenre.Forest).enableRiver(false);
         mapGen.setSize(randomMapLimit);
+
         // 生成地图
-        mapInfo.mapTiles = mapGen.generate();
+        string[,] temp = mapGen.generate();
+        int tempsize = temp.GetLength(1);
+        mapInfo.mapTiles = new string[tempsize];
+        string[] mapMineOverlay = new string[tempsize];
+        for (int i = 0; i < tempsize; i++)
+        {
+            mapInfo.mapTiles[i] = temp[0, i];
+            mapMineOverlay[i] = temp[1, i];
+        }
+        
 
         // todo 测试持续生成点
         EnemyContinuousSpawnPoint continuousSpawnPoint = new EnemyContinuousSpawnPoint();
-        continuousSpawnPoint.baseSpawnTile = "Map5_18";
+        continuousSpawnPoint.map = mapInfo.mapTiles;
         continuousSpawnPoint.spawnPool = new Queue<int>();
         continuousSpawnPoint.spawnPool.Enqueue(1);
 
         // todo 检测随机生成的地图的可达性
 
         // 生成矿物
-        // todo 先做一个定点生成的吧
-        mapInfo.enemySpawnPoints = new EnemySpawnPoint[1];
-        mapInfo.enemySpawnPoints[0] = new EnemySpawnPoint();
-        mapInfo.enemySpawnPoints[0].spawnTile = "Map18_18";
-        mapInfo.enemySpawnPoints[0].spawnType = 40;
-        mapInfo.enemySpawnPoints[0].nextTile = new string[0];
-        mapInfo.enemySpawnPoints[0].spawnTime = 0;
-        mapInfo.enemySpawnPoints[0].waitTime = new int[0];
+        mapInfo.enemySpawnPoints = new Queue<EnemySpawnPoint>();
+        SpawnTheMinerals(mapInfo, mapMineOverlay);
+
 
         // 生成敌人
+        // 敌人生成的逻辑如下：
+        // 随着地区活性度提高，敌人会从未点亮的区域根据生成池来生成
+        // 不同的地区有不同的起始活跃度，而活跃度也不是无限生成，而是阶梯式提高上限
+        // 这就代表在高起始活跃度的地图上，一开始可能就有怪了
+
         //mapInfo.enemySpawnPoints = new EnemySpawnPoint[0];
-        mapInfo.enemyConinuousSpawnPoints = new EnemyContinuousSpawnPoint[1];
-        mapInfo.timeLimit = 1200;
-        mapInfo.dropID = 1;
-        mapInfo.dropAmount = 15;
-        mapInfo.dropRate = 100;
+        //mapInfo.enemyConinuousSpawnPoints = new EnemyContinuousSpawnPoint;
+        //mapInfo.timeLimit = 1200;
+        //mapInfo.dropID = 1;
+        //mapInfo.dropAmount = 15;
+        //mapInfo.dropRate = 100;
 
         return mapInfo;
     }
@@ -385,34 +429,85 @@ public class MapCreate : MonoBehaviour
     {
         if (mapInfo.enemySpawnPoints != null)
         {
-            for (int i = 0; i < mapInfo.enemySpawnPoints.Length; i++)
+            for (int i = 0; i < mapInfo.enemySpawnPoints.Count; i++)
             {
-                gameCore.scoreManager.SpawnEnemy();
-                GameObject spawnedEnemy;
-                if (mapInfo.enemySpawnPoints[i].spawnTile == "none")
+                // “敌人”实际是所有可以被我方角色针对的一个大类
+                // 因此，“敌人”类别下面不只有敌方角色，也有可被我方占领的所有设施和可被采集的资源
+                // 0-99留给了敌方角色，100+留给了其他设施和资源。
+                if (mapInfo.enemySpawnPoints.Peek().spawnType >= 100)
                 {
-                    // 如果是不需要生成的敌方单位，直接跳到下一个。
-                    continue;
+                    // 那么这就是资源类生成
+                    // 资源类是无法移动的，所以自然也不用scan map之类
+                    GameObject spawnedEnemy;
+                    if (mapInfo.enemySpawnPoints.Peek().spawnTile == "none")
+                    {
+                        // 如果是不需要生成的敌方单位，直接跳到下一个。
+                        mapInfo.enemySpawnPoints.Dequeue();
+                        continue;
+                    }
+                    GameObject tiletoSpawn = GameObject.Find(mapInfo.enemySpawnPoints.Peek().spawnTile);
+                    Hex Hex = tiletoSpawn.GetComponent<Hex>();
+                    spawnedEnemy = Instantiate(spawnEnemy[mapInfo.enemySpawnPoints.Peek().spawnType].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
+                    EnemyCombat thisEnemy = spawnedEnemy.GetComponent<EnemyCombat>();
+                    thisEnemy.hang = Hex.X;
+                    thisEnemy.lie = Hex.Z;
+                    thisEnemy.map = gameObject;
+                    thisEnemy.dollsList = unitList;
+                    spawnedEnemy.transform.parent = enemyList.transform;
                 }
-                GameObject tiletoSpawn = GameObject.Find(mapInfo.enemySpawnPoints[i].spawnTile);
-                Hex Hex = tiletoSpawn.GetComponent<Hex>();
-                spawnedEnemy = Instantiate(spawnEnemy[mapInfo.enemySpawnPoints[i].spawnType].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
-                EnemyCombat thisEnemy = spawnedEnemy.GetComponent<EnemyCombat>();
-                thisEnemy.hang = Hex.X;
-                thisEnemy.lie = Hex.Z;
-                thisEnemy.map = gameObject;
-                thisEnemy.dollsList = unitList;
-                thisEnemy.targetHex = new Queue<Hex>();
-                thisEnemy.moveWaitTime = new Queue<int>();
-                thisEnemy.deScanTheMap = new Queue<Hex>();
-                for (int j = 0; j < mapInfo.enemySpawnPoints[i].nextTile.Length; j++)
+                else
                 {
-                    thisEnemy.targetHex.Enqueue(GameObject.Find(mapInfo.enemySpawnPoints[i].nextTile[j]).GetComponent<Hex>());
-                    thisEnemy.moveWaitTime.Enqueue(mapInfo.enemySpawnPoints[i].waitTime[j]);
+                    // 是敌方单位的生成
+                    gameCore.scoreManager.SpawnEnemy();
+                    GameObject spawnedEnemy;
+                    if (mapInfo.enemySpawnPoints.Peek().spawnTile == "none")
+                    {
+                        // 如果是不需要生成的敌方单位，直接跳到下一个。
+                        mapInfo.enemySpawnPoints.Dequeue();
+                        continue;
+                    }
+                    GameObject tiletoSpawn = GameObject.Find(mapInfo.enemySpawnPoints.Peek().spawnTile);
+                    Hex Hex = tiletoSpawn.GetComponent<Hex>();
+                    spawnedEnemy = Instantiate(spawnEnemy[mapInfo.enemySpawnPoints.Peek().spawnType].gameObject, tiletoSpawn.transform.position, Quaternion.identity);
+                    EnemyCombat thisEnemy = spawnedEnemy.GetComponent<EnemyCombat>();
+                    thisEnemy.hang = Hex.X;
+                    thisEnemy.lie = Hex.Z;
+                    thisEnemy.map = gameObject;
+                    thisEnemy.dollsList = unitList;
+                    thisEnemy.targetHex = new Queue<Hex>();
+                    thisEnemy.moveWaitTime = new Queue<int>();
+                    thisEnemy.deScanTheMap = new Queue<Hex>();
+                    for (int j = 0; j < mapInfo.enemySpawnPoints.Peek().nextTile.Length; j++)
+                    {
+                        thisEnemy.targetHex.Enqueue(GameObject.Find(mapInfo.enemySpawnPoints.Peek().nextTile[j]).GetComponent<Hex>());
+                        thisEnemy.moveWaitTime.Enqueue(mapInfo.enemySpawnPoints.Peek().waitTime[j]);
+                    }
+                    spawnedEnemy.transform.parent = enemyList.transform;
+                    Hex.haveEnemy = true;
                 }
-                spawnedEnemy.transform.parent = enemyList.transform;
-                Hex.haveEnemy = true;
+                mapInfo.enemySpawnPoints.Dequeue();
             }
+        }
+    }
+
+    void SpawnTheMinerals(MapInfo mapinfo, string[] minerals)
+    {
+        // 矿物地图已经随着地图生成完了
+        for (int i = 0; i < randomMapLimit; i++)
+        {
+            for (int j = 0; j < randomMapLimit; j++)
+            {
+                if (minerals[i][j] == '1')
+                {
+                    EnemySpawnPoint thisMineral = new EnemySpawnPoint();
+                    // TODO 在这里把这个100搞成一个随机数就可以在一局里面生成不同种类的矿物
+                    thisMineral.spawnType = 100;
+                    thisMineral.spawnTile = "Map" + i + "_" + j;
+                    Debug.Log(thisMineral.spawnTile);
+                    mapinfo.enemySpawnPoints.Enqueue(thisMineral);
+                }
+            }
+
         }
     }
 
@@ -573,7 +668,7 @@ public class MapCreate : MonoBehaviour
             Vocanic
 		}
 
-        public string[] generate()
+        public string[,] generate()
 		{
             char basicTile = '1';
             this.tiles = new char[size, size];
@@ -743,6 +838,49 @@ public class MapCreate : MonoBehaviour
                 }
             }
 
+            // 生成矿物
+            char[,] mineral = new char[size, size];
+            // 首先选择一个随机矿脉点
+            int cx = 5;
+            int cy = 5;
+            do
+            {
+                cx = Random.Range(0, size);
+                cy = Random.Range(0, size);
+            } 
+            while (this.tiles[cx, cy] == '0');
+            mineral[cx, cy] = '1';
+            // 然后沿着该矿脉点向外延伸
+            float maxDistance = size / 1.5f;
+            for (int x = 0; x < size; x++)
+            {
+                for (int y = 0; y < size; y++)
+                {
+                    if (x == cx && y == cy) continue;
+
+                    float dx = x - cx;
+                    float dy = y - cy;
+                    float distance = Mathf.Sqrt(dx * dx + dy * dy);
+
+                    float outwardFalloff = Mathf.Clamp01(1 - (distance / maxDistance));
+                    float maxNoise = Mathf.Max(noiseMap[x, y]);
+                    float perlinInfluence = noiseMap[x, y] / maxNoise / 1.35f;
+                    float probability = outwardFalloff * perlinInfluence;
+
+                    if (Random.value < probability)
+                    {
+                        if (this.tiles[x,y] != '0')
+                        {
+                            mineral[x, y] = '1';
+                        }
+                    }
+                    else
+                    {
+                        mineral[x, y] = '0';
+                    }
+                }
+            }
+
 
             // 设置蓝色出生点
             this.tiles[size / 2, size / 2] = 'B';
@@ -763,8 +901,9 @@ public class MapCreate : MonoBehaviour
 
             // 填充 mapTiles
             // char[,] -> string[]
-            string[] mapTiles = new string[size];
+            string[,] mapTiles = new string[2,size];
             StringBuilder sb = new StringBuilder();
+            // 首先输入地图的信息
             for (int i = 0; i < size; i++)
             {
                 sb.Clear();
@@ -772,7 +911,17 @@ public class MapCreate : MonoBehaviour
 				{
                     sb.Append(tiles[i, j]);
 				}
-                mapTiles[i] = sb.ToString();
+                mapTiles[0,i] = sb.ToString();
+            }
+            // 然后输入矿物的信息
+            for (int i = 0; i < size; i++)
+            {
+                sb.Clear();
+                for (int j = 0; j < size; j++)
+                {
+                    sb.Append(mineral[i, j]);
+                }
+                mapTiles[1, i] = sb.ToString();
             }
             return mapTiles;
         }
