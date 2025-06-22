@@ -79,9 +79,18 @@ public class MapCreate : MonoBehaviour
                 }
             }
             catch { }
-            
-            
             return str;
+        }
+
+        public void syncLegacy(MapInfoLegacy legacy)
+        {
+            this.mapTiles = legacy.mapTiles;
+            this.enemySpawnPoints = new Queue<EnemySpawnPoint>(legacy.enemySpawnPoints);
+            this.enemyConinuousSpawnPoints = legacy.enemyConinuousSpawnPoints;
+            this.timeLimit = legacy.timeLimit;
+            this.dropID = legacy.dropID;
+            this.dropAmount = legacy.dropAmount;
+            this.dropRate = legacy.dropRate;
         }
     }
 
@@ -155,7 +164,9 @@ public class MapCreate : MonoBehaviour
         {
             // 加载地图文件
             TextAsset textToMapJson = (TextAsset)Resources.Load(mapToLoad + "_json");
-            mapInfo = JsonUtility.FromJson<MapInfo>(textToMapJson.text);
+            MapInfoLegacy oldMap = JsonUtility.FromJson<MapInfoLegacy>(textToMapJson.text);
+            mapInfo = new MapInfo();
+            mapInfo.syncLegacy(oldMap);
         }
         else
 		{
