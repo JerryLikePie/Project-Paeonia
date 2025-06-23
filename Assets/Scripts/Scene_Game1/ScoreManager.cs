@@ -11,13 +11,17 @@ public class ScoreManager : MonoBehaviour
     public GameObject enemyList;
     public GameObject friendlyList;
     public string stageName;
-    public Text killCount;
-    public Text timeCount;
+    [SerializeField] Text killCount;
+    [SerializeField] Text timeCount;
+    [SerializeField] Text dangerLevel;
     public GameObject HUD;
     public int dropID;
     public int dropAmmount;
 
     public GameCore gameCore;
+
+    float timeTick;
+    float timeSec;
 
     // 用于跨场景传递的数据包
     public struct GameScoreInfo
@@ -38,9 +42,49 @@ public class ScoreManager : MonoBehaviour
 	{
         // 监听敌方单位被击杀事件
         gameCore.eventSystem.RegistListener(GameEventType.Event_Enemy_Killed, OnEnemyKilled);
-	}
+        // 监听矿物被开采的事件
+        gameCore.eventSystem.RegistListener(GameEventType.Event_Mine_Gathered, OnMineralMined);
+        // 监听请求敌方范围生成的事件
+        gameCore.eventSystem.RegistListener(GameEventType.Event_Enemy_Spawn, OnTryEnemySpawn);
+    }
 
-	public void OnGameEnd()
+    public int returnLimit(float level)
+    {
+        switch (level)
+        {
+            case < 15f:
+                return 8;
+            case < 30f:
+                return 14;
+            case < 40f:
+                return 17;
+            case < 50f:
+                return 20;
+            case < 70f:
+                return 25;
+            case < 90f:
+                return 30;
+            default:
+                return 35;
+        }
+    }
+    public bool returnProb(float intensity)
+    {
+        float rand = Random.Range(0, 100f);
+        switch (intensity)
+        {
+            case < 15f:
+                return rand < intensity;
+            case < 50f:
+                return rand < (intensity - 15f) / 20f + 15f;
+            case < 90f:
+                return rand < (intensity - 35f) / 20f + 35f;
+            default:
+                return rand < 60f;
+        }
+    }
+
+    public void OnGameEnd()
     {
         // 得分判定：
         GameScoreInfo scores = new GameScoreInfo();
@@ -88,6 +132,28 @@ public class ScoreManager : MonoBehaviour
         killCount.text = killedEnemy + "/" + totalEnemy;
     }
 
+    // 获取矿物资源时触发
+    public void OnMineralMined(GameEventData e)
+    {
+        if (gameCore.enemyProb < 100)
+        {
+            gameCore.addIntensity(1f);
+        }
+        dangerLevel.text = gameCore.enemyProb.ToString();
+    }
+
+    // 该生成敌方单位时触发
+    public void OnTryEnemySpawn(GameEventData e)
+    {
+        // 先过一个概率判定
+        //if (!returnProb(gameCore.enemyProb)) { return; }
+        // 再过一个上限判定
+        if (totalEnemy >= returnLimit(gameCore.enemyProb)) { return; }
+
+        // 然后，生成一个单位
+        gameCore.mapCreator.tryNewSpawnEnemy();
+    }
+
     public void FriendlyDead()
     {
         this.killedDolls++;
@@ -133,6 +199,10 @@ public class ScoreManager : MonoBehaviour
             friendlyBaseCaptured = false;
             killCount.text = "0/0";
             timeCount.text = "0:00";
+            if (gameCore.enemyProb < 0)
+            {
+                dangerLevel.gameObject.SetActive(false);
+            }
         } catch
         {
             Debug.LogError(gameObject.name + "抛出了一个错误");
@@ -145,7 +215,15 @@ public class ScoreManager : MonoBehaviour
         // 更新游戏流逝的时间
         if (gameCore.IsGaming())
 		{
-            SetTimeTook((System.DateTime.Now.Ticks - gameCore.timeStart) / 10000000f);
+            timeSec = (System.DateTime.Now.Ticks - gameCore.timeStart) / 10000000f;
+            SetTimeTook(timeSec);
+            if (timeSec - timeTick > 5f && gameCore.isRandomGame())
+            {
+                timeTick = timeSec;
+                // 生成一个敌军
+                Debug.Log("尝试生成敌军");
+                gameCore.eventSystem.TriggerEvent(GameEventType.Event_Enemy_Spawn, new GameEventData(this.gameObject));
+            }
         }
     }
 }

@@ -224,4 +224,14 @@ public class GameCore : MonoBehaviour
 		enemyShown += num;
 	}
 
+	public void addIntensity(float num)
+	{
+		enemyProb += num;
+	}
+
+	public bool isRandomGame()
+	{
+		return enemyProb >= 0;
+	}
+
 }

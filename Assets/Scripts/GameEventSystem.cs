@@ -5,7 +5,9 @@ using UnityEngine;
 // 事件类型枚举，新的事件都在这里增加
 public enum GameEventType
 {
-    Event_Enemy_Killed
+    Event_Enemy_Killed,
+    Event_Mine_Gathered,
+    Event_Enemy_Spawn
 }
 
 // 回调函数的参数类型

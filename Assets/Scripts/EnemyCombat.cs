@@ -593,8 +593,16 @@ public class EnemyCombat : MonoBehaviour
         descanMap();
         canMove = false;
         // 广播单位击杀事件
-        gameCore.eventSystem.TriggerEvent(GameEventType.Event_Enemy_Killed, new GameEventData(this.gameObject));
-
+        // 如果是单位，那就是enemy killed，如果是矿物，那就是其他
+        if (this.enemy.enemy_type == 6)
+        {
+            // 矿物
+            gameCore.eventSystem.TriggerEvent(GameEventType.Event_Mine_Gathered, new GameEventData(this.gameObject));
+        }
+        else
+        {
+            gameCore.eventSystem.TriggerEvent(GameEventType.Event_Enemy_Killed, new GameEventData(this.gameObject));
+        }
         transform.gameObject.SetActive(false);
         transform.GetComponent<EnemyCombat>().enabled = false;
         //Destroy(gameObject);
