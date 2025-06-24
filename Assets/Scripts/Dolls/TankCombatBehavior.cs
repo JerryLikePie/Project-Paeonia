@@ -27,6 +27,7 @@ public class TankCombatBehavior : IDollsCombatBehaviour
 
     public override void CheckEnemy(DollsCombat context)
     {
+
         for (int j = 0; j < context.enemyList.Count; j++)
         {
             try

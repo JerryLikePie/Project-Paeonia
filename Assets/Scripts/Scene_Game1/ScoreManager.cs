@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    int killedEnemy, totalEnemy, killedDolls, totalDolls;
+    int killedEnemy, totalEnemy, killedDolls, totalDolls, currentEnemy, currentDolls;
     bool enemyBaseCaptured = false, friendlyBaseCaptured = false;
     float finalPoints, killPoints, capturePoints, timePoints, casualtyPoints, timeTook, timeLimit;
     public GameObject enemyList;
@@ -129,7 +129,9 @@ public class ScoreManager : MonoBehaviour
     public void OnEnemyKilled(GameEventData e)
     {
         this.killedEnemy++;
+        this.currentEnemy--;
         killCount.text = killedEnemy + "/" + totalEnemy;
+        gameCore.mapCreator.enemyKilled(e.source.transform);
     }
 
     // 获取矿物资源时触发
@@ -148,7 +150,7 @@ public class ScoreManager : MonoBehaviour
         // 先过一个概率判定
         //if (!returnProb(gameCore.enemyProb)) { return; }
         // 再过一个上限判定
-        if (totalEnemy >= returnLimit(gameCore.enemyProb)) { return; }
+        if (currentEnemy >= returnLimit(gameCore.enemyProb)) { return; }
 
         // 然后，生成一个单位
         gameCore.mapCreator.tryNewSpawnEnemy();
@@ -167,6 +169,7 @@ public class ScoreManager : MonoBehaviour
     public void SpawnEnemy()
     {
         this.totalEnemy++;
+        this.currentEnemy++;
         killCount.text = killedEnemy + "/" + totalEnemy;
     }
 
@@ -221,7 +224,7 @@ public class ScoreManager : MonoBehaviour
             {
                 timeTick = timeSec;
                 // 生成一个敌军
-                Debug.Log("尝试生成敌军");
+                //Debug.Log("尝试生成敌军");
                 gameCore.eventSystem.TriggerEvent(GameEventType.Event_Enemy_Spawn, new GameEventData(this.gameObject));
             }
         }

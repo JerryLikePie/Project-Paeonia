@@ -25,12 +25,12 @@ public class DollsCombat : MonoBehaviour
     [HideInInspector] public EnemyCombat setEnemy;
     [HideInInspector] public MapCreate map;
     [HideInInspector] public Unit thisUnit;
-    [HideInInspector] public bool beingSpotted = false;
+    public bool beingSpotted = false;
 
     [HideInInspector] public Transform supportTargetCord;
     public Transform aimingCircle;
-    [HideInInspector] public Queue<Hex> toCancelFogQueue = new Queue<Hex>();
-    [HideInInspector] public List<EnemyCombat> enemyList;
+     public Queue<Hex> toCancelFogQueue = new Queue<Hex>();
+     public List<EnemyCombat> enemyList;
     public UnitEntity[] dollsEntities;
     public Animator[] dollsAnimation;
 
@@ -56,7 +56,8 @@ public class DollsCombat : MonoBehaviour
     float newMaxHealth;
 
     private Vector3 up = new Vector3(0, 1, 0);
-    
+
+    List<EnemyCombat> garbageCollector1 = new List<EnemyCombat>(); // mark for removal
 
     void Start()
     {
@@ -90,6 +91,11 @@ public class DollsCombat : MonoBehaviour
         // 当然也可以像 DollsPropertyBuffed 那样在进行class级的统一反射扫描和注册
         // register buffed values
         health.registToBuffManager(GetComponent<BuffManager>());
+
+        // 注册监视器，应对后生成的敌方单位
+        map.gameCore.eventSystem.RegistListener(GameEventType.Event_Enemy_Spawn, OnTryEnemySpawn);
+        // 注册对于移动的监听器
+        map.gameCore.eventSystem.RegistListener(GameEventType.Event_Movement, Moved);
     }
     void CheckCrewNumber()
     {
@@ -136,6 +142,11 @@ public class DollsCombat : MonoBehaviour
                 }
                 if (!enemyList[i].enemy.enemy_visible)
                 {
+                    continue;
+                }
+                if (enemyList[i].getType() == 6)
+                {
+                    // is resource
                     continue;
                 }
                 if (FindDistance(transform.gameObject, enemyList[i].gameObject) <= 17.32 * (dolls.dolls_range + rangeBuff))
@@ -202,7 +213,7 @@ public class DollsCombat : MonoBehaviour
                 shot.firstImpact = true;
             } catch (System.Exception ex)
             {
-                Debug.LogError(ex);
+                Debug.LogError("Exception Throwed by " + name + "\n" + ex);
             }
         }
     }
@@ -427,7 +438,7 @@ public class DollsCombat : MonoBehaviour
             }
             catch (System.Exception ex)
             {
-                //Debug.LogError("something went wrong:"+ nextTile.name + "/" + 17.5 * (dolls.dolls_view_range + rangeBuff) + "/" + ex);
+                Debug.LogError("something went wrong with " + name + ": " + nextTile.name + "/" + 17.5 * (dolls.dolls_view_range + rangeBuff) + "\n" + ex);
             }
         }
         //Debug.Log("这次进入了" + j + "个地块，但是，k = " + k);
@@ -448,7 +459,7 @@ public class DollsCombat : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         try
         {
-            beingSpotted = false;
+            CheckStatus();
         }
         catch (System.Exception ex)
         {
@@ -576,7 +587,15 @@ public class DollsCombat : MonoBehaviour
 
     void FireAnimation()
     {
-        dollsEntities[counter].transform.GetChild(0).GetComponent<Animator>().SetTrigger("Fire");
+        try
+        {
+            dollsEntities[counter].transform.GetChild(0).GetComponent<Animator>().SetTrigger("Fire");
+        }
+        catch(System.Exception e) 
+        {
+            Debug.LogError("Animation Problems from " + name + "\n" + e.Message);
+        }
+        
     }
 
     void turnTowards(Vector3 target)
@@ -590,6 +609,42 @@ public class DollsCombat : MonoBehaviour
         return dolls.dolls_type;
     }
 
-   
+    // 该生成敌方单位时触发
+    void OnTryEnemySpawn(GameEventData e)
+    {
+        for (int i = 0; i < allEnemy.transform.childCount; i++)
+        {
+            try
+            {
+                
+                foreach (EnemyCombat ec in enemyList)
+                {
+                    if (!ec.gameObject.activeSelf)
+                    {
+                        garbageCollector1.Add(ec);
+                    }
+                }
+                foreach (EnemyCombat ec in garbageCollector1)
+                {
+                    enemyList.Remove(ec);
+                }
+                garbageCollector1.Clear();
+                EnemyCombat temp = allEnemy.transform.GetChild(i).GetComponent<EnemyCombat>();
+                if (!enemyList.Contains(temp))
+                {
+                    enemyList.Add(temp);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError(name + " Tried to Refresh Enemy List but Failed on: \n" + ex);
+            }
+        }
+    }
+
+    void Moved(GameEventData e)
+    {
+        CheckStatus();
+    }
 
 }

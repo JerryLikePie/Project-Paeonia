@@ -16,7 +16,7 @@ public class EnemyCombat : MonoBehaviour
     Gradient healthGradient;
     [HideInInspector] public int hang;
     [HideInInspector] public int lie;
-    public GameObject map;
+    public MapCreate map;
     public GameObject dollsList;
     [HideInInspector] public DollsCombat dolls, setDolls;
     [HideInInspector] public bool targetLocked = false;
@@ -192,6 +192,7 @@ public class EnemyCombat : MonoBehaviour
                 timeToWait = (currentHex == nextTarget) ? moveWaitTime.Dequeue() : randomMoveTime;
                 timeWaitStart = Time.time;
                 routeState = RSTATE_WAIT;
+                gameCore.eventSystem.TriggerEvent(GameEventType.Event_Movement, new GameEventData(this.gameObject));
             }
         }
         else if (routeState == RSTATE_WAIT)
@@ -500,7 +501,7 @@ public class EnemyCombat : MonoBehaviour
                 {
                     if (!targetLocked)
                     {
-                        //Debug.Log("Searching...");
+                        Debug.Log("Searching...");
                     }
                     if (FindDistance(transform.gameObject, dolls.gameObject) <= 17.5 * (enemy.enemy_range + rangeBuff) && dolls.gameObject.activeSelf)
                     {
@@ -514,7 +515,7 @@ public class EnemyCombat : MonoBehaviour
                             {
                                 GetComponent<AntiMissileGunController>().ProjectileCount += 30 * crewNum;
                                 setDolls = dolls;
-                                //Debug.Log("locked on to " + setDolls.name + "!");
+                                Debug.Log(this.gameObject.name + "locked on to " + setDolls.name + "!");
                                 targetLocked = true;
                             }
                             Attack();

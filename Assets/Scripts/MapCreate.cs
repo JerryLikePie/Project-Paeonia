@@ -26,6 +26,8 @@ public class MapCreate : MonoBehaviour
     float hangOffset = 14.99f;//无痕：15f，有：15.35f
     public GameObject enemyList;
     public GameObject unitList;
+    [SerializeField] GameObject resourceList;
+    [SerializeField] GameObject trashBin;
     int homeHang = 0;
     int homeLie = 0;
     public float timeLimit;
@@ -319,7 +321,7 @@ public class MapCreate : MonoBehaviour
 
         // todo 地图生成参数设置
         MapGenerator mapGen = new MapGenerator();
-        mapGen.setGenre(MapGenerator.MapGenre.Forest).enableRiver(false);
+        mapGen.setGenre(MapGenerator.MapGenre.Grassland).enableRiver(false);
         mapGen.setSize(randomMapLimit);
 
         // 生成地图
@@ -386,8 +388,8 @@ public class MapCreate : MonoBehaviour
                     ToCancelFog.isInFog = 999;
                     ToCancelFog.render = true;
                 }
-                ToCancelFog.isInFog = 999; //调试用，直接显示所有地图
-                ToCancelFog.render = true; //调试用，直接显示所有地图
+                //ToCancelFog.isInFog = 999; //调试用，直接显示所有地图
+                //ToCancelFog.render = true; //调试用，直接显示所有地图
             }
             catch
             {
@@ -486,9 +488,9 @@ public class MapCreate : MonoBehaviour
                     EnemyCombat thisEnemy = spawnedEnemy.GetComponent<EnemyCombat>();
                     thisEnemy.hang = Hex.X;
                     thisEnemy.lie = Hex.Z;
-                    thisEnemy.map = gameObject;
+                    thisEnemy.map = this;
                     thisEnemy.dollsList = unitList;
-                    spawnedEnemy.transform.parent = enemyList.transform;
+                    spawnedEnemy.transform.parent = resourceList.transform;
                 }
                 else
                 {
@@ -507,7 +509,7 @@ public class MapCreate : MonoBehaviour
                     EnemyCombat thisEnemy = spawnedEnemy.GetComponent<EnemyCombat>();
                     thisEnemy.hang = Hex.X;
                     thisEnemy.lie = Hex.Z;
-                    thisEnemy.map = gameObject;
+                    thisEnemy.map = this;
                     thisEnemy.dollsList = unitList;
                     thisEnemy.targetHex = new Queue<Hex>();
                     thisEnemy.moveWaitTime = new Queue<int>();
@@ -530,6 +532,11 @@ public class MapCreate : MonoBehaviour
                 mapInfo.enemySpawnPoints.Dequeue();
             }
         }
+    }
+
+    public void enemyKilled(Transform e)
+    {
+        e.parent = trashBin.transform;
     }
 
     void SpawnTheMinerals(MapInfo mapinfo, string[] minerals)

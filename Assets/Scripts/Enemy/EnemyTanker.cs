@@ -55,9 +55,9 @@ public class EnemyTanker : IEnemyBehavior
                     }
                 }
             }
-            catch
+            catch (System.Exception e) 
             {
-
+                Debug.LogError(name + " with the range of " + newRange + " tried to scan for targets but failed on: \n" + e);
             }
         }
     }
