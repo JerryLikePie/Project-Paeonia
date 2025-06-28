@@ -52,6 +52,8 @@ public class ScoreManager : MonoBehaviour
     {
         switch (level)
         {
+            case < 5f:
+                return 2;
             case < 15f:
                 return 8;
             case < 30f:
@@ -61,9 +63,9 @@ public class ScoreManager : MonoBehaviour
             case < 50f:
                 return 20;
             case < 70f:
-                return 25;
+                return 23;
             case < 90f:
-                return 30;
+                return 25;
             default:
                 return 35;
         }
@@ -109,10 +111,12 @@ public class ScoreManager : MonoBehaviour
         gameCore.sceneMessager.SaveData("game1.scores", scores);
     }
 
-    public void SetTimeTook(float time)
+    public void UpdateUI(float time)
     {
         this.timeTook = time;
         timeCount.text = ((int) time / 60) + ":" + ((int) time % 60).ToString("00");
+        dangerLevel.text = Mathf.Floor(gameCore.enemyProb).ToString();
+        killCount.text = killedEnemy + "/" + totalEnemy;
     }
 
     public float GetTimeLimit()
@@ -130,7 +134,7 @@ public class ScoreManager : MonoBehaviour
     {
         this.killedEnemy++;
         this.currentEnemy--;
-        killCount.text = killedEnemy + "/" + totalEnemy;
+        
         gameCore.mapCreator.enemyKilled(e.source.transform);
     }
 
@@ -141,7 +145,6 @@ public class ScoreManager : MonoBehaviour
         {
             gameCore.addIntensity(1f);
         }
-        dangerLevel.text = gameCore.enemyProb.ToString();
     }
 
     // 该生成敌方单位时触发
@@ -170,7 +173,6 @@ public class ScoreManager : MonoBehaviour
     {
         this.totalEnemy++;
         this.currentEnemy++;
-        killCount.text = killedEnemy + "/" + totalEnemy;
     }
 
     public void FriendlyBaseLost()
@@ -219,7 +221,7 @@ public class ScoreManager : MonoBehaviour
         if (gameCore.IsGaming())
 		{
             timeSec = (System.DateTime.Now.Ticks - gameCore.timeStart) / 10000000f;
-            SetTimeTook(timeSec);
+            UpdateUI(timeSec);
             if (timeSec - timeTick > 5f && gameCore.isRandomGame())
             {
                 timeTick = timeSec;
@@ -227,6 +229,13 @@ public class ScoreManager : MonoBehaviour
                 if (gameCore.notPeaceful())
                 {
                     gameCore.eventSystem.TriggerEvent(GameEventType.Event_Enemy_Spawn, new GameEventData(this.gameObject));
+                }
+            }
+            if (timeSec > 120f)
+            {
+                if (!gameCore.returnButton.activeSelf)
+                {
+                    gameCore.returnButton.SetActive(true);
                 }
             }
         }

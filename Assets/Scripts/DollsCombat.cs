@@ -29,8 +29,8 @@ public class DollsCombat : MonoBehaviour
 
     [HideInInspector] public Transform supportTargetCord;
     public Transform aimingCircle;
-     public Queue<Hex> toCancelFogQueue = new Queue<Hex>();
-     public List<EnemyCombat> enemyList;
+    [HideInInspector] public Queue<Hex> toCancelFogQueue = new Queue<Hex>();
+    [HideInInspector] public List<EnemyCombat> enemyList;
     public UnitEntity[] dollsEntities;
     public Animator[] dollsAnimation;
 

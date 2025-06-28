@@ -657,7 +657,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &37636165
 RectTransform:
   m_ObjectHideFlags: 0
@@ -721,9 +721,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 37636169}
-        m_TargetAssemblyTypeName: UIButtons, Assembly-CSharp
-        m_MethodName: ToMainMenu
+      - m_Target: {fileID: 1006374471}
+        m_TargetAssemblyTypeName: GameCore, Assembly-CSharp
+        m_MethodName: EndGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7432,6 +7432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lootManager: {fileID: 667696361}
+  inventoryManager: {fileID: 0}
   mapCreator: {fileID: 1408817940}
   scoreManager: {fileID: 118310997}
   sceneMessager: {fileID: 0}
@@ -7441,6 +7442,7 @@ MonoBehaviour:
   bgmNormal: {fileID: 408932473}
   bgmIntro: {fileID: 349352360}
   enemyProb: 0
+  returnButton: {fileID: 37636164}
   timeStart: 0
 --- !u!4 &1006374472
 Transform:
@@ -10412,6 +10414,7 @@ MonoBehaviour:
   unitList: {fileID: 1972306456}
   resourceList: {fileID: 1962741974}
   trashBin: {fileID: 1578749736}
+  tempSpawnPool: 0100000002000000
   timeLimit: 180
   randomMapLimit: 30
   RedPoint: {fileID: 0}

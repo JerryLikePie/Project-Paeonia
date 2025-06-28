@@ -16,6 +16,10 @@ public class EnemyTanker : IEnemyBehavior
 
     public override void CheckDolls(EnemyCombat context)
     {
+        for (int j = 0; j < context.crewNum; j++)
+        {
+            context.enemyEntities[j].flip(context.isGoingLeft(checkGound: true));
+        }
         if (context.canFire)
         {
             try

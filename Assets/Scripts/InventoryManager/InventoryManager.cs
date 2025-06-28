@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -76,19 +76,29 @@ public class InventoryManager : MonoBehaviour
     public void AddResource(int id, int num)
     {
         menuInventory.AddItem(menuInventory.container[id].item, num);
-        UpdateInventory();
     }
 
     public void AddResource(ItemObject item, int num)
     {
         menuInventory.AddItem(item, num);
-        UpdateInventory();
+    }
+
+    public void AddResource(string name, int num)
+    {
+        foreach (InventorySlot i in menuInventory.container)
+        {
+            //Debug.Log("Inquired " + name + ", got " + i.item.itemName);
+            if (i.item.itemName == name)
+            {
+                menuInventory.AddItem(i.item, num);
+            }
+        }
+        
     }
 
     public void DecreaseResource(int id, int num)
     {
         menuInventory.MinusItem(menuInventory.container[id].item, num);
-        UpdateInventory();
     }
     public void AddOneResource(int id)
     {
@@ -108,11 +118,31 @@ public class InventoryManager : MonoBehaviour
         UpdateInventory();
     }
 
+    public void ClearAllResources()
+    {
+        foreach (InventorySlot i in menuInventory.container)
+        {
+            i.amount = 0;
+        }
+        AddResource("й╞см", 500);
+        SaveValues();
+    }
+    public void GainAllResources()
+    {
+        AddResource("й╞см", 500);
+        return;
+        foreach (InventorySlot i in menuInventory.container)
+        {
+            i.amount = 9999;
+        }
+        SaveValues();
+    }
+
     public int InquireResource(string name)
     {
         foreach (InventorySlot i in menuInventory.container)
         {
-            Debug.Log("Inquired " + name + ", got " + i.item.itemName);
+            //Debug.Log("Inquired " + name + ", got " + i.item.itemName);
             if (i.item.itemName == name)
             {
                 return i.amount;

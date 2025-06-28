@@ -357,6 +357,8 @@ public class EnemyCombat : MonoBehaviour
     {
         try
         {
+            // check sprite direction
+            
             for (int i = 0; i <= dollsList.transform.childCount - 1; i++)
             {
                 dolls = dollsList.transform.GetChild(i).GetComponent<DollsCombat>();
@@ -440,6 +442,28 @@ public class EnemyCombat : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    public bool isGoingLeft(bool checkGound)
+    {
+        if (aimingCircle != null)
+        {
+            Vector3 forward = aimingCircle.forward;
+            Vector3 camRight = Camera.main.transform.right;
+            float relative = Vector3.Dot(forward, camRight);
+            if (relative < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return isGoingLeft();
         }
     }
 
@@ -653,6 +677,14 @@ public class EnemyCombat : MonoBehaviour
         }
         healthBar.value = Mathf.Lerp(healthBar.value, percentageHealth, 20f * Time.deltaTime);
         healthBar.fillRect.GetComponent<Image>().color = healthGradient.Evaluate(percentageHealth);
+        if (percentageHealth >= 1f && healthBar.gameObject.activeSelf)
+        {
+            healthBar.gameObject.SetActive(false);
+        }
+        else if (percentageHealth < 1f && !healthBar.gameObject.activeSelf)
+        {
+            healthBar.gameObject.SetActive(true);
+        }
         if (health <= 0)
         {
             WithDrawl();

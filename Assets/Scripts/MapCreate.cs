@@ -27,6 +27,7 @@ public class MapCreate : MonoBehaviour
     public GameObject unitList;
     [SerializeField] GameObject resourceList;
     [SerializeField] GameObject trashBin;
+    [SerializeField] List<int> tempSpawnPool;
     int homeHang = 0;
     int homeLie = 0;
     public float timeLimit;
@@ -56,14 +57,14 @@ public class MapCreate : MonoBehaviour
         public string[] map;
         public List<int> spawnPool;
         public string home;
-        int limit = 0;
 
-
-        public EnemySpawnPoint ContinuousSpawn(int mapsize, string blueBase)
+        public EnemySpawnPoint ContinuousSpawn(int mapsize, string blueBase, List<int> tempspawn)
         {
             int randX = 5;
             int randY = 5;
             int guard = 0;
+            //TODO 目前的pool是手动给的，之后要放在不同preset里面
+            spawnPool = tempspawn;
             do
             {
                 randX = Random.Range(0, mapsize);
@@ -72,7 +73,7 @@ public class MapCreate : MonoBehaviour
             } while (map[randX][randY] == '0' && guard < 30); //TODO 增加一个对是否在战争迷雾中的检测
 
             EnemySpawnPoint spawnPoint = new EnemySpawnPoint();
-            spawnPoint.spawnType = 1; //TODO 把这个固定的数值改为从生成池里随机选取一个
+            spawnPoint.spawnType = spawnPool[Random.Range(0,spawnPool.Count)]; //TODO 把这个固定的数值改为从生成池里随机选取一个
             spawnPoint.spawnTile = "Map"+randX+"_"+randY;
             spawnPoint.nextTile = new string[1];
             spawnPoint.nextTile[0] = blueBase;
@@ -338,9 +339,6 @@ public class MapCreate : MonoBehaviour
         // todo 测试持续生成点
         mapInfo.enemyConinuousSpawnPoints = new EnemyContinuousSpawnPoint();
         mapInfo.enemyConinuousSpawnPoints.map = mapInfo.mapTiles;
-        mapInfo.enemyConinuousSpawnPoints.spawnPool = new List<int>();
-        mapInfo.enemyConinuousSpawnPoints.spawnPool.Add(1);
-        mapInfo.enemyConinuousSpawnPoints.spawnPool.Add(2);
 
         // 生成矿物
         mapInfo.enemySpawnPoints = new Queue<EnemySpawnPoint>();
@@ -436,7 +434,11 @@ public class MapCreate : MonoBehaviour
                 spawnedUnit.GetComponent<DollsCombat>().map = this;
 
                 //spawnedUnit.GetComponent<DollsCombat>().FogOfWar();
-                nextHex.haveUnit = true;
+                // 如果是空军的话，则不能占用地面格子
+                if (spawnedUnit.GetComponent<DollsProperty>().dolls_type != 3)
+                {
+                    nextHex.haveUnit = true;
+                }
                 spawnedUnit.transform.parent = unitList.transform;
                 Skills[slots[i].spawnID].transform.SetParent(SkillSlot[tempCounter].transform);
                 tempCounter++;
@@ -464,8 +466,8 @@ public class MapCreate : MonoBehaviour
     {
         if (mapInfo.enemySpawnPoints != null)
         {
-            Debug.Log()
-            for (int i = 0; i < mapInfo.enemySpawnPoints.Count; i++)
+            int tempTotal = mapInfo.enemySpawnPoints.Count;
+            for (int i = 0; i < tempTotal; i++)
             {
                 Debug.Log("生成ID：" + mapInfo.enemySpawnPoints.Peek().spawnType + " 生成位置：" + mapInfo.enemySpawnPoints.Peek().spawnTile);
                 // “敌人”实际是所有可以被我方角色针对的一个大类
@@ -500,6 +502,7 @@ public class MapCreate : MonoBehaviour
                     if (mapInfo.enemySpawnPoints.Peek().spawnTile == "none")
                     {
                         // 如果是不需要生成的敌方单位，直接跳到下一个。
+                        Debug.LogWarning("There's an enemy that doesn't have a spawn tile");
                         mapInfo.enemySpawnPoints.Dequeue();
                         continue;
                     }
@@ -566,7 +569,7 @@ public class MapCreate : MonoBehaviour
         {
             //先清空所有之前的生成
             mapInfo.enemySpawnPoints.Clear();
-            mapInfo.enemySpawnPoints.Enqueue(mapInfo.enemyConinuousSpawnPoints.ContinuousSpawn(randomMapLimit, HomePoint.name));
+            mapInfo.enemySpawnPoints.Enqueue(mapInfo.enemyConinuousSpawnPoints.ContinuousSpawn(randomMapLimit, HomePoint.name, tempSpawnPool));
             SpawnTheEnemy(mapInfo);
             return true;
         }
@@ -910,12 +913,14 @@ public class MapCreate : MonoBehaviour
             // 首先选择一个随机矿脉点
             int cx = 5;
             int cy = 5;
+            int guard = 0;
             do
             {
                 cx = Random.Range(0, size);
                 cy = Random.Range(0, size);
+                guard++;
             } 
-            while (this.tiles[cx, cy] == '0');
+            while (this.tiles[cx, cy] == '0' && guard < 100);
             mineral[cx, cy] = '1';
             // 然后沿着该矿脉点向外延伸
             float maxDistance = size / 2f;
@@ -931,10 +936,10 @@ public class MapCreate : MonoBehaviour
 
                     float outwardFalloff = Mathf.Clamp01(1 - (distance / maxDistance));
                     float maxNoise = Mathf.Max(noiseMap[x, y]);
-                    float perlinInfluence = noiseMap[x, y] / maxNoise / 1.5f;
+                    float perlinInfluence = noiseMap[x, y] / maxNoise;
                     float probability = outwardFalloff * perlinInfluence;
 
-                    if (Random.value < probability)
+                    if (Random.value < probability * probability)
                     {
                         if (this.tiles[x,y] != '0')
                         {

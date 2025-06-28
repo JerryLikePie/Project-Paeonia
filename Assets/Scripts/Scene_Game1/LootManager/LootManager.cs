@@ -57,16 +57,15 @@ public class LootManager : MonoBehaviour
                 float totalAmount = 0;
                 if (totalLoots.TryGetValue(loot.lootItem, out totalAmount))
                 {
-                    totalAmount += loot.amount * Random.Range(0.5f, 1);
+                    totalAmount += loot.amount * Random.Range(0, 1);
                     totalLoots[loot.lootItem] = totalAmount;
                 }
                 else
                 {
                     totalLoots.Add(loot.lootItem, loot.amount);
                 }
-                continue;
             }
-            if (loot.probability >= Random.Range(0, 1))
+            else if (loot.probability >= Random.Range(0, 1))
 			{
                 float totalAmount = 0;
                 if (totalLoots.TryGetValue(loot.lootItem, out totalAmount))

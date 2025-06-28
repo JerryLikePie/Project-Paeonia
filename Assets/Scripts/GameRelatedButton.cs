@@ -93,7 +93,7 @@ public class GameRelatedButton : MonoBehaviour
     {
         // 进入战斗或教程
         // 在Inspector输入decreaseAmount来扣除一定的油量
-        Debug.Log(inventory.InquireResource("石油"));
+        // Debug.Log(inventory.InquireResource("石油"));
         if (inventory.InquireResource("石油") >= decreaseAmount)
         {
             inventory.DecreaseResource(2, decreaseAmount);

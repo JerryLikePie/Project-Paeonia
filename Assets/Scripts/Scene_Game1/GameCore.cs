@@ -49,6 +49,8 @@ public class GameCore : MonoBehaviour
 	public float enemyProb;
 	// 战场类型
 	bool continousSpawn;
+	// 回退按钮
+	public GameObject returnButton;
 
     // 记录关卡开始的时间
     [HideInInspector] public long timeStart; 
@@ -66,7 +68,15 @@ public class GameCore : MonoBehaviour
 		// SceneMessager 是跨场景对象，动态绑定
 		sceneMessager = GameObject.Find("SceneMessager").GetComponent<SceneMessager>();
 		// Inventory manager同理
-		inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+		try {
+            inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+        } catch
+		{
+			Debug.LogError("The inventory manager is not found but that's OK, " +
+				"as it only happens during debug.\n" +
+				"If the game was entered normally then there's no problem, so ignore this,");
+		}
+		
         Debug.Assert(sceneMessager != null);
 		Debug.Assert(eventSystem != null);
 
