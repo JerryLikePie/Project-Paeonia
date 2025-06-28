@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e0de6064b6c7904a83ca309db6bc6cc, type: 3}
-  m_Name: Ammo105
+  m_Name: AlloyB2
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 21300000, guid: e18be3a170f963548a204adb8a26bb9b, type: 3}
+  itemSprite: {fileID: 21300000, guid: 2c0714c78243efd4995440dc53f54a06, type: 3}
   itemType: 5
-  itemName: "105mm \u5F39\u836F"
-  itemDescription: "\u9002\u7528\u4E8E105mm\u69B4\u5F39\u70AE\u7684\u9AD8\u7206\u5F39\u836F"
+  itemName: "\u94DD"
+  itemDescription: "\u5BCC\u542B\u94DD\u7684\u707E\u517D\u964D\u89E3\u7269"

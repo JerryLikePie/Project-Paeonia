@@ -18,7 +18,7 @@ public class Inventory : ScriptableObject
         bool hasItem = false;
         for (int i = 0; i < container.Count; i++)
         {
-            if (container[i].item == item)
+            if (container[i].isItem(item))
             {
                 container[i].AddAmount(amount);
                 hasItem = true;
@@ -36,7 +36,7 @@ public class Inventory : ScriptableObject
         bool hasItem = false;
         for (int i = 0; i < container.Count; i++)
         {
-            if (container[i].item == item)
+            if (container[i].isItem(item))
             {
                 if (container[i].amount < amount)
                 {
@@ -49,6 +49,7 @@ public class Inventory : ScriptableObject
         }
         if (!hasItem)
         {
+            // 没有该物体，就不减
         }
     }
 }
@@ -68,5 +69,10 @@ public class InventorySlot
     public void AddAmount(int num)
     {
         amount += num;
+    }
+
+    public bool isItem(ItemObject item) 
+    {
+        return (item == this.item);
     }
 }

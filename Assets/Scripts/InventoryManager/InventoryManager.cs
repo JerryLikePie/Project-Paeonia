@@ -8,12 +8,12 @@ public class InventoryManager : MonoBehaviour
 {
     public Item[] itemPool;
     public Inventory menuInventory;
-    public ItemListButton[] buttonsList;
-    public Image displayImage;
-    public Text itemTitle;
-    public Text itemDescription;
-    public Text moneyDisplay;
-    public Text oilDisplay;
+    [SerializeField] ItemListButton[] buttonsList;
+    [SerializeField] Image displayImage;
+    [SerializeField] Text itemTitle;
+    [SerializeField] Text itemDescription;
+    [SerializeField] Text moneyDisplay;
+    [SerializeField] Text oilDisplay;
     public int[] itemsNum;
 
     /*
@@ -25,6 +25,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
+        // awake is before start
         LoadinValues();
         DontDestroyOnLoad(gameObject);
         for (int i = 0; i < Object.FindObjectsOfType<InventoryManager>().Length; i++)
@@ -79,6 +80,12 @@ public class InventoryManager : MonoBehaviour
         UpdateInventory();
     }
 
+    public void AddResource(ItemObject item, int num)
+    {
+        menuInventory.AddItem(item, num);
+        UpdateInventory();
+    }
+
     public void DecreaseResource(int id, int num)
     {
         menuInventory.MinusItem(itemPool[id].item, num);
@@ -112,6 +119,25 @@ public class InventoryManager : MonoBehaviour
                 name = menuInventory.container[i].item.itemName + "_num";
                 itemsNum[i] = PlayerPrefs.GetInt(name, 0);
                 menuInventory.container[i].amount = itemsNum[i];
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError(ex);
+        }
+    }
+
+    public void SaveValues()
+    {
+        try
+        {
+            for (int i = 0; i < menuInventory.container.Count; i++)
+            {
+                if (itemsNum[i] != menuInventory.container[i].amount)
+                {
+                    string name = menuInventory.container[i].item.itemName + "_num";
+                    PlayerPrefs.SetInt(name, menuInventory.container[i].amount);
+                }
             }
         }
         catch (System.Exception ex)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MapManage : MonoBehaviour
 {
+    // ·ÏÆú´úÂë£¬¿ÉÒÔÉ¾³ı
     public InventoryManager inventory;
     private void Awake()
     {

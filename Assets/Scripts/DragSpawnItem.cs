@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class DragSpawnItem: MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
+    // 疑似废弃代码，可以删除
     MouseManager mouseManager;
     DragSpawnManager spawnManager;
     Hex tiletoSpawn;
@@ -61,14 +62,9 @@ public class DragSpawnItem: MonoBehaviour, IDragHandler, IEndDragHandler, IBegin
     }
     void spawnDoll(Hex tiletoSpawn)
     {
-        MapManage mapManager = Object.FindObjectsOfType<MapManage>()[0];
-        if (mapManager.inventory.itemsNum[2] - 5 < 0)
-        {
-            return;
-        }
         if (spawn != null)
         {
-            mapManager.UnitSpawned(5);
+            
             GameObject spawnedUnit = Instantiate(spawn, tiletoSpawn.transform.position, Quaternion.identity);
             Debug.Log("在" + tiletoSpawn.name + "生成了" + spawn.name);
             spawnedUnit.GetComponent<Unit>().hang = tiletoSpawn.X;

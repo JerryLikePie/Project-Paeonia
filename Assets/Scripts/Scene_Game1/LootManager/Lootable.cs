@@ -6,6 +6,7 @@ using UnityEngine;
 // 建议参考 EnemyLootable
 public class Lootable : MonoBehaviour
 {
+	//将这个脚本挂在击杀后会掉落物资的单位上面
 	[SerializeField] public List<Loot> loots;
 
 	protected GameCore gameCore;

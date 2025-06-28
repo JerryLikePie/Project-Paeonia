@@ -321,7 +321,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02eeae190cf560e458cd7b3c29c30dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loots: []
+  loots:
+  - lootItem: {fileID: 11400000, guid: 1d9051512d5e94249b3b9b48d11c8c21, type: 2}
+    amount: 10
+    probability: 0
+    variable: 1
+  - lootItem: {fileID: 11400000, guid: cee9dbc7e017e2942abad6fa5953d79b, type: 2}
+    amount: 2
+    probability: 0.7
+    variable: 0
+  - lootItem: {fileID: 11400000, guid: 25ace5332ae38744e80f566546c17a47, type: 2}
+    amount: 2
+    probability: 0.4
+    variable: 0
+  - lootItem: {fileID: 11400000, guid: 48f6f0a34bb6ee847856dda8ec39031f, type: 2}
+    amount: 2
+    probability: 0.5
+    variable: 0
+  - lootItem: {fileID: 11400000, guid: 1c766fb19e5d6cd4f999b41db72444f6, type: 2}
+    amount: 2
+    probability: 0.75
+    variable: 0
 --- !u!114 &-2018044379118763344
 MonoBehaviour:
   m_ObjectHideFlags: 0

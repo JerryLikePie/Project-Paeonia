@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e0de6064b6c7904a83ca309db6bc6cc, type: 3}
-  m_Name: Alloy
+  m_Name: AmmoAP
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 21300000, guid: fd4c9302a5091e54ab3070b9fadccdd9, type: 3}
-  itemType: 0
-  itemName: "\u5408\u91D1"
-  itemDescription: "CITY\u5185\u90E8\u5927\u89C4\u6A21\u4F7F\u7528\u7684\u5404\u79CD\u5408\u91D1\u8D44\u6E90\u3002"
+  itemSprite: {fileID: 21300000, guid: e18be3a170f963548a204adb8a26bb9b, type: 3}
+  itemType: 5
+  itemName: "\u7279\u79CD\u5E72\u6D89\u5F39"
+  itemDescription: "\u5404\u578B\u9002\u914D\u6B7C\u51FB\u8F66\u7684\u7279\u79CD\u5BF9\u707E\u517D\u5F39\u836F"

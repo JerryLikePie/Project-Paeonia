@@ -27,6 +27,7 @@ public class GameCore : MonoBehaviour
 
 	// 关卡掉落
 	public LootManager lootManager;
+	public InventoryManager inventoryManager;
 	// 地图加载与生成
 	public MapCreate mapCreator;
 	// 得分管理
@@ -63,7 +64,9 @@ public class GameCore : MonoBehaviour
 		Debug.Assert(scoreManager != null);
 		// SceneMessager 是跨场景对象，动态绑定
 		sceneMessager = GameObject.Find("SceneMessager").GetComponent<SceneMessager>();
-		Debug.Assert(sceneMessager != null);
+		// Inventory manager同理
+		inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+        Debug.Assert(sceneMessager != null);
 		Debug.Assert(eventSystem != null);
 
 		// 
