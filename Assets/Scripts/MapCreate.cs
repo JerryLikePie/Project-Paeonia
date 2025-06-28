@@ -464,6 +464,7 @@ public class MapCreate : MonoBehaviour
     {
         if (mapInfo.enemySpawnPoints != null)
         {
+            Debug.Log()
             for (int i = 0; i < mapInfo.enemySpawnPoints.Count; i++)
             {
                 Debug.Log("生成ID：" + mapInfo.enemySpawnPoints.Peek().spawnType + " 生成位置：" + mapInfo.enemySpawnPoints.Peek().spawnTile);

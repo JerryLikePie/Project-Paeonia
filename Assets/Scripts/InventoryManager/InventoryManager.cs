@@ -6,7 +6,6 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
-    public Item[] itemPool;
     public Inventory menuInventory;
     [SerializeField] ItemListButton[] buttonsList;
     [SerializeField] Image displayImage;
@@ -14,7 +13,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] Text itemDescription;
     [SerializeField] Text moneyDisplay;
     [SerializeField] Text oilDisplay;
-    public int[] itemsNum;
+    [SerializeField] int[] itemsNum;
 
     /*
      * 1 = ºÏ½ð
@@ -76,7 +75,7 @@ public class InventoryManager : MonoBehaviour
 
     public void AddResource(int id, int num)
     {
-        menuInventory.AddItem(itemPool[id].item, num);
+        menuInventory.AddItem(menuInventory.container[id].item, num);
         UpdateInventory();
     }
 
@@ -88,25 +87,38 @@ public class InventoryManager : MonoBehaviour
 
     public void DecreaseResource(int id, int num)
     {
-        menuInventory.MinusItem(itemPool[id].item, num);
+        menuInventory.MinusItem(menuInventory.container[id].item, num);
         UpdateInventory();
     }
     public void AddOneResource(int id)
     {
-        menuInventory.AddItem(itemPool[id].item, 1);
+        menuInventory.AddItem(menuInventory.container[id].item, 1);
         UpdateInventory();
     }
 
     public void DecreaseOneResource(int id)
     {
-        menuInventory.MinusItem(itemPool[id].item, 1);
+        menuInventory.MinusItem(menuInventory.container[id].item, 1);
         UpdateInventory();
     }
 
     public void Decrease500Resource(int id)
     {
-        menuInventory.MinusItem(itemPool[id].item, 500);
+        menuInventory.MinusItem(menuInventory.container[id].item, 500);
         UpdateInventory();
+    }
+
+    public int InquireResource(string name)
+    {
+        foreach (InventorySlot i in menuInventory.container)
+        {
+            Debug.Log("Inquired " + name + ", got " + i.item.itemName);
+            if (i.item.itemName == name)
+            {
+                return i.amount;
+            }
+        }
+        return -1;
     }
 
     public void LoadinValues()

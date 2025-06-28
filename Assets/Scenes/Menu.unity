@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37089851, g: 0.3783701, b: 0.3572253, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13965,18 +13965,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce674630c18f42b45974b9e015564101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPool:
-  - {fileID: 2071810773}
-  - {fileID: 1053700032}
-  - {fileID: 272328765}
-  - {fileID: 2023137219}
-  - {fileID: 250806966}
-  - {fileID: 1413480601}
-  - {fileID: 516736937}
-  - {fileID: 1162037180}
-  - {fileID: 735455687}
-  - {fileID: 434617781}
-  - {fileID: 1512430496}
   menuInventory: {fileID: 11400000, guid: de7bad0df4465ad4a931b4b670030710, type: 2}
   buttonsList:
   - {fileID: 972309950}
@@ -13994,7 +13982,7 @@ MonoBehaviour:
   itemDescription: {fileID: 1563455231}
   moneyDisplay: {fileID: 1057058566}
   oilDisplay: {fileID: 1843074302}
-  itemsNum: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  itemsNum: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!4 &524874588
 Transform:
   m_ObjectHideFlags: 0
@@ -51354,7 +51342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1849964161
 RectTransform:
   m_ObjectHideFlags: 0
@@ -59961,7 +59949,7 @@ PrefabInstance:
     - target: {fileID: 370440443115613400, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 15802306
+      value: 16146182
       objectReference: {fileID: 0}
     - target: {fileID: 422092602320150898, guid: 8ecdc9beed89cd947af210c9487050f4,
         type: 3}

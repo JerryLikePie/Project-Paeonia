@@ -47,10 +47,11 @@ public class GameCore : MonoBehaviour
 	private int enemyShown;
 	// 活性化值，用于在远征关卡里面生成敌人
 	public float enemyProb;
+	// 战场类型
+	bool continousSpawn;
 
-
-	// 记录关卡开始的时间
-	[HideInInspector] public long timeStart; 
+    // 记录关卡开始的时间
+    [HideInInspector] public long timeStart; 
 
 
 	// 【【【 重要 】】】
@@ -81,6 +82,7 @@ public class GameCore : MonoBehaviour
         // 直接进入游戏
         if (mapCreator.IsTutorial())
 		{
+			continousSpawn = false;
 			gameState = GameState.GS_Game_Loading;
 			LoadGame(BattleType.Tutorial);
 
@@ -163,13 +165,16 @@ public class GameCore : MonoBehaviour
 		switch (gameType)
 		{
 			case BattleType.Tutorial:
+				continousSpawn = false;
 				mapCreator.SpawnGameWithPreset();
 				break;
 			case BattleType.Normal:
-				mapCreator.SpawnGame();
+                continousSpawn = false;
+                mapCreator.SpawnGame();
 				break;
 			case BattleType.Operation:
-				mapCreator.SpawnGame(generateRandomMap: true);
+                continousSpawn = true;
+                mapCreator.SpawnGame(generateRandomMap: true);
 				break;
 		}
 	}
@@ -229,12 +234,20 @@ public class GameCore : MonoBehaviour
 
 	public void addIntensity(float num)
 	{
-		enemyProb += num;
+		if (enemyProb <= 100)
+		{
+            enemyProb += num;
+        }
 	}
 
+	public bool notPeaceful()
+	{
+		return enemyProb > 0;
+	}
+	
 	public bool isRandomGame()
 	{
-		return enemyProb >= 0;
+		return continousSpawn;
 	}
 
 }

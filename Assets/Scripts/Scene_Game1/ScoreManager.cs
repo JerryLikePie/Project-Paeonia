@@ -148,7 +148,7 @@ public class ScoreManager : MonoBehaviour
     public void OnTryEnemySpawn(GameEventData e)
     {
         // 先过一个概率判定
-        //if (!returnProb(gameCore.enemyProb)) { return; }
+        if (!returnProb(gameCore.enemyProb)) { return; }
         // 再过一个上限判定
         if (currentEnemy >= returnLimit(gameCore.enemyProb)) { return; }
 
@@ -223,9 +223,11 @@ public class ScoreManager : MonoBehaviour
             if (timeSec - timeTick > 5f && gameCore.isRandomGame())
             {
                 timeTick = timeSec;
-                // 生成一个敌军
-                //Debug.Log("尝试生成敌军");
-                gameCore.eventSystem.TriggerEvent(GameEventType.Event_Enemy_Spawn, new GameEventData(this.gameObject));
+                gameCore.addIntensity(1.0f / 6.0f); //每三十秒，自动加一点活性化
+                if (gameCore.notPeaceful())
+                {
+                    gameCore.eventSystem.TriggerEvent(GameEventType.Event_Enemy_Spawn, new GameEventData(this.gameObject));
+                }
             }
         }
     }
