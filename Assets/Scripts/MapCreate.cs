@@ -830,9 +830,9 @@ public class MapCreate : MonoBehaviour
                 basicTile = '3'; // 3 - 沼泽地
                 fillWith(basicTile);
 
-                float[,] land = MyNoise.TopPercentageOf(tilesVal, 0.85f); // all lower are water
-                float[,] grass = MyNoise.TopPercentageOf(tilesVal, 0.5f); // 4 - grass
-                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.1f); // 4 - forest
+                float[,] land = MyNoise.TopPercentageOf(tilesVal, 0.8f); // all lower are water
+                float[,] grass = MyNoise.TopPercentageOf(tilesVal, 0.3f); // 4 - grass
+                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.2f); // 4 - forest
                 float[,] river = MyNoise.GenerateRiver(tilesVal, true, 1); // 河流
 
                 //填充其他地形
@@ -874,7 +874,7 @@ public class MapCreate : MonoBehaviour
                 basicTile = '1'; // 1 - 草地
                 fillWith(basicTile);
 
-                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.8f); // 4 - forest
+                float[,] forest = MyNoise.TopPercentageOf(tilesVal, 0.7f); // 4 - forest
                 float[,] hills = MyNoise.TopPercentageOf(tilesVal, 0.1f); // 5 - hills
                 float[,] mountain = MyNoise.TopPercentageOf(tilesVal, 0.03f); // 6 - mountain
                 float[,] river = MyNoise.GenerateRiver(tilesVal, false, 1); // 河流

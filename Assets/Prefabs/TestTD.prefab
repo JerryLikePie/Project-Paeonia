@@ -708,7 +708,7 @@ MonoBehaviour:
   enemy_artillery: 0
   enemy_skill_point: 0
   enemy_skill_fullcharge: 0
-  enemy_moveTime: 16
+  enemy_moveTime: 35
   enemy_withdrew: 0
   enemy_visible: 0
   enemy_mag: 1

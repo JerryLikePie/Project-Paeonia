@@ -143,7 +143,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (gameCore.enemyProb < 100)
         {
-            gameCore.addIntensity(1f);
+            gameCore.addIntensity(2f);
         }
     }
 
@@ -225,7 +225,7 @@ public class ScoreManager : MonoBehaviour
             if (timeSec - timeTick > 5f && gameCore.isRandomGame())
             {
                 timeTick = timeSec;
-                gameCore.addIntensity(1.0f / 6.0f); //每三十秒，自动加一点活性化
+                gameCore.addIntensity(1.0f / 10.0f); //每五十秒，自动加一点活性化
                 if (gameCore.notPeaceful())
                 {
                     gameCore.eventSystem.TriggerEvent(GameEventType.Event_Enemy_Spawn, new GameEventData(this.gameObject));

@@ -371,12 +371,13 @@ public static class Utilities
         {
             float newX, newY;
             float[,] noiseMap = new float[height, width];
+            float seed = (float)(random.NextDouble() * 1000f + random.NextDouble() * 500f);
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    newX = i / scale;
-                    newY = j / scale;
+                    newX = i / scale + seed;
+                    newY = j / scale + seed;
 
                     noiseMap[i, j] = Mathf.PerlinNoise(newX , newY) 
                         + 0.5f * Mathf.PerlinNoise(2f * newX, 2f * newY) 
