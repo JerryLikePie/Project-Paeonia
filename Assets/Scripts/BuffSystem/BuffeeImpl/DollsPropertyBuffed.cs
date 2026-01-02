@@ -37,6 +37,23 @@ namespace Assets.Scripts.BuffSystem.BuffeeImpl
 			// 反射检测注解，获取所有带 Buff 的属性
 			dictBuffedFields = BuffedAttrAttribute.getBuffeFields(GetType());
 
+            // 初始化带 Buff 标记的字段为原始值，避免默认值污染
+            foreach (var kvp in dictBuffedFields)
+            {
+                try
+                {
+                    var originField = parentClass.GetField(kvp.Value.Name);
+                    if (originField != null)
+                    {
+                        kvp.Value.SetValue(this, originField.GetValue(this));
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError("init buffed field failed: " + kvp.Value.Name + " | " + ex);
+                }
+            }
+
 			// 注册监听器
 			buffManager.addListener(this);
 		}
@@ -69,6 +86,27 @@ namespace Assets.Scripts.BuffSystem.BuffeeImpl
 				}
 			}
 		}
+
+        // 受 buff 管控的属性字段
+        [NonSerialized]
+        [BuffedAttr(BuffConstants.BuffType.BUFF_ATTR, BuffConstants.BuffId.BUFF_ATTR_DAMAGE_MULTIPLIER)]
+        public new float dolls_damage_multiplier;
+
+        [NonSerialized]
+        [BuffedAttr(BuffConstants.BuffType.BUFF_ATTR, BuffConstants.BuffId.BUFF_ATTR_ACCURACY)]
+        public new int dolls_accuracy;
+
+        [NonSerialized]
+        [BuffedAttr(BuffConstants.BuffType.BUFF_ATTR, BuffConstants.BuffId.BUFF_ATTR_ARMOR_FRONT)]
+        public new float dolls_armor_front;
+
+        [NonSerialized]
+        [BuffedAttr(BuffConstants.BuffType.BUFF_ATTR, BuffConstants.BuffId.BUFF_ATTR_ARMOR_SIDE)]
+        public new int dolls_armor_side;
+
+        [NonSerialized]
+        [BuffedAttr(BuffConstants.BuffType.BUFF_ATTR, BuffConstants.BuffId.BUFF_ATTR_ARMOR_BACK)]
+        public new int dolls_armor_back;
 
 		//public string dolls_name;//名称
 		//public int dolls_ammount;//有几个。之后可以加入心智升级之类的设定，虽然还不知道咋表现出来

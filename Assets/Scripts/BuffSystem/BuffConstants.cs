@@ -54,6 +54,11 @@ namespace Assets.Scripts.BuffSystem
 		public enum BuffId
 		{
 			BUFF_ATTR_STS_ATK,
+			BUFF_ATTR_DAMAGE_MULTIPLIER,
+			BUFF_ATTR_ACCURACY,
+			BUFF_ATTR_ARMOR_FRONT,
+			BUFF_ATTR_ARMOR_SIDE,
+			BUFF_ATTR_ARMOR_BACK,
 			BUFF_VAL_EOT_BLEED
 		}
 	}
